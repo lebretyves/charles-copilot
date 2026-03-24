@@ -262,8 +262,17 @@ class LoginRequest(_BM):
 
 @app.post("/auth/login")
 @limiter.limit("5/minute")
-async def login(request: Request, req: LoginRequest):
-    result = authenticate(req.username, req.password)
+async def login(request: Request):
+    raw = await request.body()
+    try:
+        data = json.loads(raw)
+    except (json.JSONDecodeError, ValueError):
+        raise HTTPException(status_code=422, detail="JSON body required")
+    username = data.get("username", "")
+    password = data.get("password", "")
+    if not username or not password:
+        raise HTTPException(status_code=422, detail="username and password required")
+    result = authenticate(username, password)
     if not result:
         raise HTTPException(status_code=401, detail="Identifiants incorrects")
     return result

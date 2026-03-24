@@ -15,12 +15,16 @@ services:
       MQTT_PASSWORD: ${MQTT_PASSWORD:-charles_mqtt_2026}
     # Génère le fichier passwd au démarrage puis lance le broker
     entrypoint: ["/bin/sh", "-c"]
+    user: root
     command:
       - |
-        mosquitto_passwd -b -c /mosquitto/config/passwd "$$MQTT_USER" "$$MQTT_PASSWORD"
+        rm -f /mosquitto/data/passwd
+        mosquitto_passwd -b -c /mosquitto/data/passwd "$$MQTT_USER" "$$MQTT_PASSWORD"
+        chmod 644 /mosquitto/data/passwd
         exec /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
     volumes:
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mqttdata:/mosquitto/data
     restart: unless-stopped
 
   # ── PostgreSQL ───────────────────────────────────────────────
@@ -116,3 +120,4 @@ services:
 
 volumes:
   pgdata:
+  mqttdata:
