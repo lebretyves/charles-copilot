@@ -9,6 +9,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import os
 import threading
 import time
 from typing import Any, Callable, Coroutine
@@ -27,10 +28,14 @@ class MQTTConsumer:
         port: int,
         on_message: Callable[[str, dict], Coroutine[Any, Any, None]],
         topics: list[str] | None = None,
+        username: str = "",
+        password: str = "",
     ):
         self.broker = broker
         self.port = port
         self.on_message = on_message
+        self.username = username
+        self.password = password
         self.topics = topics or [
             "bloc/+/vitals",
             "bloc/+/ventilator",
@@ -52,6 +57,8 @@ class MQTTConsumer:
         self._client.on_disconnect = self._on_disconnect
         self._client.on_message = self._on_message
         self._client.reconnect_delay_set(min_delay=1, max_delay=30)
+        if self.username:
+            self._client.username_pw_set(self.username, self.password)
         for attempt in range(1, 11):
             try:
                 self._client.connect(self.broker, self.port, keepalive=60)

@@ -31,6 +31,8 @@ logger = logging.getLogger("charles.simulator")
 
 MQTT_BROKER = os.getenv("MQTT_BROKER", "localhost")
 MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))
+MQTT_USER = os.getenv("MQTT_USER", "")
+MQTT_PASSWORD = os.getenv("MQTT_PASSWORD", "")
 
 
 # ══════════════════════════════════════════════════════════════
@@ -1697,6 +1699,8 @@ def main():
     client.on_disconnect = on_disconnect
     client.on_message = on_message
     client.reconnect_delay_set(min_delay=1, max_delay=30)
+    if MQTT_USER:
+        client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
     for attempt in range(1, 11):
         try:
             client.connect(MQTT_BROKER, MQTT_PORT, keepalive=60)

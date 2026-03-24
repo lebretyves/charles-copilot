@@ -10,12 +10,17 @@ services:
   # ── MQTT Broker ──────────────────────────────────────────────
   mosquitto:
     image: eclipse-mosquitto:2
-    # ports retirés en prod — accès interne Docker uniquement
-    # ports:
-    #   - "1883:1883"
-    #   - "9001:9001"
+    environment:
+      MQTT_USER: ${MQTT_USER:-charles}
+      MQTT_PASSWORD: ${MQTT_PASSWORD:-charles_mqtt_2026}
+    # Génère le fichier passwd au démarrage puis lance le broker
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        mosquitto_passwd -b -c /mosquitto/config/passwd "$$MQTT_USER" "$$MQTT_PASSWORD"
+        exec /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
     volumes:
-      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
     restart: unless-stopped
 
   # ── PostgreSQL ───────────────────────────────────────────────
@@ -59,6 +64,8 @@ services:
     environment:
       MQTT_BROKER: mosquitto
       MQTT_PORT: 1883
+      MQTT_USER: ${MQTT_USER:-charles}
+      MQTT_PASSWORD: ${MQTT_PASSWORD:-charles_mqtt_2026}
       DATABASE_URL: postgresql+asyncpg://charles:${POSTGRES_PASSWORD:-charles_dev_2026}@postgres:5432/charles
       REDIS_URL: redis://redis:6379/0
       KB_PATH: /kb
@@ -89,6 +96,8 @@ services:
     environment:
       MQTT_BROKER: mosquitto
       MQTT_PORT: 1883
+      MQTT_USER: ${MQTT_USER:-charles}
+      MQTT_PASSWORD: ${MQTT_PASSWORD:-charles_mqtt_2026}
       VITALDB_DIR: /data/vitaldb/cases
     volumes:
       - ./vitaldb/cases:/data/vitaldb/cases:ro

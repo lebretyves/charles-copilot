@@ -8,6 +8,7 @@ KB: 11 YAML files loaded at startup
 
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 from contextlib import asynccontextmanager
@@ -104,6 +105,8 @@ async def lifespan(app: FastAPI):
         broker=settings.mqtt_broker,
         port=settings.mqtt_port,
         on_message=handle_mqtt_message,
+        username=settings.mqtt_user,
+        password=settings.mqtt_password,
     )
     state.mqtt_consumer.start()
     logger.info("MQTT consumer connected to %s:%s", settings.mqtt_broker, settings.mqtt_port)
@@ -551,17 +554,24 @@ async def control_simulator(cmd: SimulatorCommand, user: dict = Depends(require_
 # ── WebSocket ──────────────────────────────────────────────────
 @app.websocket("/ws")
 async def websocket_endpoint(ws: WebSocket):
-    token = ws.query_params.get("token")
-    if not token:
+    # Auth via premier message — le token NE transité PAS dans l'URL (ni logs nginx ni logs uvicorn)
+    await ws.accept()
+    try:
+        raw = await asyncio.wait_for(ws.receive_text(), timeout=5.0)
+        auth_msg = json.loads(raw)
+    except (asyncio.TimeoutError, json.JSONDecodeError, Exception):
         await ws.close(code=1008, reason="Authentication required")
         return
 
-    user = verify_token(token)
+    if auth_msg.get("type") != "auth":
+        await ws.close(code=1008, reason="Auth message expected")
+        return
+
+    user = verify_token(auth_msg.get("token", ""))
     if not user:
         await ws.close(code=1008, reason="Invalid token")
         return
 
-    await ws.accept()
     state.ws_clients.add(ws)
     logger.info("WS client connected (total: %d)", len(state.ws_clients))
 

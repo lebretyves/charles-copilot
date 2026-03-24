@@ -39,11 +39,12 @@ export function useCharlesWS(url: string) {
       return;
     }
 
-    const separator = url.includes("?") ? "&" : "?";
-    const ws = new WebSocket(`${url}${separator}token=${encodeURIComponent(token)}`);
+    const ws = new WebSocket(url);
     wsRef.current = ws;
 
     ws.onopen = () => {
+      // Auth via premier message — le token ne transite pas dans l'URL (pas dans les logs serveur)
+      ws.send(JSON.stringify({ type: "auth", token }));
       setConnected(true);
     };
 

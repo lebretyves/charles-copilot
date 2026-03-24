@@ -9,6 +9,8 @@ class Settings(BaseSettings):
 
     mqtt_broker: str = "localhost"
     mqtt_port: int = 1883
+    mqtt_user: str = ""
+    mqtt_password: str = ""
     database_url: str = "postgresql+asyncpg://charles:charles_dev_2026@localhost:5432/charles"
     redis_url: str = "redis://localhost:6379/0"
     ws_port: int = 8000
