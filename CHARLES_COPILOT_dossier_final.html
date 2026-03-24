@@ -1,0 +1,2207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHARLES COPILOT — Dossier Fondateur VAIA</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --navy: #04091e;
+  --navy2: #0a1435;
+  --navy3: #111d4a;
+  --blue: #1546e0;
+  --blue2: #2d5ff5;
+  --cyan: #00d4ff;
+  --cyan2: #7ef4ff;
+  --green: #00e5a0;
+  --green2: #00b87d;
+  --orange: #ff7b2c;
+  --red: #ff3b5c;
+  --yellow: #ffd24d;
+  --white: #f0f4ff;
+  --gray: #8892b0;
+  --gray2: #4a5578;
+  --border: rgba(255,255,255,0.07);
+  --card: rgba(255,255,255,0.04);
+  --card2: rgba(21,70,224,0.12);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--navy2); }
+::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 2px; }
+
+/* ─── SIDEBAR NAV ─── */
+.sidebar {
+  position: fixed; top: 0; left: 0;
+  width: 220px; height: 100vh;
+  background: var(--navy2);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  z-index: 100; padding: 28px 0;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  padding: 0 22px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.sidebar-logo .logo-mark {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 22px;
+  color: var(--white); letter-spacing: -0.5px;
+}
+.sidebar-logo .logo-mark span { color: var(--cyan); }
+.sidebar-logo .logo-sub {
+  font-size: 9px; color: var(--gray);
+  text-transform: uppercase; letter-spacing: 1.5px;
+  margin-top: 2px;
+}
+.nav-section-label {
+  font-size: 9px; color: var(--gray2);
+  text-transform: uppercase; letter-spacing: 1.5px;
+  padding: 12px 22px 6px; font-weight: 500;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 22px; color: var(--gray);
+  text-decoration: none; font-size: 12.5px;
+  font-weight: 400; transition: all 0.2s;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+}
+.nav-item:hover, .nav-item.active {
+  color: var(--white); background: var(--card);
+  border-left-color: var(--cyan);
+}
+.nav-item .nav-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
+.nav-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+/* ─── MAIN ─── */
+.main { margin-left: 220px; min-height: 100vh; }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(21,70,224,0.18) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,212,255,0.08) 0%, transparent 60%),
+              var(--navy);
+  display: flex; align-items: center;
+  padding: 80px 70px; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid rgba(0,212,255,0.3);
+  background: rgba(0,212,255,0.07);
+  color: var(--cyan); padding: 6px 14px; border-radius: 20px;
+  font-size: 11px; font-weight: 500; letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 28px;
+}
+.hero-badge::before { content: '●'; font-size: 8px; }
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 62px; font-weight: 800;
+  line-height: 1.0; letter-spacing: -2px;
+  margin-bottom: 10px;
+}
+.hero h1 .accent { color: var(--cyan); }
+.hero h1 .line2 { color: var(--gray); font-weight: 400; font-size: 48px; display: block; }
+.hero-desc {
+  max-width: 560px; font-size: 16px;
+  color: var(--gray); margin: 24px 0 40px;
+  font-weight: 300; line-height: 1.8;
+}
+.hero-stats {
+  display: flex; gap: 40px; flex-wrap: wrap;
+}
+.hero-stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px; font-weight: 700; color: var(--white);
+  display: block; line-height: 1;
+}
+.hero-stat-num .unit { font-size: 18px; color: var(--cyan); }
+.hero-stat-label { font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+.hero-visual {
+  position: absolute; right: -20px; top: 50%;
+  transform: translateY(-50%);
+  width: 420px; opacity: 0.15;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--cyan2);
+  line-height: 1.6; pointer-events: none;
+  white-space: pre;
+}
+
+/* ─── SECTIONS ─── */
+.section { padding: 70px; border-bottom: 1px solid var(--border); }
+.section:last-child { border-bottom: none; }
+
+.section-eyebrow {
+  font-size: 10px; font-weight: 500; color: var(--cyan);
+  text-transform: uppercase; letter-spacing: 2px;
+  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+}
+.section-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--cyan); }
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 34px; font-weight: 700;
+  letter-spacing: -0.5px; margin-bottom: 8px; line-height: 1.1;
+}
+.section-sub {
+  font-size: 15px; color: var(--gray);
+  max-width: 600px; margin-bottom: 44px;
+  font-weight: 300; line-height: 1.7;
+}
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px 26px;
+}
+.card-accent {
+  background: var(--card2);
+  border: 1px solid rgba(21,70,224,0.25);
+  border-radius: 12px; padding: 24px 26px;
+}
+.card-green {
+  background: rgba(0,229,160,0.06);
+  border: 1px solid rgba(0,229,160,0.2);
+  border-radius: 12px; padding: 24px 26px;
+}
+.card-orange {
+  background: rgba(255,123,44,0.07);
+  border: 1px solid rgba(255,123,44,0.25);
+  border-radius: 12px; padding: 24px 26px;
+}
+.card-red {
+  background: rgba(255,59,92,0.07);
+  border: 1px solid rgba(255,59,92,0.2);
+  border-radius: 12px; padding: 24px 26px;
+}
+
+/* ─── GRIDS ─── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; }
+
+/* ─── TABLES ─── */
+.tbl { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.tbl thead tr { background: rgba(21,70,224,0.3); }
+.tbl thead th {
+  padding: 11px 14px; text-align: left;
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--cyan2);
+}
+.tbl tbody td {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  font-size: 13px; color: var(--white); vertical-align: top;
+}
+.tbl tbody tr:hover td { background: var(--card); }
+
+/* ─── BADGES ─── */
+.tag {
+  display: inline-block; padding: 2px 10px; border-radius: 20px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
+}
+.tag-cyan { background: rgba(0,212,255,0.15); color: var(--cyan); border: 1px solid rgba(0,212,255,0.3); }
+.tag-green { background: rgba(0,229,160,0.12); color: var(--green); border: 1px solid rgba(0,229,160,0.25); }
+.tag-orange { background: rgba(255,123,44,0.12); color: var(--orange); border: 1px solid rgba(255,123,44,0.25); }
+.tag-red { background: rgba(255,59,92,0.12); color: var(--red); border: 1px solid rgba(255,59,92,0.25); }
+.tag-blue { background: rgba(21,70,224,0.2); color: #8cb4ff; border: 1px solid rgba(21,70,224,0.4); }
+.tag-yellow { background: rgba(255,210,77,0.12); color: var(--yellow); border: 1px solid rgba(255,210,77,0.25); }
+
+/* ─── PHASE TIMELINE ─── */
+.phase-timeline { position: relative; padding-left: 50px; }
+.phase-timeline::before {
+  content: ''; position: absolute; left: 16px; top: 8px; bottom: 8px;
+  width: 2px; background: linear-gradient(to bottom, var(--blue), var(--cyan), var(--green));
+}
+.phase-item { margin-bottom: 40px; position: relative; }
+.phase-dot {
+  position: absolute; left: -42px; top: 4px;
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px;
+  border: 2px solid;
+}
+.phase-dot-0 { background: rgba(21,70,224,0.3); border-color: var(--blue2); color: #8cb4ff; }
+.phase-dot-1 { background: rgba(0,212,255,0.15); border-color: var(--cyan); color: var(--cyan); }
+.phase-dot-2 { background: rgba(0,229,160,0.15); border-color: var(--green); color: var(--green); }
+.phase-dot-3 { background: rgba(255,123,44,0.15); border-color: var(--orange); color: var(--orange); }
+.phase-dot-4 { background: rgba(255,59,92,0.15); border-color: var(--red); color: var(--red); }
+
+.phase-header {
+  display: flex; align-items: baseline; gap: 14px; margin-bottom: 10px;
+}
+.phase-num {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--gray2); font-weight: 400;
+}
+.phase-name {
+  font-family: 'Syne', sans-serif; font-size: 18px;
+  font-weight: 700; letter-spacing: -0.3px;
+}
+.phase-period {
+  font-size: 11px; color: var(--gray);
+  background: var(--card); border: 1px solid var(--border);
+  padding: 2px 10px; border-radius: 10px;
+}
+.phase-obj {
+  font-size: 13px; color: var(--gray); margin-bottom: 14px;
+  font-style: italic; border-left: 2px solid var(--gray2); padding-left: 12px;
+}
+
+/* ─── ARCH DIAGRAM ─── */
+.arch-flow {
+  display: flex; flex-direction: column; gap: 0;
+}
+.arch-row-items {
+  display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+}
+.arch-node {
+  border: 1px solid; border-radius: 8px; padding: 10px 16px;
+  font-size: 11.5px; font-weight: 500; text-align: center;
+  min-width: 130px;
+}
+.an-blue { border-color: rgba(21,70,224,0.5); background: rgba(21,70,224,0.12); color: #8cb4ff; }
+.an-cyan { border-color: rgba(0,212,255,0.4); background: rgba(0,212,255,0.08); color: var(--cyan2); }
+.an-green { border-color: rgba(0,229,160,0.4); background: rgba(0,229,160,0.08); color: var(--green); }
+.an-orange { border-color: rgba(255,123,44,0.4); background: rgba(255,123,44,0.08); color: var(--orange); }
+.an-purple { border-color: rgba(180,100,255,0.4); background: rgba(180,100,255,0.08); color: #d4a0ff; }
+
+.arch-layer-wrap {
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px; background: var(--card); margin: 6px 0;
+}
+.arch-layer-label {
+  font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--gray2); margin-bottom: 12px; font-weight: 500;
+}
+.arch-arrow-wrap { text-align: center; color: var(--gray2); font-size: 18px; padding: 2px 0; }
+
+/* ─── MOCKUP TERMINAL ─── */
+.terminal {
+  background: #020812; border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 10px; overflow: hidden;
+}
+.terminal-bar {
+  background: #0a1020; padding: 10px 16px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid rgba(0,212,255,0.1);
+}
+.t-dot { width: 10px; height: 10px; border-radius: 50%; }
+.td1 { background: #ff5f57; }
+.td2 { background: #febc2e; }
+.td3 { background: #28c840; }
+.terminal-title { font-size: 11px; color: var(--gray); margin-left: 8px; font-family: 'DM Mono', monospace; }
+.terminal-body {
+  padding: 20px 22px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px; line-height: 1.9;
+}
+.t-dim { color: #3a4a6a; }
+.t-head { color: var(--cyan); font-weight: 500; }
+.t-ok { color: var(--green); }
+.t-warn { color: var(--yellow); }
+.t-alert { color: var(--orange); }
+.t-crit { color: var(--red); }
+.t-val { color: var(--white); font-weight: 500; }
+.t-gray { color: var(--gray); }
+.t-blue { color: #7eb8ff; }
+.t-bar-g { color: var(--green); }
+.t-bar-y { color: var(--yellow); }
+.t-bar-o { color: var(--orange); }
+
+/* ─── PRODUCT VERSIONS ─── */
+.version-card {
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.version-header {
+  padding: 16px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.version-body { padding: 18px 20px; }
+.v1-h { background: linear-gradient(135deg, #0d2a6e, #1546e0); }
+.v2-h { background: linear-gradient(135deg, #0a4028, #00b87d); }
+.v3-h { background: linear-gradient(135deg, #5a2a00, #ff7b2c); }
+.v4-h { background: linear-gradient(135deg, #3a0050, #9d4edd); }
+.version-name {
+  font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+}
+.version-tag { font-size: 9px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+/* ─── FUNDING CARDS ─── */
+.funding-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px 18px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.fc-name { font-weight: 600; font-size: 13px; }
+.fc-amount {
+  font-family: 'Syne', sans-serif; font-size: 20px;
+  font-weight: 700; color: var(--green);
+}
+.fc-meta { font-size: 11px; color: var(--gray); line-height: 1.5; }
+.fc-phase { margin-top: auto; }
+
+/* ─── TEAM CARDS ─── */
+.team-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; text-align: center;
+}
+.team-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  margin: 0 auto 12px; display: flex; align-items: center;
+  justify-content: center; font-size: 24px;
+  border: 2px solid var(--border);
+}
+.team-role { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; }
+.team-profile { font-size: 11px; color: var(--gray); margin-top: 6px; line-height: 1.6; }
+.team-when { font-size: 10px; margin-top: 10px; }
+
+/* ─── SCENARIO CARDS ─── */
+.scenario-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; margin-bottom: 20px;
+}
+.sc-header {
+  padding: 14px 20px; display: flex; align-items: center;
+  justify-content: space-between;
+  background: rgba(21,70,224,0.15);
+  border-bottom: 1px solid var(--border);
+}
+.sc-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; }
+.sc-body { padding: 18px 20px; }
+.sc-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.sc-before {
+  background: rgba(255,59,92,0.06); border: 1px solid rgba(255,59,92,0.15);
+  border-radius: 8px; padding: 12px 14px;
+}
+.sc-after {
+  background: rgba(0,229,160,0.06); border: 1px solid rgba(0,229,160,0.15);
+  border-radius: 8px; padding: 12px 14px;
+}
+.sc-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-weight: 600; }
+
+/* ─── PITCH DECK ─── */
+.slide-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.slide-card {
+  background: var(--navy2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px; aspect-ratio: 16/9;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  position: relative; overflow: hidden; cursor: default;
+  transition: border-color 0.2s;
+}
+.slide-card:hover { border-color: var(--cyan); }
+.slide-num {
+  position: absolute; top: 8px; right: 10px;
+  font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gray2);
+}
+.slide-icon { font-size: 22px; margin-bottom: 6px; }
+.slide-name { font-size: 10.5px; font-weight: 600; color: var(--white); line-height: 1.3; }
+.slide-desc { font-size: 9.5px; color: var(--gray); margin-top: 2px; }
+
+/* ─── LIST ITEMS ─── */
+.check-list { list-style: none; padding: 0; }
+.check-list li {
+  padding: 5px 0 5px 22px; position: relative;
+  font-size: 13px; color: var(--gray); line-height: 1.6;
+}
+.check-list li::before {
+  content: '→'; position: absolute; left: 0;
+  color: var(--cyan); font-size: 12px;
+}
+.check-list li strong { color: var(--white); }
+
+/* ─── INLINE CODE ─── */
+code {
+  font-family: 'DM Mono', monospace;
+  font-size: 11.5px; background: rgba(255,255,255,0.07);
+  padding: 1px 6px; border-radius: 4px; color: var(--cyan2);
+}
+
+/* ─── TYPOGRAPHY ─── */
+h3 {
+  font-family: 'Syne', sans-serif; font-size: 18px;
+  font-weight: 700; margin-bottom: 14px; color: var(--white);
+}
+h4 {
+  font-size: 13px; font-weight: 600; color: var(--white);
+  margin-bottom: 10px; letter-spacing: 0.2px;
+}
+p { font-size: 13.5px; color: var(--gray); line-height: 1.75; margin-bottom: 10px; }
+strong { color: var(--white); font-weight: 500; }
+
+/* ─── DIVIDER ─── */
+.divider { height: 1px; background: var(--border); margin: 28px 0; }
+
+/* ─── CALLOUT ─── */
+.callout {
+  border-radius: 10px; padding: 16px 20px;
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.callout-blue { background: rgba(21,70,224,0.12); border: 1px solid rgba(21,70,224,0.25); }
+.callout-green { background: rgba(0,229,160,0.08); border: 1px solid rgba(0,229,160,0.2); }
+.callout-orange { background: rgba(255,123,44,0.08); border: 1px solid rgba(255,123,44,0.2); }
+.callout-red { background: rgba(255,59,92,0.08); border: 1px solid rgba(255,59,92,0.2); }
+
+/* ─── METRIC BOXES ─── */
+.metric-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
+.metric-box {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 18px; flex: 1; min-width: 120px;
+}
+.metric-val {
+  font-family: 'Syne', sans-serif; font-size: 26px;
+  font-weight: 700; color: var(--white); line-height: 1;
+}
+.metric-val .munit { font-size: 14px; color: var(--cyan); }
+.metric-label { font-size: 10px; color: var(--gray); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.8px; }
+
+/* ─── PRINT ─── */
+@media print {
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .hero { min-height: auto; padding: 40px; page-break-after: always; }
+  .section { padding: 40px; }
+  .g2, .g3, .g4 { grid-template-columns: 1fr 1fr; }
+  .slide-grid { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">CHA<span>RLES</span></div>
+    <div class="logo-sub">Copilot VAIA · 2026</div>
+  </div>
+
+  <div class="nav-section-label">Plan fondateur</div>
+  <a class="nav-item active" href="#hero"><span class="nav-icon">🏠</span> Accueil</a>
+  <a class="nav-item" href="#recadrage"><span class="nav-icon">🎯</span> Recadrage produit</a>
+  <a class="nav-item" href="#societe"><span class="nav-icon">🏢</span> Société & statuts</a>
+  <a class="nav-item" href="#mar"><span class="nav-icon">🩺</span> MAR & CHU</a>
+  <a class="nav-item" href="#recherche"><span class="nav-icon">🔬</span> Recherche clinique</a>
+
+  <div class="nav-section-label">Produit & Tech</div>
+  <a class="nav-item" href="#vision"><span class="nav-icon">💡</span> Vision produit</a>
+  <a class="nav-item" href="#scenarios"><span class="nav-icon">🫀</span> Scénarios cliniques</a>
+  <a class="nav-item" href="#archi"><span class="nav-icon">🏗️</span> Architecture tech</a>
+  <a class="nav-item" href="#data"><span class="nav-icon">📊</span> Données & IA</a>
+  <a class="nav-item" href="#versions"><span class="nav-icon">📦</span> Roadmap V1→V4</a>
+
+  <div class="nav-section-label">Exécution</div>
+  <a class="nav-item" href="#phases"><span class="nav-icon">🗓️</span> Phases détaillées</a>
+  <a class="nav-item" href="#equipe"><span class="nav-icon">👥</span> Équipe</a>
+  <a class="nav-item" href="#reglementaire"><span class="nav-icon">📋</span> Réglementation</a>
+  <a class="nav-item" href="#financement"><span class="nav-icon">💰</span> Financement</a>
+  <a class="nav-item" href="#bmc"><span class="nav-icon">📐</span> Business Model</a>
+
+  <div class="nav-section-label">Présentation</div>
+  <a class="nav-item" href="#presentation"><span class="nav-icon">🎤</span> Pitch & formats</a>
+  <a class="nav-item" href="#risques"><span class="nav-icon">⚠️</span> Risques & plans B</a>
+  <a class="nav-item" href="#next"><span class="nav-icon">⚡</span> Plan 90 jours</a>
+</nav>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<div class="main">
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="hero">
+  <div>
+    <div class="hero-badge">Dossier Fondateur Consolidé — Mars 2026</div>
+    <h1>
+      <span class="accent">CHARLES</span>
+      <span class="line2">Copilot Fondateur<br>VAIA</span>
+    </h1>
+    <p class="hero-desc">
+      Plan stratégique et opérationnel complet — recadré et consolidé. Statuts, MAR, recherche clinique, technique, financement, BMC et plan 90 jours. Tout ce qu'il faut pour démarrer proprement.
+    </p>
+    <div class="hero-stats">
+      <div>
+        <span class="hero-stat-num">4<span class="unit"> chantiers</span></span>
+        <div class="hero-stat-label">Parallèles</div>
+      </div>
+      <div>
+        <span class="hero-stat-num">IIa<span class="unit"> MDR</span></span>
+        <div class="hero-stat-label">Classe MVP</div>
+      </div>
+      <div>
+        <span class="hero-stat-num">90<span class="unit"> j</span></span>
+        <div class="hero-stat-label">Plan immédiat</div>
+      </div>
+      <div>
+        <span class="hero-stat-num">0<span class="unit">€</span></span>
+        <div class="hero-stat-label">Hardware étape 1</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">CHARLES COPILOT — VAIA
+━━━━━━━━━━━━━━━━━━━━━
+Phrase produit :
+"VAIA est un copilote clinique
+de vigilance peropératoire qui
+agrège les signaux du bloc pour
+détecter précocement des dérives
+et alerter l'IADE/MAR sans jamais
+prescrire l'action."
+
+PRIORITÉ CETTE SEMAINE
+→ Envoyer msg Botrel + Gayat
+→ Dossier PEPITE
+→ Email Epitech scolarité
+→ Simulateur Codex
+→ VitalDB télécharger</div>
+</section>
+
+<!-- ─── RECADRAGE ─── -->
+<section class="section" id="recadrage">
+  <div class="section-eyebrow">00 — Recadrage fondateur</div>
+  <h2 class="section-title">Charles Copilot — Ce que ce dossier est</h2>
+  <p class="section-sub">Plan stratégique consolidé, recadré par rapport aux premières versions. 3 corrections importantes sur la holding, l'i-Lab et les parts MAR. Tout ce qu'il faut pour démarrer proprement en mars 2026.</p>
+
+  <div class="callout callout-blue" style="margin-bottom:24px">
+    <div class="callout-icon">📌</div>
+    <div>
+      <strong>Phrase produit officielle :</strong> "VAIA est un copilote clinique de vigilance peropératoire qui agrège les signaux du bloc pour détecter précocement des dérives et alerter l'IADE/MAR sans jamais prescrire l'action." — Cette phrase détermine la classification MDR. Ne jamais s'en écarter dans les communications publiques.
+    </div>
+  </div>
+
+  <h3>Les 3 recadrages importants vs versions précédentes</h3>
+  <div class="g3">
+    <div class="card-orange">
+      <h4 style="color:var(--orange)">⚠️ i-Lab 2026 — Fermé</h4>
+      <p style="font-size:12px; margin:0">La deadline i-Lab 2026 était le <strong>3 février 2026</strong>. Fenêtre fermée. Viser la prochaine édition (2027) ou d'autres concours Bpifrance immédiats comme Bpifrance Émergence.</p>
+    </div>
+    <div class="card-orange">
+      <h4 style="color:var(--orange)">⚠️ Holding — Pas en priorité 1</h4>
+      <p style="font-size:12px; margin:0">Recommandation corrigée : <strong>SAS simple d'abord</strong>. La holding s'ajoute uniquement quand des investisseurs entrent ou pour préparer une sortie. Pas en phase 0.</p>
+    </div>
+    <div class="card-orange">
+      <h4 style="color:var(--orange)">⚠️ Parts MAR — Jamais à la parole</h4>
+      <p style="font-size:12px; margin:0">Ordre strict : <strong>NDA → Convention → Vesting conditionné → Parts</strong>. L'engagement réel se mesure en temps effectif + réseau + protocole + publications. Pas une promesse verbale.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>Les 4 chantiers à mener en parallèle</h3>
+  <table class="tbl">
+    <thead><tr><th>Chantier</th><th>Ce semaine</th><th>Priorité</th></tr></thead>
+    <tbody>
+      <tr><td><strong>A — Cadrage produit</strong></td><td>Phrase produit figée ✅ · One-pager à convertir PDF · 3 scénarios demo ✅</td><td><span class="tag tag-red">Urgent</span></td></tr>
+      <tr><td><strong>B — Statut Epitech / PEPITE</strong></td><td>Dossier PEPITE à déposer · Email scolarité Epitech par écrit · 4 questions formelles</td><td><span class="tag tag-red">Urgent</span></td></tr>
+      <tr><td><strong>C — Société</strong></td><td>SAS simple (pas holding) · Compte pro · Marque INPI · NDA + convention modèles</td><td><span class="tag tag-orange">Semaine 2</span></td></tr>
+      <tr><td><strong>D — Recherche clinique</strong></td><td>Simulateur d'abord · puis données publiques · puis partenariat CHU · jamais de données CHU sans cadre formalisé</td><td><span class="tag tag-cyan">Progressif</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ─── SOCIÉTÉ ─── -->
+<section class="section" id="societe">
+  <div class="section-eyebrow">00b — Société et statuts</div>
+  <h2 class="section-title">SAS simple · PEPITE · Protection IP</h2>
+  <p class="section-sub">La structure juridique la plus simple et la plus saine pour démarrer. Compatible aides, subventions, CIR. Tu gardes le contrôle.</p>
+
+  <div class="g2" style="margin-bottom:24px">
+    <div class="card-green">
+      <h4 style="color:var(--green); margin-bottom:12px">✅ Structure recommandée</h4>
+      <ul class="check-list">
+        <li><strong>SASU</strong> si tu démarres seul</li>
+        <li><strong>SAS</strong> dès qu'un co-fondateur entre</li>
+        <li><strong>Capital</strong> 1 000 à 5 000€ symbolique</li>
+        <li><strong>IS</strong> — impôt sur les sociétés</li>
+        <li><strong>Président non rémunéré</strong> au départ</li>
+        <li>Statuts rédigés par avocat si co-fondateur immédiat</li>
+      </ul>
+    </div>
+    <div class="card-red">
+      <h4 style="color:var(--red); margin-bottom:12px">❌ Ce qu'il ne faut pas faire</h4>
+      <ul class="check-list">
+        <li><strong>Holding dès le départ</strong> — prématuré, ajouter plus tard</li>
+        <li><strong>Micro-entreprise</strong> — plafond CA, pas de levée de fonds possible</li>
+        <li><strong>Parts sans vesting</strong> — toujours conditionner à l'engagement réel</li>
+        <li><strong>Statuts sans clause PI</strong> — les algorithmes restent dans ta SAS</li>
+        <li><strong>Compte perso = compte pro</strong> — comptes strictement séparés</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>PEPITE et statut SNEE — Les 4 questions à poser à Epitech par écrit</h3>
+  <div class="card-accent" style="margin-bottom:16px">
+    <ol style="padding-left:18px; line-height:2.4; font-size:13px; color:var(--gray)">
+      <li>L'alternance est-elle obligatoire en M4/M5 MSc, ou existe-t-il une dérogation pour projet entrepreneurial ?</li>
+      <li>Un projet de création d'entreprise peut-il être accepté comme substitut à l'alternance et sous quelles conditions ?</li>
+      <li>Est-il possible de valider VAIA comme EIP officiel et/ou comme mémoire de fin de cursus ?</li>
+      <li>Quel est le statut exact attendu en M4/M5 — alternance, initial, indépendant, autre ?</li>
+    </ol>
+  </div>
+
+  <div class="callout callout-orange">
+    <div class="callout-icon">⚠️</div>
+    <div><strong>Règle absolue :</strong> Ne jamais s'engager sur l'alternance ou la substitution sans réponse écrite d'Epitech. L'accord oral du responsable pédagogique ne vaut rien si les règles changent. Tout par email.</div>
+  </div>
+
+  <h3>Pack de protection — À mettre en place dès la création</h3>
+  <div class="g2">
+    <div>
+      <ul class="check-list">
+        <li><strong>Statuts</strong> avec clause cession propriété intellectuelle</li>
+        <li><strong>Comptes séparés</strong> personnel / société (Qonto ou Shine)</li>
+        <li><strong>Marque VAIA</strong> déposée à l'INPI — <span style="color:var(--green)">250€</span></li>
+        <li><strong>GitHub privé</strong> avec commits horodatés = preuve de création</li>
+      </ul>
+    </div>
+    <div>
+      <ul class="check-list">
+        <li><strong>NDA modèle</strong> pour tout échange technique avec tiers</li>
+        <li><strong>Convention de collaboration</strong> modèle pour le MAR</li>
+        <li><strong>ACRE</strong> — formulaire URSSAF 45 jours après création (vérifier règles 2026)</li>
+        <li><strong>Comptable</strong> dès le premier exercice — 1 500 à 3 000€/an</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MAR ET CHU ─── -->
+<section class="section" id="mar">
+  <div class="section-eyebrow">00c — MAR & partenaires CHU</div>
+  <h2 class="section-title">Les contacts identifiés — Paris et Lausanne</h2>
+  <p class="section-sub">Tu ne proposes pas "ma startup". Tu proposes un projet de recherche appliquée en vigilance peropératoire. Les messages sont rédigés et prêts à envoyer ce soir.</p>
+
+  <div class="callout callout-orange" style="margin-bottom:24px">
+    <div class="callout-icon">🔥</div>
+    <div><strong>Action immédiate ce soir :</strong> Envoyer les deux messages LinkedIn — Botrel (mercredi Babinski) et Gayat (vendredi Cordier Pitié). Les messages sont finalisés. Ne pas attendre.</div>
+  </div>
+
+  <h3>Partenaires prioritaires identifiés</h3>
+  <table class="tbl">
+    <thead><tr><th>Profil</th><th>Lieu</th><th>Pourquoi parfait pour VAIA</th><th>Contact</th><th>Statut</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Pr Etienne Gayat</strong></td>
+        <td>Lariboisière AP-HP Paris</td>
+        <td>Chairman DAR AP-HP Nord. Thèse en cours sur monitorage péri-op augmenté IA. Publications prédiction hypotension Super Learner. Accès EDS AP-HP.</td>
+        <td>LinkedIn + vendredi Cordier Pitié</td>
+        <td><span class="tag tag-orange">À envoyer ce soir</span></td>
+      </tr>
+      <tr>
+        <td><strong>Dr Thomas Botrel</strong></td>
+        <td>Pitié-Salpêtrière Paris</td>
+        <td>Ingénieur Arts et Métiers + MAR. Projet DOSE ANR 590k€ EDS AP-HP. Profil miroir exact. Accès entrepôt données AP-HP complet.</td>
+        <td>LinkedIn + mercredi Babinski</td>
+        <td><span class="tag tag-orange">À envoyer ce soir</span></td>
+      </tr>
+      <tr>
+        <td><strong>Pr Patrick Schoettker</strong></td>
+        <td>CHUV Lausanne</td>
+        <td>Chef service + co-fondateur Biospectal + jumeau numérique péri-op CHUV. Entrepreneur convaincu. Accès Innosuisse + FNS. Pont Europe.</td>
+        <td>LinkedIn</td>
+        <td><span class="tag tag-cyan">Cette semaine</span></td>
+      </tr>
+      <tr>
+        <td><strong>Pr Romain Pirracchio</strong></td>
+        <td>UCSF / réseau Paris</td>
+        <td>Formé Lariboisière. Associate Editor IA JAMA. Labo ML soins critiques UCSF. Pont France-US. Lettre de soutien = dossier EIC imbattable.</td>
+        <td>Via Gayat</td>
+        <td><span class="tag tag-blue">Phase 2</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Ce que tu dis au premier rendez-vous</h3>
+  <div class="g2">
+    <div class="card-red">
+      <h4 style="color:var(--red)">❌ Ne pas dire</h4>
+      <ul class="check-list">
+        <li>"Je crée une startup"</li>
+        <li>"Voulez-vous être associé ?"</li>
+        <li>"J'ai besoin de vos données"</li>
+        <li>"Combien de temps pouvez-vous m'accorder ?"</li>
+      </ul>
+    </div>
+    <div class="card-green">
+      <h4 style="color:var(--green)">✅ Dire</h4>
+      <ul class="check-list">
+        <li>"Projet de recherche en vigilance peropératoire"</li>
+        <li>"Démarrage en mode shadow — aucune perturbation des soins"</li>
+        <li>"Voyez-vous un intérêt clinique local ?"</li>
+        <li>"Pourriez-vous me rediriger vers la DRCI ?"</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RECHERCHE CLINIQUE ─── -->
+<section class="section" id="recherche">
+  <div class="section-eyebrow">00d — Recherche clinique</div>
+  <h2 class="section-title">La voie réglementaire la plus réaliste</h2>
+  <p class="section-sub">La CNIL distingue les recherches impliquant la personne humaine (MR-001 à 003) et celles qui ne l'impliquent pas (MR-004 à 006). Ne jamais décider seul du type de cadre — faire qualifier avec le CHU.</p>
+
+  <div class="callout callout-red" style="margin-bottom:24px">
+    <div class="callout-icon">🚨</div>
+    <div><strong>Règle absolue :</strong> Ne jamais utiliser des données CHU avant convention formalisée + DPO + protocole validé. Même si le MAR est d'accord verbalement. Même si tu travailles dans le service. La responsabilité pénale est réelle.</div>
+  </div>
+
+  <h3>Étapes dans l'ordre</h3>
+  <div class="phase-timeline">
+    <div class="phase-item">
+      <div class="phase-dot phase-dot-0">1</div>
+      <div class="phase-header">
+        <span class="phase-name">Simulateur et données publiques</span>
+        <span class="phase-period">Maintenant → Mois 3</span>
+      </div>
+      <div class="phase-obj">Aucune donnée hospitalière. Aucun cadre CNIL requis. Simulateur perop + VitalDB + MIMIC-IV + première interface + démo vidéo.</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot phase-dot-1">2</div>
+      <div class="phase-header">
+        <span class="phase-name">Discussion CHU — Identifier les bons interlocuteurs</span>
+        <span class="phase-period">Mois 2 — 4</span>
+      </div>
+      <div class="phase-obj">Chef de service + MAR + DRCI + DPO + cellule valorisation. Ne pas contacter la DSI avant accord médical. Ne pas parler budget avant accord de principe.</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot phase-dot-1">3</div>
+      <div class="phase-header">
+        <span class="phase-name">Qualification du type de recherche — Avec le CHU</span>
+        <span class="phase-period">Mois 3 — 5</span>
+      </div>
+      <div class="phase-obj">MR-004 (données réutilisées) ou étude observationnelle ou RIPH. Le DPO et la DRCI qualifient — pas toi seul. Ce choix détermine tout ce qui suit.</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot phase-dot-2">4</div>
+      <div class="phase-header">
+        <span class="phase-name">Convention et PI — Avant toute donnée réelle</span>
+        <span class="phase-period">Mois 4 — 6</span>
+      </div>
+      <div class="phase-obj">Convention de collaboration + répartition IP (algorithmes restent dans ta SAS) + droits publications + gouvernance données + responsabilités. Tout par écrit avant tout accès.</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot phase-dot-3">5</div>
+      <div class="phase-header">
+        <span class="phase-name">Protocole — Avec MAR et DRCI</span>
+        <span class="phase-period">Mois 5 — 8</span>
+      </div>
+      <div class="phase-obj">Objectif + population + données collectées + finalité + méthode + sécurité + information patient + analyses prévues. CPP si RIPH. Délai CPP : 45 jours.</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot phase-dot-2">6</div>
+      <div class="phase-header">
+        <span class="phase-name">Pilote shadow — Mode observation uniquement</span>
+        <span class="phase-period">Mois 8 — 12</span>
+      </div>
+      <div class="phase-obj">VAIA tourne mais n'affiche rien aux cliniciens. Collection 500 à 1 000 cas annotés français. Validation modèle. Réentraînement. Préparation dossier CE IIa.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── VISION ─── -->
+<section class="section" id="vision">
+  <div class="section-eyebrow">01 — Vision produit</div>
+  <h2 class="section-title">Ce qu'est VAIA exactement</h2>
+  <p class="section-sub">Un tableau de bord prédictif temps réel qui agrège les paramètres physiologiques peropératoires, détecte les patterns précurseurs de complications, et alerte l'IADE de manière anticipée — sans jamais prescrire d'action thérapeutique.</p>
+
+  <div class="g2" style="margin-bottom:28px">
+    <div class="card-green">
+      <h4 style="color:var(--green); margin-bottom:12px">✅ VAIA EST</h4>
+      <ul class="check-list">
+        <li><strong>Un outil de vigilance multiparamétrique</strong> — fusion de 10+ signaux simultanés</li>
+        <li><strong>Un système d'anticipation précoce</strong> — 4 à 10 min avant l'alarme classique</li>
+        <li><strong>Un tableau de bord temps réel</strong> — score global + tendances + alertes</li>
+        <li><strong>Un générateur d'alertes contextuelles</strong> — pondérées par profil patient</li>
+        <li><strong>Un outil de traçabilité</strong> — audit log complet, résumé peropératoire auto</li>
+        <li><strong>Un support de transmission SSPI</strong> — structuré et automatisé</li>
+      </ul>
+    </div>
+    <div class="card-red">
+      <h4 style="color:var(--red); margin-bottom:12px">❌ VAIA N'EST PAS</h4>
+      <ul class="check-list">
+        <li><strong>Un prescripteur</strong> — jamais "injectez X mg de Y"</li>
+        <li><strong>Un remplacement de l'IADE ou du MAR</strong> — outil d'aide uniquement</li>
+        <li><strong>Un système autonome</strong> — le clinicien garde la main à 100%</li>
+        <li><strong>Un DM décisionnel (IIb/III)</strong> — positionnement IIa délibéré pour le MVP</li>
+        <li><strong>Un AIMS</strong> — ne gère pas l'administration anesthésique</li>
+        <li><strong>Un logiciel de prescriptions</strong> — aucune dose, aucune molécule suggérée</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h3>Proposition de valeur clinique</h3>
+  <table class="tbl">
+    <thead><tr><th>Problème actuel au bloc</th><th>Ce que VAIA apporte</th><th>Impact clinique réel</th></tr></thead>
+    <tbody>
+      <tr><td>Alarmes seuil fixe — réactives, toujours trop tard</td><td>Détection précoce des tendances 4 à 10 min avant le seuil critique</td><td><span class="tag tag-green">Temps d'action multiplié par 3</span></td></tr>
+      <tr><td>Moniteurs en silo — aucune synthèse multi-capteurs</td><td>Fusion de 10+ paramètres en un score de vigilance unique</td><td><span class="tag tag-green">Compréhension globale instantanée</span></td></tr>
+      <tr><td>Charge cognitive IADE très élevée, surtout seul en salle</td><td>Score 0–100 lisible en un coup d'œil, même avec des gants</td><td><span class="tag tag-cyan">Réduction charge mentale</span></td></tr>
+      <tr><td>Alertes sans contexte — même seuil ASA I et ASA IV</td><td>Alertes pondérées par âge, ASA, chirurgie, durée, comorbidités</td><td><span class="tag tag-green">Pertinence et spécificité accrues</span></td></tr>
+      <tr><td>Transmission SSPI verbale, informelle, incomplète</td><td>Résumé peropératoire PDF automatique structuré</td><td><span class="tag tag-cyan">Continuité des soins améliorée</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-blue" style="margin-top:20px">
+    <div class="callout-icon">💡</div>
+    <div>
+      <strong>Le positionnement "non prescriptif" est une force, pas une limite.</strong> Il place VAIA en classe MDR IIa (vs IIb/III pour l'aide décisionnelle), divise les délais de certification par 3, réduit les risques juridiques à quasi zéro, et facilite l'adoption clinique. C'est le bon point de départ pour construire la crédibilité avant la V3.
+    </div>
+  </div>
+</section>
+
+<!-- ─── SCÉNARIOS CLINIQUES ─── -->
+<section class="section" id="scenarios">
+  <div class="section-eyebrow">02 — Scénarios cliniques</div>
+  <h2 class="section-title">Ce que VAIA détecte en conditions réelles</h2>
+  <p class="section-sub">5 scénarios concrets illustrant l'anticipation précoce versus l'alarme classique tardive.</p>
+
+  <!-- SC 1 -->
+  <div class="scenario-card">
+    <div class="sc-header">
+      <div>
+        <div class="sc-title">🫀 Scénario 1 — Hypotension post-rachianesthésie</div>
+        <div style="font-size:11px; color:var(--gray); margin-top:3px">Homme 58 ans · Prothèse hanche · 20 min après injection</div>
+      </div>
+      <span class="tag tag-orange">+6 minutes d'avance</span>
+    </div>
+    <div class="sc-body">
+      <div class="sc-compare">
+        <div class="sc-before">
+          <div class="sc-label" style="color:var(--red)">❌ Sans VAIA</div>
+          <p style="font-size:12px; margin:0">PA encore à 118/72, FC à 68. Aucune alarme. L'IADE ne voit rien. 6 minutes plus tard PA à 68/40, alarme stridente. Préparation éphédrine en urgence. 3 min d'hypotension prolongée.</p>
+        </div>
+        <div class="sc-after">
+          <div class="sc-label" style="color:var(--green)">✅ Avec VAIA</div>
+          <p style="font-size:12px; margin:0">Pression pulsée −18% en 4 min, variabilité FC +23%. Alerte orange "tendance hypotensive, probabilité 78%, délai 5–7 min". L'IADE prépare l'éphédrine. Il agit immédiatement quand la PA commence à chuter.</p>
+        </div>
+      </div>
+      <div class="terminal" style="margin-top:14px">
+        <div class="terminal-bar"><div class="t-dot td1"></div><div class="t-dot td2"></div><div class="t-dot td3"></div><span class="terminal-title">VAIA — Alerte anticipation</span></div>
+        <div class="terminal-body">
+<span class="t-warn">🟡 ALERTE ANTICIPATION — Niveau modéré</span><br>
+<span class="t-dim">───────────────────────────────────────────</span><br>
+<span class="t-gray">Tendance hypotensive détectée</span><br>
+<span class="t-gray">Probabilité PA &lt; 65mmHg : </span><span class="t-val">78%</span>  <span class="t-gray">Délai estimé : </span><span class="t-warn">5–7 minutes</span><br><br>
+<span class="t-gray">Contributeurs :</span><br>
+<span class="t-dim">  →</span> <span class="t-blue">Pression pulsée</span> <span class="t-crit">−18% en 4 min</span><br>
+<span class="t-dim">  →</span> <span class="t-blue">Variabilité FC</span>   <span class="t-warn">+23% vs baseline</span><br>
+<span class="t-dim">  →</span> <span class="t-blue">Morphologie SpO₂</span> <span class="t-warn">modification subtile</span><br>
+<span class="t-dim">  →</span> <span class="t-blue">Contexte</span>         <span class="t-gray">22 min post-rachianesthésie (fenêtre risque max)</span><br><br>
+<span class="t-dim">━━━━━━━━━━━━ Décision clinique IADE ━━━━━━━━━━━━</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SC 2 -->
+  <div class="scenario-card">
+    <div class="sc-header">
+      <div>
+        <div class="sc-title">🫁 Scénario 2 — Bronchospasme débutant</div>
+        <div style="font-size:11px; color:var(--gray); margin-top:3px">Femme 34 ans · Appendicectomie · ATCD asthme non déclaré</div>
+      </div>
+      <span class="tag tag-orange">+8 minutes d'avance</span>
+    </div>
+    <div class="sc-body">
+      <div class="sc-compare">
+        <div class="sc-before">
+          <div class="sc-label" style="color:var(--red)">❌ Sans VAIA</div>
+          <p style="font-size:12px; margin:0">SpO₂ 97%, Pression crête 26 cmH₂O, EtCO₂ 36. Tout dans les normes. Aucune alarme. 8 minutes plus tard SpO₂ 91%, bronchospasme constitué. Gestion en urgence.</p>
+        </div>
+        <div class="sc-after">
+          <div class="sc-label" style="color:var(--green)">✅ Avec VAIA</div>
+          <p style="font-size:12px; margin:0">Capnogramme allongé +34%, compliance −8%, pression crête +3 cmH₂O en 5 min. Alerte orange. IADE vérifie sonde, ausculte → sibilants discrets. Approfondit, prépare salbutamol. Résolution avant désaturation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SC 3 -->
+  <div class="scenario-card">
+    <div class="sc-header">
+      <div>
+        <div class="sc-title">🩸 Scénario 3 — Saignement occulte progressif</div>
+        <div style="font-size:11px; color:var(--gray); margin-top:3px">Homme 71 ans · Colectomie 2h30 · Saignement veineux diffus sous-estimé</div>
+      </div>
+      <span class="tag tag-red">Évite le choc hémorragique</span>
+    </div>
+    <div class="sc-body">
+      <div class="sc-compare">
+        <div class="sc-before">
+          <div class="sc-label" style="color:var(--red)">❌ Sans VAIA</div>
+          <p style="font-size:12px; margin:0">PA 108/64 "acceptable", FC 88 "légère tachycardie". Aucune alarme pendant 40 min. Soudain PA à 85/45. Choc hémorragique déclaré. Gestion en urgence, CGR en catastrophe.</p>
+        </div>
+        <div class="sc-after">
+          <div class="sc-label" style="color:var(--green)">✅ Avec VAIA</div>
+          <p style="font-size:12px; margin:0">Tendance PA −14% sur 40 min, FC +22%, EtCO₂ −4 mmHg, PPV 17%. Alerte rouge. Chirurgien alerté → confirme saignement veineux diffus. Remplissage anticipé, CGR préventif. Pas de choc.</p>
+        </div>
+      </div>
+      <div class="terminal" style="margin-top:14px">
+        <div class="terminal-bar"><div class="t-dot td1"></div><div class="t-dot td2"></div><div class="t-dot td3"></div><span class="terminal-title">VAIA — Alerte niveau critique</span></div>
+        <div class="terminal-body">
+<span class="t-crit">🔴 ALERTE ANTICIPATION — Niveau CRITIQUE</span><br>
+<span class="t-dim">───────────────────────────────────────────</span><br>
+<span class="t-gray">Pattern hémodynamique évocateur</span><br>
+<span class="t-gray">Probabilité hypovolémie significative : </span><span class="t-crit">81%</span><br><br>
+<span class="t-gray">Contributeurs (tendances sur 40 min) :</span><br>
+<span class="t-dim">  →</span> <span class="t-blue">PA moyenne</span>  <span class="t-crit">−14%</span>   <span class="t-dim">PA actuelle : 91/58</span><br>
+<span class="t-dim">  →</span> <span class="t-blue">FC</span>           <span class="t-crit">+22%</span>   <span class="t-dim">FC actuelle : 94</span><br>
+<span class="t-dim">  →</span> <span class="t-blue">EtCO₂</span>        <span class="t-warn">−4 mmHg</span> <span class="t-dim">en 20 min</span><br>
+<span class="t-dim">  →</span> <span class="t-blue">PPV</span>           <span class="t-warn">17%</span>    <span class="t-dim">(limite haute)</span><br>
+<span class="t-dim">  →</span> <span class="t-blue">Contexte</span>     <span class="t-gray">dissection colorectale 2h30</span><br><br>
+<span class="t-gray">Estimation modèle (indicative) : </span><span class="t-warn">450–700 ml</span><br>
+<span class="t-dim">━━━━━━━━━━━━ Décision clinique IADE ━━━━━━━━━━━━</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <!-- SC 4 -->
+    <div class="scenario-card" style="margin-bottom:0">
+      <div class="sc-header">
+        <div>
+          <div class="sc-title">😴 Scénario 4 — Curarisation résiduelle</div>
+          <div style="font-size:11px; color:var(--gray); margin-top:3px">Femme 52 ans · Chirurgie abdominale lourde 3h45</div>
+        </div>
+      </div>
+      <div class="sc-body">
+        <div class="terminal">
+          <div class="terminal-bar"><div class="t-dot td1"></div><div class="t-dot td2"></div><div class="t-dot td3"></div><span class="terminal-title">VAIA — Fin intervention</span></div>
+          <div class="terminal-body">
+<span class="t-warn">🟡 Risque curarisation résiduelle élevé</span><br>
+<span class="t-gray">Probabilité TOF &lt; 90% à l'extubation : </span><span class="t-warn">73%</span><br><br>
+<span class="t-dim">→</span> <span class="t-blue">Dernière injection curare</span> <span class="t-val">58 min</span><br>
+<span class="t-dim">→</span> <span class="t-blue">Dose cumulée</span> <span class="t-warn">1.2× dose habituelle</span><br>
+<span class="t-dim">→</span> <span class="t-blue">Température</span> <span class="t-warn">35.8°C</span> <span class="t-dim">(hypothermie légère)</span><br>
+<span class="t-dim">→</span> <span class="t-blue">Créatinine</span> <span class="t-warn">112 μmol/L</span> <span class="t-dim">(insuff. rénale légère)</span><br><br>
+<span class="t-gray">→ Vérification TOF recommandée</span><br>
+<span class="t-dim">  Décision clinique IADE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SC 5 -->
+    <div class="scenario-card" style="margin-bottom:0">
+      <div class="sc-header">
+        <div>
+          <div class="sc-title">🌡️ Scénario 5 — Hypothermie pédiatrique</div>
+          <div style="font-size:11px; color:var(--gray); margin-top:3px">Enfant 8 ans · 28 kg · Chirurgie orthopédique longue</div>
+        </div>
+      </div>
+      <div class="sc-body">
+        <div class="terminal">
+          <div class="terminal-bar"><div class="t-dot td1"></div><div class="t-dot td2"></div><div class="t-dot td3"></div><span class="terminal-title">VAIA — Tendance thermique</span></div>
+          <div class="terminal-body">
+<span class="t-warn">🟡 Hypothermie progressive</span><br>
+<span class="t-gray">Température actuelle : </span><span class="t-val">36.1°C</span>  <span class="t-warn">−0.3°C/30min</span><br>
+<span class="t-gray">Projection à 1h45 : </span><span class="t-crit">≈ 35.2°C</span><br><br>
+<span class="t-dim">Facteurs aggravants :</span><br>
+<span class="t-dim">→</span> <span class="t-blue">Poids</span>   <span class="t-val">28 kg</span>  <span class="t-gray">ratio surface/masse défavorable</span><br>
+<span class="t-dim">→</span> <span class="t-blue">Salle</span>   <span class="t-warn">19°C</span><br>
+<span class="t-dim">→</span> <span class="t-blue">Liquides</span> <span class="t-warn">380 ml non réchauffés</span><br><br>
+<span class="t-gray">Seuil hypothermie modérée dans : </span><span class="t-warn">~55 min</span><br>
+<span class="t-dim">  Décision clinique IADE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ARCHITECTURE TECHNIQUE ─── -->
+<section class="section" id="archi">
+  <div class="section-eyebrow">03 — Architecture technique</div>
+  <h2 class="section-title">Les 5 couches du système VAIA</h2>
+  <p class="section-sub">De l'acquisition des signaux physiologiques bruts jusqu'à l'affichage sur tablette au bloc — en passant par la normalisation, l'inférence IA et la persistance HDS.</p>
+
+  <div class="arch-flow">
+    <div class="arch-layer-wrap">
+      <div class="arch-layer-label">🔌 Couche 1 — Acquisition (Sources temps réel)</div>
+      <div class="arch-row-items">
+        <div class="arch-node an-blue">Moniteur multiparamétrique<br><small style="color:var(--gray)">Philips / GE / Mindray</small></div>
+        <div class="arch-node an-blue">Ventilateur<br><small style="color:var(--gray)">Dräger / Hamilton / Löwenstein</small></div>
+        <div class="arch-node an-blue">Pompes à seringues<br><small style="color:var(--gray)">BBraun / Fresenius</small></div>
+        <div class="arch-node an-blue">BIS / Entropie<br><small style="color:var(--gray)">Medtronic / GE</small></div>
+        <div class="arch-node an-blue">Dossier patient<br><small style="color:var(--gray)">HL7 FHIR R4</small></div>
+      </div>
+    </div>
+    <div class="arch-arrow-wrap">▼</div>
+    <div class="arch-layer-wrap">
+      <div class="arch-layer-label">🔧 Couche 2 — Intégration (Normalisation & agrégation)</div>
+      <div class="arch-row-items">
+        <div class="arch-node an-cyan">Passerelle IoT<br><small style="color:var(--gray)">HL7 v2/v3 + FHIR R4</small></div>
+        <div class="arch-node an-cyan">Broker MQTT<br><small style="color:var(--gray)">Sync temps réel</small></div>
+        <div class="arch-node an-cyan">Pipeline ETL RT<br><small style="color:var(--gray)">Normalisation & qualité</small></div>
+        <div class="arch-node an-cyan">Time-series DB<br><small style="color:var(--gray)">InfluxDB / TimescaleDB</small></div>
+      </div>
+    </div>
+    <div class="arch-arrow-wrap">▼</div>
+    <div class="arch-layer-wrap">
+      <div class="arch-layer-label">🧠 Couche 3 — Moteur IA (Analyse & prédiction)</div>
+      <div class="arch-row-items">
+        <div class="arch-node an-purple">LSTM Bidirectionnel<br><small style="color:var(--gray)">Séries temporelles physio</small></div>
+        <div class="arch-node an-purple">Transformer médical<br><small style="color:var(--gray)">Patterns multi-paramètres</small></div>
+        <div class="arch-node an-purple">XGBoost contextuel<br><small style="color:var(--gray)">Scoring patient + chirurgie</small></div>
+        <div class="arch-node an-purple">Moteur de règles<br><small style="color:var(--gray)">Expertise clinique encodée</small></div>
+      </div>
+    </div>
+    <div class="arch-arrow-wrap">▼</div>
+    <div class="arch-layer-wrap">
+      <div class="arch-layer-label">📊 Couche 4 — Présentation (Interface utilisateur bloc)</div>
+      <div class="arch-row-items">
+        <div class="arch-node an-orange">Dashboard tablette<br><small style="color:var(--gray)">React RT, 10 pouces</small></div>
+        <div class="arch-node an-orange">Alertes visuelles/son<br><small style="color:var(--gray)">3 niveaux criticité</small></div>
+        <div class="arch-node an-orange">Courbes tendances<br><small style="color:var(--gray)">Historique 30 min</small></div>
+        <div class="arch-node an-orange">Rapport peropératoire<br><small style="color:var(--gray)">PDF auto-généré</small></div>
+      </div>
+    </div>
+    <div class="arch-arrow-wrap">▼</div>
+    <div class="arch-layer-wrap">
+      <div class="arch-layer-label">💾 Couche 5 — Persistance & apprentissage continu</div>
+      <div class="arch-row-items">
+        <div class="arch-node an-green">Entrepôt HDS<br><small style="color:var(--gray)">Azure Healthcare / OVH</small></div>
+        <div class="arch-node an-green">Audit log MDR<br><small style="color:var(--gray)">Traçabilité complète</small></div>
+        <div class="arch-node an-green">MLOps pipeline<br><small style="color:var(--gray)">MLflow + DVC + CI/CD</small></div>
+        <div class="arch-node an-green">Analytics qualité<br><small style="color:var(--gray)">Grafana + Prometheus</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>Stack technologique détaillé</h3>
+  <table class="tbl">
+    <thead><tr><th>Couche</th><th>Technologie</th><th>Justification</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Protocoles IoT</strong></td><td><code>HL7 v2.5</code> <code>FHIR R4</code> <code>MQTT</code> <code>OPC-UA</code></td><td>Standards hospitaliers universels — compatibles Philips/GE/Dräger sans développement custom</td></tr>
+      <tr><td><strong>Backend API</strong></td><td><code>Python FastAPI</code> + <code>WebSockets</code></td><td>Temps réel, performant, écosystème ML natif Python, async natif</td></tr>
+      <tr><td><strong>Base temps réel</strong></td><td><code>InfluxDB</code> + <code>Redis</code></td><td>Optimisé séries temporelles physiologiques, latence &lt; 50ms garanti</td></tr>
+      <tr><td><strong>ML / Deep Learning</strong></td><td><code>PyTorch</code> + <code>HuggingFace</code> + <code>MLflow</code></td><td>LSTM et Transformers, tracking expériences, déploiement modèles versionné</td></tr>
+      <tr><td><strong>Frontend tablette</strong></td><td><code>React</code> + <code>TypeScript</code> + <code>Recharts</code></td><td>Interface responsive, graphiques RT, maintenable, testable — UX médicale possible</td></tr>
+      <tr><td><strong>Hébergement HDS</strong></td><td><code>Azure Healthcare APIs</code> ou <code>OVH HDS</code></td><td>Certification HDS obligatoire en France dès stockage données identifiées</td></tr>
+      <tr><td><strong>Sécurité</strong></td><td><code>OAuth2</code> + <code>TLS 1.3</code> + <code>AES-256</code></td><td>Exigences MDR IIa + HDS + RGPD santé — non négociable</td></tr>
+      <tr><td><strong>MLOps</strong></td><td><code>MLflow</code> + <code>DVC</code> + <code>GitHub Actions</code></td><td>Versioning modèles, CI/CD, traçabilité complète requise par ISO 13485</td></tr>
+      <tr><td><strong>Monitoring infra</strong></td><td><code>Grafana</code> + <code>Prometheus</code></td><td>Surveillance 24/7, alertes techniques, SLA clinique exigeant</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ─── DONNÉES & IA ─── -->
+<section class="section" id="data">
+  <div class="section-eyebrow">04 — Données & modèles IA</div>
+  <h2 class="section-title">Le carburant du moteur prédictif</h2>
+  <p class="section-sub">Sources de données, architecture des modèles, métriques cibles et stratégie d'apprentissage continu.</p>
+
+  <h3>Sources de données par phase</h3>
+  <table class="tbl">
+    <thead><tr><th>Source</th><th>Volume</th><th>Accès</th><th>Usage VAIA</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>VitalDB (Corée)</strong> — vitaldb.net</td>
+        <td>6 388 cas annotés</td>
+        <td><span class="tag tag-green">Libre</span></td>
+        <td>Entraînement initial des modèles, benchmark, disponible dès maintenant</td>
+      </tr>
+      <tr>
+        <td><strong>MIMIC-IV</strong> — PhysioNet</td>
+        <td>~70 000 cas ICU</td>
+        <td><span class="tag tag-green">Libre avec inscription</span></td>
+        <td>Pré-entraînement, transfer learning, enrichissement données rares</td>
+      </tr>
+      <tr>
+        <td><strong>Données CHU partenaire</strong></td>
+        <td>500–2 000 cas/an</td>
+        <td><span class="tag tag-orange">Via CPP + accord DRCI</span></td>
+        <td>Fine-tuning sur population française, validation clinique réelle</td>
+      </tr>
+      <tr>
+        <td><strong>PhysioNet</strong></td>
+        <td>Multiple datasets</td>
+        <td><span class="tag tag-green">Libre</span></td>
+        <td>ECG, signaux complémentaires, variabilité de fréquence cardiaque</td>
+      </tr>
+      <tr>
+        <td><strong>Données perop DIANE / Medneo</strong></td>
+        <td>Variable par CHU</td>
+        <td><span class="tag tag-red">Accord DRCI + RGPD + DPA</span></td>
+        <td>Volume brut — nécessite annotation, extraction structurée et pseudonymisation</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+  <h3>Architecture des modèles</h3>
+  <div class="g2">
+    <div class="card-accent">
+      <h4 style="color:var(--cyan2)">🧠 Modèle Principal — LSTM Bidirectionnel</h4>
+      <ul class="check-list" style="margin-top:8px">
+        <li><strong>Input</strong> : Fenêtre glissante 10 min (600 pts/paramètre)</li>
+        <li><strong>Features</strong> : 8–12 paramètres physiologiques normalisés + dérivées</li>
+        <li><strong>Output</strong> : Probabilité événement + délai estimé en minutes</li>
+        <li><strong>Cibles</strong> : Hypotension, bronchospasme, tachycardie, désaturation, hypothermie</li>
+        <li><strong>Seuil alerte orange</strong> : Probabilité &gt; 60%</li>
+        <li><strong>Seuil alerte rouge</strong> : Probabilité &gt; 80%</li>
+        <li><strong>Latence inférence cible</strong> : &lt; 200ms</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>🔧 Modèle Contextuel — XGBoost Enrichi</h4>
+      <ul class="check-list" style="margin-top:8px">
+        <li><strong>Features statiques</strong> : ASA, âge, poids, comorbidités, traitements en cours</li>
+        <li><strong>Features dynamiques</strong> : Durée op, phase chirurgicale, pertes estimées, position</li>
+        <li><strong>Output</strong> : Score de risque contextuel 0–100 qui pondère les alertes LSTM</li>
+        <li><strong>Mise à jour</strong> : Toutes les 5 minutes ou à chaque changement de phase op</li>
+        <li><strong>Exemple</strong> : Même PA basse → alerte plus forte chez le cardiaque que chez le sportif ASA I</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>Métriques de performance cibles — Comparaison HPI Edwards</h3>
+  <table class="tbl">
+    <thead><tr><th>Événement</th><th>Sensibilité cible</th><th>Spécificité cible</th><th>AUC-ROC</th><th>Anticipation</th><th>HPI Edwards (référence)</th></tr></thead>
+    <tbody>
+      <tr><td>Hypotension peropératoire</td><td>&gt; 80%</td><td>&gt; 75%</td><td>&gt; 0.85</td><td>5–10 min</td><td>AUC 0.88 — PA seule</td></tr>
+      <tr><td>Bronchospasme</td><td>&gt; 75%</td><td>&gt; 80%</td><td>&gt; 0.82</td><td>3–7 min</td><td>Non couvert</td></tr>
+      <tr><td>Tachycardie sévère</td><td>&gt; 85%</td><td>&gt; 70%</td><td>&gt; 0.83</td><td>3–5 min</td><td>Non couvert</td></tr>
+      <tr><td>Désaturation</td><td>&gt; 90%</td><td>&gt; 75%</td><td>&gt; 0.88</td><td>4–8 min</td><td>Non couvert</td></tr>
+      <tr><td>Saignement significatif</td><td>&gt; 70%</td><td>&gt; 80%</td><td>&gt; 0.80</td><td>8–15 min</td><td>Non couvert</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-green">
+    <div class="callout-icon">📈</div>
+    <div>
+      <strong>L'effet réseau est ton avantage concurrentiel absolu.</strong> Chaque bloc qui utilise VAIA génère des données qui améliorent le modèle pour tous les autres. An 1 : 500 cas → modèle correct. An 3 : 50 000 cas → modèle très bon. An 6 : 500 000 cas → modèle imbattable. Philips et Dräger peuvent copier l'interface. Ils ne peuvent pas copier tes données.
+    </div>
+  </div>
+</section>
+
+<!-- ─── ROADMAP V1→V4 ─── -->
+<section class="section" id="versions">
+  <div class="section-eyebrow">05 — Roadmap produit</div>
+  <h2 class="section-title">4 versions — Du MVP au système complet</h2>
+  <p class="section-sub">Chaque version s'appuie sur la précédente. Chaque version génère le CA et les données qui financent la suivante. Cercle vertueux délibéré.</p>
+
+  <div class="g2" style="margin-bottom:20px">
+    <div class="version-card">
+      <div class="version-header v1-h">
+        <div>
+          <div class="version-name">V1 — Vigilance Multimodale</div>
+          <div class="version-tag">MVP · An 1–2 · CE IIa · Non prescriptif</div>
+        </div>
+        <span class="tag tag-cyan">CE IIa</span>
+      </div>
+      <div class="version-body">
+        <ul class="check-list">
+          <li><strong>Surveillance 5–8 paramètres</strong> temps réel</li>
+          <li><strong>Score de vigilance global</strong> 0–100</li>
+          <li><strong>3 niveaux d'alertes</strong> vert / orange / rouge</li>
+          <li><strong>Courbes de tendance</strong> 30 minutes glissantes</li>
+          <li><strong>Résumé peropératoire</strong> automatique PDF</li>
+          <li><strong>Transmission SSPI</strong> structurée</li>
+          <li><strong>Audit log complet</strong> — traçabilité MDR</li>
+        </ul>
+        <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border)">
+          <span class="tag tag-blue">12 000–18 000€/an/bloc</span>
+          <span class="tag tag-cyan" style="margin-left:6px">Time to market : 18–24 mois</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="version-card">
+      <div class="version-header v2-h">
+        <div>
+          <div class="version-name">V2 — Vigilance Contextuelle</div>
+          <div class="version-tag">An 3–4 · CE IIa mise à jour · Enrichissement contextuel</div>
+        </div>
+        <span class="tag tag-green">CE IIa+</span>
+      </div>
+      <div class="version-body">
+        <ul class="check-list">
+          <li><strong>Intégration dossier patient complet</strong> (ASA, comorbidités, médocs)</li>
+          <li><strong>Alertes pondérées par profil patient</strong></li>
+          <li><strong>Prise en compte phase chirurgicale</strong> en temps réel</li>
+          <li><strong>Détection patterns complexes</strong> multi-paramètres</li>
+          <li><strong>Module pédiatrique et obstétrique</strong></li>
+          <li><strong>API AIMS</strong> — intégration Diane, Medneo, Axya</li>
+          <li><strong>Module formation</strong> — replay de cas annoté</li>
+        </ul>
+        <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border)">
+          <span class="tag tag-blue">18 000–28 000€/an/bloc</span>
+          <span class="tag tag-green" style="margin-left:6px">Mise à jour dossier V1 seulement</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="version-card">
+      <div class="version-header v3-h">
+        <div>
+          <div class="version-name">V3 — Aide Décisionnelle Légère</div>
+          <div class="version-tag">An 5–6 · CE IIb · Franchissement du cap décisionnel</div>
+        </div>
+        <span class="tag tag-orange">CE IIb</span>
+      </div>
+      <div class="version-body">
+        <ul class="check-list">
+          <li><strong>Suggestions non prescriptives graduées</strong> — "actions habituellement associées"</li>
+          <li><strong>Protocoles institutionnels intégrés</strong> — chaque CHU charge les siens</li>
+          <li><strong>Aide au diagnostic différentiel</strong> — "compatible avec A (68%), B (22%)"</li>
+          <li><strong>Simulation "what if"</strong> — impact probable sans prescrire</li>
+          <li><strong>Couverture pré-per-postop</strong> complète</li>
+          <li><strong>Module recherche clinique</strong> intégré pour CHU</li>
+        </ul>
+        <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border)">
+          <span class="tag tag-blue">28 000–45 000€/an/bloc</span>
+          <span class="tag tag-orange" style="margin-left:6px">Nouveau dossier CE IIb requis</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="version-card">
+      <div class="version-header v4-h">
+        <div>
+          <div class="version-name">V4 — Système Intégré Complet</div>
+          <div class="version-tag">An 7+ · CE III · Vision initiale pleinement réalisée</div>
+        </div>
+        <span class="tag tag-red">CE III</span>
+      </div>
+      <div class="version-body">
+        <ul class="check-list">
+          <li><strong>Recommandations actives</strong> — validées par l'IADE (1 clic)</li>
+          <li><strong>Intégration pompes</strong> — suggestion + validation humaine obligatoire</li>
+          <li><strong>Boucle semi-fermée</strong> sur profondeur d'anesthésie</li>
+          <li><strong>Couverture totale</strong> pré-per-post-op complète</li>
+          <li><strong>API ouverte</strong> multi-constructeurs</li>
+          <li><strong>Plateforme recherche</strong> clinique internationale</li>
+        </ul>
+        <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border)">
+          <span class="tag tag-blue">Rachat stratégique probable</span>
+          <span class="tag tag-red" style="margin-left:6px">Essai clinique randomisé requis</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-orange">
+    <div class="callout-icon">💡</div>
+    <div>
+      <strong>Le module Formation — la vache à lait discrète dès l'an 1.</strong>
+      Un outil de simulation et replay de cas basé sur le moteur VAIA : <strong>aucune contrainte MDR</strong> (outil pédagogique, pas DM), marché immédiat IFSI et CHU, <strong>finançable par CPF et OPCO</strong>, prix 3 000–8 000€/an/établissement. Génère du CA pendant que tu certifies la V1 médicale.
+    </div>
+  </div>
+</section>
+
+<!-- ─── PHASES ─── -->
+<section class="section" id="phases">
+  <div class="section-eyebrow">06 — Phases de réalisation</div>
+  <h2 class="section-title">Du premier notebook au déploiement multi-sites</h2>
+  <p class="section-sub">5 phases sur 6 ans. Chaque phase a des objectifs clairs, des livrables précis, et des ressources identifiées.</p>
+
+  <div class="phase-timeline">
+
+    <!-- Phase 0 -->
+    <div class="phase-item">
+      <div class="phase-dot phase-dot-0">0</div>
+      <div class="phase-header">
+        <span class="phase-num">PHASE 00</span>
+        <span class="phase-name">Fondations</span>
+        <span class="phase-period">Maintenant → Mois 3</span>
+      </div>
+      <div class="phase-obj">Poser les bases juridiques, institutionnelles et techniques. Zéro code médical, 100% organisation.</div>
+      <div class="g3">
+        <div class="card">
+          <h4>⚖️ Juridique & administratif</h4>
+          <ul class="check-list">
+            <li>Créer la <strong>SAS</strong> (capital 2 000€ — LegalPlace)</li>
+            <li>Créer une <strong>holding SAS H</strong> si possible (optimisation fiscale sortie)</li>
+            <li>Déposer demande <strong>ACRE</strong> à l'URSSAF (45 jours)</li>
+            <li>Déposer dossier <strong>PEPITE → SNEE</strong></li>
+            <li>Négocier <strong>substitution alternance</strong> Epitech</li>
+            <li>Ouvrir compte bancaire pro (<strong>Qonto / Shine</strong>)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>🧠 Technique — Premiers pas</h4>
+          <ul class="check-list">
+            <li>Créer compte <strong>VitalDB</strong> — télécharger dataset 6 388 cas</li>
+            <li>Monter environnement ML local (<strong>PyTorch, Jupyter, Docker</strong>)</li>
+            <li>Premier notebook <strong>prédiction hypotension</strong> sur VitalDB</li>
+            <li>Documenter résultats — même préliminaires c'est une preuve</li>
+            <li>Prototype interface tablette (maquette Figma ou React basique)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>🤝 Partenariats clés</h4>
+          <ul class="check-list">
+            <li>Identifier <strong>3 MAR candidats co-fondateurs</strong> dans réseau perso</li>
+            <li>Pitcher le projet en 10 min à chacun</li>
+            <li>Prendre contact avec <strong>DRCI du CHU</strong> le plus proche</li>
+            <li>RDV responsable pédagogique <strong>MSc Epitech</strong></li>
+            <li>Regarder le congrès <strong>SFAR octobre</strong> — préparer un abstract</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout callout-blue" style="margin-top:14px">
+        <div class="callout-icon">🎯</div>
+        <div><strong>Livrable Phase 0 :</strong> SAS créée · Statut SNEE obtenu · Co-fondateur MAR identifié · Premier modèle ML fonctionnel sur VitalDB · Pitch document 2 pages</div>
+      </div>
+    </div>
+
+    <!-- Phase 1A -->
+    <div class="phase-item">
+      <div class="phase-dot phase-dot-1">1A</div>
+      <div class="phase-header">
+        <span class="phase-num">PHASE 01A</span>
+        <span class="phase-name">Recherche & Validation Scientifique</span>
+        <span class="phase-period">Mois 3 → Mois 12</span>
+      </div>
+      <div class="phase-obj">Valider scientifiquement les modèles, accéder aux données françaises, publier les premiers résultats.</div>
+      <div class="g2">
+        <div class="card">
+          <h4>📋 Réglementaire & institutionnel</h4>
+          <ul class="check-list">
+            <li>Rédiger <strong>protocole de recherche</strong> avec le MAR</li>
+            <li>Déposer dossier <strong>CPP</strong> via le CHU (Comité Protection Personnes)</li>
+            <li>Signer <strong>convention de partenariat CHU</strong></li>
+            <li>Déposer dossier <strong>DRCI</strong> pour premier financement rapide (30–150k€)</li>
+            <li>Déposer dossier <strong>i-Lab Bpifrance</strong> (ouverture mars-avril)</li>
+            <li>Soumettre <strong>abstract SFAR</strong> (deadline mars-avril)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>🧠 Technique — ML & Intégration</h4>
+          <ul class="check-list">
+            <li>Entraîner <strong>LSTM</strong> sur VitalDB — hypotension, bronchospasme, désaturation</li>
+            <li>Valider : <strong>sensibilité, spécificité, AUC-ROC</strong></li>
+            <li>Comparer avec <strong>HPI Edwards</strong> (benchmark public)</li>
+            <li>Prototype <strong>connecteur HL7 v2</strong> sur Philips IntelliVue</li>
+            <li>Pipeline ETL temps réel basique (<strong>FastAPI + InfluxDB</strong>)</li>
+            <li>Interface React V0 — tablette 10 pouces, 3 scénarios préchargés</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout callout-green" style="margin-top:14px">
+        <div class="callout-icon">🎯</div>
+        <div><strong>Livrable Phase 1A :</strong> Modèle ML AUC &gt; 0.80 sur VitalDB · Prototype connecté à 1 moniteur · Dossier CPP déposé · 1 abstract soumis SFAR · Doctorant CIFRE recruté ou stagiaire M2 en place</div>
+      </div>
+    </div>
+
+    <!-- Phase 1B -->
+    <div class="phase-item">
+      <div class="phase-dot phase-dot-2">1B</div>
+      <div class="phase-header">
+        <span class="phase-num">PHASE 01B</span>
+        <span class="phase-name">Prototype Clinique & Données Réelles</span>
+        <span class="phase-period">Mois 12 → Mois 24</span>
+      </div>
+      <div class="phase-obj">Déployer en conditions réelles dans 1 salle du CHU partenaire. Collecter 500 à 1 000 cas annotés français. Préparer le dossier CE IIa.</div>
+      <div class="g2">
+        <div class="card">
+          <h4>🏥 Déploiement clinique observationnel</h4>
+          <ul class="check-list">
+            <li>Mode <strong>"shadow"</strong> — système tourne, alertes non affichées aux cliniciens dans un premier temps</li>
+            <li><strong>Annotation temps réel</strong> des événements par le MAR</li>
+            <li>Collecte <strong>500–1 000 cas annotés</strong> en conditions réelles françaises</li>
+            <li>Évaluation sensibilité/spécificité sur population française</li>
+            <li>Réentraînement modèle sur données françaises → <strong>fine-tuning</strong></li>
+            <li>Passage en mode <strong>affichage IADE</strong> pour les 200 derniers cas</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>📋 Démarrage process CE IIa</h4>
+          <ul class="check-list">
+            <li>Démarrage <strong>ISO 13485</strong> — QMS (management qualité)</li>
+            <li>Sélection <strong>organisme notifié</strong> (BSI, TÜV, LNE)</li>
+            <li>Début rédaction <strong>dossier technique</strong></li>
+            <li>Analyse de risques <strong>ISO 14971</strong></li>
+            <li>Enregistrement <strong>EUDAMED</strong></li>
+            <li>Mise en place <strong>hébergement HDS</strong> (Azure Healthcare ou OVH)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout callout-blue" style="margin-top:14px">
+        <div class="callout-icon">🎯</div>
+        <div><strong>Livrable Phase 1B :</strong> 1 000 cas annotés réels · Modèle validé cliniquement sur données françaises · Publication dans revue anesthésie (AFAR, Anaesthesia) · <strong>Mémoire MSc Epitech = première étude formelle</strong> · Dossier CE IIa en cours · Résultat i-Lab attendu</div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase-item">
+      <div class="phase-dot phase-dot-3">2</div>
+      <div class="phase-header">
+        <span class="phase-num">PHASE 02</span>
+        <span class="phase-name">Produit Commercial V1 & Marquage CE IIa</span>
+        <span class="phase-period">Mois 24 → Mois 42</span>
+      </div>
+      <div class="phase-obj">Obtenir le marquage CE IIa. Recruter l'équipe core 8 personnes. Premiers clients payants. Lever la seed.</div>
+      <div class="g3">
+        <div class="card">
+          <h4>🏆 Certification CE IIa</h4>
+          <ul class="check-list">
+            <li>Finalisation <strong>dossier technique complet</strong></li>
+            <li>Audit organisme notifié (2–3 rounds de questions)</li>
+            <li>Obtention <strong>marquage CE IIa</strong></li>
+            <li>Enregistrement EUDAMED complet</li>
+            <li>Plan de <strong>surveillance post-marché</strong> (PMS)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>💼 Commercial — Premiers clients</h4>
+          <ul class="check-list">
+            <li>Démarcher <strong>10 CHU et 5 cliniques privées</strong></li>
+            <li>Contrats pilotes <strong>gratuits 6 mois</strong> pour 3 sites</li>
+            <li>Modèle SaaS : <strong>12 000–18 000€/an/bloc</strong></li>
+            <li>Cible : <strong>10–15 blocs payants</strong> fin phase 2</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>💰 Levée de fonds Seed</h4>
+          <ul class="check-list">
+            <li>Montant cible : <strong>500k–1,5M€</strong></li>
+            <li>Cibles : Karista, Bpifrance Large, BA Santé</li>
+            <li>Déclencheur : CE IIa + 3 clients pilotes + données publiées</li>
+            <li>Dilution : <strong>15–20%</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase-item">
+      <div class="phase-dot phase-dot-4">3</div>
+      <div class="phase-header">
+        <span class="phase-num">PHASE 03</span>
+        <span class="phase-name">Scale France & Europe — V2/V3</span>
+        <span class="phase-period">Mois 42 → Mois 72</span>
+      </div>
+      <div class="phase-obj">Scaler en France et Europe. Déployer V2 contextuelle. Préparer V3 décisionnelle. Levée Série A. Potentiel rachat stratégique.</div>
+      <div class="g2">
+        <div class="card">
+          <h4>🌍 Expansion commerciale</h4>
+          <ul class="check-list">
+            <li>Cible France : <strong>80–120 blocs clients</strong></li>
+            <li>Partenariats groupes hospitaliers (<strong>Ramsay, Elsan, Vivalto</strong>)</li>
+            <li>Distribution via AIMS existants (Diane, Medneo) en <strong>plugin</strong></li>
+            <li>Expansion Europe : Belgique, Suisse, Pays-Bas en premier</li>
+            <li><strong>ARR cible</strong> : 2–5M€ fin phase 3</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>📈 Levée Série A & sortie</h4>
+          <ul class="check-list">
+            <li>Montant Série A : <strong>3–8M€</strong></li>
+            <li>Cibles : Elaia Partners, Sofinnova, Bpifrance Large Venture</li>
+            <li>Condition : ARR &gt; 1M€ + growth &gt; 100%/an</li>
+            <li>Scénario exit : rachat par Philips / GE / Dräger ou EIC equity</li>
+            <li>Valorisation exit cible : <strong>50–200M€</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── ÉQUIPE ─── -->
+<section class="section" id="equipe">
+  <div class="section-eyebrow">07 — Équipe</div>
+  <h2 class="section-title">Qui il faut, quand, et où les trouver</h2>
+  <p class="section-sub">4 personnes pour démarrer. 8 à 10 pour la commercialisation. 15 à 20 pour le scale. Chaque recrutement au bon moment évite la dette humaine.</p>
+
+  <h3>Équipe fondatrice — Phase 0 à 1A (4 personnes)</h3>
+  <div class="g4">
+    <div class="team-card">
+      <div class="team-avatar" style="background:rgba(21,70,224,0.2); border-color:var(--blue2)">🧑‍⚕️</div>
+      <div class="team-role">Toi — CEO / Expert Métier</div>
+      <div class="team-profile">IADE actif + MSc IA Santé IoT Epitech. Double légitimité clinique ET technique. Profil fondateur idéal.</div>
+      <div class="team-when"><span class="tag tag-blue">Maintenant</span></div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar" style="background:rgba(0,212,255,0.1); border-color:var(--cyan)">👨‍⚕️</div>
+      <div class="team-role">Co-fondateur MAR</div>
+      <div class="team-profile">PH ou MCU-PH CHU. Publications anesthésie. Réseau SFAR. Porte les dossiers CPP, PHRC, DRCI.</div>
+      <div class="team-when"><span class="tag tag-red">Critique — Trouver maintenant</span></div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar" style="background:rgba(180,100,255,0.1); border-color:#9d4edd">🧑‍💻</div>
+      <div class="team-role">Data Scientist / ML</div>
+      <div class="team-profile">Master 2 IA Santé ou doctorant CIFRE. PyTorch, séries temporelles, données médicales.</div>
+      <div class="team-when"><span class="tag tag-orange">Mois 2–4</span></div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar" style="background:rgba(0,229,160,0.1); border-color:var(--green)">⚙️</div>
+      <div class="team-role">Ingénieur Intégration IoT</div>
+      <div class="team-profile">HL7/FHIR/DICOM. Systèmes embarqués. Connecteurs moniteurs. Freelance senior superviseur + étudiant Epitech M4.</div>
+      <div class="team-when"><span class="tag tag-orange">Mois 3–6</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>Équipe élargie — Phase 1B à 2 (8–10 personnes)</h3>
+  <table class="tbl">
+    <thead><tr><th>Rôle</th><th>Profil requis</th><th>Quand</th><th>Coût annuel</th><th>Pourquoi critique</th></tr></thead>
+    <tbody>
+      <tr><td><strong>CTO</strong></td><td>Senior full-stack, expérience medtech ou fintech (rigueur code production), leadership technique équipe 5+</td><td><span class="tag tag-orange">Mois 18</span></td><td>75–95k€</td><td>Architecture globale, qualité code certifiable CE, recrutement équipe tech</td></tr>
+      <tr><td><strong>ML Engineer ×2</strong></td><td>Spécialistes séries temporelles, expérience déploiement production, MLOps</td><td><span class="tag tag-orange">Mois 18–24</span></td><td>65–80k€ each</td><td>Modèles en production temps réel — ne peut pas reposer que sur le doctorant CIFRE</td></tr>
+      <tr><td><strong>Responsable Réglementaire</strong></td><td>Expert MDR 2017/745, ISO 13485 certifié, expérience dossier CE IIa minimum — POSTE LE PLUS RARE</td><td><span class="tag tag-red">Mois 15</span></td><td>60–80k€</td><td>Sans lui, pas de CE. Le dossier prend 18 mois. Il faut démarrer tôt.</td></tr>
+      <tr><td><strong>UX Designer médical</strong></td><td>Expérience interfaces cliniques sous contrainte (gants, stress, luminosité), ergonomie médicale IEC 62366</td><td><span class="tag tag-orange">Mois 18</span></td><td>45–60k€</td><td>Interface bloc = sécurité critique. Un mauvais design peut créer des erreurs IADE.</td></tr>
+      <tr><td><strong>ARC</strong></td><td>Attaché de recherche clinique ou infirmier recherche. Gestion protocoles CPP, annotations données, rapports MDR.</td><td><span class="tag tag-cyan">Mois 12</span></td><td>35–45k€</td><td>Gère la collecte et annotation des données cliniques — pipeline ML dépend de lui</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+  <h3>Où trouver chaque profil</h3>
+  <div class="g2">
+    <div class="card">
+      <h4>🔍 MAR co-fondateur (priorité absolue)</h4>
+      <ul class="check-list">
+        <li><strong>Réseau personnel</strong> — collègues MAR avec qui tu travailles déjà (le plus rapide)</li>
+        <li><strong>Congrès SFAR octobre</strong> — LE lieu de rencontre, commission innovation</li>
+        <li><strong>LinkedIn ciblé</strong> : "médecin anesthésiste" + "IA" + "CHU" + "innovation"</li>
+        <li><strong>SFAR commission innovation</strong> — contact direct possible</li>
+        <li><strong>Incubateurs santé</strong> — Impulse Partners, Eurasanté ont des MAR dans leurs réseaux</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>🔍 Profils tech ML médical</h4>
+      <ul class="check-list">
+        <li><strong>Doctorant CIFRE</strong> — via ANRT.fr + labos INRIA Paris, INSERM, i3S Nice</li>
+        <li><strong>Master 2 IA Santé</strong> — Paris Cité, Sorbonne, UPMC, Grenoble</li>
+        <li><strong>Responsable réglementaire</strong> — LinkedIn "Regulatory Affairs MDR" + RAPS France + cabinets Axonal, Qserv</li>
+        <li><strong>CTO medtech</strong> — Talent.io + réseau Epitech alumni + Welcome to the Jungle</li>
+        <li><strong>UX médical</strong> — Behance + Dribbble filtrés "healthcare UX" + LinkedIn</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RÉGLEMENTATION ─── -->
+<section class="section" id="reglementaire">
+  <div class="section-eyebrow">08 — Réglementation</div>
+  <h2 class="section-title">MDR, CE IIa, HDS — La stratégie phase par phase</h2>
+  <p class="section-sub">Le positionnement "non prescriptif" est délibéré. Il place VAIA en classe IIa — divisez les délais et coûts de certification par 3 versus le IIb/III.</p>
+
+  <table class="tbl">
+    <thead><tr><th>Phase</th><th>Statut réglementaire</th><th>Actions requises</th><th>Coût</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Phase 0–1A</strong><br><small style="color:var(--gray)">Recherche interne CHU</small></td>
+        <td><span class="tag tag-green">Hors MDR</span><br><small style="color:var(--gray)">Usage interne CHU uniquement</small></td>
+        <td>Protocole CPP · Convention CHU · Accord RGPD / DPA · Usage strictement observationnel interne non commercialisé</td>
+        <td><span style="color:var(--green); font-weight:600">0–15k€</span></td>
+      </tr>
+      <tr>
+        <td><strong>Phase 1B</strong><br><small style="color:var(--gray)">Proto clinique</small></td>
+        <td><span class="tag tag-cyan">Art. 53 MDR</span><br><small style="color:var(--gray)">Investigation clinique</small></td>
+        <td>Déclaration ANSM · Avis CPP (gratuit via CHU) · Assurance RC spécifique · Consentement patients · Audit log opérationnel</td>
+        <td><span style="color:var(--green); font-weight:600">10–30k€</span></td>
+      </tr>
+      <tr>
+        <td><strong>Phase 2</strong><br><small style="color:var(--gray)">Produit commercial</small></td>
+        <td><span class="tag tag-orange">CE IIa</span><br><small style="color:var(--gray)">Obligatoire commercialisation</small></td>
+        <td>ISO 13485 · Dossier technique complet · Évaluation clinique (littérature suffisante) · Organisme notifié · EUDAMED · PMS + PSUR</td>
+        <td><span style="color:var(--orange); font-weight:600">80–180k€</span></td>
+      </tr>
+      <tr>
+        <td><strong>Phase 3 — V3</strong><br><small style="color:var(--gray)">Aide décisionnelle</small></td>
+        <td><span class="tag tag-red">CE IIb</span><br><small style="color:var(--gray)">Étude clinique requise</small></td>
+        <td>Étude prospective · Analyse bénéfice/risque renforcée · Nouveau dossier complet organisme notifié · Validation clinique niveau 3</td>
+        <td><span style="color:var(--red); font-weight:600">200–400k€</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+  <div class="g2">
+    <div class="card">
+      <h4>📋 Documents CE IIa — Ce qu'il faut produire</h4>
+      <ul class="check-list">
+        <li><strong>Description et spécifications</strong> — ce que le DM fait et ne fait pas</li>
+        <li><strong>IFU</strong> — Instructions For Use, document légal critique</li>
+        <li><strong>Analyse des risques ISO 14971</strong> — identifier, évaluer, mitiger</li>
+        <li><strong>Évaluation clinique</strong> — revue de littérature suffit pour IIa</li>
+        <li><strong>Vérification et validation</strong> — tests, performances mesurées</li>
+        <li><strong>SDLC documenté</strong> — chaque ligne de code traçable</li>
+        <li><strong>PMS plan</strong> — surveillance post-marché continue</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>💾 Hébergement HDS — Options</h4>
+      <ul class="check-list">
+        <li><strong>Microsoft Azure Healthcare APIs</strong> — Certifié HDS France, FHIR R4 natif, IA intégrée. ~500–2 000€/mois</li>
+        <li><strong>OVH HDS</strong> — Français, souverain, moins cher. ~200–800€/mois. Moins d'outils IA natifs.</li>
+        <li><strong>AP-HP / Inria infrastructure</strong> — Via partenariat CHU. Coût quasi nul si accord institutionnel fort.</li>
+        <li><strong>Obligatoire dès le premier stockage</strong> de donnée identifiée patient — même en recherche</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FINANCEMENT ─── -->
+<section class="section" id="financement">
+  <div class="section-eyebrow">09 — Financement</div>
+  <h2 class="section-title">12 sources — Conditions, montants, délais</h2>
+  <p class="section-sub">Le projet est quasi intégralement finançable sur fonds publics en phases 0–1. L'apport personnel réel est de 30 à 110k€ sur 6 ans.</p>
+
+  <div class="metric-row">
+    <div class="metric-box"><div class="metric-val">1,4<span class="munit">M€</span></div><div class="metric-label">Budget total mini</div></div>
+    <div class="metric-box"><div class="metric-val">3<span class="munit">M€</span></div><div class="metric-label">Budget total maxi</div></div>
+    <div class="metric-box"><div class="metric-val">4<span class="munit">M€</span></div><div class="metric-label">Financement public accessible</div></div>
+    <div class="metric-box"><div class="metric-val">30<span class="munit">k€</span></div><div class="metric-label">Apport perso mini réel</div></div>
+  </div>
+
+  <div class="g3" style="margin-top:20px">
+    <div class="funding-card">
+      <div class="fc-name">DRCI CHU</div>
+      <div class="fc-amount">30–150k€</div>
+      <div class="fc-meta">Conditions : MAR référent dans le CHU, projet recherche clinique, accord chef service. Délai : <strong style="color:var(--cyan)">1–3 mois</strong> — le plus rapide.</div>
+      <div class="fc-phase"><span class="tag tag-green">Phase 0–1A</span></div>
+    </div>
+    <div class="funding-card">
+      <div class="fc-name">ACRE (URSSAF)</div>
+      <div class="fc-amount">Exonération 45%→25%</div>
+      <div class="fc-meta">Conditions : tout créateur SAS, formulaire URSSAF dans les 45 jours. Automatique. Cumulable avec tout.</div>
+      <div class="fc-phase"><span class="tag tag-green">Dès création SAS</span></div>
+    </div>
+    <div class="funding-card">
+      <div class="fc-name">CIR — Crédit Impôt Recherche</div>
+      <div class="fc-amount">30% dépenses R&D</div>
+      <div class="fc-meta">Conditions : SAS créée, salariés R&D ou prestataires recherche. Remboursement immédiat &lt; 5 ans d'existence.</div>
+      <div class="fc-phase"><span class="tag tag-cyan">Annuel dès phase 1A</span></div>
+    </div>
+    <div class="funding-card">
+      <div class="fc-name">Bpifrance i-Lab</div>
+      <div class="fc-amount">300–600k€</div>
+      <div class="fc-meta">Conditions : projet deeptech innovant, équipe crédible, SAS créée. Concours annuel (ouverture jan–mars). Délai réponse : <strong style="color:var(--cyan)">6 mois</strong>.</div>
+      <div class="fc-phase"><span class="tag tag-cyan">Phase 1A — priorité</span></div>
+    </div>
+    <div class="funding-card">
+      <div class="fc-name">CIFRE (ANRT)</div>
+      <div class="fc-amount">~14k€/an remboursé</div>
+      <div class="fc-meta">Doctorant 3 ans sur ton projet. Coût réel ~14k€/an (ANRT rembourse le reste). Nécessite labo accrédité. Délai : <strong style="color:var(--cyan)">6–9 mois</strong>.</div>
+      <div class="fc-phase"><span class="tag tag-cyan">Phase 1A</span></div>
+    </div>
+    <div class="funding-card">
+      <div class="fc-name">ANS Santé Numérique</div>
+      <div class="fc-amount">50–200k€</div>
+      <div class="fc-meta">Conditions : entreprise française, aligné feuille route numérique santé. 2 appels/an. Délai : <strong style="color:var(--cyan)">3–6 mois</strong>.</div>
+      <div class="fc-phase"><span class="tag tag-cyan">Phase 1B</span></div>
+    </div>
+    <div class="funding-card">
+      <div class="fc-name">ANR PRCE</div>
+      <div class="fc-amount">200–500k€</div>
+      <div class="fc-meta">Conditions : partenaire académique OBLIGATOIRE (CHU/université), projet 3–4 ans. Taux financement 45%. Délai : <strong style="color:var(--yellow)">12–18 mois</strong>.</div>
+      <div class="fc-phase"><span class="tag tag-cyan">Phase 1B</span></div>
+    </div>
+    <div class="funding-card">
+      <div class="fc-name">PHRC Ministère Santé</div>
+      <div class="fc-amount">100–500k€</div>
+      <div class="fc-meta">Le CHU dépose le dossier. MAR PH porteur. CPP validé requis. Délai : <strong style="color:var(--yellow)">12–18 mois</strong>. Donne accès légal aux données patients.</div>
+      <div class="fc-phase"><span class="tag tag-cyan">Phase 1B</span></div>
+    </div>
+    <div class="funding-card">
+      <div class="fc-name">Bpifrance Prêt Amorçage</div>
+      <div class="fc-amount">50–300k€</div>
+      <div class="fc-meta">Taux zéro. Aucune garantie personnelle. Co-financement privé souvent requis. Différé 2 ans. Délai : <strong style="color:var(--cyan)">3–6 mois</strong>.</div>
+      <div class="fc-phase"><span class="tag tag-orange">Phase 2</span></div>
+    </div>
+    <div class="funding-card">
+      <div class="fc-name">Business Angels Santé</div>
+      <div class="fc-amount">200–600k€</div>
+      <div class="fc-meta">Conditions : données cliniques validées, publication, CE IIa en cours. Cibles : Karista, France Angels Santé. Dilution 10–15%.</div>
+      <div class="fc-phase"><span class="tag tag-orange">Phase 2</span></div>
+    </div>
+    <div class="funding-card">
+      <div class="fc-name">EIC Accelerator Europe</div>
+      <div class="fc-amount">2,5M€ + 15M€ equity</div>
+      <div class="fc-meta">Très sélectif (5%). Marché &gt;1Md€, équipe solide, premiers résultats. Délai : <strong style="color:var(--yellow)">6–12 mois</strong>. Label EIC = crédibilité maximale.</div>
+      <div class="fc-phase"><span class="tag tag-orange">Phase 2–3</span></div>
+    </div>
+    <div class="funding-card">
+      <div class="fc-name">VC Série A</div>
+      <div class="fc-amount">3–8M€</div>
+      <div class="fc-meta">Conditions : ARR &gt;1M€, growth &gt;100%/an, CE IIa obtenu. Cibles : Elaia, Sofinnova, Bpifrance Large. Dilution 20–25%.</div>
+      <div class="fc-phase"><span class="tag tag-red">Phase 3</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRÉSENTATION ─── -->
+<section class="section" id="presentation">
+  <div class="section-eyebrow">10 — Formes de présentation</div>
+  <h2 class="section-title">Comment présenter VAIA selon le contexte</h2>
+  <p class="section-sub">6 formats adaptés à 6 situations différentes — investisseurs, CHU, congrès médicaux, médias, jury de concours, recrutement.</p>
+
+  <h3>Le Pitch Deck — 12 slides · 10 minutes · Investisseurs & jurys</h3>
+  <div class="slide-grid">
+    <div class="slide-card"><div class="slide-num">01</div><div class="slide-icon">🏷️</div><div class="slide-name">Couverture</div><div class="slide-desc">VAIA + tagline + noms fondateurs</div></div>
+    <div class="slide-card"><div class="slide-num">02</div><div class="slide-icon">🚨</div><div class="slide-name">Le problème</div><div class="slide-desc">1 stat choc + photo bloc opératoire</div></div>
+    <div class="slide-card"><div class="slide-num">03</div><div class="slide-icon">💡</div><div class="slide-name">La solution</div><div class="slide-desc">Screenshot interface + 1 phrase</div></div>
+    <div class="slide-card"><div class="slide-num">04</div><div class="slide-icon">🎬</div><div class="slide-name">Démonstration</div><div class="slide-desc">Scénario hypotension animé</div></div>
+    <div class="slide-card"><div class="slide-num">05</div><div class="slide-icon">📊</div><div class="slide-name">Marché</div><div class="slide-desc">3 500 blocs France · 80k Europe</div></div>
+    <div class="slide-card"><div class="slide-num">06</div><div class="slide-icon">⏰</div><div class="slide-name">Pourquoi maintenant</div><div class="slide-desc">MDR 2017 · IA acceptée · VitalDB</div></div>
+    <div class="slide-card"><div class="slide-num">07</div><div class="slide-icon">📈</div><div class="slide-name">Traction</div><div class="slide-desc">CHU partenaire · AUC · Publication</div></div>
+    <div class="slide-card"><div class="slide-num">08</div><div class="slide-icon">⚖️</div><div class="slide-name">Réglementation</div><div class="slide-desc">Classe IIa · 18 mois · Non prescriptif</div></div>
+    <div class="slide-card"><div class="slide-num">09</div><div class="slide-icon">💰</div><div class="slide-name">Business model</div><div class="slide-desc">SaaS · 15k€/an/bloc · Modules</div></div>
+    <div class="slide-card"><div class="slide-num">10</div><div class="slide-icon">🗺️</div><div class="slide-name">Roadmap</div><div class="slide-desc">V1→V4 · Timeline visuelle simple</div></div>
+    <div class="slide-card"><div class="slide-num">11</div><div class="slide-icon">👥</div><div class="slide-name">Équipe</div><div class="slide-desc">Photos + 1 ligne · IADE + MAR + CTO</div></div>
+    <div class="slide-card"><div class="slide-num">12</div><div class="slide-icon">🎯</div><div class="slide-name">Financement</div><div class="slide-desc">Montant · Usage · Milestones</div></div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="g2">
+    <div class="card">
+      <h4>🎬 Démo Vidéo — 3 minutes · Congrès & pitchs distance</h4>
+      <ul class="check-list">
+        <li><strong>0:00–0:20</strong> — Le problème en 3 images (chiffres, photo, alarme tardive)</li>
+        <li><strong>0:20–0:50</strong> — Interface VAIA live (scénario hypotension complet)</li>
+        <li><strong>0:50–1:30</strong> — 2 scénarios rapides (bronchospasme + résumé SSPI)</li>
+        <li><strong>1:30–2:00</strong> — Architecture en 30s (schéma animé simple)</li>
+        <li><strong>2:00–2:30</strong> — Résultats modèle (AUC vs HPI Edwards)</li>
+        <li><strong>2:30–3:00</strong> — Équipe + call to action</li>
+        <li>Format : <strong>Screencast + voix off</strong> · Lien Vimeo protégé par mot de passe</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>📱 Prototype Démo Tablette · CHU & investisseurs terrain</h4>
+      <ul class="check-list">
+        <li>Application web fonctionnelle sur <strong>iPad ou Samsung 10"</strong></li>
+        <li>Mode "simulation" avec <strong>3 scénarios préchargés</strong> (hypotension / bronchospasme / saignement)</li>
+        <li>Données issues de <strong>cas VitalDB réels anonymisés</strong> — médicalement cohérentes</li>
+        <li>Mode "live" possible connecté à un vrai moniteur pour démos en CHU</li>
+        <li>Interface <strong>identique à la version finale</strong> — pas un wireframe</li>
+        <li>Démo en <strong>5 minutes au chevet du moniteur</strong> sans préparation</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>📄 Dossier Scientifique · CHU & financeurs publics</h4>
+      <ul class="check-list">
+        <li><strong>15–25 pages</strong> avec références bibliographiques</li>
+        <li>État de l'art — épidémiologie complications, limites moniteurs actuels, HPI</li>
+        <li>Description VAIA — architecture, paramètres, interface, alertes</li>
+        <li>Données de validation — AUC, sensibilité, spécificité, benchmark</li>
+        <li>Protocole de recherche clinique — objectifs, méthode, critères jugement</li>
+        <li>Cadre réglementaire — classification MDR, plan certification, HDS</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>🎤 Congrès SFAR · Le plus important de l'an 1</h4>
+      <ul class="check-list">
+        <li><strong>Abstract soumis</strong> mars–avril — résultats préliminaires VitalDB même partiels</li>
+        <li><strong>Poster A0</strong> — visuel, interface + courbe ROC + scénario clinique. Fait parler.</li>
+        <li>Postuler aux <strong>sessions innovation / startup</strong> (pitch 5 min)</li>
+        <li><strong>Tablette démo</strong> en mode simulation si stand possible</li>
+        <li>Objectif principal : trouver le MAR co-fondateur et 3 CHU intéressés</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>Le One-Pager — Toujours dans ta poche ou sur ton téléphone</h3>
+  <div class="callout callout-blue">
+    <div class="callout-icon">📋</div>
+    <div>
+      <strong>Recto :</strong> Logo VAIA + tagline "L'œil qui anticipe, pas qui prescrit" · Le problème en 2 lignes · La solution en 3 points · 1 screenshot interface · 3 chiffres clés (3 500 blocs France, +6 min d'avance, AUC 0.88 cible).<br><br>
+      <strong>Verso :</strong> Photos équipe + 1 ligne chacun · Logo CHU partenaire · Traction (cas collectés, publication, résultats modèle) · Financement recherché · Contact + QR code vers démo vidéo protégée.
+    </div>
+  </div>
+</section>
+
+<!-- ─── BMC ─── -->
+<section class="section" id="bmc">
+  <div class="section-eyebrow">10b — Business Model Canvas</div>
+  <h2 class="section-title">Le modèle économique de VAIA</h2>
+  <p class="section-sub">BMC adapté au contexte medtech B2B hospitalier — avec les spécificités réglementaires et les phases de maturité du produit.</p>
+
+  <div style="display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1.3fr; grid-template-rows:auto auto auto; gap:2px; background:rgba(255,255,255,0.06); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin:20px 0;">
+
+    <!-- ROW 1 -->
+    <div style="background:rgba(21,70,224,0.08); padding:20px; grid-row:1/3; border-right:1px solid var(--border);">
+      <div style="font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--cyan); margin-bottom:12px; font-weight:600;">Partenaires clés</div>
+      <ul class="check-list">
+        <li><strong>CHU partenaire</strong> — données, protocole, DRCI</li>
+        <li><strong>MAR co-fondateur</strong> — crédibilité, SFAR, CPP</li>
+        <li><strong>Labo académique</strong> — CIFRE, publications, ANR</li>
+        <li><strong>ANRT</strong> — financement doctorant</li>
+        <li><strong>Bpifrance / ANS</strong> — subventions R&D</li>
+        <li><strong>Organisme notifié</strong> — certification CE IIa</li>
+        <li><strong>Hébergeur HDS</strong> — Azure / OVH</li>
+      </ul>
+    </div>
+
+    <div style="background:var(--card); padding:20px; border-right:1px solid var(--border);">
+      <div style="font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--cyan); margin-bottom:12px; font-weight:600;">Activités clés</div>
+      <ul class="check-list">
+        <li>Développement ML prédictif</li>
+        <li>Connexion moniteurs HL7</li>
+        <li>Validation clinique terrain</li>
+        <li>Certification MDR IIa</li>
+        <li>Publication scientifique</li>
+        <li>Déploiement et support 24/7</li>
+      </ul>
+    </div>
+
+    <div style="background:rgba(21,70,224,0.15); padding:20px; grid-row:1/3; border-right:1px solid var(--border); display:flex; flex-direction:column; justify-content:center;">
+      <div style="font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--cyan); margin-bottom:14px; font-weight:600;">Proposition de valeur</div>
+      <p style="font-size:14px; color:var(--white); font-style:italic; line-height:1.6; margin-bottom:14px;">"Voir les complications 4 à 10 min avant le moniteur classique — sans jamais prescrire."</p>
+      <ul class="check-list">
+        <li>Score de vigilance global temps réel</li>
+        <li>Alertes anticipatoires multimodales</li>
+        <li>Explicabilité des causes</li>
+        <li>Non prescriptif — IADE décide</li>
+        <li>Résumé peropératoire automatique</li>
+        <li>Transmission SSPI structurée</li>
+        <li>Module formation / simulation</li>
+      </ul>
+    </div>
+
+    <div style="background:var(--card); padding:20px; border-right:1px solid var(--border);">
+      <div style="font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--cyan); margin-bottom:12px; font-weight:600;">Relation client</div>
+      <ul class="check-list">
+        <li>Onboarding dédié par site</li>
+        <li>Formation IADE (2h)</li>
+        <li>Support 24/7 critique</li>
+        <li>Rapport mensuel analytics</li>
+        <li>Co-construction protocoles</li>
+        <li>Publications co-signées</li>
+      </ul>
+    </div>
+
+    <div style="background:rgba(21,70,224,0.08); padding:20px; grid-row:1/3;">
+      <div style="font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--cyan); margin-bottom:12px; font-weight:600;">Segments clients</div>
+      <div style="font-size:11px; color:var(--cyan); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Cible principale</div>
+      <ul class="check-list" style="margin-bottom:14px">
+        <li><strong>CHU et hôpitaux publics</strong> — blocs chirurgie lourde</li>
+        <li><strong>Cliniques privées</strong> — Ramsay, Elsan, Vivalto</li>
+        <li><strong>IADE / MAR</strong> — utilisateurs finaux</li>
+      </ul>
+      <div style="font-size:11px; color:var(--cyan); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Marché</div>
+      <ul class="check-list" style="margin-bottom:14px">
+        <li>France — <strong>3 500 blocs</strong></li>
+        <li>Europe — <strong>~80 000 blocs</strong></li>
+        <li>TAM France — <strong>52M€/an</strong></li>
+      </ul>
+      <div style="font-size:11px; color:var(--cyan); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Secondaire</div>
+      <ul class="check-list">
+        <li>IFSI — module formation (CPF)</li>
+        <li>CHU universitaires — recherche</li>
+      </ul>
+    </div>
+
+    <!-- ROW 2 -->
+    <div style="background:var(--card); padding:20px; border-top:1px solid var(--border); border-right:1px solid var(--border);">
+      <div style="font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--cyan); margin-bottom:12px; font-weight:600;">Ressources clés</div>
+      <ul class="check-list">
+        <li><strong>Toi</strong> — IADE + MSc IA (unique)</li>
+        <li>Algorithmes ML propriétaires</li>
+        <li>Données annotées (moat)</li>
+        <li>Marque VAIA déposée</li>
+        <li>Publications scientifiques</li>
+        <li>CE IIa (phase 2)</li>
+      </ul>
+    </div>
+
+    <div style="background:var(--card); padding:20px; border-top:1px solid var(--border); border-right:1px solid var(--border);">
+      <div style="font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--cyan); margin-bottom:12px; font-weight:600;">Canaux</div>
+      <ul class="check-list">
+        <li>Congrès SFAR annuel</li>
+        <li>Réseau MAR / IADE direct</li>
+        <li>Publications AFAR / Anaesthesia</li>
+        <li>Intégration AIMS (Diane, Medneo)</li>
+        <li>Groupes hospitaliers (Ramsay...)</li>
+        <li>Appels d'offres hospitaliers</li>
+      </ul>
+    </div>
+
+    <!-- ROW 3 — Costs + Revenue full width -->
+    <div style="background:rgba(0,229,160,0.05); padding:20px; grid-column:1/4; border-top:1px solid var(--border); border-right:1px solid var(--border);">
+      <div style="font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--green); margin-bottom:14px; font-weight:600;">Structure de coûts</div>
+      <div class="g3">
+        <div>
+          <h4>Phase 1 — Recherche</h4>
+          <ul class="check-list">
+            <li>Équipe 4 personnes</li>
+            <li>Infrastructure cloud HDS</li>
+            <li>Annotation données</li>
+            <li style="color:var(--green)">Total 150–280k€</li>
+            <li style="color:var(--green)">Finançable 100% public</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Phase 2 — Produit</h4>
+          <ul class="check-list">
+            <li>Équipe 8–10 personnes</li>
+            <li>Certification CE IIa</li>
+            <li>ISO 13485 + déploiement</li>
+            <li style="color:var(--green)">Total 400–900k€</li>
+            <li style="color:var(--green)">Seed BA + subventions</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Coûts récurrents SaaS</h4>
+          <ul class="check-list">
+            <li>Hébergement HDS ~500€/mois</li>
+            <li>Support 24/7 par site</li>
+            <li>MLOps + réentraînement</li>
+            <li>Maintenance CE IIa (PSUR)</li>
+            <li style="color:var(--green)">Marge brute cible 70%+</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:rgba(21,70,224,0.12); padding:20px; grid-column:4/6; border-top:1px solid var(--border);">
+      <div style="font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--cyan); margin-bottom:14px; font-weight:600;">Flux de revenus</div>
+      <div class="g2">
+        <div>
+          <h4>Offres SaaS annuelles</h4>
+          <ul class="check-list">
+            <li>Starter — <strong>8–12k€/an/bloc</strong></li>
+            <li>Pro — <strong>14–18k€/an/bloc</strong></li>
+            <li>Research — <strong>20–28k€/an/bloc</strong></li>
+            <li>Formation IFSI — <strong>3–6k€/an</strong></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Projections CA</h4>
+          <ul class="check-list">
+            <li>An 2–3 — 50–150k€</li>
+            <li>An 3–5 — 400k–1,2M€</li>
+            <li>An 5+ — 2–6M€</li>
+            <li style="color:var(--orange)">Équilibre ~80 blocs</li>
+            <li style="color:var(--cyan)">Sortie cible 50–200M€</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout callout-green">
+    <div class="callout-icon">📈</div>
+    <div><strong>L'effet réseau — ton moat défensif absolu :</strong> Chaque bloc qui utilise VAIA génère des données qui améliorent le modèle pour tous les autres. An 1 : 500 cas → modèle correct. An 3 : 50 000 cas → modèle très bon. An 6 : 500 000 cas → modèle imbattable. Philips et Dräger peuvent copier l'interface. Ils ne peuvent pas copier tes données.</div>
+  </div>
+</section>
+
+<!-- ─── RISQUES ─── -->
+<section class="section" id="risques">
+  <div class="section-eyebrow">11 — Risques & alternatives</div>
+  <h2 class="section-title">Plan B pour chaque point critique</h2>
+  <p class="section-sub">Aucun risque n'est fatal si anticipé. Voilà comment contourner chaque blocage potentiel.</p>
+
+  <table class="tbl">
+    <thead><tr><th>Risque</th><th>Probabilité</th><th>Impact</th><th>Plan B</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>MAR co-fondateur introuvable</strong></td>
+        <td><span class="tag tag-orange">Modéré</span></td>
+        <td><span class="tag tag-red">Élevé</span></td>
+        <td>MAR consultant (500€/jour) pour signer protocoles · Commission innovation SFAR · Passer par Impulse Partners ou Eurasanté qui ont des MAR en recherche active de projets</td>
+      </tr>
+      <tr>
+        <td><strong>Modèle ML insuffisant sur données réelles françaises</strong></td>
+        <td><span class="tag tag-orange">Modéré</span></td>
+        <td><span class="tag tag-orange">Modéré</span></td>
+        <td>Commencer par prédiction hypotension seule (le plus documenté) · Transfer learning depuis MIMIC-IV · Collaboration labo INRIA Bordeaux ou Paris (équipes IA médicale)</td>
+      </tr>
+      <tr>
+        <td><strong>Refus CPP ou accès données CHU</strong></td>
+        <td><span class="tag tag-green">Faible</span></td>
+        <td><span class="tag tag-red">Élevé</span></td>
+        <td>Changer de CHU partenaire · Utiliser uniquement VitalDB pour la phase 1 (suffisant) · Approcher AP-HP via réseau Epitech alumni medtech</td>
+      </tr>
+      <tr>
+        <td><strong>Échec i-Lab Bpifrance</strong></td>
+        <td><span class="tag tag-orange">Modéré</span></td>
+        <td><span class="tag tag-orange">Modéré</span></td>
+        <td>ANS santé numérique en parallèle (ne jamais déposer un seul dossier) · DRCI comme financement relais immédiat · Redéposer i-Lab l'année suivante avec données renforcées</td>
+      </tr>
+      <tr>
+        <td><strong>Résistance cliniciens à l'adoption</strong></td>
+        <td><span class="tag tag-orange">Modéré</span></td>
+        <td><span class="tag tag-orange">Modéré</span></td>
+        <td>Mode "shadow" non intrusif en premier · Impliquer les IADE dès la conception UX (co-design) · Former d'abord les "early adopters" enthousiastes · Publications = légitimité scientifique</td>
+      </tr>
+      <tr>
+        <td><strong>Epitech refuse substitution alternance</strong></td>
+        <td><span class="tag tag-green">Faible</span></td>
+        <td><span class="tag tag-orange">Modéré</span></td>
+        <td>Alternance dans une medtech complémentaire (Edwards Lifesciences, BOTdesign Toulouse) · Temps partiel alternance 2j/3j sur le projet · EIP officiel Epitech avec partenariat école formalisé</td>
+      </tr>
+      <tr>
+        <td><strong>Industriel (Philips/GE) développe la même chose</strong></td>
+        <td><span class="tag tag-green">Faible à 3 ans</span></td>
+        <td><span class="tag tag-red">Très élevé</span></td>
+        <td>Données propriétaires = moat incopiable · Publications scientifiques = légitimité établie · Contrats clients avec clauses de durée · Si rachat proposé = c'est exactement l'exit voulu</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ─── NEXT STEPS ─── -->
+<section class="section" id="next">
+  <div class="section-eyebrow">12 — Plan 90 jours</div>
+  <h2 class="section-title">Semaine par semaine — Actions concrètes</h2>
+  <p class="section-sub">Plan recadré et consolidé. Chaque semaine a des livrables précis. Les 5 actions de cette semaine débloquent tout le reste en cascade.</p>
+
+  <h3>Cette semaine — Priorité absolue</h3>
+  <div style="max-width:700px">
+    <div class="phase-timeline">
+      <div class="phase-item">
+        <div class="phase-dot phase-dot-0">Ce soir</div>
+        <div class="phase-header"><span class="phase-name">Envoyer les messages LinkedIn</span></div>
+        <div class="phase-obj">Messages Botrel (mercredi Babinski) et Gayat (vendredi Cordier Pitié) — rédigés et prêts. Envoyer ce soir. Ne pas attendre. C'est la pièce qui déverrouille le partenariat CHU.</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot phase-dot-1">L</div>
+        <div class="phase-header"><span class="phase-num">Lundi</span><span class="phase-name">Dossier PEPITE</span></div>
+        <div class="phase-obj">Télécharger le dossier PEPITE de ta région (pepite-idf.fr si IDF). Rédiger le résumé de projet 5–10 pages. Email scolarité Epitech avec les 4 questions par écrit.</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot phase-dot-1">M</div>
+        <div class="phase-header"><span class="phase-num">Mercredi</span><span class="phase-name">Babinski — Botrel en présentiel</span></div>
+        <div class="phase-obj">Vaccination au bloc Babinski. Chercher le nom de Botrel sur le planning. Se présenter directement si présent. Avoir le one-pager imprimé.</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot phase-dot-2">M</div>
+        <div class="phase-header"><span class="phase-num">Mercredi soir</span><span class="phase-name">Simulateur perop — Codex</span></div>
+        <div class="phase-obj">Lancer le prompt Codex simulateur (prêt). 5 scénarios avec phases pre_event/event/post_event. Champ vaia_detectable vs monitor_would_alarm.</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot phase-dot-1">J</div>
+        <div class="phase-header"><span class="phase-num">Jeudi</span><span class="phase-name">VitalDB + premier notebook</span></div>
+        <div class="phase-obj">Créer compte vitaldb.net. Télécharger dataset. Jupyter ouvert. Charger PA + FC + SpO2. Premiers graphes. Même basique — c'est une preuve tangible.</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot phase-dot-3">V</div>
+        <div class="phase-header"><span class="phase-num">Vendredi</span><span class="phase-name">Cordier — Gayat en présentiel potentiel</span></div>
+        <div class="phase-obj">Vacation Cordier Pitié. Si pas de réponse LinkedIn d'ici jeudi → passer au secrétariat du service d'anesthésie. Avoir one-pager + tablette démo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>Semaine 2 — Société et protection</h3>
+  <div class="g2">
+    <div class="card">
+      <h4>Actions</h4>
+      <ul class="check-list">
+        <li>Créer la SAS (LegalPlace ou avocat)</li>
+        <li>Ouvrir compte pro Qonto ou Shine</li>
+        <li>Dépôt marque VAIA à l'INPI (250€)</li>
+        <li>Dossier PEPITE finalisé et soumis</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Documents à créer</h4>
+      <ul class="check-list">
+        <li>NDA modèle (template avocat)</li>
+        <li>Convention de collaboration MAR</li>
+        <li>Dossier partagé projet (GitHub + Drive)</li>
+        <li>CHANGELOG.md v0.1.0</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>Semaine 3 — MVP technique</h3>
+  <div class="card" style="margin-bottom:14px">
+    <ul class="check-list">
+      <li>Simulateur perop fonctionnel — 5 scénarios avec phases</li>
+      <li>Interface React simple — score global + 1 alerte + courbe tendance</li>
+      <li>Démo jouable sur tablette ou laptop</li>
+      <li>Démo vidéo 3 minutes enregistrée</li>
+      <li>Brancher simulateur sur AlertEngine existant</li>
+    </ul>
+  </div>
+
+  <h3>Semaine 4 — Données et modèle</h3>
+  <div class="card" style="margin-bottom:14px">
+    <ul class="check-list">
+      <li>VitalDB — explorer données PA/FC/SpO2/EtCO2</li>
+      <li>Premier modèle XGBoost prédiction hypotension</li>
+      <li>Mesurer AUC-ROC — benchmark HPI Edwards</li>
+      <li>3 graphes propres pour le pitch</li>
+    </ul>
+  </div>
+
+  <h3>Mois 2 — Partenariats et protocole</h3>
+  <div class="card" style="margin-bottom:14px">
+    <ul class="check-list">
+      <li>Rencontrer Botrel et Gayat — feedback terrain et cas d'usage</li>
+      <li>Identifier un site pilote potentiel avec la DRCI</li>
+      <li>Clarifier la voie recherche clinique (MR-004 ou RIPH)</li>
+      <li>Contacter Schoettker CHUV Lausanne</li>
+    </ul>
+  </div>
+
+  <h3>Mois 3 — Convention et financement</h3>
+  <div class="card">
+    <ul class="check-list">
+      <li>Choisir le partenaire CHU principal</li>
+      <li>Rédiger convention de collaboration avec DRCI + DPO</li>
+      <li>Déposer demande DRCI pour premier financement (30–150k€)</li>
+      <li>Préparer dossier Bpifrance Émergence (i-Lab 2027 en préparation)</li>
+      <li>Soumettre abstract SFAR si deadline ouverte</li>
+    </ul>
+  </div>
+
+  <div class="callout callout-green" style="margin-top:24px">
+    <div class="callout-icon">🎯</div>
+    <div>
+      <strong>Le scénario catastrophe si ça ne marche pas :</strong> tu as perdu 2–3 ans et 30 000 à 50 000€ personnels au maximum. Tu retrouves un poste IADE immédiatement — la pénurie d'IADE garantit ton employabilité. Le risque personnel est structurellement très limité.<br><br>
+      <strong>Le vrai risque c'est de ne pas essayer et de voir quelqu'un d'autre le faire dans 3 ans.</strong>
+    </div>
+  </div>
+
+  <div style="margin-top:50px; padding-top:20px; border-top:1px solid var(--border); text-align:center">
+    <p style="font-size:11px; color:var(--gray2)">CHARLES COPILOT — VAIA · Dossier Fondateur Consolidé · Mars 2026<br>Confidentiel — Usage exclusif du porteur de projet</p>
+  </div>
+</section>
+
+</div><!-- end .main -->
+
+<script>
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-item');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const active = document.querySelector(`.nav-item[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+# =============================================================================
+# CHARLES KB — Complications Peropératoires
+# Source: VitalDB outcomes + SFAR/MAPAR/ASA/Miller's Anesthesia
+# =============================================================================
+
+# Complications classées par système, avec:
+# - pattern de détection (ce que CHARLES doit surveiller)
+# - conduite à tenir (non-prescriptive, aide à l'anticipation)
+# - tracks VitalDB pertinents pour l'analyse
+
+complications:
+
+  # =========================================================================
+  # HÉMODYNAMIQUES
+  # =========================================================================
+  hemodynamiques:
+
+    hypotension_post_induction:
+      label_fr: "Hypotension post-induction"
+      label_en: "Post-induction hypotension"
+      incidence_pct: 25
+      facteurs_risque:
+        - age_superieur_65
+        - asa_3_4
+        - hypovolemie_preop
+        - iec_ara2_non_arretes
+        - propofol_dose_elevee
+      pattern_detection:
+        critere_principal: "PAS < 90 mmHg ou PAM < 65 mmHg dans les 10 min post-induction"
+        critere_relatif: "Chute > 20% de la PA de référence"
+        association: "FC < 60 simultanée = brady-hypo (vagal ou β-bloqué)"
+      tracks_vitaldb:
+        - Solar8000/ART_SBP
+        - Solar8000/ART_MBP
+        - Solar8000/NIBP_SBP
+        - Solar8000/HR
+        - Orchestra/PPF20_CE
+      conduite_anticipee:
+        - "Remplissage 250 mL cristalloïde"
+        - "Éphédrine 6-12 mg si FC < 80"
+        - "Phényléphrine 50-100 mcg si FC > 80"
+        - "Réduction halogéné/propofol"
+        - "Noradrénaline IVSE si réfractaire"
+
+    hemorragie_chirurgicale:
+      label_fr: "Hémorragie chirurgicale"
+      label_en: "Surgical hemorrhage"
+      incidence_pct: 5
+      facteurs_risque:
+        - chirurgie_hepatique_pancreatique
+        - chirurgie_vasculaire
+        - coagulopathie_preop
+        - anticoagulants
+        - cancer_hypervascularise
+      pattern_detection:
+        critere_precoce: "FC ↑ progressive + PAS ↓ progressive sur 15 min"
+        critere_confirme: "PAS < 90 + FC > 100 + aspiration chirurgicale augmentée"
+        critere_tardif: "PAM < 55 + FC > 120 + SpO2 ↓ + lactate ↑"
+        indices_derives:
+          shock_index: "FC/PAS > 0.9"
+          delta_hb: "Chute Hb > 2 g/dL en 1h (labo perop)"
+      tracks_vitaldb:
+        - Solar8000/ART_SBP
+        - Solar8000/ART_DBP
+        - Solar8000/HR
+        - Vigileo/SVV
+        - EV1000/CO
+      labs_vitaldb: [hb, hct, lac, pt%, aptt, fib]
+      conduite_anticipee:
+        - "Communication chirurgien — quantification pertes"
+        - "Remplissage cristalloïde/colloïde"
+        - "Commande CG (objectif Hb > 7 g/dL, > 9 si coronarien)"
+        - "Acide tranexamique 1g"
+        - "Fibrinogène si < 1.5 g/L"
+        - "PFC si TP < 40%"
+        - "Noradrénaline IVSE"
+        - "Cell-saver si disponible"
+
+    crise_hypertensive:
+      label_fr: "Crise hypertensive peropératoire"
+      label_en: "Intraoperative hypertensive crisis"
+      incidence_pct: 5
+      facteurs_risque:
+        - hta_preop
+        - pheochromocytome
+        - stimulus_nociceptif_insuffisant
+        - laryngoscopie
+        - retrait_clamp_aortique
+      pattern_detection:
+        critere: "PAS > 180 mmHg ou PAM > 120 mmHg pendant > 3 min"
+        association: "FC > 100 = composante sympathique ; FC < 60 = possible réflexe"
+      conduite_anticipee:
+        - "Approfondissement analgésie (rémifentanil bolus)"
+        - "Nicardipine 0.5-1 mg IVD ou IVSE"
+        - "Urapidil 12.5-25 mg si FC > 100"
+        - "Esmolol 0.5 mg/kg si FC > 100"
+
+    bradycardie_severe:
+      label_fr: "Bradycardie sévère"
+      label_en: "Severe bradycardia"
+      incidence_pct: 3
+      pattern_detection:
+        critere: "FC < 45/min pendant > 30 sec"
+        critere_critique: "FC < 30/min = urgence"
+        association: "Asystolie possible si réflexe vagal"
+      conduite_anticipee:
+        - "Atropine 0.5-1 mg IVD"
+        - "Éphédrine 6-12 mg si hypoTA associée"
+        - "Adrénaline 10-100 mcg si inefficace"
+        - "Entraînement électrosystolique si réfractaire"
+
+    tachycardie:
+      label_fr: "Tachycardie peropératoire"
+      label_en: "Intraoperative tachycardia"
+      pattern_detection:
+        critere: "FC > 120/min pendant > 2 min"
+        diagnostic_differentiel:
+          - douleur_analgesie_insuffisante
+          - hypovolemie_hemorragie
+          - anemie
+          - hyperthermie
+          - anaphylaxie
+          - pneumothorax
+          - embolie_pulmonaire
+          - hyperthyroidie
+
+    arret_cardiaque_perop:
+      label_fr: "Arrêt cardiaque peropératoire (ACR)"
+      label_en: "Intraoperative cardiac arrest"
+      incidence: "1/10 000 anesthésies"
+      pattern_detection:
+        critere: "Absence de signal artériel + FC 0 ou FV/TV"
+        precoce: "Hypotension profonde PAM < 40 + bradycardie extrême"
+      conduite_anticipee:
+        - "Appel à l'aide"
+        - "MCE si ETCO2 non pulsatile"
+        - "Adrénaline 1 mg IVD"
+        - "Défibrillation si FV/TV"
+        - "Algorithme ACLS/SFAR"
+
+  # =========================================================================
+  # RESPIRATOIRES
+  # =========================================================================
+  respiratoires:
+
+    desaturation:
+      label_fr: "Désaturation / Hypoxémie"
+      label_en: "Desaturation / Hypoxemia"
+      incidence_pct: 7
+      facteurs_risque:
+        - obesite
+        - bpco
+        - ventilation_unipulmonaire
+        - intubation_difficile
+        - pneumoperitoine
+      pattern_detection:
+        critere_alerte: "SpO2 < 94% pendant > 30 sec"
+        critere_urgence: "SpO2 < 90% pendant > 15 sec"
+        critere_critique: "SpO2 < 85%"
+        tendance: "Chute SpO2 > 3% en 2 min"
+      tracks_vitaldb:
+        - Solar8000/PLETH_SPO2
+        - Solar8000/FIO2
+        - Solar8000/ETCO2
+        - Primus/PIP_MBAR
+        - Primus/TV
+      conduite_anticipee:
+        - "FiO2 100%"
+        - "Vérifier intubation (capno, auscultation)"
+        - "Aspiration trachéale"
+        - "Manœuvre recrutement"
+        - "Augmenter PEEP"
+        - "Vérifier circuit (débranchement, coudure)"
+
+    bronchospasme:
+      label_fr: "Bronchospasme peropératoire"
+      label_en: "Intraoperative bronchospasm"
+      incidence_pct: 2
+      pattern_detection:
+        critere: "PIP ↑ > 30 + courbe EtCO2 en requin + SpO2 ↓"
+        association: "Wheeze auscultatoire + plateau expiratoire absent"
+      conduite_anticipee:
+        - "Approfondissement anesthésie (sévoflurane ↑)"
+        - "Salbutamol 2 bouffées dans le circuit"
+        - "Adrénaline 10-50 mcg IVD si sévère"
+        - "Kétamine 0.5 mg/kg si réfractaire"
+        - "Éliminer cause mécanique (intubation sélective, coudure)"
+
+    intubation_difficile:
+      label_fr: "Intubation difficile / impossible"
+      label_en: "Difficult / failed intubation"
+      incidence_pct: 3
+      facteurs_risque:
+        - mallampati_3_4
+        - ouverture_buccale_limitee
+        - obesite_morbide
+        - cou_court
+        - antecedent_id
+        - obstetrique
+        - brulure_cervicofaciale
+      vitaldb_field: cormack
+      pattern_detection:
+        critere: "SpO2 ↓ rapide pendant tentative + EtCO2 absent"
+        precoce: "Temps tentative > 30 sec sans succès"
+      conduite_anticipee:
+        - "Algorithme SFAR/DAS intubation difficile"
+        - "Ventilation au masque (2 mains, Guedel)"
+        - "Vidéolaryngoscope"
+        - "Mandrin d'Eschmann"
+        - "ML 2e génération"
+        - "Abord trachéal si CICO (can't intubate, can't oxygenate)"
+
+    pneumothorax:
+      label_fr: "Pneumothorax peropératoire"
+      label_en: "Intraoperative pneumothorax"
+      incidence: rare
+      facteurs_risque:
+        - chirurgie_thoracique
+        - voie_centrale_sous_claviere
+        - ventilation_pression_elevee
+        - bpco_bulles
+      pattern_detection:
+        critere: "PIP ↑ brutale + SpO2 ↓ + hypoTA + asymétrie auscultatoire"
+        critere_tension: "Idem + turgescence jugulaires + choc"
+
+    embolie_gazeuse:
+      label_fr: "Embolie gazeuse"
+      label_en: "Venous air embolism"
+      facteurs_risque:
+        - neurochirurgie_position_assise
+        - hepatectomie
+        - cesarienne
+        - chirurgie_laparoscopique
+      pattern_detection:
+        critere: "EtCO2 ↓ brutale + hypoTA + tachycardie + SpO2 ↓"
+        pathognomonique: "Bruit de moulin à l'auscultation cardiaque"
+
+  # =========================================================================
+  # ANAPHYLAXIE
+  # =========================================================================
+  anaphylaxie:
+
+    anaphylaxie_perop:
+      label_fr: "Réaction anaphylactique peropératoire"
+      label_en: "Intraoperative anaphylaxis"
+      incidence: "1/10 000 à 1/20 000"
+      agents_causaux_frequents:
+        - curares (60%)
+        - antibiotiques (15%)
+        - latex (12%)
+        - hypnotiques
+        - colloïdes
+        - colorants
+      grades:
+        grade_1:
+          signes: ["érythème cutané", "urticaire"]
+          hemodynamique: stable
+        grade_2:
+          signes: ["bronchospasme modéré", "tachycardie", "hypotension modérée"]
+          conduite: "Adrénaline 10-20 mcg IVD"
+        grade_3:
+          signes: ["bronchospasme sévère", "collapsus", "tachycardie > 120"]
+          conduite: "Adrénaline 100-200 mcg IVD + remplissage massif"
+        grade_4:
+          signes: ["arrêt cardiaque"]
+          conduite: "ACR — adrénaline 1 mg + MCE"
+      pattern_detection:
+        critere_precoce: "Pic EtCO2 (bronchospasme) + tachycardie + hypoTA en < 5 min"
+        critere_confirme: "PAS < 70 + FC > 120 + PIP ↑ + SpO2 ↓"
+        timing: "Survient typiquement 5-15 min après injection"
+
+  # =========================================================================
+  # THERMIQUES
+  # =========================================================================
+  thermiques:
+
+    hypothermie:
+      label_fr: "Hypothermie peropératoire"
+      label_en: "Intraoperative hypothermia"
+      incidence_pct: 50
+      pattern_detection:
+        critere_legere: "T° < 36°C"
+        critere_moderee: "T° < 35°C"
+        critere_severe: "T° < 34°C"
+        tendance: "Chute > 0.5°C en 30 min"
+      impact:
+        - coagulopathie
+        - augmentation_pertes_sanguines
+        - infection_postop_augmentee
+        - frissons_reveil
+        - prolongation_duree_curarisation
+      tracks_vitaldb: [Solar8000/BT]
+
+    hyperthermie_maligne:
+      label_fr: "Hyperthermie maligne"
+      label_en: "Malignant hyperthermia"
+      incidence: "1/15 000 AG"
+      pattern_detection:
+        critere_precoce: "EtCO2 ↑ inexpliquée + rigidité musculaire + tachycardie"
+        critere_confirme: "T° ↑ > 38.5°C + Acidose + Hyperkaliémie + Myoglobinurie"
+      conduite_anticipee:
+        - "ARRÊT HALOGÉNÉS IMMÉDIAT"
+        - "Hyperventilation FiO2 100%"
+        - "Dantrolène 2.5 mg/kg IVD (répéter)"
+        - "Refroidissement actif"
+        - "Traitement hyperkaliémie"
+
+  # =========================================================================
+  # NEUROLOGIQUES
+  # =========================================================================
+  neurologiques:
+
+    reveil_perop:
+      label_fr: "Réveil peropératoire (awareness)"
+      label_en: "Intraoperative awareness"
+      incidence: "0.1-0.2%"
+      facteurs_risque:
+        - cesarienne_ag
+        - chirurgie_cardiaque
+        - polytraumatisme
+        - curares_sans_bis
+      pattern_detection:
+        critere: "BIS > 60 pendant > 5 min sous AG"
+        association: "Tachycardie + HTA + larmoiement + mydriase"
+      tracks_vitaldb: [BIS/BIS, BIS/EMG, BIS/SR]
+
+    burst_suppression:
+      label_fr: "Burst suppression / Surdosage anesthésique"
+      label_en: "Burst suppression / Anesthetic overdose"
+      pattern_detection:
+        critere: "BIS < 20 + SR > 50% pendant > 5 min"
+        risque: "POCD, hypotension, allongement réveil"
+      tracks_vitaldb: [BIS/BIS, BIS/SR, BIS/SEF]
+
+  # =========================================================================
+  # POSITIONNELLES
+  # =========================================================================
+  positionnelles:
+
+    compression_nerveuse:
+      label_fr: "Lésion nerveuse positionnelle"
+      label_en: "Positional nerve injury"
+      facteurs_risque:
+        - chirurgie_longue_superieur_3h
+        - obesite
+        - diabete
+        - position_laterale
+        - lithotomie
+      prevention:
+        - "Vérification positionnement q1h"
+        - "Coussinets de protection"
+        - "Limite durée lithotomie"
+
+    rhabdomyolyse:
+      label_fr: "Rhabdomyolyse positionnelle"
+      label_en: "Positional rhabdomyolysis"
+      facteurs_risque:
+        - obesite_morbide
+        - chirurgie_longue
+        - position_lithotomie
+      pattern_detection:
+        critere: "CPK > 5× normale + urine foncée"
+        tardif: "IRA + hyperkaliémie"

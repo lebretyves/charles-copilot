@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHARLES — Plan Fondateur Complet</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink: #1a1a18;
+  --ink2: #3d3d38;
+  --ink3: #6b6b64;
+  --paper: #f7f5f0;
+  --paper2: #efece4;
+  --paper3: #e5e1d6;
+  --accent: #c4401a;
+  --accent2: #e8622e;
+  --teal: #1a7a5e;
+  --teal2: #2a9c78;
+  --amber: #b85c00;
+  --amber2: #e07a10;
+  --blue: #1a3a7c;
+  --border: rgba(26,26,24,0.12);
+  --border2: rgba(26,26,24,0.06);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* ── PRINT ── */
+@media print {
+  .no-print { display: none !important; }
+  body { font-size: 11px; }
+  .page-wrap { padding: 20px; }
+  section { page-break-inside: avoid; }
+}
+
+/* ── LAYOUT ── */
+.page-wrap { max-width: 960px; margin: 0 auto; padding: 48px 40px; }
+
+/* ── COVER ── */
+.cover {
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 36px;
+  margin-bottom: 48px;
+}
+.cover-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--ink3);
+  margin-bottom: 16px;
+}
+.cover h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 52px; line-height: 1.0;
+  letter-spacing: -1px; color: var(--ink);
+  margin-bottom: 6px;
+}
+.cover h1 em { color: var(--accent); font-style: italic; }
+.cover-sub {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px; color: var(--ink2);
+  font-style: italic; margin-bottom: 28px;
+}
+.cover-phrase {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 16px 20px;
+  font-size: 13px;
+  line-height: 1.6;
+  border-radius: 4px;
+  margin-bottom: 24px;
+  font-style: italic;
+}
+.cover-meta {
+  display: flex; gap: 32px; flex-wrap: wrap;
+}
+.cover-meta-item { text-align: center; }
+.cover-meta-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 28px; color: var(--accent);
+  display: block; line-height: 1;
+}
+.cover-meta-label {
+  font-size: 10px; color: var(--ink3);
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+/* ── SECTIONS ── */
+.section { margin-bottom: 52px; }
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--accent);
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.section h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 26px; color: var(--ink);
+  letter-spacing: -0.3px; margin-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+.section-intro {
+  color: var(--ink2); font-size: 13px;
+  max-width: 700px; margin-bottom: 20px;
+  line-height: 1.7;
+}
+
+h3 {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--ink); margin: 18px 0 8px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+p { color: var(--ink2); margin-bottom: 8px; line-height: 1.7; }
+strong { color: var(--ink); font-weight: 600; }
+
+/* ── CALLOUTS ── */
+.callout {
+  padding: 14px 18px; border-radius: 4px;
+  margin: 14px 0; border-left: 3px solid;
+  font-size: 13px;
+}
+.callout-red { background: #fdf0ec; border-color: var(--accent); color: var(--ink2); }
+.callout-teal { background: #edf7f3; border-color: var(--teal); color: var(--ink2); }
+.callout-amber { background: #fdf5ec; border-color: var(--amber); color: var(--ink2); }
+.callout-blue { background: #eef1f9; border-color: var(--blue); color: var(--ink2); }
+.callout strong { color: var(--ink); }
+
+/* ── TABLES ── */
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+thead tr { background: var(--ink); color: var(--paper); }
+thead th { padding: 9px 12px; text-align: left; font-weight: 500; font-size: 10.5px; letter-spacing: 0.5px; text-transform: uppercase; }
+tbody td { padding: 8px 12px; border-bottom: 1px solid var(--border2); color: var(--ink2); vertical-align: top; }
+tbody tr:nth-child(even) td { background: var(--paper2); }
+tbody td strong { color: var(--ink); }
+
+/* ── BADGES ── */
+.badge {
+  display: inline-block; padding: 2px 8px; border-radius: 3px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.3px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.bdone { background: #d4ede4; color: #1a5c3e; }
+.bdtodo { background: #fdeee8; color: #8c2a0e; }
+.bdwarn { background: #fdf3e3; color: #7a4000; }
+.bdnew { background: #e8f0fe; color: #1a3a7c; }
+
+/* ── TIMELINE ── */
+.timeline { position: relative; padding-left: 44px; margin: 16px 0; }
+.timeline::before {
+  content: ''; position: absolute; left: 14px; top: 4px; bottom: 4px;
+  width: 1px; background: var(--border);
+}
+.tl-item { position: relative; margin-bottom: 20px; }
+.tl-dot {
+  position: absolute; left: -36px; top: 3px;
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 500; border: 1.5px solid;
+}
+.tl-dot-done { background: #d4ede4; border-color: var(--teal); color: var(--teal); }
+.tl-dot-todo { background: var(--paper2); border-color: var(--ink3); color: var(--ink3); }
+.tl-dot-urgent { background: #fdeee8; border-color: var(--accent); color: var(--accent); }
+.tl-title { font-weight: 600; color: var(--ink); font-size: 13px; margin-bottom: 2px; }
+.tl-period { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); margin-bottom: 4px; }
+.tl-desc { color: var(--ink3); font-size: 12px; line-height: 1.6; }
+
+/* ── GRIDS ── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 12px 0; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 12px 0; }
+.card {
+  background: var(--paper2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 16px;
+}
+.card h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink); margin-bottom: 10px; }
+.card ul { padding-left: 14px; }
+.card li { margin-bottom: 5px; font-size: 12px; color: var(--ink2); line-height: 1.5; }
+
+/* ── CHECK LIST ── */
+.checklist { list-style: none; padding: 0; }
+.checklist li {
+  padding: 6px 0 6px 22px; position: relative;
+  font-size: 12.5px; color: var(--ink2); border-bottom: 1px solid var(--border2);
+}
+.checklist li::before {
+  content: '→'; position: absolute; left: 0;
+  color: var(--accent); font-size: 11px;
+}
+.checklist li.done { color: var(--ink3); }
+.checklist li.done::before { content: '✓'; color: var(--teal); }
+
+/* ── MONO ── */
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; background: var(--paper2);
+  padding: 1px 5px; border-radius: 3px;
+  color: var(--accent);
+}
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+.money { font-weight: 600; color: var(--teal); }
+.warn-text { color: var(--accent); font-weight: 600; }
+
+/* ── WEEK PLAN ── */
+.week-grid { display: grid; grid-template-columns: 80px 1fr; gap: 0; margin: 12px 0; }
+.week-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--accent);
+  text-transform: uppercase; padding: 8px 12px 8px 0;
+  border-right: 2px solid var(--accent);
+  margin-right: 16px; display: flex; align-items: flex-start;
+  padding-top: 10px;
+}
+.week-content {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border2);
+}
+.week-content:last-child { border-bottom: none; }
+.week-title { font-weight: 600; color: var(--ink); font-size: 12.5px; margin-bottom: 4px; }
+.week-items { color: var(--ink3); font-size: 12px; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<!-- ═══════════════════ COVER ═══════════════════ -->
+<div class="cover">
+  <div class="cover-eyebrow">Dossier Fondateur · Version consolidée · Mars 2026</div>
+  <h1><em>Charles</em> Copilot</h1>
+  <div class="cover-sub">Plan stratégique et opérationnel complet — VAIA</div>
+  <div class="cover-phrase">
+    "VAIA est un copilote clinique de vigilance peropératoire qui agrège les signaux du bloc pour détecter précocement des dérives et alerter l'IADE/MAR sans jamais prescrire l'action."
+  </div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <span class="cover-meta-num">4</span>
+      <span class="cover-meta-label">Chantiers parallèles</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-num">90</span>
+      <span class="cover-meta-label">Jours plan immédiat</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-num">IIa</span>
+      <span class="cover-meta-label">Classe MDR cible MVP</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-num">0€</span>
+      <span class="cover-meta-label">Coût hardware étape 1</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ S1 — RECADRAGE PRODUIT ═══════════════════ -->
+<div class="section" id="recadrage">
+  <div class="section-num">01 — Recadrage produit</div>
+  <h2>Ce que VAIA est — et ne sera pas au départ</h2>
+  <p class="section-intro">Le cadre réglementaire européen (MDCG 2019-11 / 2025) regarde la finalité revendiquée pour qualifier et classifier le logiciel. Un MVP trop ambitieux dans sa communication = classification IIb/III immédiate. Le bon positionnement dès le départ change tout.</p>
+
+  <div class="g2">
+    <div class="callout callout-teal">
+      <strong>VAIA EST</strong><br>
+      Un copilote de vigilance peropératoire non prescriptif, explicable, focalisé sur 1 à 2 événements au départ. Il détecte, agrège, alerte. Le clinicien décide toujours.
+    </div>
+    <div class="callout callout-red">
+      <strong>VAIA N'EST PAS</strong><br>
+      Une IA qui fait l'anesthésie. Un outil qui prescrit. Une plateforme pré-per-post-op complète dès le départ. Une promesse de décision thérapeutique autonome.
+    </div>
+  </div>
+
+  <h3>Le bon MVP — Dans cet ordre</h3>
+  <table>
+    <thead><tr><th>Priorité</th><th>Cas d'usage</th><th>Pourquoi ce choix</th><th>Classe MDR</th></tr></thead>
+    <tbody>
+      <tr><td><strong>V1 — Maintenant</strong></td><td>Hypotension peropératoire anticipée</td><td>Le mieux documenté, HPI d'Edwards valide la preuve de concept, AUC mesurable</td><td><span class="badge bdnew">IIa</span></td></tr>
+      <tr><td><strong>V1b — +6 mois</strong></td><td>Dérive respiratoire débutante (EtCO2, compliance)</td><td>Extension naturelle, mêmes capteurs, bronchospasme cliniquement impactant</td><td><span class="badge bdnew">IIa</span></td></tr>
+      <tr><td><strong>V2 — +18 mois</strong></td><td>Saignement occulte progressif</td><td>Multi-paramètres, plus complexe, nécessite données réelles françaises</td><td><span class="badge bdwarn">IIa+</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════ S2 — STATUT / EPITECH ═══════════════════ -->
+<div class="section" id="epitech">
+  <div class="section-num">02 — Statut étudiant et Epitech</div>
+  <h2>PEPITE · SNEE · Alternance · EIP</h2>
+  <p class="section-intro">Ne pas avancer sur l'oral. Tout obtenir par écrit. Le statut SNEE légitime le projet, protège l'alternance et ouvre les financements publics.</p>
+
+  <div class="callout callout-red">
+    <strong>Règle absolue :</strong> Ne jamais s'engager verbalement sur l'alternance ou la substitution sans réponse écrite d'Epitech. Beaucoup d'écoles acceptent en pratique — mais le process interne varie. Obtenir la validation écrite du montage pédagogique avant de créer la SAS.
+  </div>
+
+  <h3>Actions à faire maintenant — Cette semaine</h3>
+  <ul class="checklist">
+    <li>Déposer le dossier PEPITE de ta région (pepite-idf.fr si IDF) — dossier de 5 à 10 pages sur le projet</li>
+    <li>Demander RDV <strong>par email</strong> avec le référent scolarité MSc Epitech — demander réponse écrite sur 4 points</li>
+    <li>Demander RDV <strong>par email</strong> avec le référent entrepreneuriat Epitech</li>
+    <li>Préparer les 4 questions écrites pour Epitech (voir ci-dessous)</li>
+  </ul>
+
+  <h3>Les 4 questions à poser à Epitech — Par écrit</h3>
+  <div class="card" style="margin-top:10px">
+    <ol style="padding-left:16px; line-height:2.2; font-size:12.5px; color:var(--ink2)">
+      <li>L'alternance est-elle obligatoire en M4 et M5 MSc, ou existe-t-il une dérogation pour projet entrepreneurial ?</li>
+      <li>Un projet de création d'entreprise peut-il être accepté comme substitut à l'alternance et sous quelles conditions ?</li>
+      <li>Est-il possible de valider VAIA comme EIP officiel et/ou comme mémoire de fin de cursus ?</li>
+      <li>Quel est le statut exact attendu en M4/M5 — alternance, initial, indépendant, autre ?</li>
+    </ol>
+  </div>
+
+  <h3>Ce que le SNEE t'apporte</h3>
+  <div class="g2" style="margin-top:10px">
+    <div class="card">
+      <h4>Droits conservés</h4>
+      <ul>
+        <li>Statut étudiant (sécu, APL, réductions)</li>
+        <li>Accès ressources école (serveurs, mentors)</li>
+        <li>Accompagnement pédagogique dédié</li>
+        <li>Compatible activité IADE temps partiel</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Avantages entrepreneur</h4>
+      <ul>
+        <li>Remplacement officiel alternance/stage</li>
+        <li>Accès dispositif D2E en complément</li>
+        <li>Légitimité pour dossiers Bpifrance</li>
+        <li>Passerelle vers ACRE à la création SAS</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ S3 — SOCIÉTÉ ═══════════════════ -->
+<div class="section" id="societe">
+  <div class="section-num">03 — Création de la société</div>
+  <h2>SAS simple — Pas de holding en priorité 1</h2>
+  <p class="section-intro">Recadrage important par rapport aux premières discussions : la holding n'est pas une priorité immédiate. Elle s'ajoute quand des investisseurs entrent. Commencer propre et simple.</p>
+
+  <div class="callout callout-amber">
+    <strong>Recadrage :</strong> Dans nos échanges précédents j'avais recommandé la holding dès le départ. C'est prématuré. La holding s'ajoute seulement si tu commences à faire entrer des investisseurs, si tu veux séparer patrimoine et opérationnel, ou si tu prépares une sortie. Au stade actuel — SAS simple.
+  </div>
+
+  <h3>Structure recommandée au départ</h3>
+  <table>
+    <thead><tr><th>Élément</th><th>Choix</th><th>Pourquoi</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Forme juridique</strong></td><td>SAS (ou SASU si seul au départ)</td><td>Compatible levée de fonds, IP, contrats CHU, gouvernance libre</td></tr>
+      <tr><td><strong>Capital</strong></td><td>1 000 à 5 000€ symbolique</td><td>1€ légal suffisant mais 2 000€ = crédibilité</td></tr>
+      <tr><td><strong>Régime fiscal</strong></td><td>IS (impôt sur les sociétés)</td><td>Compatible CIR, subventions, investisseurs</td></tr>
+      <tr><td><strong>Rémunération président</strong></td><td>0 ou minimale au départ</td><td>Préserver la trésorerie, activer quand financement obtenu</td></tr>
+      <tr><td><strong>Statuts</strong></td><td>Avocat si co-fondateur immédiat</td><td>Prévoir cession PI, gouvernance, entrée future investisseurs</td></tr>
+      <tr><td><strong>Holding</strong></td><td>Non — phase 2 seulement</td><td>Ajouter si investisseurs entrent — pas avant</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Pack de protection — À mettre en place dès la création</h3>
+  <ul class="checklist">
+    <li>Statuts clairs avec clause cession de propriété intellectuelle</li>
+    <li>Comptes séparés personnel / société (Qonto ou Shine — 0€/mois)</li>
+    <li>Dépôt de marque VAIA à l'INPI — <span class="money">250€</span> — à faire tôt</li>
+    <li>Documentation datée du projet (GitHub avec commits horodatés = preuve)</li>
+    <li>NDA modèle pour tout échange technique avec tiers</li>
+    <li>Convention de collaboration modèle pour le MAR</li>
+    <li>Demande ACRE à l'URSSAF dans les 45 jours (vérifier règles 2026)</li>
+  </ul>
+
+  <h3>Avec le MAR — La règle absolue</h3>
+  <div class="callout callout-red">
+    <strong>Ne jamais donner des parts "à la parole".</strong><br>
+    L'ordre correct : NDA → Lettre d'intention → Convention de collaboration → Vesting conditionné à l'engagement réel → Parts seulement après.
+    <br><br>
+    Engagement réel = temps effectif + réseau + portage protocole + co-publications. Pas une promesse verbale.
+  </div>
+</div>
+
+<!-- ═══════════════════ S4 — MAR ET CHU ═══════════════════ -->
+<div class="section" id="mar">
+  <div class="section-num">04 — Approche MAR et CHU</div>
+  <h2>Partenaires cliniques identifiés</h2>
+  <p class="section-intro">Tu ne proposes pas "ma startup". Tu proposes un projet de recherche appliquée en vigilance peropératoire. La distinction est cruciale pour l'accueil institutionnel.</p>
+
+  <h3>MAR prioritaires identifiés — Paris et Lausanne</h3>
+  <table>
+    <thead><tr><th>Profil</th><th>Hôpital</th><th>Alignement</th><th>Contact</th><th>Statut</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Pr Etienne Gayat</strong></td>
+        <td>Lariboisière AP-HP</td>
+        <td>Thèse en cours sur monitorage péri-op augmenté par IA. Publications prédiction hypotension.</td>
+        <td>LinkedIn + vendredi Cordier</td>
+        <td><span class="badge bdtodo">Message prêt à envoyer</span></td>
+      </tr>
+      <tr>
+        <td><strong>Dr Thomas Botrel</strong></td>
+        <td>Pitié-Salpêtrière</td>
+        <td>Ingénieur Arts et Métiers + MAR. Projet DOSE ANR 590k€ sur EDS AP-HP. Profil miroir.</td>
+        <td>LinkedIn + mercredi Babinski</td>
+        <td><span class="badge bdtodo">Message prêt à envoyer</span></td>
+      </tr>
+      <tr>
+        <td><strong>Pr Patrick Schoettker</strong></td>
+        <td>CHUV Lausanne</td>
+        <td>Chef service + co-fondateur Biospectal + projet jumeau numérique péri-op CHUV. Entrepreneur convaincu.</td>
+        <td>LinkedIn</td>
+        <td><span class="badge bdwarn">Message à rédiger</span></td>
+      </tr>
+      <tr>
+        <td><strong>Pr Romain Pirracchio</strong></td>
+        <td>UCSF / réseau Paris</td>
+        <td>Formé Lariboisière, Associate Editor IA JAMA, labo ML soins critiques UCSF. Pont France-US.</td>
+        <td>Via Gayat</td>
+        <td><span class="badge bdwarn">Phase 2</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-amber">
+    <strong>Priorité absolue cette semaine :</strong> Envoyer les messages Botrel (LinkedIn ce soir, mercredi Babinski en présentiel) et Gayat (LinkedIn ce soir, vendredi Cordier en présentiel). Les deux messages sont rédigés et prêts.
+  </div>
+
+  <h3>Ce que tu dis au premier rendez-vous</h3>
+  <div class="g2">
+    <div class="card">
+      <h4>Tu ne dis PAS</h4>
+      <ul>
+        <li>"Je veux créer une startup"</li>
+        <li>"Voulez-vous être associé ?"</li>
+        <li>"J'ai besoin de données"</li>
+        <li>"Combien de temps pouvez-vous m'accorder ?"</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Tu dis</h4>
+      <ul>
+        <li>"Projet de recherche en vigilance peropératoire"</li>
+        <li>"Êtes-vous ouvert à un échange clinique ?"</li>
+        <li>"Voyez-vous un intérêt local ?"</li>
+        <li>"Démarrage en mode shadow — aucune perturbation des soins"</li>
+        <li>"Pourriez-vous me rediriger vers la DRCI ?"</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Ce que tu dois avoir avant chaque rendez-vous</h3>
+  <ul class="checklist">
+    <li>One-pager VAIA imprimé — 2 pages maximum</li>
+    <li>3 écrans mockup sur tablette ou laptop</li>
+    <li>1 scénario clinique jouable (hypotension)</li>
+    <li>1 plan de recherche simple — 1 page</li>
+    <li>1 phrase claire sur le périmètre non prescriptif</li>
+  </ul>
+</div>
+
+<!-- ═══════════════════ S5 — RECHERCHE CLINIQUE ═══════════════════ -->
+<div class="section" id="recherche">
+  <div class="section-num">05 — Parcours recherche clinique</div>
+  <h2>La voie réglementaire la plus réaliste</h2>
+  <p class="section-intro">La CNIL distingue les recherches impliquant la personne humaine (MR-001 à 003) et celles qui ne l'impliquent pas (MR-004 à 006). Le design du protocole détermine le cadre — ne pas décider seul, faire qualifier avec le CHU.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot tl-dot-done">1</div>
+      <div class="tl-period">Maintenant — Mois 3</div>
+      <div class="tl-title">Hors hôpital — Simulateur et données publiques</div>
+      <div class="tl-desc">Simulateur peropératoire · Notebook VitalDB · Première interface · Démo vidéo 3 minutes. Aucune donnée hospitalière, aucun cadre CNIL requis.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot tl-dot-todo">2</div>
+      <div class="tl-period">Mois 2 — 4</div>
+      <div class="tl-title">Discussion CHU — Identifier les bons interlocuteurs</div>
+      <div class="tl-desc">Chef de service · MAR avec appétence innovation · DRCI · DPO · Cellule valorisation. Ne pas contacter la DSI avant d'avoir l'accord médical.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot tl-dot-todo">3</div>
+      <div class="tl-period">Mois 3 — 5</div>
+      <div class="tl-title">Qualification du type de recherche — Avec le CHU</div>
+      <div class="tl-desc">Simple étude sur données réutilisées (MR-004) ou étude observationnelle ou RIPH. Ne jamais décider seul. La qualification est revue avec le DPO et la DRCI.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot tl-dot-todo">4</div>
+      <div class="tl-period">Mois 4 — 6</div>
+      <div class="tl-title">Convention et propriété intellectuelle — Avant toute donnée réelle</div>
+      <div class="tl-desc">Convention de collaboration · Répartition IP (algorithmes restent dans ta SAS) · Droits publications · Gouvernance données · Responsabilités.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot tl-dot-todo">5</div>
+      <div class="tl-period">Mois 5 — 8</div>
+      <div class="tl-title">Protocole — Rédaction avec MAR et DRCI</div>
+      <div class="tl-desc">Objectif · Population · Données collectées · Finalité · Méthode · Sécurité · Information patient · Analyses prévues. CPP si RIPH.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot tl-dot-todo">6</div>
+      <div class="tl-period">Mois 8 — 12</div>
+      <div class="tl-title">Pilote shadow — Mode observation uniquement</div>
+      <div class="tl-desc">VAIA tourne mais n'affiche rien aux cliniciens. Collection de 500 à 1 000 cas annotés. Validation modèle sur données françaises réelles.</div>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <strong>HDS — Quand s'en occuper :</strong> Pas au jour 1 pour un MVP simulé local. Dès que tu touches de la donnée personnelle réelle identifiée. La version HDS V2.0 devient la référence à partir de mai 2026 pour les acteurs concernés. Azure Healthcare APIs ou OVH HDS certifié.
+  </div>
+</div>
+
+<!-- ═══════════════════ S6 — TECHNIQUE ═══════════════════ -->
+<div class="section" id="technique">
+  <div class="section-num">06 — Feuille de route technique</div>
+  <h2>Du simulateur au connecteur réel</h2>
+  <p class="section-intro">Ton hardware est parfait — AMD Ryzen AI 7 350, 32 Go RAM, NPU intégré. Aucun achat nécessaire pour les 3 premières étapes.</p>
+
+  <h3>Étape 1 — Simulateur (cette semaine) — 0€</h3>
+  <div class="card">
+    <h4>Ce que le simulateur doit produire</h4>
+    <ul>
+      <li>5 scénarios : hypotension, bronchospasme, saignement occulte, curarisation résiduelle, normal</li>
+      <li>3 phases par scénario : <code>pre_event</code> · <code>event</code> · <code>post_event</code></li>
+      <li>Champ <code>vaia_detectable: bool</code> — ce que VAIA voit avant le moniteur</li>
+      <li>Champ <code>monitor_would_alarm: bool</code> — ce que le moniteur classique voit</li>
+      <li>Paramètres perop complets : hr, sbp, dbp, map, spo2, etco2, peak_pressure, compliance, peep, bis, temp</li>
+      <li>Publication MQTT <code>bloc/{patient_id}/vitals</code> toutes les 5 secondes</li>
+    </ul>
+  </div>
+  <div class="callout callout-teal" style="margin-top:10px">
+    Le delta entre <code>monitor_would_alarm=False</code> et <code>vaia_detectable=True</code> <strong>est la valeur clinique de VAIA</strong>. C'est ce que tu montres à Botrel mercredi et Gayat vendredi.
+  </div>
+
+  <h3>Étape 2 — Données publiques (semaine 3-4) — 0€</h3>
+  <div class="g2">
+    <div class="card">
+      <h4>VitalDB — Point de départ</h4>
+      <ul>
+        <li>6 388 cas peropératoires annotés</li>
+        <li>Données coréennes — valide pour prototype uniquement</li>
+        <li>Accès libre sur vitaldb.net</li>
+        <li>Suffisant pour AUC-ROC et benchmark HPI Edwards</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>MIMIC-IV — Pre-training</h4>
+      <ul>
+        <li>70 000+ cas ICU — inscription libre</li>
+        <li>Pre-training du LSTM avant fine-tuning VitalDB</li>
+        <li>Google Colab gratuit suffit (GPU T4 12h)</li>
+        <li>Ton Ryzen AI 7 suffit en CPU pour XGBoost</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Étape 3 — Connexion moniteur réel (mois 6+)</h3>
+  <table>
+    <thead><tr><th>Option</th><th>Matériel</th><th>Coût</th><th>Contrainte</th></tr></thead>
+    <tbody>
+      <tr><td><strong>LAN direct Philips</strong></td><td>Câble crossover RJ45 + VSCaptureMP open source</td><td><span class="money">5€</span></td><td>Accès physique bloc + accord CHU</td></tr>
+      <tr><td><strong>Via PIIC iX (HL7)</strong></td><td>Rien de plus — station centrale génère HL7</td><td><span class="money">0€</span></td><td>Accord DSI + réseau hospitalier</td></tr>
+      <tr><td><strong>MIB RS232</strong></td><td>Câble UTP + adaptateur USB-RS232</td><td><span class="money">26€</span></td><td>Solution de secours</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-amber">
+    <strong>HL7 vs FHIR — Quand utiliser quoi :</strong> HL7 v2.5 pour la connexion aux moniteurs en temps réel (protocole legacy mais dominant dans tous les blocs). FHIR R4 pour récupérer le dossier patient (ASA, antécédents). Les deux sont pour l'étape 3 seulement — pas maintenant.
+  </div>
+
+  <h3>Architecture logicielle propre — Ordre de priorité</h3>
+  <ul class="checklist">
+    <li><strong>Validation Pydantic stricte à l'entrée</strong> — bornes physiologiques, try/except, logging si métrique manquante</li>
+    <li><strong>Journal d'événements complet</strong> — chaque alerte tracée avec timestamp, version modèle, paramètres déclencheurs</li>
+    <li><strong>Versioning modèle avec MLflow</strong> — obligatoire avant tout déploiement clinique (IEC 62304)</li>
+    <li><strong>Tests unitaires pytest</strong> — 20 tests minimum sur AlertEngine et AlertState</li>
+    <li><strong>Séparation stricte</strong> : simulateur / moteur alertes / interface / LLM (surcouche uniquement)</li>
+    <li><strong>CHANGELOG.md versionné</strong> — dès v0.1.0, document le plus demandé par les organismes notifiés</li>
+    <li><strong>SOUP.md</strong> — liste toutes les dépendances tierces (exigence IEC 62304)</li>
+  </ul>
+</div>
+
+<!-- ═══════════════════ S7 — FINANCEMENT ═══════════════════ -->
+<div class="section" id="financement">
+  <div class="section-num">07 — Financement</div>
+  <h2>Les aides dans le bon ordre</h2>
+
+  <div class="callout callout-red">
+    <strong>Recadrage important — i-Lab 2026 :</strong> La deadline de dépôt i-Lab 2026 était le 3 février 2026. Nous sommes en mars. Cette fenêtre est fermée pour l'édition courante. Viser la prochaine édition (2027) ou d'autres concours Bpifrance immédiats.
+  </div>
+
+  <h3>Ordre chronologique réaliste</h3>
+  <table>
+    <thead><tr><th>Quand</th><th>Source</th><th>Montant</th><th>Conditions clés</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Maintenant</strong></td>
+        <td>PEPITE / SNEE</td>
+        <td>Statut + accompagnement</td>
+        <td>Dossier projet + jury PEPITE région</td>
+      </tr>
+      <tr>
+        <td><strong>Dès création SAS</strong></td>
+        <td>ACRE</td>
+        <td>Exonération charges ~45%→25%</td>
+        <td>Formulaire URSSAF 45 jours. Vérifier règles 2026 — elles ont évolué début 2026.</td>
+      </tr>
+      <tr>
+        <td><strong>Mois 2-3</strong></td>
+        <td>DRCI CHU partenaire</td>
+        <td><span class="money">30 000 à 150 000€</span></td>
+        <td>MAR référent dans le CHU. Le plus rapide (1 à 3 mois). Débloque l'accès au terrain.</td>
+      </tr>
+      <tr>
+        <td><strong>Mois 3-6</strong></td>
+        <td>CIFRE (ANRT)</td>
+        <td><span class="money">~14 000€/an remboursé</span></td>
+        <td>SAS créée + directeur de thèse labo accrédité + sujet validé ANRT. 3 ans.</td>
+      </tr>
+      <tr>
+        <td><strong>Mois 6+</strong></td>
+        <td>CIR (annuel)</td>
+        <td><span class="money">30% dépenses R&D</span></td>
+        <td>SAS créée + salariés R&D. Remboursement immédiat si < 5 ans d'existence.</td>
+      </tr>
+      <tr>
+        <td><strong>Mois 6+</strong></td>
+        <td>ANS Santé Numérique</td>
+        <td><span class="money">50 000 à 200 000€</span></td>
+        <td>2 appels/an. Entreprise française + aligné feuille route numérique santé.</td>
+      </tr>
+      <tr>
+        <td><strong>Mois 8+</strong></td>
+        <td>ANR PRCE</td>
+        <td><span class="money">200 000 à 500 000€</span></td>
+        <td>Partenaire académique obligatoire (CHU). Ton MAR PH porte le dossier.</td>
+      </tr>
+      <tr>
+        <td><strong>Mois 10+</strong></td>
+        <td>Bpifrance i-Lab (prochaine édition)</td>
+        <td><span class="money">300 000 à 600 000€</span></td>
+        <td>Concours annuel — prochaine ouverture probablement janvier 2027. Préparer le dossier maintenant.</td>
+      </tr>
+      <tr>
+        <td><strong>An 2</strong></td>
+        <td>Business Angels santé</td>
+        <td><span class="money">200 000 à 600 000€</span></td>
+        <td>Données cliniques + CE IIa en cours + prototype validé.</td>
+      </tr>
+      <tr>
+        <td><strong>An 2-3</strong></td>
+        <td>EIC Accelerator Europe</td>
+        <td><span class="money">Jusqu'à 2,5M€ + 15M€ equity</span></td>
+        <td>Innovation de rupture + marché > 1Md€ + équipe solide + premiers résultats. Très sélectif (5%).</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════ S8 — PLAN 90 JOURS ═══════════════════ -->
+<div class="section" id="plan90">
+  <div class="section-num">08 — Plan 90 jours</div>
+  <h2>Semaine par semaine</h2>
+
+  <div class="week-grid">
+
+    <div class="week-label">S1<br>Cette sem.</div>
+    <div class="week-content">
+      <div class="week-title">5 actions prioritaires</div>
+      <div class="week-items">
+        1. Envoyer messages LinkedIn Botrel + Gayat ce soir<br>
+        2. Télécharger dossier PEPITE et commencer la rédaction<br>
+        3. Email scolarité Epitech — demande RDV + 4 questions par écrit<br>
+        4. Prompt Codex simulateur perop (prompt prêt)<br>
+        5. Créer compte VitalDB + télécharger dataset
+      </div>
+    </div>
+
+    <div class="week-label">S2</div>
+    <div class="week-content">
+      <div class="week-title">Société et protection</div>
+      <div class="week-items">
+        Créer la SAS (LegalPlace ou avocat si co-fondateur immédiat)<br>
+        Ouvrir compte pro Qonto ou Shine<br>
+        Dépôt marque VAIA à l'INPI (250€)<br>
+        Dossier PEPITE finalisé et soumis<br>
+        Créer dossier partagé projet (GitHub + Google Drive)
+      </div>
+    </div>
+
+    <div class="week-label">S3</div>
+    <div class="week-content">
+      <div class="week-title">MVP technique</div>
+      <div class="week-items">
+        Simulateur perop fonctionnel — 5 scénarios<br>
+        Interface React simple — score + alerte + courbe<br>
+        Démo jouable sur tablette<br>
+        Enregistrer démo vidéo 3 minutes<br>
+        Brancher simulateur sur AlertEngine existant
+      </div>
+    </div>
+
+    <div class="week-label">S4</div>
+    <div class="week-content">
+      <div class="week-title">Données et modèle</div>
+      <div class="week-items">
+        VitalDB — explorer les données PA/FC/SpO2<br>
+        Premier modèle XGBoost prédiction hypotension<br>
+        Mesurer AUC-ROC — comparer benchmark HPI Edwards<br>
+        3 graphes propres pour le pitch
+      </div>
+    </div>
+
+    <div class="week-label">Mois 2</div>
+    <div class="week-content">
+      <div class="week-title">Partenariats cliniques</div>
+      <div class="week-items">
+        Rencontrer Botrel et Gayat en présentiel<br>
+        Affiner le cas d'usage avec leur feedback terrain<br>
+        Identifier un site pilote potentiel<br>
+        Premier contact DRCI si MAR partenaire identifié<br>
+        Clarifier la voie recherche clinique (MR-004 ou RIPH)
+      </div>
+    </div>
+
+    <div class="week-label">Mois 3</div>
+    <div class="week-content">
+      <div class="week-title">Convention et protocole</div>
+      <div class="week-items">
+        Choisir le partenaire principal (CHU)<br>
+        Rédiger note de collaboration<br>
+        Cadrer données / protocole / IP avec DRCI + DPO<br>
+        Préparer première demande financement DRCI<br>
+        Soumettre abstract SFAR si deadline encore ouverte
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════ S9 — PACK FONDATEUR ═══════════════════ -->
+<div class="section" id="pack">
+  <div class="section-num">09 — Pack fondateur</div>
+  <h2>Les documents à produire</h2>
+
+  <table>
+    <thead><tr><th>Document</th><th>Statut</th><th>Action</th><th>Priorité</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>One-pager VAIA</strong></td>
+        <td><span class="badge bdone">Fait en HTML</span></td>
+        <td>Convertir en PDF 2 pages imprimables — à avoir vendredi</td>
+        <td>🔴 Urgent</td>
+      </tr>
+      <tr>
+        <td><strong>Deck 10 slides</strong></td>
+        <td><span class="badge bdwarn">Structure définie</span></td>
+        <td>Créer sur Canva ou Google Slides avec screenshots interface</td>
+        <td>🟡 Semaine 2</td>
+      </tr>
+      <tr>
+        <td><strong>Note clinique 2 pages</strong></td>
+        <td><span class="badge bdwarn">Contenu dans dossier HTML</span></td>
+        <td>Extraire en PDF autonome — pour les rendez-vous CHU</td>
+        <td>🟡 Semaine 2</td>
+      </tr>
+      <tr>
+        <td><strong>Note technique MVP</strong></td>
+        <td><span class="badge bdwarn">Architecture définie</span></td>
+        <td>Rédiger 2 pages avec schéma architecture simplifié</td>
+        <td>🟡 Semaine 2</td>
+      </tr>
+      <tr>
+        <td><strong>NDA modèle</strong></td>
+        <td><span class="badge bdtodo">Manque</span></td>
+        <td>Template standard à faire rédiger par avocat ou télécharger sur Legifrance</td>
+        <td>🔴 Urgent</td>
+      </tr>
+      <tr>
+        <td><strong>Convention de collaboration</strong></td>
+        <td><span class="badge bdtodo">Manque</span></td>
+        <td>Template pour MAR et CHU — avant tout échange de données ou de code</td>
+        <td>🔴 Urgent</td>
+      </tr>
+      <tr>
+        <td><strong>Tableau IP / données / responsabilités</strong></td>
+        <td><span class="badge bdtodo">Manque</span></td>
+        <td>Qui possède quoi : algorithmes, données, publications, marque</td>
+        <td>🟡 Semaine 3</td>
+      </tr>
+      <tr>
+        <td><strong>Liste partenaires cibles</strong></td>
+        <td><span class="badge bdone">4 identifiés</span></td>
+        <td>Gayat, Botrel, Schoettker, Pottecher — compléter à 5-6 avec Chousterman</td>
+        <td>🟢 En cours</td>
+      </tr>
+      <tr>
+        <td><strong>Planning 90 jours</strong></td>
+        <td><span class="badge bdone">Défini</span></td>
+        <td>Ce document — à imprimer et garder visible</td>
+        <td>🟢 Fait</td>
+      </tr>
+      <tr>
+        <td><strong>CHANGELOG.md</strong></td>
+        <td><span class="badge bdtodo">Manque</span></td>
+        <td>Créer dès la première ligne de code — IEC 62304</td>
+        <td>🟡 Semaine 3</td>
+      </tr>
+      <tr>
+        <td><strong>SOUP.md</strong></td>
+        <td><span class="badge bdtodo">Manque</span></td>
+        <td>Lister toutes les dépendances requirements.txt avec version et risque</td>
+        <td>🟡 Semaine 3</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════ S10 — CE QU'IL NE FAUT PAS FAIRE ═══════════════════ -->
+<div class="section" id="dangers">
+  <div class="section-num">10 — Zones de danger</div>
+  <h2>Ce qu'il ne faut pas faire</h2>
+
+  <div class="g2">
+    <div class="callout callout-red">
+      <strong>Données CHU avant cadre formalisé</strong><br>
+      Même si le MAR est d'accord verbalement. Même si tu travailles dans le service. La CNIL et la responsabilité pénale sont réelles. Convention + DPO + protocole avant tout.
+    </div>
+    <div class="callout callout-red">
+      <strong>Promettre une classe réglementaire fixe trop tôt</strong><br>
+      La classification MDR dépend de la finalité revendiquée. Si tu dis "aide à la décision thérapeutique" tu passes en IIb. Rester sur "aide à la vigilance non prescriptive" jusqu'à la validation juridique formelle.
+    </div>
+    <div class="callout callout-red">
+      <strong>Donner des parts trop tôt</strong><br>
+      Pas de parts "à la parole". NDA → convention → vesting conditionné → parts. Toujours.
+    </div>
+    <div class="callout callout-red">
+      <strong>Confondre démo et produit certifiable</strong><br>
+      Ce que Codex génère en 2 jours est une démo. Jamais du code de production médicale. Le CTO senior fait la différence entre les deux.
+    </div>
+    <div class="callout callout-red">
+      <strong>S'engager verbalement sur Epitech sans écrit</strong><br>
+      L'accord oral du responsable pédagogique ne vaut rien si les règles changent. Tout obtenir par email.
+    </div>
+    <div class="callout callout-red">
+      <strong>Laisser croire que le CHU est copropriétaire par défaut</strong><br>
+      Les algorithmes et le code restent dans ta SAS. Le CHU est partenaire de recherche, pas co-propriétaire. Le préciser dans la convention dès le départ.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ S11 — BUSINESS MODEL CANVAS ═══════════════════ -->
+<div class="section" id="bmc">
+  <div class="section-num">11 — Business Model Canvas</div>
+  <h2>Le modèle économique de VAIA</h2>
+  <p class="section-intro">Le BMC adapté au contexte medtech B2B hospitalier — avec les spécificités réglementaires et les phases de maturité du produit.</p>
+
+  <div style="display:grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1.4fr; grid-template-rows: auto auto auto; gap: 2px; background: var(--ink); border: 2px solid var(--ink); border-radius: 6px; overflow: hidden; margin: 16px 0;">
+
+    <!-- ROW 1 : Partenaires | Activités | Proposition | Relation | Segments -->
+    <div style="background:var(--paper); padding:16px; grid-row:1/3;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); margin-bottom:10px;">Partenaires clés</div>
+      <ul style="padding-left:12px; font-size:11.5px; color:var(--ink2); line-height:2;">
+        <li><strong>CHU partenaire</strong> — accès données, protocole, DRCI</li>
+        <li><strong>MAR co-fondateur</strong> — crédibilité, réseau SFAR, CPP</li>
+        <li><strong>Labo académique</strong> — CIFRE, publications, ANR</li>
+        <li><strong>ANRT</strong> — financement doctorant CIFRE</li>
+        <li><strong>Bpifrance / ANS</strong> — subventions R&D</li>
+        <li><strong>Organisme notifié</strong> — certification CE IIa</li>
+        <li><strong>Hébergeur HDS</strong> — Azure Healthcare / OVH</li>
+      </ul>
+    </div>
+
+    <div style="background:var(--paper2); padding:16px; border-left:2px solid var(--ink);">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); margin-bottom:10px;">Activités clés</div>
+      <ul style="padding-left:12px; font-size:11.5px; color:var(--ink2); line-height:2;">
+        <li>Développement ML prédictif</li>
+        <li>Connexion moniteurs (HL7)</li>
+        <li>Validation clinique terrain</li>
+        <li>Certification MDR IIa</li>
+        <li>Publication scientifique</li>
+        <li>Déploiement et support</li>
+      </ul>
+    </div>
+
+    <div style="background:var(--ink); padding:16px; border-left:2px solid var(--ink); grid-row:1/3; display:flex; flex-direction:column; justify-content:center;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); margin-bottom:12px;">Proposition de valeur</div>
+      <div style="font-family:'Instrument Serif',serif; font-size:15px; color:var(--paper); line-height:1.5; font-style:italic; margin-bottom:12px;">"Voir les complications 4 à 10 min avant le moniteur classique — sans jamais prescrire."</div>
+      <ul style="padding-left:12px; font-size:11px; color:rgba(247,245,240,0.7); line-height:2;">
+        <li>Score de vigilance global temps réel</li>
+        <li>Alertes anticipatoires multimodales</li>
+        <li>Explicabilité des causes</li>
+        <li>Non prescriptif — IADE décide</li>
+        <li>Résumé peropératoire auto</li>
+        <li>Transmission SSPI structurée</li>
+        <li>Module formation / simulation</li>
+      </ul>
+    </div>
+
+    <div style="background:var(--paper2); padding:16px; border-left:2px solid var(--ink);">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); margin-bottom:10px;">Relation client</div>
+      <ul style="padding-left:12px; font-size:11.5px; color:var(--ink2); line-height:2;">
+        <li>Onboarding dédié par site</li>
+        <li>Formation IADE (2h)</li>
+        <li>Support 24/7 (bloc = critique)</li>
+        <li>Rapport mensuel analytics</li>
+        <li>Co-construction protocoles</li>
+        <li>Publications co-signées</li>
+      </ul>
+    </div>
+
+    <div style="background:var(--paper); padding:16px; border-left:2px solid var(--ink); grid-row:1/3;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); margin-bottom:10px;">Segments clients</div>
+      <div style="font-size:11px; font-weight:600; color:var(--ink); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.3px;">Cible principale</div>
+      <ul style="padding-left:12px; font-size:11.5px; color:var(--ink2); line-height:1.9; margin-bottom:12px;">
+        <li><strong>CHU et hôpitaux publics</strong> — blocs opératoires chirurgie lourde</li>
+        <li><strong>Cliniques privées</strong> — groupes Ramsay, Elsan, Vivalto</li>
+        <li><strong>IADE et MAR</strong> — utilisateurs finaux (prescripteurs d'usage)</li>
+      </ul>
+      <div style="font-size:11px; font-weight:600; color:var(--ink); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.3px;">Marché adressable</div>
+      <ul style="padding-left:12px; font-size:11.5px; color:var(--ink2); line-height:1.9; margin-bottom:12px;">
+        <li>France — 3 500 blocs opératoires</li>
+        <li>Europe — ~80 000 blocs</li>
+        <li>CA potentiel France — 52M€/an</li>
+      </ul>
+      <div style="font-size:11px; font-weight:600; color:var(--ink); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.3px;">Secondaire</div>
+      <ul style="padding-left:12px; font-size:11.5px; color:var(--ink2); line-height:1.9;">
+        <li>IFSI et écoles IADE — module formation</li>
+        <li>CHU universitaires — module recherche</li>
+      </ul>
+    </div>
+
+    <!-- ROW 2 : (suite Partenaires) | Ressources | (suite Proposition) | Canaux | (suite Segments) -->
+    <div style="background:var(--paper2); padding:16px; border-left:2px solid var(--ink); border-top:2px solid var(--ink);">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); margin-bottom:10px;">Ressources clés</div>
+      <ul style="padding-left:12px; font-size:11.5px; color:var(--ink2); line-height:2;">
+        <li><strong>Toi</strong> — IADE + MSc IA Santé (profil unique)</li>
+        <li>Algorithmes ML propriétaires</li>
+        <li>Données annotées (moat)</li>
+        <li>Marque VAIA déposée</li>
+        <li>Publications scientifiques</li>
+        <li>CE IIa (phase 2)</li>
+      </ul>
+    </div>
+
+    <div style="background:var(--paper2); padding:16px; border-left:2px solid var(--ink); border-top:2px solid var(--ink);">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); margin-bottom:10px;">Canaux</div>
+      <ul style="padding-left:12px; font-size:11.5px; color:var(--ink2); line-height:2;">
+        <li>Congrès SFAR (annuel)</li>
+        <li>Réseau MAR et IADE direct</li>
+        <li>Publications AFAR / Anaesthesia</li>
+        <li>Intégration AIMS (Diane, Medneo)</li>
+        <li>Partenariats groupes hospitaliers</li>
+        <li>Appels d'offres hospitaliers</li>
+      </ul>
+    </div>
+
+    <!-- ROW 3 : Structure de coûts | Flux de revenus -->
+    <div style="background:var(--paper); padding:16px; grid-column:1/4; border-top:2px solid var(--ink);">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); margin-bottom:10px;">Structure de coûts</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
+        <div>
+          <div style="font-size:11px; font-weight:600; color:var(--ink); margin-bottom:6px;">Phase 1 — Recherche</div>
+          <ul style="padding-left:12px; font-size:11px; color:var(--ink2); line-height:1.9;">
+            <li>Équipe 4 personnes</li>
+            <li>Infrastructure cloud (HDS)</li>
+            <li>Annotation données</li>
+            <li>Frais protocole CPP</li>
+            <li style="color:var(--teal); font-weight:600;">Total — 150 à 280k€</li>
+            <li style="color:var(--teal);">Finançable 100% public</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:600; color:var(--ink); margin-bottom:6px;">Phase 2 — Produit</div>
+          <ul style="padding-left:12px; font-size:11px; color:var(--ink2); line-height:1.9;">
+            <li>Équipe 8 à 10 personnes</li>
+            <li>Certification CE IIa</li>
+            <li>ISO 13485</li>
+            <li>Commercial et déploiement</li>
+            <li style="color:var(--teal); font-weight:600;">Total — 400 à 900k€</li>
+            <li style="color:var(--teal);">Seed BA + subventions</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:600; color:var(--ink); margin-bottom:6px;">Coûts récurrents SaaS</div>
+          <ul style="padding-left:12px; font-size:11px; color:var(--ink2); line-height:1.9;">
+            <li>Hébergement HDS — 500€/mois</li>
+            <li>Support 24/7 par site</li>
+            <li>MLOps et réentraînement</li>
+            <li>Maintenance CE IIa (PSUR)</li>
+            <li>Marge brute cible — 70%+</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--ink); padding:16px; grid-column:4/6; border-top:2px solid var(--ink); border-left:2px solid var(--ink);">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); margin-bottom:10px;">Flux de revenus</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div>
+          <div style="font-size:11px; font-weight:600; color:var(--paper); margin-bottom:6px;">Revenus récurrents (SaaS)</div>
+          <ul style="padding-left:12px; font-size:11px; color:rgba(247,245,240,0.75); line-height:1.9;">
+            <li>VAIA Starter — 8 à 12k€/an/bloc</li>
+            <li>VAIA Pro — 14 à 18k€/an/bloc</li>
+            <li>VAIA Research — 20 à 28k€/an/bloc</li>
+            <li>Module formation IFSI — 3 à 6k€/an</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:11px; font-weight:600; color:var(--paper); margin-bottom:6px;">Projections CA</div>
+          <ul style="padding-left:12px; font-size:11px; color:rgba(247,245,240,0.75); line-height:1.9;">
+            <li>An 2-3 — 50 à 150k€</li>
+            <li>An 3-5 — 400k à 1,2M€</li>
+            <li>An 5+ — 2 à 6M€</li>
+            <li style="color:var(--accent);">Point équilibre — ~80 blocs</li>
+            <li style="color:var(--accent);">Sortie cible — 50 à 200M€</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout callout-teal" style="margin-top:14px">
+    <strong>L'effet réseau — ton moat défensif :</strong> Chaque bloc qui utilise VAIA génère des données qui améliorent le modèle pour tous les autres. An 1 : 500 cas. An 3 : 50 000 cas. An 6 : 500 000 cas. Philips et Dräger peuvent copier l'interface — ils ne peuvent pas copier tes données.
+  </div>
+</div>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<div class="divider"></div>
+<div style="text-align:center; padding: 20px 0; color:var(--ink3); font-size:11px; font-family:'JetBrains Mono',monospace;">
+  CHARLES COPILOT — VAIA · Dossier Fondateur Consolidé · Mars 2026<br>
+  Confidentiel — Usage exclusif du porteur de projet
+</div>
+
+</div>
+</body>
+</html>

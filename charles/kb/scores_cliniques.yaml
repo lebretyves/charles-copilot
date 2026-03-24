@@ -1,0 +1,200 @@
+# =============================================================================
+# CHARLES KB — Scores Cliniques
+# Source: SFAR/ASA/ESA guidelines + littérature
+# =============================================================================
+
+scores:
+
+  # =========================================================================
+  # SCORES PRÉ-ANESTHÉSIQUES
+  # =========================================================================
+
+  asa_ps:
+    label_fr: "Classification ASA (Physical Status)"
+    label_en: "ASA Physical Status Classification"
+    source: "American Society of Anesthesiologists"
+    usage: pre_anesthesique
+    vitaldb_field: asa
+    description: "Évaluation de l'état de santé global pré-anesthésique"
+    classes:
+      1: "Patient en bonne santé, non fumeur, pas/peu d'alcool"
+      2: "Maladie systémique légère (tabac, grossesse, obésité 30-40, HTA/DT2 contrôlés)"
+      3: "Maladie systémique sévère (HTA mal contrôlée, BPCO, obésité morbide, IRC dialysée)"
+      4: "Maladie systémique menaçant le pronostic vital (IDM < 3 mois, sepsis, SDRA)"
+      5: "Patient moribond (rupture AAA, polytraumatisme massif)"
+      6: "Mort cérébrale (prélèvement d'organes)"
+    suffixe_urgence: "E (ajouté si urgence, ex: ASA 3E)"
+
+  mallampati:
+    label_fr: "Score de Mallampati"
+    label_en: "Mallampati score"
+    usage: evaluation_voies_aeriennes
+    description: "Prédiction difficulté d'intubation (vision oropharyngée)"
+    classes:
+      1: "Palais mou, luette, piliers amygdaliens visibles"
+      2: "Palais mou, luette partiellement visible"
+      3: "Palais mou visible, luette non visible"
+      4: "Palais mou non visible"
+    correlation_intubation_difficile: "III-IV → risque ID augmenté (VPP ~20%)"
+
+  cormack_lehane:
+    label_fr: "Classification de Cormack-Lehane"
+    label_en: "Cormack-Lehane grade"
+    usage: evaluation_voies_aeriennes
+    vitaldb_field: cormack
+    description: "Grade de vision laryngoscopique directe"
+    classes:
+      1: "Glotte entièrement visible"
+      2a: "Partie postérieure de la glotte visible"
+      2b: "Épiglotte visible, aryténoïdes non visibles"
+      3: "Seule l'épiglotte est visible"
+      4: "Épiglotte non visible"
+    interpretation: "Grade ≥ 3 = intubation difficile"
+
+  lee_rcri:
+    label_fr: "Lee Revised Cardiac Risk Index"
+    label_en: "Lee RCRI"
+    usage: risque_cardiaque_preop
+    description: "Risque de complications cardiaques majeures péri-opératoires"
+    criteres:
+      - chirurgie_haut_risque
+      - cardiopathie_ischemique
+      - insuffisance_cardiaque
+      - avc_ait
+      - diabete_insulinodependant
+      - creatinine_superieure_177_umol_l
+    interpretation:
+      0_critere: "Risque < 1%"
+      1_critere: "Risque 1%"
+      2_criteres: "Risque 2.4%"
+      3_plus: "Risque > 5.4%"
+
+  stop_bang:
+    label_fr: "Score STOP-BANG (dépistage SAOS)"
+    label_en: "STOP-BANG score"
+    usage: depistage_saos
+    criteres:
+      S: "Snoring — Ronflements forts"
+      T: "Tired — Fatigue/somnolence diurne"
+      O: "Observed — Apnées observées"
+      P: "Pressure — HTA traitée"
+      B: "BMI > 35"
+      A: "Age > 50"
+      N: "Neck circumference > 40 cm"
+      G: "Gender — Masculin"
+    interpretation:
+      0_2: "Risque faible"
+      3_4: "Risque intermédiaire"
+      5_8: "Risque élevé de SAOS"
+
+  apfel:
+    label_fr: "Score d'Apfel (NVPO)"
+    label_en: "Apfel simplified PONV score"
+    usage: risque_nvpo
+    criteres:
+      - sexe_feminin
+      - non_fumeur
+      - antecedent_nvpo_ou_mal_transport
+      - morphiniques_postop_prevus
+    interpretation:
+      0: "10% risque NVPO"
+      1: "20%"
+      2: "40% — prophylaxie simple (ondansétron OU dexaméthasone)"
+      3: "60% — prophylaxie double"
+      4: "80% — prophylaxie triple + TIVA"
+
+  # =========================================================================
+  # SCORES PEROPÉRATOIRES / POSTOPÉRATOIRES
+  # =========================================================================
+
+  sofa:
+    label_fr: "Score SOFA (Sequential Organ Failure Assessment)"
+    label_en: "SOFA score"
+    usage: defaillance_organe
+    systemes:
+      respiratoire: "PaO2/FiO2"
+      coagulation: "Plaquettes"
+      hepatique: "Bilirubine"
+      cardiovasculaire: "PAM / catécholamines"
+      neurologique: "Glasgow"
+      renal: "Créatinine / diurèse"
+    interpretation:
+      score_0_1: "Pas de défaillance"
+      score_2_plus_par_organe: "Défaillance d'organe"
+      augmentation_2_points: "Suspicion sepsis (qSOFA)"
+
+  ariscat:
+    label_fr: "Score ARISCAT (complications pulmonaires postop)"
+    label_en: "ARISCAT score"
+    usage: risque_complication_pulmonaire_postop
+    facteurs:
+      - age
+      - spo2_preop
+      - infection_respiratoire_recente
+      - anemie_preop
+      - site_chirurgical
+      - duree_chirurgie
+      - urgence
+    interpretation:
+      bas_inf_26: "Risque 1.6%"
+      intermediaire_26_44: "Risque 13.3%"
+      haut_sup_44: "Risque 42.1%"
+
+  child_pugh:
+    label_fr: "Score de Child-Pugh"
+    label_en: "Child-Pugh score"
+    usage: severite_cirrhose
+    criteres:
+      - bilirubine
+      - albumine
+      - tp_inr
+      - ascite
+      - encephalopathie
+    interpretation:
+      A_5_6: "Cirrhose compensée — mortalité périop 10%"
+      B_7_9: "Altération significative — mortalité périop 30%"
+      C_10_15: "Cirrhose décompensée — mortalité périop 80%"
+
+  # =========================================================================
+  # SCORES DE SAIGNEMENT / TRANSFUSION
+  # =========================================================================
+
+  shock_index:
+    label_fr: "Index de choc"
+    label_en: "Shock index"
+    usage: evaluation_hemorragie
+    formule: "FC / PAS"
+    interpretation:
+      normal: "0.5-0.7"
+      tachycardie_relative: "0.7-0.9"
+      choc_modere: "0.9-1.2"
+      choc_severe: "> 1.2"
+    vitaldb_tracks: ["Solar8000/HR", "Solar8000/ART_SBP"]
+    charles_implementation: "Calculé en continu par alert_engine"
+
+  # =========================================================================
+  # SCORES DE DOULEUR (postop)
+  # =========================================================================
+
+  en_eva:
+    label_fr: "Échelle Numérique / EVA"
+    label_en: "Numeric Rating Scale / VAS"
+    usage: evaluation_douleur
+    echelle: [0, 10]
+    interpretation:
+      0: "Pas de douleur"
+      1_3: "Douleur légère"
+      4_6: "Douleur modérée — antalgique palier 2"
+      7_10: "Douleur intense — titration morphine"
+
+  aldrete:
+    label_fr: "Score d'Aldrete (SSPI)"
+    label_en: "Aldrete score"
+    usage: aptitude_sortie_sspi
+    criteres:
+      activite: [0, 1, 2]
+      respiration: [0, 1, 2]
+      circulation: [0, 1, 2]
+      conscience: [0, 1, 2]
+      spo2: [0, 1, 2]
+    sortie_sspi: "Score ≥ 9/10"

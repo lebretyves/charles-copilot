@@ -1,0 +1,173 @@
+# =============================================================================
+# CHARLES KB — Sources de Données
+# Mapping entre les sources de données et leur utilisation dans CHARLES
+# =============================================================================
+
+sources:
+
+  # =========================================================================
+  # VITALDB — Source principale
+  # =========================================================================
+  vitaldb:
+    label_fr: "VitalDB Open Dataset"
+    label_en: "VitalDB Open Dataset"
+    url: "https://vitaldb.net"
+    licence: "CC BY-NC-SA 4.0"
+    citation: >
+      Lee HC, Park Y, Yoon SB, Yang SM, Park D, Jung CW.
+      VitalDB, a high-fidelity multi-parameter vital signs database in surgical patients.
+      Sci Data. 2022 Jun 8;9(1):279.
+    institution: "Seoul National University Hospital, Seoul, Korea"
+
+    dataset:
+      n_cases: 6388
+      n_tracks_total: 557622
+      n_unique_parameters: 196
+      resolution_wave: "500 Hz"
+      resolution_numeric: "1-7 sec"
+
+    departments:
+      chirurgie_generale: {n: 4930, pct: 77.2}
+      chirurgie_thoracique: {n: 1111, pct: 17.4}
+      gynecologie: {n: 230, pct: 3.6}
+      urologie: {n: 117, pct: 1.8}
+
+    api_endpoints:
+      cases: "https://api.vitaldb.net/cases"
+      labs: "https://api.vitaldb.net/labs"
+      trks: "https://api.vitaldb.net/trks"
+      track_data: "https://api.vitaldb.net/{tid}"
+
+    python_library: "pip install vitaldb"
+
+    donnees_utilisees_charles:
+      clinical_metadata:
+        description: "60+ colonnes démographiques, chirurgicales, biologie préop, outcomes"
+        fichier_local: "vitaldb/clinical_metadata.csv"
+        taille_estimee_mo: 5
+        utilisation:
+          - "Alimentation KB YAML (populations, terrains, chirurgies)"
+          - "Corrélation terrain/complications"
+          - "Calibration seuils d'alerte par sous-population"
+
+      intraop_labs:
+        description: "Résultats labo peropératoires avec timestamp (GDS, NFS, iono, coag, lactate)"
+        fichier_local: "vitaldb/intraop_labs.csv"
+        taille_estimee_mo: 20
+        utilisation:
+          - "Corrélation signaux vitaux / biologie"
+          - "Détection patterns hémorragiques (chute Hb + lactate ↑)"
+          - "Validation alertes multi-paramètres"
+
+      track_index:
+        description: "Index des 557 622 tracks disponibles"
+        fichier_local: "vitaldb/track_index.csv"
+        taille_estimee_mo: 2
+        utilisation:
+          - "Sélection des cas pour replay simulateur"
+          - "Couverture des paramètres par cas"
+
+      numeric_cases:
+        description: "25 tracks numériques sélectionnés pour 200 cas"
+        dossier_local: "vitaldb/cases/"
+        taille_estimee_mo: 50
+        tracks_selectionnes: 25
+        utilisation:
+          - "Mode replay simulateur (vrais signaux patients)"
+          - "Calibration modèles ML"
+          - "Démo réaliste devant MAR"
+
+    devices:
+      solar_8000m:
+        type: "Patient monitor"
+        company: "GE healthcare"
+        n_params: 44
+        interval_sec: 2
+        coverage_pct: 100
+      primus:
+        type: "Anesthesia machine"
+        company: "Drager"
+        n_params: 37
+        interval_sec: 7
+        coverage_pct: 99.6
+      bis_vista:
+        type: "EEG monitor"
+        company: "Covidien"
+        n_params: 8
+        interval_sec: 1
+        coverage_pct: 87.1
+      orchestra:
+        type: "TCI pump"
+        company: "Fresenius Kabi"
+        n_params: 51
+        interval_sec: 1
+        coverage_pct: 77.0
+      vigileo:
+        type: "Cardiac output monitor"
+        company: "Edwards Lifesciences"
+        n_params: 5
+        interval_sec: 2
+        coverage_pct: 5.4
+      ev1000:
+        type: "Cardiac output monitor"
+        company: "Edwards Lifesciences"
+        n_params: 9
+        interval_sec: 2
+        coverage_pct: 9.4
+
+  # =========================================================================
+  # AUTRES SOURCES (planifiées)
+  # =========================================================================
+
+  sfar:
+    label_fr: "Société Française d'Anesthésie et de Réanimation"
+    url: "https://sfar.org"
+    type: guidelines
+    data_status: reference_manuelle
+    contenu_utilise:
+      - "Recommandations formalisées d'experts (RFE)"
+      - "Algorithmes décisionnels (intubation difficile, anaphylaxie)"
+      - "Seuils transfusionnels"
+      - "Ventilation protectrice"
+
+  mapar:
+    label_fr: "Mises au Point en Anesthésie Réanimation"
+    url: "https://mapar.org"
+    type: formation_continue
+    data_status: reference_manuelle
+    contenu_utilise:
+      - "Protocoles cliniques"
+      - "Pharmacologie appliquée"
+
+  esa_esaic:
+    label_fr: "European Society of Anaesthesiology and Intensive Care"
+    url: "https://esaic.org"
+    type: guidelines
+    data_status: reference_manuelle
+
+  asa:
+    label_fr: "American Society of Anesthesiologists"
+    url: "https://asahq.org"
+    type: guidelines
+    data_status: reference_manuelle
+    contenu_utilise:
+      - "Classification ASA"
+      - "Standards de monitoring"
+      - "Difficult Airway Algorithm"
+
+  miller_anesthesia:
+    label_fr: "Miller's Anesthesia (textbook)"
+    type: reference_textbook
+    edition: 9
+    data_status: reference_manuelle
+    utilisation: "Valeurs de référence pharmacologiques et physiologiques"
+
+  mimic_iv:
+    label_fr: "MIMIC-IV (ICU dataset)"
+    url: "https://physionet.org/content/mimiciv/"
+    type: dataset
+    data_status: planned
+    interet_charles:
+      - "Données réanimation postop (complémentaire à VitalDB)"
+      - "Scores de gravité (SOFA, APACHE)"
+      - "Évolution post-chirurgicale"

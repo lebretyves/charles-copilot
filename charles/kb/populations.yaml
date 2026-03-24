@@ -1,0 +1,249 @@
+# =============================================================================
+# CHARLES KB — Populations
+# Source: VitalDB dataset + littérature SFAR/ASA/ESA
+# =============================================================================
+
+populations:
+
+  # =========================================================================
+  # ADULTE STANDARD
+  # =========================================================================
+  adulte_standard:
+    label_fr: "Adulte standard (18-64 ans)"
+    label_en: "Standard adult (18-64 years)"
+    age_range: [18, 64]
+    vitaldb_coverage: true
+    vitaldb_n_approx: 4200
+
+    physiologie_reference:
+      hr_repos: [60, 100]
+      pas_repos: [100, 140]
+      pad_repos: [60, 90]
+      pam_cible: [65, 100]
+      spo2_normal: [96, 100]
+      etco2_normal: [35, 45]
+      fr_normal: [12, 20]
+      temperature_normal: [36.0, 37.5]
+      bis_cible_ag: [40, 60]
+      diurese_cible_ml_kg_h: 0.5
+
+    particularites_anesthesiques:
+      - "Référence pour les seuils standard"
+      - "Induction doses-standard propofol 2-2.5 mg/kg, rémifentanil 0.5-1 mcg/kg"
+      - "Ventilation protectrice Vt 6-8 mL/kg PBW, PEEP 5"
+
+  # =========================================================================
+  # GÉRIATRIQUE
+  # =========================================================================
+  geriatrique:
+    label_fr: "Sujet âgé (≥ 65 ans)"
+    label_en: "Elderly (≥ 65 years)"
+    age_range: [65, 120]
+    vitaldb_coverage: true
+    vitaldb_n_approx: 2100
+
+    physiologie_reference:
+      hr_repos: [55, 90]
+      pas_repos: [110, 160]
+      pad_repos: [60, 85]
+      pam_cible: [65, 110]
+      spo2_normal: [94, 100]
+      etco2_normal: [32, 45]
+      fr_normal: [12, 22]
+      temperature_normal: [35.8, 37.2]
+      bis_cible_ag: [40, 60]
+      diurese_cible_ml_kg_h: 0.5
+
+    particularites_anesthesiques:
+      - "Réduction doses 30-50% (propofol 1-1.5 mg/kg)"
+      - "Sensibilité accrue aux opioïdes"
+      - "Risque hypotension post-induction +++ (compliance vasculaire réduite)"
+      - "BIS monitoring fortement recommandé (éviter BIS < 40 — POCD)"
+      - "Risque hypothermie augmenté (thermorégulation altérée)"
+      - "Clairance rénale diminuée → adaptations posologiques"
+      - "Seuils PA personnalisés selon PA habituelle patient"
+
+    alertes_adaptees:
+      pam_seuil_bas: 65  # ne pas descendre en-dessous
+      bis_seuil_bas: 40  # risque POCD si < 40 prolongé
+      temperature_seuil_bas: 35.5
+      hypotension_relative_pct: 20  # -20% de la PA de référence
+
+  # =========================================================================
+  # PÉDIATRIQUE
+  # =========================================================================
+  pediatrique:
+    label_fr: "Pédiatrique (< 18 ans)"
+    label_en: "Pediatric (< 18 years)"
+    age_range: [0, 17]
+    vitaldb_coverage: false
+    data_status: planned
+
+    sous_populations:
+      nouveau_ne:
+        label_fr: "Nouveau-né (0-28 jours)"
+        age_range_jours: [0, 28]
+        hr_repos: [120, 160]
+        pas_repos: [60, 80]
+        spo2_cible: [92, 98]
+        fr_normal: [30, 50]
+        temperature_cible: [36.5, 37.5]
+        particularites:
+          - "Thermorégulation immature — réchauffement actif obligatoire"
+          - "CRF faible — désaturation rapide"
+          - "Sensibilité aux halogénés (MAC basse)"
+          - "Voies aériennes étroites — diamètre sonde = (âge/4)+3.5"
+          - "Pertes insensibles élevées"
+
+      nourrisson:
+        label_fr: "Nourrisson (1-12 mois)"
+        age_range_mois: [1, 12]
+        hr_repos: [100, 150]
+        pas_repos: [70, 100]
+        spo2_cible: [95, 100]
+        fr_normal: [25, 40]
+        temperature_cible: [36.5, 37.5]
+        particularites:
+          - "Volume de distribution augmenté → doses mg/kg plus élevées"
+          - "Laryngospasme fréquent"
+          - "Bradycardie vagale (atropine 20 mcg/kg)"
+
+      enfant:
+        label_fr: "Enfant (1-12 ans)"
+        age_range: [1, 12]
+        hr_repos: [70, 120]
+        pas_repos: [80, 110]
+        spo2_cible: [96, 100]
+        fr_normal: [18, 30]
+        temperature_cible: [36.0, 37.5]
+
+      adolescent:
+        label_fr: "Adolescent (13-17 ans)"
+        age_range: [13, 17]
+        hr_repos: [60, 100]
+        pas_repos: [90, 130]
+        spo2_cible: [96, 100]
+        fr_normal: [12, 20]
+        temperature_cible: [36.0, 37.5]
+
+  # =========================================================================
+  # OBSTÉTRIQUE
+  # =========================================================================
+  obstetrique:
+    label_fr: "Obstétrique (parturiente)"
+    label_en: "Obstetric (parturient)"
+    vitaldb_coverage: false
+    data_status: planned
+
+    physiologie_reference:
+      hr_repos: [70, 110]  # tachycardie physiologique grossesse
+      pas_repos: [90, 130]  # PA diminuée 2e trimestre
+      pad_repos: [55, 80]
+      spo2_normal: [96, 100]
+      etco2_normal: [28, 35]  # hyperventilation physiologique
+      fr_normal: [14, 22]
+      temperature_normal: [36.0, 37.5]
+
+    particularites_anesthesiques:
+      - "Compression aorto-cave en DD → DLG 15° obligatoire"
+      - "Estomac plein dès 2e trimestre → ISR (crush induction)"
+      - "Intubation difficile 8x plus fréquente"
+      - "Volume de distribution augmenté, protéines diminuées"
+      - "MAC diminuée de 30%"
+      - "Risque hémorragique accru (HPP)"
+      - "Seuil transfusionnel adapté"
+
+  # =========================================================================
+  # OBÈSE
+  # =========================================================================
+  obese:
+    label_fr: "Obèse (IMC ≥ 30)"
+    label_en: "Obese (BMI ≥ 30)"
+    bmi_range: [30, 80]
+    vitaldb_coverage: true  # disponible via champ bmi dans VitalDB
+
+    sous_populations:
+      obesite_moderee:
+        label_fr: "Obésité modérée (IMC 30-35)"
+        bmi_range: [30, 35]
+      obesite_severe:
+        label_fr: "Obésité sévère (IMC 35-40)"
+        bmi_range: [35, 40]
+      obesite_morbide:
+        label_fr: "Obésité morbide (IMC ≥ 40)"
+        bmi_range: [40, 80]
+
+    particularites_anesthesiques:
+      - "Intubation difficile prédite (Mallampati, tour de cou, SAOS)"
+      - "Désaturation rapide (CRF réduite, consommation O2 augmentée)"
+      - "Doses sur poids ajusté (lean body weight) sauf succinylcholine"
+      - "Position proclive 30° pour préoxygénation et induction"
+      - "PEEP 8-10 cmH2O minimum, manœuvres recrutement"
+      - "BIS recommandé (pharmacocinétique altérée)"
+      - "Risque SAOS postop → SpO2 prolongée"
+
+    alertes_adaptees:
+      spo2_seuil_bas: 94
+      etco2_seuil_haut: 50
+      pip_seuil_haut: 35
+
+  # =========================================================================
+  # INSUFFISANT RÉNAL CHRONIQUE
+  # =========================================================================
+  insuffisant_renal:
+    label_fr: "Insuffisant rénal chronique / dialysé"
+    label_en: "Chronic kidney disease / dialysis"
+    vitaldb_coverage: true  # via preop_cr, preop_bun
+
+    particularites_anesthesiques:
+      - "Kaliémie préop obligatoire (risque arythmie)"
+      - "Éviter succinylcholine si K+ > 5.5"
+      - "Adaptation posologique (clairance réduite)"
+      - "Risque surcharge hydrique"
+      - "Seuil transfusionnel plus bas (tolérance anémie chronique)"
+      - "Protection FAV (pas de brassard ni voie côté fistule)"
+      - "Acidose métabolique de base"
+
+  # =========================================================================
+  # ASA CLASSIFICATION (de VitalDB)
+  # =========================================================================
+  asa_classification:
+    label_fr: "Classification ASA"
+    label_en: "ASA Physical Status Classification"
+    source: "American Society of Anesthesiologists"
+
+    classes:
+      asa_1:
+        label_fr: "Patient en bonne santé"
+        label_en: "Normal healthy patient"
+        exemples: ["Non fumeur", "Pas ou peu d'alcool"]
+        risque_relatif: 1.0
+        vitaldb_n_approx: 800
+
+      asa_2:
+        label_fr: "Maladie systémique légère"
+        label_en: "Mild systemic disease"
+        exemples: ["Tabagisme actif", "Buveur social", "Grossesse", "Obésité 30<IMC<40", "DT2 équilibré", "HTA contrôlée"]
+        risque_relatif: 1.2
+        vitaldb_n_approx: 3500
+
+      asa_3:
+        label_fr: "Maladie systémique sévère"
+        label_en: "Severe systemic disease"
+        exemples: ["HTA mal contrôlée", "DT2 non équilibré", "BPCO", "Obésité morbide IMC≥40", "Hépatite active", "IRC dialysée", "Stent coronaire > 3 mois"]
+        risque_relatif: 2.2
+        vitaldb_n_approx: 1800
+
+      asa_4:
+        label_fr: "Maladie systémique menaçant le pronostic vital"
+        label_en: "Severe systemic disease — constant threat to life"
+        exemples: ["IDM récent < 3 mois", "AVC récent", "Sepsis", "SDRA", "Insuffisance cardiaque décompensée"]
+        risque_relatif: 5.4
+        vitaldb_n_approx: 250
+
+      asa_5:
+        label_fr: "Patient moribond"
+        label_en: "Moribund patient"
+        exemples: ["Rupture AAA", "Polytraumatisme massif", "Hémorragie intracrânienne avec engagement"]
+        risque_relatif: 18.3
+        vitaldb_n_approx: 38

@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+
+# Pytest
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node
+node_modules/
+services/frontend/dist/
+
+# VitalDB data (trop volumineux pour git)
+vitaldb/cases/
+vitaldb/clinical_metadata.csv
+vitaldb/intraop_labs.csv
+vitaldb/track_index.csv
+
+# Env
+.env
+
+# Docker volumes
+postgres_data/
+redis_data/
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store

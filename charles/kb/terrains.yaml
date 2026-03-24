@@ -1,0 +1,371 @@
+# =============================================================================
+# CHARLES KB — Terrains / Antécédents / Comorbidités
+# Source: VitalDB clinical parameters + SFAR/ESA guidelines
+# =============================================================================
+
+# Champs VitalDB disponibles: preop_htn, preop_dm, preop_ecg, preop_pft,
+#   preop_hb, preop_plt, preop_pt, preop_aptt, preop_na, preop_k,
+#   preop_gluc, preop_alb, preop_ast, preop_alt, preop_bun, preop_cr,
+#   preop_ph, preop_hco3, preop_be, preop_pao2, preop_paco2, preop_sao2
+
+systemes:
+
+  # =========================================================================
+  # CARDIOVASCULAIRE
+  # =========================================================================
+  cardiovasculaire:
+    label_fr: "Pathologies cardiovasculaires"
+    label_en: "Cardiovascular diseases"
+
+    terrains:
+
+      hta:
+        label_fr: "Hypertension artérielle"
+        label_en: "Hypertension"
+        vitaldb_field: preop_htn
+        prevalence_chirurgicale_pct: 35
+        impact_anesthesique:
+          - "Labilité tensionnelle à l'induction"
+          - "Seuil PAM personnalisé (PAM hab = PAS hab × 0.33 + PAD hab × 0.67)"
+          - "Interaction IEC/ARA2 — hypotension réfractaire si non arrêtés"
+          - "Risque HTA perop au stimulus nociceptif"
+          - "Poussée hypertensive au réveil"
+        alertes_charles:
+          pam_seuil_bas_personnalise: true  # -20% de la PAM de référence
+          pam_seuil_haut: 120
+          variation_pa_max_pct: 25
+        traitements_habituels:
+          - betabloquants
+          - iec_ara2
+          - inhibiteurs_calciques
+          - diuretiques
+        interaction_medicamenteuse:
+          iec_ara2: "Arrêt 24-48h avant chirurgie (SFAR 2017) — risque hypotension réfractaire"
+          betabloquants: "Ne pas arrêter — risque ischémie de rebond"
+
+      coronaropathie:
+        label_fr: "Coronaropathie / Cardiopathie ischémique"
+        label_en: "Coronary artery disease"
+        vitaldb_field: null  # non directement dans VitalDB, déductible ECG
+        prevalence_chirurgicale_pct: 8
+        impact_anesthesique:
+          - "Maintien balance apport/consommation O2 myocardique"
+          - "FC cible < 80/min (éviter tachycardie)"
+          - "PAM stable (éviter hypotension — flux coronaire diastolique)"
+          - "Monitoring ST continu (DII + V5)"
+          - "Troponine postop si chirurgie à risque"
+        alertes_charles:
+          hr_seuil_haut: 80
+          st_segment_seuil: 2  # mm de déviation
+          pam_seuil_bas: 65
+        vitaldb_ecg_markers: ["ST_II", "ST_V5", "ST_AVF"]
+
+      insuffisance_cardiaque:
+        label_fr: "Insuffisance cardiaque"
+        label_en: "Heart failure"
+        grades: [nyha_1, nyha_2, nyha_3, nyha_4]
+        impact_anesthesique:
+          - "Réduction doses d'induction ++"
+          - "Risque OAP perop si remplissage excessif"
+          - "Inotropes à disposition"
+          - "Monitoring débit cardiaque recommandé si NYHA ≥ 3"
+        alertes_charles:
+          svv_seuil_remplissage: 13
+          co_seuil_bas: 3.5
+          pip_seuil_haut: 25
+
+      arythmie:
+        label_fr: "Trouble du rythme / conduction"
+        label_en: "Arrhythmia / conduction disorder"
+        vitaldb_field: preop_ecg
+        types:
+          - fa_permanente
+          - bav_complet_pace
+          - tv_antecedent
+          - wpw
+          - qT_long
+        impact_anesthesique:
+          - "Vérifier PM/DAI (mode défibrillation à désactiver)"
+          - "Aimant à proximité"
+          - "Monitorage ECG 5 dérivations minimum"
+          - "Risque Brady perop sous halogénés"
+          - "Éviter halogénés si QT long"
+
+      valvulopathie:
+        label_fr: "Valvulopathie"
+        label_en: "Valvular heart disease"
+        types:
+          - stenose_aortique_serree
+          - insuffisance_mitrale
+          - retrecissement_mitral
+          - insuffisance_aortique
+        impact_anesthesique:
+          - "RAo serré → maintien précharge + FC × TA (pas de tachycardie ni hypoTA)"
+          - "IM → éviter bradycardie, maintenir postcharge basse"
+          - "RM → éviter tachycardie, pas de remplissage excessif"
+          - "IAo → maintenir FC légèrement élevée, postcharge basse"
+
+  # =========================================================================
+  # RESPIRATOIRE
+  # =========================================================================
+  respiratoire:
+    label_fr: "Pathologies respiratoires"
+    label_en: "Respiratory diseases"
+
+    terrains:
+
+      bpco:
+        label_fr: "BPCO / Emphysème"
+        label_en: "COPD / Emphysema"
+        vitaldb_field: preop_pft
+        impact_anesthesique:
+          - "EFR préop pour évaluation (VEMS, DLCO)"
+          - "Auto-PEEP possible → allonger temps expiratoire"
+          - "Bronchospasme à l'intubation"
+          - "SpO2 cible 92-96% (pas 100% si IRC)"
+          - "Prudence extubation (risque détresse respi postop)"
+          - "Ventilation protectrice Vt 6 mL/kg PBW"
+        alertes_charles:
+          spo2_seuil_bas: 90
+          etco2_seuil_haut: 55
+          pip_seuil_haut: 30
+          auto_peep_detection: true
+
+      asthme:
+        label_fr: "Asthme"
+        label_en: "Asthma"
+        impact_anesthesique:
+          - "Bronchospasme à l'intubation — prémédication β2"
+          - "Éviter histaminolibérateurs (atracurium, morphine, thiopental)"
+          - "Sévoflurane = halogéné de choix (bronchodilatateur)"
+          - "Kétamine en alternative si bronchospasme réfractaire"
+          - "Adrénaline si bronchospasme sévère"
+        alertes_charles:
+          pip_seuil_haut: 30
+          etco2_forme_courbe: "surveillance obstruction"
+          bronchospasme_detection: true
+
+      saos:
+        label_fr: "Syndrome d'apnées obstructives du sommeil"
+        label_en: "Obstructive sleep apnea"
+        impact_anesthesique:
+          - "Intubation difficile prédite (évaluation Mallampati, STOP-BANG)"
+          - "Sensibilité accrue aux opioïdes"
+          - "Désaturation rapide à l'induction"
+          - "Extubation à risque — patient réveillé, assis"
+          - "SpO2 postop prolongée (24-72h)"
+        alertes_charles:
+          spo2_seuil_bas: 92
+          apnee_detection: true
+
+      insuffisance_respiratoire_chronique:
+        label_fr: "Insuffisance respiratoire chronique"
+        label_en: "Chronic respiratory failure"
+        vitaldb_fields: [preop_pao2, preop_paco2, preop_sao2]
+        impact_anesthesique:
+          - "GDS préop pour baseline (PaCO2 de référence)"
+          - "Risque sevrage ventilateur difficile"
+          - "SpO2 cible 88-92% si IRC hypercapnique"
+          - "VNI postop souvent nécessaire"
+
+  # =========================================================================
+  # MÉTABOLIQUE / ENDOCRINIEN
+  # =========================================================================
+  metabolique:
+    label_fr: "Pathologies métaboliques / endocriniennes"
+    label_en: "Metabolic / endocrine diseases"
+
+    terrains:
+
+      diabete:
+        label_fr: "Diabète (type 1 et 2)"
+        label_en: "Diabetes mellitus"
+        vitaldb_field: preop_dm
+        vitaldb_bio: preop_gluc
+        prevalence_chirurgicale_pct: 20
+        impact_anesthesique:
+          - "Glycémie perop toutes les heures (cible 1.1-1.8 g/L)"
+          - "Neuropathie autonome → instabilité hémodynamique"
+          - "Gastroparésie → estomac plein (ISR si doute)"
+          - "Risque infection postop augmenté"
+          - "Insulinothérapie perop si glycémie > 1.8 g/L"
+        alertes_charles:
+          glycemie_seuil_bas_g_l: 0.7
+          glycemie_seuil_haut_g_l: 2.0
+          hr_variabilite_reduite: "suspicion neuropathie autonome"
+
+      dysthyroidie:
+        label_fr: "Dysthyroïdie"
+        label_en: "Thyroid dysfunction"
+        types: [hypothyroidie, hyperthyroidie]
+        impact_anesthesique:
+          hypothyroidie:
+            - "Sensibilité accrue aux anesthésiques"
+            - "Risque hypothermie"
+            - "Bradycardie"
+            - "Retard de vidange gastrique"
+          hyperthyroidie:
+            - "Risque orage thyrotoxique perop"
+            - "Tachycardie, HTA"
+            - "Bêtabloquants = traitement de 1re intention"
+
+      insuffisance_surrenalienne:
+        label_fr: "Insuffisance surrénalienne / corticothérapie chronique"
+        label_en: "Adrenal insufficiency / chronic steroid therapy"
+        impact_anesthesique:
+          - "Supplément hydrocortisone perop (stress dose)"
+          - "Risque insuffisance surrénalienne aiguë"
+          - "Hypotension réfractaire aux vasopresseurs"
+
+  # =========================================================================
+  # HÉPATIQUE
+  # =========================================================================
+  hepatique:
+    label_fr: "Pathologies hépatiques"
+    label_en: "Hepatic diseases"
+
+    terrains:
+
+      cirrhose:
+        label_fr: "Cirrhose hépatique"
+        label_en: "Liver cirrhosis"
+        vitaldb_fields: [preop_ast, preop_alt, preop_alb, preop_pt]
+        score_severite: child_pugh
+        impact_anesthesique:
+          - "Coagulopathie (TP, fibrinogène, plaquettes)"
+          - "Hypoalbuminémie → fraction libre médicaments augmentée"
+          - "HTP → varices, splénomégalie, ascite"
+          - "Métabolisme hépatique ralenti"
+          - "Encéphalopathie — prudence benzodiazépines"
+          - "Syndrome hépato-rénal"
+        alertes_charles:
+          pt_seuil_bas_pct: 50
+          albumine_seuil_bas: 2.5
+          plaquettes_seuil_bas: 50
+
+  # =========================================================================
+  # RÉNAL
+  # =========================================================================
+  renal:
+    label_fr: "Pathologies rénales"
+    label_en: "Renal diseases"
+
+    terrains:
+
+      insuffisance_renale_chronique:
+        label_fr: "Insuffisance rénale chronique"
+        label_en: "Chronic kidney disease"
+        vitaldb_fields: [preop_cr, preop_bun, preop_k, preop_na]
+        stades: [stade_1, stade_2, stade_3a, stade_3b, stade_4, stade_5_dialyse]
+        impact_anesthesique:
+          - "Kaliémie préop OBLIGATOIRE (risque arythmie si K+ > 5.5)"
+          - "Éviter succinylcholine si K+ > 5"
+          - "Adaptation posologique (élimination rénale)"
+          - "Prudence remplissage (surcharge)"
+          - "Protection FAV si dialysé"
+          - "Acidose métabolique compensée (baseline HCO3-)"
+        alertes_charles:
+          k_seuil_haut: 5.5
+          creatinine_seuil: 200  # µmol/L
+
+  # =========================================================================
+  # NEUROLOGIQUE
+  # =========================================================================
+  neurologique:
+    label_fr: "Pathologies neurologiques"
+    label_en: "Neurological diseases"
+
+    terrains:
+
+      avc_ancien:
+        label_fr: "Antécédent d'AVC"
+        label_en: "Previous stroke"
+        impact_anesthesique:
+          - "Risque récidive perop (maintien pression de perfusion cérébrale)"
+          - "PAM cible individualisée (≥ 80 si sténose carotidienne)"
+          - "Intérêt BIS/EEG pour monitoring cérébral"
+          - "Bilan anticoagulant/antiagrégant"
+
+      epilepsie:
+        label_fr: "Épilepsie"
+        label_en: "Epilepsy"
+        impact_anesthesique:
+          - "Interactions antiépileptiques/anesthésiques"
+          - "Sévoflurane épileptogène à forte concentration (>1.5 MAC)"
+          - "Propofol = proconvulsivant controversé"
+          - "BIS surveillé"
+
+      myopathie:
+        label_fr: "Myopathie / Maladie neuromusculaire"
+        label_en: "Myopathy / Neuromuscular disease"
+        impact_anesthesique:
+          - "CONTRE-INDICATION succinylcholine (risque hyperkaliémie maligne)"
+          - "Sensibilité accrue aux curares non dépolarisants"
+          - "Risque hyperthermie maligne si prédisposé"
+          - "Sevrage ventilateur potentiellement difficile"
+
+  # =========================================================================
+  # HÉMATOLOGIQUE
+  # =========================================================================
+  hematologique:
+    label_fr: "Pathologies hématologiques"
+    label_en: "Hematologic diseases"
+
+    terrains:
+
+      anemie_chronique:
+        label_fr: "Anémie chronique"
+        label_en: "Chronic anemia"
+        vitaldb_field: preop_hb
+        impact_anesthesique:
+          - "Seuil transfusionnel adapté (Hb 7 g/dL chez sujet sain, 9-10 si coronarien)"
+          - "Tolérance clinique > valeur absolue d'Hb"
+          - "Optimisation préop (fer IV, EPO si délai)"
+
+      trouble_hemostase:
+        label_fr: "Trouble de l'hémostase"
+        label_en: "Coagulation disorder"
+        vitaldb_fields: [preop_pt, preop_aptt, preop_plt]
+        types:
+          - thrombopenie
+          - hemophilie
+          - anticoagulants_oraux
+          - antiagregants_plaquettaires
+        impact_anesthesique:
+          - "Bilan hémostase complet préop"
+          - "ALR contre-indiquée si TP < 60% ou plaquettes < 80 000"
+          - "Protocole de relais AOD/AVK (héparinothérapie pont)"
+          - "CG + PFC + fibrinogène à disposition"
+
+  # =========================================================================
+  # ALLERGIES
+  # =========================================================================
+  allergies:
+    label_fr: "Allergies et risque anaphylactique"
+    label_en: "Allergies and anaphylaxis risk"
+
+    terrains:
+
+      allergie_curares:
+        label_fr: "Allergie aux curares"
+        label_en: "Neuromuscular blocking agent allergy"
+        impact_anesthesique:
+          - "Prick tests préop obligatoires"
+          - "Alternative sugammadex si rocuronium"
+          - "Adrénaline seringue prête"
+
+      allergie_latex:
+        label_fr: "Allergie au latex"
+        label_en: "Latex allergy"
+        impact_anesthesique:
+          - "Bloc sans latex (gants, matériel, perfusions)"
+          - "Premier cas du programme opératoire"
+          - "Prémédication antihistaminique discutée"
+
+      atopie:
+        label_fr: "Terrain atopique"
+        label_en: "Atopic background"
+        impact_anesthesique:
+          - "Risque bronchospasme augmenté"
+          - "Éviter histaminolibérateurs"
+          - "Prudence produits iodés"

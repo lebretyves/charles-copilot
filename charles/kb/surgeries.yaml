@@ -1,0 +1,598 @@
+# =============================================================================
+# CHARLES KB — Chirurgies
+# Source: VitalDB (6 388 cas, Seoul National University Hospital)
+#         + littérature SFAR, MAPAR, ASA, Miller's Anesthesia
+# =============================================================================
+
+departments:
+
+  # =========================================================================
+  # CHIRURGIE GÉNÉRALE — 4 930 cas VitalDB (77.2%)
+  # =========================================================================
+  chirurgie_generale:
+    label_fr: "Chirurgie générale"
+    label_en: "General Surgery"
+    vitaldb_n: 4930
+    vitaldb_pct: 77.2
+
+    procedures:
+
+      # --- Hépatobiliaire ---
+      hepatectomie:
+        label_fr: "Hépatectomie"
+        label_en: "Hepatectomy"
+        approche: [open, videoscopic, robotic]
+        position: supine
+        duree_moy_min: 240
+        asa_typique: [2, 3]
+        risques_specifiques:
+          - hemorragie_massive
+          - hypothermie
+          - coagulopathie
+          - embolie_gazeuse
+          - hypoglycemie_postop
+        monitorage_specifique:
+          - voie_arterielle_obligatoire
+          - voie_centrale_recommandee
+          - debit_cardiaque_si_majeure
+          - temperature_continue
+        pertes_sanguines_attendues_ml: [500, 2000]
+        transfusion_probable: true
+        vitaldb_tracks_pertinents:
+          - Solar8000/ART_SBP
+          - Solar8000/ART_DBP
+          - Vigileo/SVV
+          - EV1000/CO
+
+      cholecystectomie:
+        label_fr: "Cholécystectomie"
+        label_en: "Cholecystectomy"
+        approche: [videoscopic, open]
+        position: supine_trendelenburg_inverse
+        duree_moy_min: 90
+        asa_typique: [1, 2]
+        risques_specifiques:
+          - pneumoperitoine_co2
+          - vagal_reflex
+          - conversion_laparotomie
+          - lesion_voie_biliaire
+        monitorage_specifique:
+          - etco2_vigilance_augmentee
+          - pression_insufflation
+        pertes_sanguines_attendues_ml: [20, 100]
+        transfusion_probable: false
+
+      gastrectomie:
+        label_fr: "Gastrectomie"
+        label_en: "Gastrectomy"
+        approche: [open, videoscopic, robotic]
+        position: supine
+        duree_moy_min: 200
+        asa_typique: [2, 3]
+        risques_specifiques:
+          - hemorragie
+          - hypothermie
+          - denutrition_preop
+          - fistule_anastomotique_postop
+        monitorage_specifique:
+          - voie_arterielle_recommandee
+          - temperature_continue
+          - sonde_gastrique
+        pertes_sanguines_attendues_ml: [200, 800]
+        transfusion_probable: true
+
+      colectomie:
+        label_fr: "Colectomie"
+        label_en: "Colectomy"
+        approche: [open, videoscopic, robotic]
+        position: supine_lithotomie
+        duree_moy_min: 180
+        asa_typique: [2, 3]
+        risques_specifiques:
+          - hemorragie
+          - inoculation_septique
+          - iléus_postop
+          - deshydratation_preop
+        monitorage_specifique:
+          - voie_arterielle_si_asa3
+          - temperature_continue
+          - diurese_horaire
+        pertes_sanguines_attendues_ml: [100, 500]
+        transfusion_probable: false
+
+      pancreatectomie:
+        label_fr: "Pancréatectomie (DPC/spléno-pancréatectomie)"
+        label_en: "Pancreatectomy (Whipple / distal)"
+        approche: [open, videoscopic]
+        position: supine
+        duree_moy_min: 360
+        asa_typique: [2, 3, 4]
+        risques_specifiques:
+          - hemorragie_massive
+          - hypothermie_severe
+          - hyperglycemie
+          - coagulopathie
+          - instabilite_hemodynamique_prolongee
+        monitorage_specifique:
+          - voie_arterielle_obligatoire
+          - voie_centrale_obligatoire
+          - debit_cardiaque_recommande
+          - temperature_continue
+          - glycemie_horaire
+        pertes_sanguines_attendues_ml: [500, 3000]
+        transfusion_probable: true
+
+      oesophagectomie:
+        label_fr: "Œsophagectomie"
+        label_en: "Esophagectomy"
+        approche: [open, videoscopic]
+        position: supine_puis_lateral
+        duree_moy_min: 420
+        asa_typique: [2, 3]
+        risques_specifiques:
+          - ventilation_unipulmonaire
+          - hemorragie
+          - hypothermie
+          - arythmie_postop
+          - fistule_anastomotique
+        monitorage_specifique:
+          - voie_arterielle_obligatoire
+          - voie_centrale_obligatoire
+          - sonde_double_lumiere
+          - spo2_bilateral
+          - temperature_continue
+        pertes_sanguines_attendues_ml: [300, 1500]
+        transfusion_probable: true
+
+      hernie_inguinale:
+        label_fr: "Cure de hernie inguinale"
+        label_en: "Inguinal hernia repair"
+        approche: [videoscopic, open]
+        position: supine
+        duree_moy_min: 60
+        asa_typique: [1, 2]
+        risques_specifiques:
+          - retention_urinaire_postop
+          - lesion_vasculaire_rare
+        monitorage_specifique:
+          - standard
+        pertes_sanguines_attendues_ml: [10, 50]
+        transfusion_probable: false
+
+      appendicectomie:
+        label_fr: "Appendicectomie"
+        label_en: "Appendectomy"
+        approche: [videoscopic, open]
+        position: supine
+        duree_moy_min: 60
+        asa_typique: [1, 2]
+        risques_specifiques:
+          - sepsis_si_peritonite
+          - conversion_laparotomie
+        monitorage_specifique:
+          - standard
+          - temperature_si_septique
+        pertes_sanguines_attendues_ml: [10, 50]
+        transfusion_probable: false
+
+      chirurgie_bariatrique:
+        label_fr: "Chirurgie bariatrique (sleeve/bypass)"
+        label_en: "Bariatric surgery (sleeve/RYGB)"
+        approche: [videoscopic, robotic]
+        position: supine_proclive
+        duree_moy_min: 120
+        asa_typique: [2, 3]
+        risques_specifiques:
+          - intubation_difficile
+          - desaturation_rapide
+          - pneumoperitoine_co2
+          - thrombose_veineuse
+          - rhabdomyolyse_positionnelle
+        monitorage_specifique:
+          - etco2_vigilance_augmentee
+          - bis_recommande
+          - pni_brassard_adapte
+        pertes_sanguines_attendues_ml: [50, 200]
+        transfusion_probable: false
+
+      thyroidectomie:
+        label_fr: "Thyroïdectomie"
+        label_en: "Thyroidectomy"
+        approche: [open, videoscopic]
+        position: supine_hyperextension_cervicale
+        duree_moy_min: 120
+        asa_typique: [1, 2]
+        risques_specifiques:
+          - lesion_nerf_recurrent
+          - hematome_cervical_compressif
+          - hypocalcemie_postop
+          - orage_thyrotoxique_rare
+        monitorage_specifique:
+          - neuromonitorage_recurrent_si_dispo
+          - calcium_postop
+        pertes_sanguines_attendues_ml: [30, 150]
+        transfusion_probable: false
+
+  # =========================================================================
+  # CHIRURGIE THORACIQUE — 1 111 cas VitalDB (17.4%)
+  # =========================================================================
+  chirurgie_thoracique:
+    label_fr: "Chirurgie thoracique"
+    label_en: "Thoracic Surgery"
+    vitaldb_n: 1111
+    vitaldb_pct: 17.4
+
+    procedures:
+
+      lobectomie_pulmonaire:
+        label_fr: "Lobectomie pulmonaire"
+        label_en: "Pulmonary lobectomy"
+        approche: [videoscopic, open, robotic]
+        position: lateral
+        duree_moy_min: 180
+        asa_typique: [2, 3]
+        risques_specifiques:
+          - ventilation_unipulmonaire
+          - hypoxemie_shunt
+          - hemorragie_vasculaire_pulmonaire
+          - arythmie
+          - fuite_aerienne
+        monitorage_specifique:
+          - voie_arterielle_obligatoire
+          - sonde_double_lumiere_ou_bloqueur
+          - spo2_vigilance_augmentee
+          - etco2_deux_poumons_vs_un
+          - fibroscopie_verification_sdl
+        pertes_sanguines_attendues_ml: [100, 800]
+        transfusion_probable: false
+        vitaldb_particularites:
+          propofol_tci_pct: 89.6
+          remifentanil_tci_pct: 90.0
+          bis_disponible_pct: 90.4
+
+      pneumonectomie:
+        label_fr: "Pneumonectomie"
+        label_en: "Pneumonectomy"
+        approche: [open]
+        position: lateral
+        duree_moy_min: 240
+        asa_typique: [3, 4]
+        risques_specifiques:
+          - hypoxemie_severe
+          - instabilite_hemodynamique_clampage
+          - arythmie_supraventriculaire
+          - oedeme_post_pneumonectomie
+          - fistule_bronchique
+        monitorage_specifique:
+          - voie_arterielle_obligatoire
+          - voie_centrale_recommandee
+          - sonde_double_lumiere
+          - debit_cardiaque_recommande
+          - restriction_hydrique
+        pertes_sanguines_attendues_ml: [200, 1500]
+        transfusion_probable: true
+
+      mediastinoscopie:
+        label_fr: "Médiastinoscopie"
+        label_en: "Mediastinoscopy"
+        approche: [open]
+        position: supine
+        duree_moy_min: 60
+        asa_typique: [2, 3]
+        risques_specifiques:
+          - compression_tronc_arteriel
+          - pneumothorax
+          - hemorragie_mediastinale
+        monitorage_specifique:
+          - pni_bras_droit
+          - spo2_main_droite
+          - voie_arterielle_si_tumeur_volumineuse
+        pertes_sanguines_attendues_ml: [20, 100]
+        transfusion_probable: false
+
+      resection_paroi_thoracique:
+        label_fr: "Résection de paroi thoracique"
+        label_en: "Chest wall resection"
+        approche: [open]
+        position: lateral_ou_supine
+        duree_moy_min: 180
+        asa_typique: [2, 3]
+        risques_specifiques:
+          - hemorragie
+          - pneumothorax
+          - douleur_postop_severe
+        monitorage_specifique:
+          - voie_arterielle_recommandee
+          - analgesie_locoregionale
+        pertes_sanguines_attendues_ml: [100, 500]
+        transfusion_probable: false
+
+  # =========================================================================
+  # GYNÉCOLOGIE — 230 cas VitalDB (3.6%)
+  # =========================================================================
+  gynecologie:
+    label_fr: "Gynécologie"
+    label_en: "Gynecology"
+    vitaldb_n: 230
+    vitaldb_pct: 3.6
+
+    procedures:
+
+      hysterectomie:
+        label_fr: "Hystérectomie"
+        label_en: "Hysterectomy"
+        approche: [videoscopic, open, robotic]
+        position: lithotomie_trendelenburg
+        duree_moy_min: 150
+        asa_typique: [1, 2]
+        risques_specifiques:
+          - hemorragie
+          - lesion_ureterale
+          - pneumoperitoine_trendelenburg
+          - oedeme_facial_positionnement
+        monitorage_specifique:
+          - pression_oculaire_si_trendelenburg_long
+          - etco2_vigilance_pneumoperitoine
+        pertes_sanguines_attendues_ml: [100, 500]
+        transfusion_probable: false
+        vitaldb_particularites:
+          sevoflurane_pct: 74.8
+          age_median: 45
+
+      ovariectomie_annexectomie:
+        label_fr: "Ovariectomie / Annexectomie"
+        label_en: "Oophorectomy / Adnexectomy"
+        approche: [videoscopic, open]
+        position: lithotomie_trendelenburg
+        duree_moy_min: 90
+        asa_typique: [1, 2]
+        risques_specifiques:
+          - torsion_vasculaire
+          - hemorragie_si_kyste_volumineux
+        monitorage_specifique:
+          - standard
+        pertes_sanguines_attendues_ml: [30, 200]
+        transfusion_probable: false
+
+      myomectomie:
+        label_fr: "Myomectomie"
+        label_en: "Myomectomy"
+        approche: [open, videoscopic, hysteroscopic]
+        position: lithotomie
+        duree_moy_min: 120
+        asa_typique: [1, 2]
+        risques_specifiques:
+          - hemorragie
+          - intoxication_eau_glycocolle_si_hysteroscopie
+          - embolie_gazeuse_rare
+        monitorage_specifique:
+          - natrémie_si_hysteroscopie
+          - bilan_entrees_sorties
+        pertes_sanguines_attendues_ml: [50, 500]
+        transfusion_probable: false
+
+  # =========================================================================
+  # UROLOGIE — 117 cas VitalDB (1.8%)
+  # =========================================================================
+  urologie:
+    label_fr: "Urologie"
+    label_en: "Urology"
+    vitaldb_n: 117
+    vitaldb_pct: 1.8
+
+    procedures:
+
+      prostatectomie_radicale:
+        label_fr: "Prostatectomie radicale"
+        label_en: "Radical prostatectomy"
+        approche: [robotic, videoscopic, open]
+        position: trendelenburg_steep
+        duree_moy_min: 200
+        asa_typique: [2, 3]
+        risques_specifiques:
+          - hemorragie
+          - trendelenburg_prolonge
+          - oedeme_cerebral_facial
+          - pneumoperitoine_long
+          - hypothermie
+        monitorage_specifique:
+          - voie_arterielle_recommandee
+          - etco2_vigilance_augmentee
+          - pression_oculaire_si_long
+          - temperature_continue
+        pertes_sanguines_attendues_ml: [200, 1000]
+        transfusion_probable: false
+        vitaldb_particularites:
+          robotic_pct: 65.8
+          desflurane_pct: 90.6
+          age_median: 64
+
+      nephrectomie:
+        label_fr: "Néphrectomie"
+        label_en: "Nephrectomy"
+        approche: [videoscopic, open, robotic]
+        position: lateral
+        duree_moy_min: 180
+        asa_typique: [2, 3]
+        risques_specifiques:
+          - hemorragie_vasculaire_renale
+          - pneumothorax_si_11e_cote
+          - insuffisance_renale_postop
+        monitorage_specifique:
+          - voie_arterielle_recommandee
+          - diurese_horaire
+          - creatinine_postop
+        pertes_sanguines_attendues_ml: [100, 800]
+        transfusion_probable: false
+
+      cystectomie_radicale:
+        label_fr: "Cystectomie radicale + dérivation"
+        label_en: "Radical cystectomy + urinary diversion"
+        approche: [open, robotic]
+        position: supine_lithotomie
+        duree_moy_min: 360
+        asa_typique: [3, 4]
+        risques_specifiques:
+          - hemorragie_massive
+          - hypothermie
+          - acidose_metabolique
+          - coagulopathie
+          - iléus_prolonge
+        monitorage_specifique:
+          - voie_arterielle_obligatoire
+          - voie_centrale_obligatoire
+          - temperature_continue
+          - gazometrie_iterative
+        pertes_sanguines_attendues_ml: [500, 2500]
+        transfusion_probable: true
+
+# =============================================================================
+# CHIRURGIES NON-VitalDB — ajoutées pour exhaustivité CHARLES
+# (pas de données VitalDB, mais pertinentes pour la KB)
+# =============================================================================
+
+  neurochirurgie:
+    label_fr: "Neurochirurgie"
+    label_en: "Neurosurgery"
+    vitaldb_n: 0
+    vitaldb_pct: 0
+    data_status: planned
+
+    procedures:
+      craniotomie_tumorale:
+        label_fr: "Craniotomie pour tumeur cérébrale"
+        label_en: "Craniotomy for brain tumor"
+        approche: [open]
+        position: supine_tete_fixee_mayfield
+        duree_moy_min: 300
+        asa_typique: [2, 3]
+        risques_specifiques:
+          - hypertension_intracranienne
+          - embolie_gazeuse_position_assise
+          - hemorragie_cerebrale
+          - convulsions
+          - diabete_insipide
+        monitorage_specifique:
+          - voie_arterielle_obligatoire
+          - bis_ou_entropie
+          - pression_intracranienne_si_dispo
+          - potentiels_evoques_si_zone_eloquente
+          - temperature_continue
+
+      chirurgie_rachis:
+        label_fr: "Chirurgie du rachis (arthrodèse)"
+        label_en: "Spinal surgery (fusion)"
+        approche: [open]
+        position: ventral
+        duree_moy_min: 240
+        asa_typique: [2, 3]
+        risques_specifiques:
+          - hemorragie
+          - embolie_graisseuse
+          - lesion_medullaire
+          - cecite_postop_position_ventrale
+          - hypothermie
+        monitorage_specifique:
+          - voie_arterielle_recommandee
+          - potentiels_evoques_moteurs_sensitifs
+          - pression_oculaire
+          - temperature_continue
+
+  chirurgie_cardiaque:
+    label_fr: "Chirurgie cardiaque"
+    label_en: "Cardiac Surgery"
+    vitaldb_n: 0
+    vitaldb_pct: 0
+    data_status: planned
+
+    procedures:
+      pontage_coronarien:
+        label_fr: "Pontage aorto-coronarien (PAC)"
+        label_en: "Coronary artery bypass graft (CABG)"
+        approche: [sternotomie, mini_invasif]
+        position: supine
+        duree_moy_min: 300
+        asa_typique: [3, 4]
+        risques_specifiques:
+          - arythmie_reperfusion
+          - bas_debit_post_cec
+          - tamponnade
+          - coagulopathie_post_cec
+          - avc
+        monitorage_specifique:
+          - voie_arterielle_obligatoire
+          - voie_centrale_obligatoire
+          - swan_ganz_ou_eto
+          - bis
+          - temperature_nasopharyngee_vesicale
+          - act_heparine
+
+  obstetrique:
+    label_fr: "Obstétrique"
+    label_en: "Obstetrics"
+    vitaldb_n: 0
+    vitaldb_pct: 0
+    data_status: planned
+
+    procedures:
+      cesarienne:
+        label_fr: "Césarienne"
+        label_en: "Cesarean section"
+        approche: [open]
+        position: supine_dld_15deg
+        duree_moy_min: 45
+        asa_typique: [1, 2]
+        risques_specifiques:
+          - hypotension_rachianesthesie
+          - hemorragie_delivrance
+          - intubation_difficile_si_ag
+          - mendelson
+          - atonie_uterine
+        monitorage_specifique:
+          - pni_rapprochee_q1min
+          - spo2_continue
+          - remplissage_coload
+
+  traumatologie:
+    label_fr: "Traumatologie / Orthopédie lourde"
+    label_en: "Trauma / Major orthopedic surgery"
+    vitaldb_n: 0
+    vitaldb_pct: 0
+    data_status: planned
+
+    procedures:
+      polytraumatisme:
+        label_fr: "Damage control surgery (polytraumatisme)"
+        label_en: "Damage control surgery (polytrauma)"
+        approche: [open]
+        position: supine
+        duree_moy_min: 120
+        asa_typique: [4, 5]
+        risques_specifiques:
+          - choc_hemorragique
+          - triade_letale_hypothermie_acidose_coagulopathie
+          - crush_syndrome
+          - embolie_graisseuse
+        monitorage_specifique:
+          - voie_arterielle_obligatoire
+          - voie_centrale_obligatoire
+          - rotem_teg
+          - temperature_continue
+          - gazometrie_iterative
+          - lactate_iteratif
+
+      prothese_hanche_genou:
+        label_fr: "PTH / PTG (prothèse hanche/genou)"
+        label_en: "THR / TKR (hip/knee replacement)"
+        approche: [open]
+        position: lateral_ou_supine
+        duree_moy_min: 120
+        asa_typique: [2, 3]
+        risques_specifiques:
+          - ciment_syndrome
+          - embolie_graisseuse
+          - hemorragie
+          - thrombose_veineuse
+        monitorage_specifique:
+          - voie_arterielle_si_asa3
+          - temperature_continue

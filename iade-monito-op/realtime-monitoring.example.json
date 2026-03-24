@@ -1,0 +1,103 @@
+{
+  "frame_type": "anesthesia_case_snapshot",
+  "schema_version": "0.1.0",
+  "captured_at": "2026-03-13T22:10:00Z",
+  "room": {
+    "site_id": "bloc-a",
+    "room_id": "salle-03"
+  },
+  "patient": {
+    "patient_id": "op-2026-00017",
+    "display_name": "PATIENT TEST",
+    "procedure_label": "thyroidectomie",
+    "asa_class": "II",
+    "weight_kg": 74
+  },
+  "case_context": {
+    "phase": "maintenance",
+    "airway": "intubation_orotrach",
+    "curare_in_use": true,
+    "anesthesia_type": "tiva"
+  },
+  "standard_monitoring": {
+    "hr_bpm": 68,
+    "ecg_rhythm": "sinusal",
+    "spo2_pct": 99,
+    "sbp_mmhg": 112,
+    "dbp_mmhg": 64,
+    "map_mmhg": 80,
+    "temp_c": 36.4
+  },
+  "ventilation": {
+    "source_device": "anesthesia_ventilator",
+    "mode": "VCV",
+    "rr_set_bpm": 12,
+    "rr_measured_bpm": 12,
+    "tv_set_ml": 480,
+    "tv_exp_ml": 468,
+    "mv_l_min": 5.6,
+    "etco2_mmhg": 35,
+    "fio2_pct": 45,
+    "peep_cm_h2o": 5,
+    "ppeak_cm_h2o": 18,
+    "pplat_cm_h2o": 15,
+    "pmean_cm_h2o": 9,
+    "compliance_ml_cm_h2o": 52,
+    "insp_exp_ratio": "1:2",
+    "capnography_quality": "good",
+    "alarms": {
+      "disconnect": false,
+      "apnea": false,
+      "high_pressure": false
+    }
+  },
+  "depth_of_anesthesia": {
+    "monitor": "BIS",
+    "bis": 47,
+    "sqi_pct": 96,
+    "emg_db": 33,
+    "suppression_ratio_pct": 0,
+    "raw_eeg_available": true,
+    "signal_quality": "good"
+  },
+  "aivoc": {
+    "hypnotic": {
+      "drug": "propofol",
+      "pk_model": "Schnider",
+      "target_type": "effect_site",
+      "target_value": 3.2,
+      "target_unit": "ug_ml",
+      "predicted_plasma_concentration": 3.6,
+      "predicted_effect_site_concentration": 3.1,
+      "infusion_rate_ml_h": 7.4,
+      "total_dose_mg": 286,
+      "pump_state": "running",
+      "last_adjustment_at": "2026-03-13T22:08:40Z"
+    },
+    "opioid": {
+      "drug": "remifentanil",
+      "pk_model": "Minto",
+      "target_type": "effect_site",
+      "target_value": 3.0,
+      "target_unit": "ng_ml",
+      "predicted_plasma_concentration": 3.5,
+      "predicted_effect_site_concentration": 2.9,
+      "infusion_rate_ml_h": 18.0,
+      "total_dose_ug": 940,
+      "pump_state": "running",
+      "last_adjustment_at": "2026-03-13T22:08:55Z"
+    }
+  },
+  "alerts": [
+    {
+      "id": "sig-bis-low-quality",
+      "severity": "info",
+      "active": false
+    },
+    {
+      "id": "vent-disconnect",
+      "severity": "critical",
+      "active": false
+    }
+  ]
+}

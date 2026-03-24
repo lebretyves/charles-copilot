@@ -1,0 +1,449 @@
+# =============================================================================
+# CHARLES KB — Drogues d'Anesthésie
+# Source: VitalDB intraop fields + Pharmacopée SFAR/MAPAR
+# =============================================================================
+
+categories:
+
+  # =========================================================================
+  # HYPNOTIQUES
+  # =========================================================================
+  hypnotiques:
+    label_fr: "Agents hypnotiques"
+
+    drogues:
+
+      propofol:
+        label_fr: "Propofol"
+        label_en: "Propofol"
+        classe: alkylphénol
+        vitaldb_fields:
+          bolus: intraop_ppf
+          tci_ce: Orchestra/PPF20_CE
+          tci_cp: Orchestra/PPF20_CP
+          tci_ct: Orchestra/PPF20_CT
+          tci_rate: Orchestra/PPF20_RATE
+          tci_vol: Orchestra/PPF20_VOL
+        vitaldb_usage_pct: 54.8
+        presentation: "10 mg/mL (ampoule 20 mL = 200 mg)"
+        posologie:
+          induction:
+            adulte_standard: "2-2.5 mg/kg"
+            sujet_age: "1-1.5 mg/kg"
+            obese: "1.5-2 mg/kg (poids ajusté)"
+            enfant: "3-4 mg/kg"
+          entretien_aivoc:
+            cible_ce_mcg_ml: [2.0, 5.0]
+            modele_pk: ["Schnider", "Marsh", "Eleveld"]
+        effets_secondaires:
+          - hypotension_dose_dependante
+          - bradycardie
+          - apnee
+          - douleur_injection
+        contre_indications:
+          - allergie_oeuf_soja_controverse
+          - mitochondriopathie
+        impact_monitoring:
+          bis: "Corrélation BIS/Ce bien établie"
+          hemodynamique: "Chute PAS 20-30% post-induction"
+
+      sevoflurane:
+        label_fr: "Sévoflurane"
+        label_en: "Sevoflurane"
+        classe: halogéné
+        vitaldb_fields:
+          expire: Primus/EXP_SEVO
+          inspire: Primus/INSP_SEVO
+          mac: Primus/MAC
+        vitaldb_usage_pct: 39.7
+        mac_adulte_40ans: 2.0  # %
+        coefficient_partage_sg_gaz: 0.65
+        posologie:
+          induction_inhalatoire: "8% dans O2 pur (enfant)"
+          entretien: "0.8-1.2 MAC"
+        effets_secondaires:
+          - hypotension_moderee
+          - bronchodilatation
+          - nausees_postop
+          - agitation_reveil_enfant
+        particularites:
+          - "Bronchodilatateur — bon choix si asthme"
+          - "Induction inhalatoire possible (pédiatrie)"
+          - "Épileptogène à > 1.5 MAC"
+
+      desflurane:
+        label_fr: "Desflurane"
+        label_en: "Desflurane"
+        classe: halogéné
+        vitaldb_fields:
+          expire: Primus/EXP_DES
+          inspire: Primus/INSP_DES
+          mac: Primus/MAC
+        vitaldb_usage_pct: 21.6
+        mac_adulte_40ans: 6.0  # %
+        coefficient_partage_sg_gaz: 0.42
+        posologie:
+          entretien: "0.8-1.2 MAC"
+        effets_secondaires:
+          - tachycardie_si_augmentation_rapide
+          - irritation_voies_aeriennes
+          - hypotension
+        particularites:
+          - "Réveil plus rapide que sévoflurane"
+          - "NE PAS utiliser en induction inhalatoire (irritant)"
+          - "Bon choix pour obèse (wash-out rapide)"
+
+      midazolam:
+        label_fr: "Midazolam"
+        label_en: "Midazolam"
+        classe: benzodiazépine
+        vitaldb_field: intraop_mdz
+        posologie:
+          premedication: "0.03-0.05 mg/kg PO ou IV"
+          sedation: "0.02-0.05 mg/kg IV"
+        antagoniste: flumazénil
+        particularites:
+          - "Amnésie antérograde"
+          - "Prudence sujet âgé (demi-vie allongée)"
+
+      ketamine:
+        label_fr: "Kétamine"
+        label_en: "Ketamine"
+        classe: "antagoniste NMDA"
+        posologie:
+          analgesie: "0.15-0.3 mg/kg IV"
+          induction: "1-2 mg/kg IV"
+          induction_hemodynamique_instable: "0.5-1 mg/kg IV"
+        particularites:
+          - "Maintien tonus sympathique — idéal si hémodynamique précaire"
+          - "Bronchodilatateur"
+          - "Analgésique puissant (anti-NMDA)"
+          - "Hallucinations (prévenir avec benzo)"
+
+  # =========================================================================
+  # MORPHINIQUES / OPIOÏDES
+  # =========================================================================
+  opioides:
+    label_fr: "Opioïdes / Morphiniques"
+
+    drogues:
+
+      remifentanil:
+        label_fr: "Rémifentanil"
+        label_en: "Remifentanil"
+        classe: "opioïde μ-agoniste (ester)"
+        vitaldb_fields:
+          tci_ce: [Orchestra/RFTN20_CE, Orchestra/RFTN50_CE]
+          tci_cp: [Orchestra/RFTN20_CP, Orchestra/RFTN50_CP]
+          tci_ct: [Orchestra/RFTN20_CT, Orchestra/RFTN50_CT]
+        vitaldb_usage_pct: 75.7
+        demi_vie_context_sensible: "3-4 min (constante, indépendante durée perfusion)"
+        modele_pk: "Minto"
+        posologie:
+          tci_ce:
+            induction: "3-6 ng/mL"
+            entretien: "2-8 ng/mL"
+          perfusion_debit:
+            induction: "0.5-1 mcg/kg/min"
+            entretien: "0.1-0.5 mcg/kg/min"
+        effets_secondaires:
+          - bradycardie_dose_dependante
+          - hypotension
+          - rigidite_thoracique_si_bolus_rapide
+          - hyperalgesie_post_arret
+        particularites:
+          - "Métabolisme par estérases plasmatiques — pas d'accumulation"
+          - "Relais morphinique AVANT arrêt (pas d'analgésie résiduelle)"
+          - "Hyperalgésie si dose cumulée élevée"
+
+      fentanyl:
+        label_fr: "Fentanyl"
+        label_en: "Fentanyl"
+        classe: "opioïde μ-agoniste"
+        vitaldb_field: intraop_ftn
+        demi_vie_context_sensible: "variable (accumulation si perfusion longue)"
+        posologie:
+          bolus_analgesie: "1-3 mcg/kg IV"
+          entretien: "1-2 mcg/kg/h"
+        effets_secondaires:
+          - bradycardie
+          - rigidite_thoracique
+          - depression_respiratoire_prolongee
+
+      sufentanil:
+        label_fr: "Sufentanil"
+        label_en: "Sufentanil"
+        classe: "opioïde μ-agoniste"
+        posologie:
+          bolus: "0.1-0.3 mcg/kg IV"
+          entretien: "0.2-0.5 mcg/kg/h"
+        particularites:
+          - "10× plus puissant que fentanyl"
+          - "Bonne stabilité hémodynamique"
+          - "Bon choix chirurgie cardiaque"
+
+      morphine:
+        label_fr: "Morphine"
+        label_en: "Morphine"
+        classe: "opioïde μ-agoniste (référence)"
+        posologie:
+          titration_postop: "1-3 mg IV toutes les 5 min (titration)"
+          perop: "0.1-0.15 mg/kg IV"
+        antagoniste: naloxone
+        particularites:
+          - "Histaminolibération possible"
+          - "Demi-vie longue — accumulation IR"
+
+  # =========================================================================
+  # CURARES
+  # =========================================================================
+  curares:
+    label_fr: "Curares (bloqueurs neuromusculaires)"
+
+    drogues:
+
+      rocuronium:
+        label_fr: "Rocuronium"
+        label_en: "Rocuronium"
+        classe: "curare non-dépolarisant aminostéroïde"
+        vitaldb_fields:
+          bolus: intraop_rocu
+          perfusion_rate: Orchestra/ROC_RATE
+          perfusion_vol: Orchestra/ROC_VOL
+        posologie:
+          intubation_standard: "0.6 mg/kg"
+          intubation_rapide: "1.0-1.2 mg/kg"
+          entretien: "0.1-0.2 mg/kg"
+        delai_action:
+          dose_standard: "90-120 sec"
+          dose_rapide: "60 sec (ISR alternative à la succinylcholine)"
+        antagoniste:
+          sugammadex: "2 mg/kg (récupération TOF 2), 4 mg/kg (PTC 1-2), 16 mg/kg (ISR urgence)"
+          neostigmine: "40-70 mcg/kg (si TOF ratio > 0.4)"
+
+      succinylcholine:
+        label_fr: "Succinylcholine (Célocurine)"
+        label_en: "Succinylcholine (Suxamethonium)"
+        classe: "curare dépolarisant"
+        posologie:
+          isr: "1 mg/kg IV"
+        delai_action: "30-60 sec"
+        duree_action: "5-10 min"
+        contre_indications_absolues:
+          - hyperkaliemie
+          - myopathie
+          - brulure_recente
+          - immobilisation_prolongee
+          - antecedent_hyperthermie_maligne
+          - deficit_pseudocholinesterases
+        effets_secondaires:
+          - fasciculations
+          - bradycardie_surtout_2e_dose
+          - hyperkaliemie
+          - hyperthermie_maligne
+          - myalgie_postop
+
+      vecuronium:
+        label_fr: "Vécuronium"
+        label_en: "Vecuronium"
+        classe: "curare non-dépolarisant aminostéroïde"
+        vitaldb_fields:
+          bolus: intraop_vecu
+          perfusion_rate: Orchestra/VEC_RATE
+        posologie:
+          intubation: "0.1 mg/kg"
+          entretien: "0.02-0.03 mg/kg"
+
+  # =========================================================================
+  # VASOPRESSEURS / CATÉCHOLAMINES
+  # =========================================================================
+  vasopresseurs:
+    label_fr: "Vasopresseurs et catécholamines"
+
+    drogues:
+
+      ephedrine:
+        label_fr: "Éphédrine"
+        label_en: "Ephedrine"
+        vitaldb_field: intraop_eph
+        classe: "sympathomimétique indirect"
+        posologie: "6-12 mg IVD (bolus)"
+        mecanisme: "↑ FC + ↑ PA (α+β)"
+        indication_preferentielle: "Hypotension + bradycardie"
+        tachyphylaxie: true
+
+      phenylephrine:
+        label_fr: "Phényléphrine"
+        label_en: "Phenylephrine"
+        vitaldb_fields:
+          bolus: intraop_phe
+          perfusion_rate: Orchestra/PHEN_RATE
+        classe: "α1-agoniste pur"
+        posologie:
+          bolus: "50-100 mcg IVD"
+          perfusion: "0.5-2 mcg/kg/min"
+        mecanisme: "↑ PA (vasoconstriction) + bradycardie réflexe"
+        indication_preferentielle: "Hypotension + tachycardie"
+
+      noradrenaline:
+        label_fr: "Noradrénaline"
+        label_en: "Norepinephrine"
+        vitaldb_fields:
+          perfusion_rate: Orchestra/NEPI_RATE
+        classe: "α1+β1 agoniste"
+        posologie:
+          perfusion: "0.05-1 mcg/kg/min IVSE"
+        mecanisme: "Vasoconstricteur puissant + inotrope modéré"
+        voie: "VVC obligatoire (nécrose si extravasation)"
+
+      adrenaline:
+        label_fr: "Adrénaline"
+        label_en: "Epinephrine"
+        vitaldb_fields:
+          bolus: intraop_epi
+          perfusion_rate: Orchestra/EPI_RATE
+        classe: "α+β agoniste"
+        posologie:
+          anaphylaxie_grade2: "10-20 mcg IVD"
+          anaphylaxie_grade3: "100-200 mcg IVD"
+          acr: "1 mg IVD / 3 min"
+          perfusion: "0.01-0.5 mcg/kg/min"
+        indication: "Anaphylaxie, ACR, choc cardiogénique, bronchospasme sévère"
+
+      vasopressine:
+        label_fr: "Vasopressine (Terlipressine)"
+        label_en: "Vasopressin"
+        vitaldb_fields:
+          perfusion_rate: Orchestra/VASO_RATE
+        posologie:
+          perfusion: "0.01-0.04 U/min"
+        indication: "Choc vasoplégique réfractaire à la noradrénaline"
+
+      dobutamine:
+        label_fr: "Dobutamine"
+        label_en: "Dobutamine"
+        vitaldb_fields:
+          perfusion_rate: Orchestra/DOBU_RATE
+        classe: "β1 agoniste"
+        posologie:
+          perfusion: "2.5-20 mcg/kg/min"
+        indication: "Bas débit cardiaque (IC < 2.2)"
+
+      calcium_chlorure:
+        label_fr: "Chlorure de calcium"
+        label_en: "Calcium chloride"
+        vitaldb_field: intraop_ca
+        posologie: "500-1000 mg IVL (10 mL CaCl2 10%)"
+        indication: "Hypocalcémie (transfusion massive), hyperkaliémie"
+
+  # =========================================================================
+  # ANTIHYPERTENSEURS PEROP
+  # =========================================================================
+  antihypertenseurs:
+    label_fr: "Antihypertenseurs peropératoires"
+
+    drogues:
+
+      nicardipine:
+        label_fr: "Nicardipine (Loxen)"
+        label_en: "Nicardipine"
+        classe: "inhibiteur calcique dihydropyridinique"
+        posologie:
+          bolus: "0.5-1 mg IVD"
+          perfusion: "1-5 mg/h IVSE"
+        indication: "HTA perop"
+
+      esmolol:
+        label_fr: "Esmolol (Brévibloc)"
+        label_en: "Esmolol"
+        classe: "β-bloquant cardiosélectif ultra-courte durée"
+        posologie:
+          bolus: "0.5 mg/kg en 1 min"
+          perfusion: "50-200 mcg/kg/min"
+        demi_vie: "9 min"
+        indication: "Tachycardie sinusale + HTA perop"
+
+      urapidil:
+        label_fr: "Urapidil (Eupressyl)"
+        label_en: "Urapidil"
+        posologie:
+          bolus: "12.5-25 mg IVD"
+        indication: "HTA perop sans tachycardie réflexe"
+
+  # =========================================================================
+  # AUTRES
+  # =========================================================================
+  autres:
+    label_fr: "Autres agents"
+
+    drogues:
+
+      atropine:
+        label_fr: "Atropine"
+        label_en: "Atropine"
+        classe: parasympatholytique
+        posologie: "0.5-1 mg IVD"
+        indication: "Bradycardie symptomatique"
+
+      dexmedetomidine:
+        label_fr: "Dexmédétomidine (Dexdor)"
+        label_en: "Dexmedetomidine"
+        vitaldb_fields:
+          rate: [Orchestra/DEX2_RATE, Orchestra/DEX4_RATE]
+        classe: "α2-agoniste"
+        posologie:
+          charge: "1 mcg/kg en 10 min"
+          entretien: "0.2-1.4 mcg/kg/h"
+        particularites:
+          - "Sédation coopérative (patient réveillable)"
+          - "Bradycardie dose-dépendante"
+          - "Analgésie modérée"
+          - "Pas de dépression respiratoire"
+
+      acide_tranexamique:
+        label_fr: "Acide tranexamique (Exacyl)"
+        label_en: "Tranexamic acid"
+        classe: antifibrinolytique
+        posologie: "1 g IVL puis 1 g/8h si hémorragie"
+        indication: "Prévention/traitement hémorragie chirurgicale"
+
+      dantrolene:
+        label_fr: "Dantrolène"
+        label_en: "Dantrolene"
+        classe: "myorelaxant à action directe"
+        posologie: "2.5 mg/kg IVD, répéter jusqu'à 10 mg/kg"
+        indication: "Hyperthermie maligne — TRAITEMENT SPÉCIFIQUE"
+        disponibilite: "Obligatoire dans tout bloc opératoire"
+
+      sugammadex:
+        label_fr: "Sugammadex (Bridion)"
+        label_en: "Sugammadex"
+        classe: "agent de décurarisation (cyclodextrine)"
+        posologie:
+          recuperation_tof2: "2 mg/kg"
+          recuperation_ptc12: "4 mg/kg"
+          urgence_isr_rocuronium: "16 mg/kg"
+        particularites:
+          - "Encapsulation sélective du rocuronium/vécuronium"
+          - "Décurarisation complète en 2-3 min"
+          - "Alternative au néostigmine"
+
+      neostigmine:
+        label_fr: "Néostigmine (+ atropine)"
+        label_en: "Neostigmine (+ atropine)"
+        classe: anticholinestérasique
+        posologie: "40-70 mcg/kg + atropine 15-20 mcg/kg"
+        prerequis: "TOF ratio > 0.4 (au moins 4 réponses au TOF)"
+
+      ondansetron:
+        label_fr: "Ondansétron (Zophren)"
+        label_en: "Ondansetron"
+        classe: "antiémétique (anti-5HT3)"
+        posologie: "4 mg IVD"
+        indication: "NVPO (score Apfel ≥ 2)"
+
+      dexamethasone:
+        label_fr: "Dexaméthasone"
+        label_en: "Dexamethasone"
+        posologie: "4-8 mg IVD à l'induction"
+        indication: "NVPO (prévention) + effet anti-inflammatoire"

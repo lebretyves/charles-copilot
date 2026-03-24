@@ -1,0 +1,188 @@
+# =============================================================================
+# CHARLES KB — Tendances de Référence
+# Courbes et patterns physiologiques attendus par situation
+# =============================================================================
+# CHARLES compare les signaux réels à ces tendances de référence
+# pour détecter des déviations précoces.
+
+reference_trends:
+
+  # =========================================================================
+  # INDUCTION ANESTHÉSIQUE
+  # =========================================================================
+  induction_standard:
+    label_fr: "Induction IV standard (propofol + rémifentanil)"
+    timing: "T0 = injection propofol"
+    population: adulte_standard_asa_1_2
+
+    attendu:
+      pas:
+        t0_t2min: "Chute 15-25% (effet vasodilatateur propofol)"
+        t2_t5min: "Nadir PAM, puis stabilisation"
+        t5_t10min: "Remontée progressive avec stimulus intubation"
+        seuil_anormal: "Chute > 40% = hypotension sévère"
+      hr:
+        t0_t2min: "Bradycardie modérée (-10 à -20 bpm)"
+        t2_t5min: "Tachycardie réflexe possible si hypoTA"
+        seuil_anormal: "FC < 45 ou > 120"
+      spo2:
+        t0_t3min: "Stable si préoxygénation correcte (FiO2 100%)"
+        t3_t5min: "Chute si apnée > 60 sec sans ventilation"
+        seuil_anormal: "SpO2 < 95% après intubation"
+      bis:
+        t0_t1min: "Chute rapide 97 → 60"
+        t1_t3min: "Atteinte zone cible 40-60"
+        seuil_anormal: "BIS reste > 65 à T3min = sous-dosage"
+      etco2:
+        avant_intubation: "0 (pas de ventilation)"
+        post_intubation: "Apparition immédiate = confirmation IOT"
+        seuil_anormal: "Absence EtCO2 post-intubation = intubation œsophagienne"
+
+  induction_sujet_age:
+    label_fr: "Induction IV sujet âgé (> 65 ans)"
+    population: geriatrique_asa_2_3
+
+    attendu:
+      pas:
+        t0_t2min: "Chute 25-40% (compliance vasculaire réduite)"
+        seuil_anormal: "PAM < 55 mmHg"
+      hr:
+        t0_t2min: "Bradycardie fréquente (β-bloquants fréquents)"
+        seuil_anormal: "FC < 40"
+      bis:
+        t0_t2min: "Chute plus rapide et plus profonde"
+        seuil_anormal: "BIS < 30 à dose standard = surdosage"
+
+  induction_obese:
+    label_fr: "Induction IV obèse (IMC > 35)"
+    population: obese
+
+    attendu:
+      spo2:
+        t0_t1min: "Désaturation rapide si apnée (CRF réduite)"
+        seuil_anormal: "SpO2 < 95% en < 90 sec d'apnée"
+      pas:
+        note: "Dosage sur poids ajusté → moindre hypotension si doses adaptées"
+
+  # =========================================================================
+  # ENTRETIEN CHIRURGICAL
+  # =========================================================================
+  entretien_coelioscopie:
+    label_fr: "Entretien — cœlioscopie abdominale (pneumopéritoine CO2)"
+    timing: "T0 = insufflation CO2"
+
+    attendu:
+      etco2:
+        t0_t10min: "Augmentation 5-10 mmHg (absorption CO2)"
+        t10_t30min: "Plateau à EtCO2 + 5-8 mmHg au-dessus baseline"
+        seuil_anormal: "EtCO2 > 55 mmHg ou augmentation > 15 mmHg"
+      pip:
+        t0_t5min: "Augmentation 5-10 cmH2O (pression abdominale)"
+        seuil_anormal: "PIP > 35 cmH2O"
+      hr_pa:
+        t0_t5min: "Poussée sympathique transitoire (↑ PA, ↑ FC)"
+        trendelenburg: "↑ précharge → ↑ PA"
+        anti_trendelenburg: "↓ précharge → ↓ PA possible"
+      compliance:
+        t0_t5min: "Diminution 20-30%"
+
+  entretien_ventilation_unipulmonaire:
+    label_fr: "Entretien — ventilation unipulmonaire (chirurgie thoracique)"
+    timing: "T0 = clampage sonde double lumière"
+
+    attendu:
+      spo2:
+        t0_t5min: "Chute modérée attendue (shunt 20-30%)"
+        seuil_tolere: "SpO2 > 90%"
+        seuil_anormal: "SpO2 < 88% persistante"
+      etco2:
+        t0: "Augmentation possible (surface échange réduite)"
+      pip:
+        t0: "Augmentation (un seul poumon ventilé)"
+        seuil_anormal: "PIP > 30 cmH2O en unipulmonaire"
+
+  # =========================================================================
+  # SCÉNARIOS CRITIQUES
+  # =========================================================================
+  pattern_hemorragie:
+    label_fr: "Pattern hémorragique progressif"
+    description: "Séquence typique d'une hémorragie chirurgicale progressive"
+
+    phases:
+      compensee:
+        pertes: "< 15% volémie (< 750 mL)"
+        hr: "Normale ou légère tachycardie"
+        pas: "Normale"
+        fc_pas_ratio: "< 0.8"
+        spo2: "Normale"
+        diurese: "Normale"
+
+      moderee:
+        pertes: "15-30% volémie (750-1500 mL)"
+        hr: "100-120/min"
+        pas: "↓ 10-20 mmHg"
+        fc_pas_ratio: "0.8-1.0"
+        spo2: "Normale ou ↓ légère"
+        diurese: "Diminuée"
+        lactate: "2-4 mmol/L"
+        charles_alerte: "ALERTE JAUNE — tendance hémorragique"
+
+      severe:
+        pertes: "30-40% volémie (1500-2000 mL)"
+        hr: "> 120/min"
+        pas: "↓ > 30 mmHg"
+        fc_pas_ratio: "> 1.0"
+        spo2: "↓ < 94%"
+        diurese: "< 0.5 mL/kg/h"
+        lactate: "> 4 mmol/L"
+        hb: "↓ > 2 g/dL"
+        charles_alerte: "ALERTE ROUGE — hémorragie active"
+
+      decompensee:
+        pertes: "> 40% volémie (> 2000 mL)"
+        hr: "> 140/min ou bradycardie terminale"
+        pas: "< 70 mmHg"
+        spo2: "< 90%"
+        lactate: "> 6 mmol/L"
+        charles_alerte: "ALERTE CRITIQUE — choc hémorragique"
+
+  pattern_anaphylaxie:
+    label_fr: "Pattern anaphylactique"
+    description: "Séquence typique d'une réaction anaphylactique perop"
+    timing: "T0 = injection agent causal (typiquement 5-15 min post-injection)"
+
+    sequence:
+      t0_t2min:
+        - "EtCO2 ↑ brutal (bronchospasme)"
+        - "FC ↑ progressive"
+        - "PIP ↑"
+      t2_t5min:
+        - "PAS ↓ rapide"
+        - "SpO2 ↓"
+        - "FC > 120"
+      t5_t10min_si_non_traite:
+        - "Collapsus (PAS < 60)"
+        - "SpO2 < 85%"
+        - "Possible ACR"
+
+  pattern_hyperthermie_maligne:
+    label_fr: "Pattern hyperthermie maligne"
+    timing: "T0 = exposition agent déclenchant"
+
+    sequence:
+      precoce_t0_t30min:
+        - "EtCO2 ↑↑ inexpliquée (signe le plus précoce)"
+        - "Tachycardie sinusale"
+        - "Rigidité massétérine post-succinylcholine"
+      intermediaire_t30_t60min:
+        - "Température ↑ > 38.5°C (augmentation > 1°C/15 min)"
+        - "Tachyarythmie"
+        - "Rigidité généralisée"
+        - "PIP ↑"
+      tardif:
+        - "Température > 40°C"
+        - "Acidose mixte sévère"
+        - "Hyperkaliémie"
+        - "Rhabdomyolyse (urines foncées)"
+        - "CIVD"
+        - "ACR"

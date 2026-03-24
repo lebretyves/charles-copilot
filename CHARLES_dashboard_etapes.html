@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHARLES — Dashboard Plan par Étapes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&family=DM+Mono:wght@400;500&display=swap');
+:root {
+  --navy:#04091e;--navy2:#0a1435;--navy3:#111d4a;
+  --blue:#1546e0;--blue2:#2d5ff5;--cyan:#00d4ff;--cyan2:#7ef4ff;
+  --green:#00e5a0;--green2:#00b87d;--orange:#ff7b2c;--red:#ff3b5c;
+  --yellow:#ffd24d;--white:#f0f4ff;--gray:#8892b0;--gray2:#4a5578;
+  --border:rgba(255,255,255,0.07);--card:rgba(255,255,255,0.04);
+  --card2:rgba(21,70,224,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);font-size:13px;line-height:1.7;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px;}
+
+/* ── TAB BAR ── */
+.tabbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:var(--navy2);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 24px;
+  height:54px;gap:0;overflow-x:auto;
+}
+.tabbar-logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:17px;
+  color:var(--white);letter-spacing:-0.5px;margin-right:28px;flex-shrink:0;
+}
+.tabbar-logo span{color:var(--cyan);}
+.tab{
+  display:flex;align-items:center;gap:7px;
+  padding:0 16px;height:54px;border-bottom:2px solid transparent;
+  font-size:11.5px;font-weight:500;color:var(--gray);
+  cursor:pointer;transition:all 0.2s;flex-shrink:0;white-space:nowrap;
+}
+.tab:hover{color:var(--white);}
+.tab.active{color:var(--cyan);border-bottom-color:var(--cyan);}
+.tab-num{
+  width:20px;height:20px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;font-family:'DM Mono',monospace;
+  flex-shrink:0;
+}
+
+/* ── PAGES ── */
+.page{display:none;padding:70px 0 60px;min-height:100vh;}
+.page.active{display:block;}
+.container{max-width:1000px;margin:0 auto;padding:0 36px;}
+
+/* ── PAGE HEADER ── */
+.page-header{
+  padding:40px 36px 32px;max-width:1000px;margin:0 auto;
+  border-bottom:1px solid var(--border);margin-bottom:36px;
+}
+.page-eyebrow{
+  font-size:9px;font-weight:500;color:var(--cyan);
+  text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.page-eyebrow::before{content:'';width:20px;height:1px;background:var(--cyan);}
+.page-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px;}
+.page-sub{font-size:13px;color:var(--gray);max-width:680px;font-weight:300;line-height:1.7;}
+
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;}
+.card-blue{background:var(--card2);border:1px solid rgba(21,70,224,0.25);border-radius:12px;padding:20px 22px;}
+.card-green{background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:12px;padding:20px 22px;}
+.card-orange{background:rgba(255,123,44,0.07);border:1px solid rgba(255,123,44,0.25);border-radius:12px;padding:20px 22px;}
+.card-red{background:rgba(255,59,92,0.07);border:1px solid rgba(255,59,92,0.2);border-radius:12px;padding:20px 22px;}
+.card-yellow{background:rgba(255,210,77,0.07);border:1px solid rgba(255,210,77,0.2);border-radius:12px;padding:20px 22px;}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+/* ── TAGS ── */
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:0.3px;}
+.tag-cyan{background:rgba(0,212,255,0.12);color:var(--cyan);border:1px solid rgba(0,212,255,0.3);}
+.tag-green{background:rgba(0,229,160,0.12);color:var(--green);border:1px solid rgba(0,229,160,0.25);}
+.tag-orange{background:rgba(255,123,44,0.12);color:var(--orange);border:1px solid rgba(255,123,44,0.25);}
+.tag-red{background:rgba(255,59,92,0.12);color:var(--red);border:1px solid rgba(255,59,92,0.25);}
+.tag-yellow{background:rgba(255,210,77,0.12);color:var(--yellow);border:1px solid rgba(255,210,77,0.25);}
+
+/* ── CHECKLIST ── */
+.check-list{list-style:none;padding:0;}
+.check-list li{padding:5px 0 5px 20px;position:relative;font-size:12.5px;color:var(--gray);line-height:1.6;border-bottom:1px solid rgba(255,255,255,0.04);}
+.check-list li:last-child{border-bottom:none;}
+.check-list li::before{content:'→';position:absolute;left:0;color:var(--cyan);font-size:11px;}
+.check-list li strong{color:var(--white);}
+.check-list li.done::before{content:'✓';color:var(--green);}
+.check-list li.done{color:var(--gray2);}
+.check-list li.warn::before{content:'⚠';color:var(--orange);}
+
+/* ── STEPS ── */
+.step-row{display:flex;gap:0;margin:20px 0;}
+.step-num{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:13px;
+  flex-shrink:0;margin-right:16px;margin-top:2px;
+}
+.step-body{flex:1;}
+.step-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px;}
+.step-period{font-size:10px;font-family:'DM Mono',monospace;color:var(--cyan);margin-bottom:6px;}
+.step-desc{font-size:12.5px;color:var(--gray);line-height:1.7;}
+.step-divider{width:1px;background:rgba(255,255,255,0.06);margin:0 17px;}
+
+/* ── PROCEDURE BLOCK ── */
+.proc{background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin:10px 0;font-family:'DM Mono',monospace;font-size:11.5px;line-height:2;}
+.proc .ph{color:var(--cyan);font-weight:500;}
+.proc .pg{color:var(--green);}
+.proc .po{color:var(--orange);}
+.proc .pr{color:var(--red);}
+.proc .py{color:var(--yellow);}
+.proc .pv{color:var(--white);font-weight:500;}
+.proc .pd{color:var(--gray2);}
+
+/* ── CALLOUT ── */
+.callout{border-radius:10px;padding:14px 18px;display:flex;gap:12px;align-items:flex-start;margin:14px 0;}
+.ci{font-size:16px;flex-shrink:0;margin-top:1px;}
+.callout-blue{background:rgba(21,70,224,0.12);border:1px solid rgba(21,70,224,0.25);}
+.callout-green{background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);}
+.callout-orange{background:rgba(255,123,44,0.08);border:1px solid rgba(255,123,44,0.2);}
+.callout-red{background:rgba(255,59,92,0.08);border:1px solid rgba(255,59,92,0.2);}
+.callout-yellow{background:rgba(255,210,77,0.08);border:1px solid rgba(255,210,77,0.2);}
+
+/* ── TABLE ── */
+.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px;}
+.tbl thead tr{background:rgba(21,70,224,0.3);}
+.tbl thead th{padding:9px 12px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--cyan2);}
+.tbl tbody td{padding:8px 12px;border-bottom:1px solid var(--border);font-size:12px;color:var(--white);vertical-align:top;}
+.tbl tbody tr:hover td{background:var(--card);}
+
+/* ── MISC ── */
+h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:12px;color:var(--white);}
+h4{font-size:12px;font-weight:600;color:var(--white);margin-bottom:8px;}
+p{font-size:12.5px;color:var(--gray);line-height:1.75;margin-bottom:8px;}
+strong{color:var(--white);font-weight:500;}
+.divider{height:1px;background:var(--border);margin:22px 0;}
+code{font-family:'DM Mono',monospace;font-size:11px;background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;color:var(--cyan2);}
+.s{font-size:12px;color:var(--gray);}
+.money{color:var(--green);font-weight:600;}
+.warn{color:var(--orange);font-weight:600;}
+.danger{color:var(--red);font-weight:600;}
+
+/* ── TIMELINE BAR ── */
+.timeline-bar{
+  display:flex;align-items:stretch;gap:0;
+  border:1px solid var(--border);border-radius:10px;overflow:hidden;
+  margin:20px 0;
+}
+.tl-seg{flex:1;padding:14px 16px;border-right:1px solid var(--border);}
+.tl-seg:last-child{border-right:none;}
+.tl-seg-label{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:var(--gray2);margin-bottom:4px;font-family:'DM Mono',monospace;}
+.tl-seg-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;}
+.tl-seg-sub{font-size:11px;color:var(--gray);margin-top:3px;}
+
+/* ── STORAGE LEVELS ── */
+.storage-level{border-radius:8px;padding:12px 16px;margin:8px 0;border-left:3px solid;}
+.sl-0{background:rgba(0,229,160,0.06);border-color:var(--green);}
+.sl-1{background:rgba(0,212,255,0.06);border-color:var(--cyan);}
+.sl-2{background:rgba(255,123,44,0.07);border-color:var(--orange);}
+.sl-3{background:rgba(255,59,92,0.07);border-color:var(--red);}
+.sl-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4px;font-family:'DM Mono',monospace;}
+
+/* ── COST BOX ── */
+.cost-box{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(0,0,0,0.2);border-radius:6px;margin:6px 0;}
+.cost-name{font-size:12px;color:var(--gray);}
+.cost-val{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--green);}
+.cost-detail{font-size:10px;color:var(--gray2);}
+</style>
+</head>
+<body>
+
+<!-- TAB BAR -->
+<div class="tabbar">
+  <div class="tabbar-logo">CHA<span>RLES</span></div>
+  <div class="tab active" onclick="show('p0')">
+    <div class="tab-num" style="background:rgba(0,212,255,0.2);color:var(--cyan)">0</div>
+    Vue d'ensemble
+  </div>
+  <div class="tab" onclick="show('p1')">
+    <div class="tab-num" style="background:rgba(0,229,160,0.2);color:var(--green)">1</div>
+    Cadrage produit
+  </div>
+  <div class="tab" onclick="show('p2')">
+    <div class="tab-num" style="background:rgba(21,70,224,0.3);color:#8cb4ff">2</div>
+    PEPITE / SNEE
+  </div>
+  <div class="tab" onclick="show('p3')">
+    <div class="tab-num" style="background:rgba(255,210,77,0.2);color:var(--yellow)">3</div>
+    Créer la SAS
+  </div>
+  <div class="tab" onclick="show('p4')">
+    <div class="tab-num" style="background:rgba(0,212,255,0.2);color:var(--cyan)">4</div>
+    Simulateur
+  </div>
+  <div class="tab" onclick="show('p5')">
+    <div class="tab-num" style="background:rgba(180,100,255,0.2);color:#d4a0ff">5</div>
+    Données & ML
+  </div>
+  <div class="tab" onclick="show('p6')">
+    <div class="tab-num" style="background:rgba(0,229,160,0.2);color:var(--green)">6</div>
+    MAR & CHU
+  </div>
+  <div class="tab" onclick="show('p7')">
+    <div class="tab-num" style="background:rgba(255,123,44,0.2);color:var(--orange)">7</div>
+    Recherche clinique
+  </div>
+  <div class="tab" onclick="show('p8')">
+    <div class="tab-num" style="background:rgba(255,59,92,0.15);color:var(--red)">8</div>
+    RGPD & Stockage
+  </div>
+  <div class="tab" onclick="show('p9')">
+    <div class="tab-num" style="background:rgba(255,210,77,0.2);color:var(--yellow)">9</div>
+    Financement
+  </div>
+</div>
+
+<!-- ════════════ PAGE 0 — VUE D'ENSEMBLE ════════════ -->
+<div class="page active" id="p0">
+  <div class="page-header">
+    <div class="page-eyebrow">Vue d'ensemble</div>
+    <h2 class="page-title">CHARLES Copilot — Plan de démarrage complet</h2>
+    <p class="page-sub">Roadmap objective par étapes, procédures réelles vérifiées, ordre de priorité strict. Chaque onglet est une phase à exécuter dans l'ordre.</p>
+  </div>
+  <div class="container">
+
+    <div class="callout callout-blue">
+      <div class="ci">📌</div>
+      <div><strong>Règle de base absolue :</strong> Tu ne démarres ni par la société, ni par le CHU, ni par les vraies données patients. Tu démarres par : cadrage produit → simulateur → MVP démontrable → contact MAR → cadre recherche → données réelles → industrialisation.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- TIMELINE BAR -->
+    <div class="timeline-bar">
+      <div class="tl-seg" style="background:rgba(0,229,160,0.06)">
+        <div class="tl-seg-label">Cette semaine</div>
+        <div class="tl-seg-title" style="color:var(--green)">Cadrage + PEPITE</div>
+        <div class="tl-seg-sub">Phrase produit · one-pager · dossier SNEE</div>
+      </div>
+      <div class="tl-seg" style="background:rgba(0,212,255,0.05)">
+        <div class="tl-seg-label">Semaine 2-3</div>
+        <div class="tl-seg-title" style="color:var(--cyan)">SAS + Simulateur</div>
+        <div class="tl-seg-sub">Société créée · MVP démo jouable</div>
+      </div>
+      <div class="tl-seg" style="background:rgba(21,70,224,0.1)">
+        <div class="tl-seg-label">Semaine 4</div>
+        <div class="tl-seg-title" style="color:#8cb4ff">Données ML</div>
+        <div class="tl-seg-sub">VitalDB · XGBoost · AUC-ROC</div>
+      </div>
+      <div class="tl-seg" style="background:rgba(255,123,44,0.06)">
+        <div class="tl-seg-label">Mois 2</div>
+        <div class="tl-seg-title" style="color:var(--orange)">MAR + CHU</div>
+        <div class="tl-seg-sub">Botrel · Gayat · DRCI · convention</div>
+      </div>
+      <div class="tl-seg" style="background:rgba(255,59,92,0.06)">
+        <div class="tl-seg-label">Mois 3</div>
+        <div class="tl-seg-title" style="color:var(--red)">Recherche clinique</div>
+        <div class="tl-seg-sub">Protocole · shadow · financement</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Ce que tu dois avoir au bout de 90 jours</h3>
+    <div class="g3">
+      <div class="card-green">
+        <h4 style="color:var(--green)">Juridique</h4>
+        <ul class="check-list">
+          <li>SAS créée et immatriculée</li>
+          <li>PEPITE / SNEE obtenu</li>
+          <li>Marque déposée INPI</li>
+          <li>NDA modèle rédigé</li>
+          <li>Compte pro ouvert</li>
+        </ul>
+      </div>
+      <div class="card-blue">
+        <h4 style="color:var(--cyan)">Produit</h4>
+        <ul class="check-list">
+          <li>Simulateur 5 scénarios</li>
+          <li>Interface bloc démo</li>
+          <li>Démo vidéo 3 min</li>
+          <li>One-pager PDF</li>
+          <li>Premier modèle XGBoost</li>
+        </ul>
+      </div>
+      <div class="card-orange">
+        <h4 style="color:var(--orange)">Partenariats</h4>
+        <ul class="check-list">
+          <li>1-2 MAR intéressés</li>
+          <li>Contact DRCI initié</li>
+          <li>Voie données identifiée</li>
+          <li>Protocole shadow cadré</li>
+          <li>Abstract SFAR soumis</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="callout callout-red">
+      <div class="ci">🚨</div>
+      <div><strong>Les 5 erreurs à ne jamais faire :</strong> Données CHU sans cadre formalisé · Parts à la parole · Promettre une classe MDR sans validation juridique · Intégration profonde DIANE/ORBIS trop tôt · S'engager verbalement avec Epitech sans réponse écrite.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 1 — CADRAGE ════════════ -->
+<div class="page" id="p1">
+  <div class="page-header">
+    <div class="page-eyebrow">Étape 1 — Cette semaine</div>
+    <h2 class="page-title">Cadrage produit</h2>
+    <p class="page-sub">Figer ce que CHARLES est et ce qu'il n'est pas. Un seul MVP. Une seule phrase. Trois scénarios. Un one-pager.</p>
+  </div>
+  <div class="container">
+
+    <div class="card-blue" style="margin-bottom:20px">
+      <h4 style="color:var(--cyan);font-size:13px;margin-bottom:10px">Phrase produit — VERROUILLÉE. Ne plus la changer.</h4>
+      <p style="font-style:italic;font-size:14px;color:var(--white);line-height:1.6">"CHARLES est un copilote clinique de vigilance peropératoire qui agrège les signaux du bloc pour détecter précocement des dérives et alerter l'IADE/MAR sans jamais prescrire l'action."</p>
+      <p style="margin-top:8px;font-size:11px;color:var(--gray)">⚠️ Cette phrase détermine la classe MDR. Si tu dis "aide à la décision thérapeutique" en public → classe IIb/III immédiate.</p>
+    </div>
+
+    <h3>Le bon MVP — Un seul</h3>
+    <div class="g3">
+      <div class="card-green">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <span class="tag tag-green">✓ MVP V1</span>
+        </div>
+        <h4 style="color:var(--green)">Hypotension peropératoire</h4>
+        <p>La plus documentée. Labels simples. VitalDB abondant. AUC-ROC mesurable. Démonstration visuelle forte. Comparable au HPI Edwards.</p>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <span class="tag tag-cyan">V1b — +6 mois</span>
+        </div>
+        <h4>Dérive respiratoire</h4>
+        <p>Extension naturelle. Mêmes capteurs. EtCO2 + compliance + peak pressure. Bronchospasme cliniquement impactant.</p>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <span class="tag tag-orange">V2 — +18 mois</span>
+        </div>
+        <h4>Saignement occulte</h4>
+        <p>Multi-paramètres. Plus complexe. Nécessite données réelles françaises. Tendances PAM + FC + EtCO2 + PPV.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Les 3 scénarios à écrire cette semaine</h3>
+    <table class="tbl">
+      <thead><tr><th>Scénario</th><th>Patient</th><th>Signaux clés</th><th>Delta VAIA vs moniteur</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Normal baseline</strong></td>
+          <td>ASA I, chir réglée, 45 min</td>
+          <td>Constantes stables ± bruit gaussien</td>
+          <td>Aucune alerte → valide les faux positifs</td>
+        </tr>
+        <tr>
+          <td><strong>Hypotension post-rachi</strong></td>
+          <td>H 58 ans, prothèse hanche, rachi</td>
+          <td>Pression pulsée −18% / 4 min, variabilité FC +23%</td>
+          <td><span class="tag tag-green">+6 min d'avance</span></td>
+        </tr>
+        <tr>
+          <td><strong>Bronchospasme débutant</strong></td>
+          <td>F 34 ans, appendi, asthme méconnu</td>
+          <td>EtCO2 +34%, compliance −8%, peak pression +4 cmH₂O</td>
+          <td><span class="tag tag-green">+8 min d'avance</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+    <h3>Le one-pager — Structure exacte</h3>
+    <div class="g2">
+      <div class="card">
+        <h4>RECTO — Le problème et la solution</h4>
+        <ul class="check-list">
+          <li>Logo CHARLES + phrase produit verrouillée</li>
+          <li>Le problème en 3 lignes (alarmes trop tardives, données en silo)</li>
+          <li>La solution en 3 points (score · alertes anticipatoires · explicabilité)</li>
+          <li>1 chiffre clé : "+6 à +35 min d'avance vs moniteur classique"</li>
+          <li>3 mini-scénarios visuels</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>VERSO — L'équipe et la démarche</h4>
+        <ul class="check-list">
+          <li>Ton profil IADE + MSc IA Santé IoT</li>
+          <li>4 atouts du projet (terrain · tech · données · marché)</li>
+          <li>Ce qu'on cherche : MAR co-investigateur + terrain CHU</li>
+          <li>Étapes actuelles avec statut ✓ / ► / ○</li>
+          <li>Contact + disclaimer réglementaire</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="ci">✅</div>
+      <div><strong>One-pager PDF déjà généré</strong> — Le fichier VAIA_onepager.pdf est disponible dans tes outputs. À imprimer avant mercredi Babinski et vendredi Cordier.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 2 — PEPITE / SNEE ════════════ -->
+<div class="page" id="p2">
+  <div class="page-header">
+    <div class="page-eyebrow">Étape 2 — Cette semaine</div>
+    <h2 class="page-title">PEPITE / SNEE</h2>
+    <p class="page-sub">Statut National Étudiant-Entrepreneur. Procédure réelle vérifiée en mars 2026. Gratuit, accessible, valable 1 an renouvelable.</p>
+  </div>
+  <div class="container">
+
+    <div class="callout callout-orange">
+      <div class="ci">⚠️</div>
+      <div><strong>Important :</strong> Le SNEE permet <em>d'envisager</em> la substitution du stage/alternance par ton projet — mais ça doit être validé par écrit par Epitech. Ne jamais t'engager sur l'oral. Demander une réponse écrite formelle sur les 4 questions listées ci-dessous.</div>
+    </div>
+
+    <h3>La procédure réelle — 3 étapes</h3>
+    <div class="step-row">
+      <div class="step-num" style="background:rgba(21,70,224,0.3);border:2px solid #1546e0;color:#8cb4ff">1</div>
+      <div class="step-body">
+        <div class="step-period">Maintenant — Durée : 1-2h</div>
+        <div class="step-title">Déposer le dossier sur snee.esr.gouv.fr</div>
+        <div class="step-desc">Formulaire en ligne sécurisé. Joindre obligatoirement : CV + description du projet (business plan facultatif mais conseillé pour ton niveau). Bien détailler chaque réponse pour que le jury comprenne CHARLES avant l'entretien.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num" style="background:rgba(0,212,255,0.15);border:2px solid var(--cyan);color:var(--cyan)">2</div>
+      <div class="step-body">
+        <div class="step-period">Délai variable — Quelques semaines</div>
+        <div class="step-title">Comité d'Engagement (jury en visio)</div>
+        <div class="step-desc">Convocation par le PEPITE de ta région (Paris : PEPITE 3EF ou PEPITE IDF selon établissement). Jury de professionnels, entrepreneurs, enseignants. Tu présentes ton projet et ta motivation. 15-20 min. Critère clé : capacité à te projeter comme entrepreneur, posture apprenante.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num" style="background:rgba(0,229,160,0.15);border:2px solid var(--green);color:var(--green)">3</div>
+      <div class="step-body">
+        <div class="step-period">Après décision favorable</div>
+        <div class="step-title">Obtention du SNEE + Onboarding</div>
+        <div class="step-desc">Statut valable 1 an universitaire (septembre–juillet). Renouvelable sur demande. Accès : mentor dédié, réseau, espaces de coworking, événements, mise en relation financeurs.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Ce que le SNEE t'apporte concrètement</h3>
+    <div class="g2">
+      <div class="card-green">
+        <h4 style="color:var(--green)">Avantages confirmés</h4>
+        <ul class="check-list">
+          <li class="done">Substitution stage/alternance par projet (avec accord Epitech)</li>
+          <li class="done">Aménagement emploi du temps + équivalences ECTS</li>
+          <li class="done">Maintien bourses sur critères sociaux (cadre D2E)</li>
+          <li class="done">Réduction charges ACCRE jusqu'à 26 ans</li>
+          <li class="done">Accompagnement mentor personnalisé</li>
+          <li class="done">Réseau entrepreneurs nationaux</li>
+        </ul>
+      </div>
+      <div class="card-orange">
+        <h4 style="color:var(--orange)">Ce qu'il faut valider par écrit avec Epitech</h4>
+        <ul class="check-list">
+          <li class="warn">L'alternance est-elle obligatoire en M4/M5 ou dérogation possible ?</li>
+          <li class="warn">La création de société peut-elle remplacer l'alternance ?</li>
+          <li class="warn">CHARLES peut-il être validé comme EIP officiel ?</li>
+          <li class="warn">Quel statut exact est attendu en M4/M5 ?</li>
+        </ul>
+        <p style="margin-top:10px;font-size:11px">Ne jamais accepter une réponse verbale. Email avec réponse écrite obligatoire.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="card-blue">
+      <h4 style="color:var(--cyan)">Plateforme officielle de dépôt</h4>
+      <div class="proc">
+<span class="ph">→ URL candidature :</span> <span class="pv">snee.esr.gouv.fr</span>
+<span class="ph">→ PEPITE Paris (si Epitech IDF) :</span> <span class="pv">pepite-3ef.fr</span> ou <span class="pv">pepite-pon.pepitizy.fr</span>
+<span class="ph">→ Documents à joindre :</span> <span class="pg">CV obligatoire · Business plan facultatif (mais recommandé)</span>
+<span class="ph">→ Délai comité :</span> <span class="pv">Mensuel — vérifier les dates sur le site de ton PEPITE</span>
+<span class="ph">→ Durée validité :</span> <span class="pv">1 an universitaire — renouvelable sur demande</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 3 — CRÉER LA SAS ════════════ -->
+<div class="page" id="p3">
+  <div class="page-header">
+    <div class="page-eyebrow">Étape 3 — Semaine 2</div>
+    <h2 class="page-title">Créer la SAS</h2>
+    <p class="page-sub">Procédure réelle 2026. 100% en ligne. Coût total ~250€. Kbis en 7 à 15 jours. Pas de holding au départ — SAS simple.</p>
+  </div>
+  <div class="container">
+
+    <div class="callout callout-blue">
+      <div class="ci">💡</div>
+      <div><strong>SASU ou SAS ?</strong> Si tu es seul au départ → SASU (unipersonnelle). Dès qu'un co-fondateur entre → SAS. Les deux se transforment facilement. Commencer par SASU = plus simple, même procédure.</div>
+    </div>
+
+    <h3>Les 4 étapes obligatoires — Dans l'ordre</h3>
+
+    <div class="step-row">
+      <div class="step-num" style="background:rgba(255,210,77,0.15);border:2px solid var(--yellow);color:var(--yellow)">1</div>
+      <div class="step-body">
+        <div class="step-period">Durée : 2-4h (ou déléguer à LegalPlace/Legalstart ~200€)</div>
+        <div class="step-title">Rédiger les statuts</div>
+        <div class="step-desc">Document fondateur. Mention obligatoires : dénomination sociale, objet social, siège, capital, durée (99 ans), identité du président, modalités de direction. Clauses importantes pour CHARLES : clause de cession de propriété intellectuelle (les algos restent dans la SAS), clause d'agrément pour tout nouvel associé.</div>
+        <div class="proc" style="margin-top:10px">
+<span class="pd"># Mentions minimales obligatoires dans les statuts SASU/SAS</span>
+<span class="ph">Dénomination :</span> <span class="pv">CHARLES COPILOT SAS</span> <span class="pd">(ou ton nom choisi)</span>
+<span class="ph">Objet social :</span> <span class="pg">Développement, édition et commercialisation de logiciels d'aide à la vigilance clinique</span>
+<span class="ph">Siège social :</span> <span class="pv">Ton domicile suffit au départ</span>
+<span class="ph">Capital :</span> <span class="pv">1€ minimum légal — 1 000 à 5 000€ recommandé</span>
+<span class="ph">Durée :</span> <span class="pv">99 ans</span>
+<span class="ph">Président :</span> <span class="pv">Toi — non rémunéré au départ</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num" style="background:rgba(255,210,77,0.15);border:2px solid var(--yellow);color:var(--yellow)">2</div>
+      <div class="step-body">
+        <div class="step-period">Durée : 1h · Coût : 0€ si domicile perso</div>
+        <div class="step-title">Déposer le capital en banque</div>
+        <div class="step-desc">Ouvrir un compte de dépôt temporaire (Qonto, Shine, BNP, etc.) et y déposer le capital. La banque fournit une attestation de dépôt indispensable pour le dossier d'immatriculation. Le capital est débloqué après réception du Kbis.</div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num" style="background:rgba(255,210,77,0.15);border:2px solid var(--yellow);color:var(--yellow)">3</div>
+      <div class="step-body">
+        <div class="step-period">Durée : 30 min · Coût : ~142€ en IDF</div>
+        <div class="step-title">Publier l'annonce légale (JAL)</div>
+        <div class="step-desc">Publication dans un Journal d'Annonces Légales agréé. En 2026 le tarif est forfaitaire : ~142€ en Île-de-France. Tu reçois une attestation de parution à joindre au dossier. Passe par des sites comme journal-annonces-legales.fr ou legifrance direct.</div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num" style="background:rgba(0,229,160,0.15);border:2px solid var(--green);color:var(--green)">4</div>
+      <div class="step-body">
+        <div class="step-period">Durée : 1-2h · Kbis : 7 à 15 jours</div>
+        <div class="step-title">Immatriculation sur le Guichet Unique INPI</div>
+        <div class="step-desc">Depuis 2023, toutes les démarches sont exclusivement en ligne sur guichet-entreprises.fr. Formulaire M0 remplacé par le formulaire unique numérique. Dossier complet requis — un document manquant ou flou = rejet et délai supplémentaire.</div>
+        <div class="proc" style="margin-top:10px">
+<span class="ph">URL :</span> <span class="pv">guichet-entreprises.fr</span>
+<span class="ph">Connexion :</span> <span class="pv">FranceConnect+ ou certificat électronique</span>
+<span class="ph">Documents PDF à fournir :</span>
+<span class="pg">  ✓ Statuts signés</span>
+<span class="pg">  ✓ Attestation dépôt capital bancaire</span>
+<span class="pg">  ✓ Attestation parution JAL</span>
+<span class="pg">  ✓ Pièce d'identité valide (carte expirée = rejet automatique)</span>
+<span class="pg">  ✓ Justificatif domiciliation moins de 3 mois</span>
+<span class="pg">  ✓ Déclaration non-condamnation du président</span>
+<span class="pg">  ✓ Déclaration bénéficiaires effectifs</span>
+<span class="ph">Frais greffe :</span> <span class="pv">~37 à 40€ par carte bancaire sur le guichet</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Coût total réaliste</h3>
+    <div class="cost-box"><span class="cost-name">Annonce légale (IDF 2026)</span><div><span class="cost-val">142€</span><span class="cost-detail"> forfaitaire</span></div></div>
+    <div class="cost-box"><span class="cost-name">Frais de greffe INPI</span><div><span class="cost-val">40€</span><span class="cost-detail"> environ</span></div></div>
+    <div class="cost-box"><span class="cost-name">Déclaration bénéficiaires effectifs</span><div><span class="cost-val">21€</span><span class="cost-detail"> environ</span></div></div>
+    <div class="cost-box"><span class="cost-name">Si tu délègues (LegalPlace, Legalstart…)</span><div><span class="cost-val">200-400€</span><span class="cost-detail"> tout compris</span></div></div>
+    <div class="cost-box" style="border:1px solid var(--green)"><span class="cost-name" style="color:var(--white)"><strong>TOTAL en faisant seul</strong></span><div><span class="cost-val">~250€</span><span class="cost-detail"> + capital</span></div></div>
+
+    <div class="divider"></div>
+    <h3>À faire immédiatement après le Kbis</h3>
+    <div class="g2">
+      <div class="card">
+        <h4>Protection IP</h4>
+        <ul class="check-list">
+          <li><strong>Dépôt marque INPI</strong> — 250€ · inpi.fr · avant toute communication</li>
+          <li><strong>Compte pro séparé</strong> — Qonto ou Shine · 0€/mois</li>
+          <li><strong>Demande ACRE URSSAF</strong> — dans les 45 jours · vérifier règles 2026</li>
+          <li><strong>NDA modèle rédigé</strong> — avant tout échange technique avec tiers</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Documents à créer dès le premier jour</h4>
+        <ul class="check-list">
+          <li><strong>CHANGELOG.md</strong> — v0.1.0 · obligatoire IEC 62304</li>
+          <li><strong>SOUP.md</strong> — toutes les dépendances requirements.txt</li>
+          <li><strong>Convention de collaboration modèle</strong> — pour le MAR</li>
+          <li><strong>GitHub privé</strong> — commits horodatés = preuve de création IP</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 4 — SIMULATEUR ════════════ -->
+<div class="page" id="p4">
+  <div class="page-header">
+    <div class="page-eyebrow">Étape 4 — Semaine 2-3</div>
+    <h2 class="page-title">Simulateur peropératoire</h2>
+    <p class="page-sub">Aucune donnée patient. Aucune contrainte CNIL. Stockage local simple. Le seul outil qui te permet de développer, tester et démontrer sans dépendre de quoi que ce soit d'externe.</p>
+  </div>
+  <div class="container">
+
+    <div class="callout callout-green">
+      <div class="ci">🎯</div>
+      <div><strong>La démonstration clé :</strong> Le champ <code>vaia_detectable=True</code> et <code>monitor_would_alarm=False</code> dans la même lecture — c'est ça la valeur clinique de CHARLES. C'est ce que tu montres à Botrel et Gayat.</div>
+    </div>
+
+    <h3>Les 5 scénarios à implémenter</h3>
+    <table class="tbl">
+      <thead><tr><th>Scénario</th><th>Phase pre_event</th><th>Phase event</th><th>Avance CHARLES</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Normal baseline</strong></td>
+          <td>Constantes stables + bruit gaussien</td>
+          <td>Aucun — sert à valider faux positifs</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>Hypotension post-rachi</strong></td>
+          <td>Pression pulsée −18%/4min · variabilité FC +15% · SpO₂ stable</td>
+          <td>SBP tombe sous 90 · FC monte</td>
+          <td><span class="tag tag-green">+6 min</span></td>
+        </tr>
+        <tr>
+          <td><strong>Bronchospasme débutant</strong></td>
+          <td>EtCO₂ 35→42 · compliance −12% · peak pressure +4 cmH₂O · SpO₂ stable 97%</td>
+          <td>SpO₂ sous 93 · peak pressure >30</td>
+          <td><span class="tag tag-green">+8 min</span></td>
+        </tr>
+        <tr>
+          <td><strong>Saignement occulte</strong></td>
+          <td>PAM −14% lente · FC +22% lente · EtCO₂ −4 mmHg · PPV monte 17%</td>
+          <td>SBP sous 85 · choc hémorragique</td>
+          <td><span class="tag tag-green">+35 min</span></td>
+        </tr>
+        <tr>
+          <td><strong>Curarisation résiduelle</strong></td>
+          <td>Score statique : f(durée injection, dose/poids, temp, créatinine)</td>
+          <td>tof_risk_score &lt; 40 → alerte fin intervention</td>
+          <td>Prévention</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+    <h3>Paramètres à générer — Tous obligatoires</h3>
+    <div class="proc">
+<span class="ph"># Hémodynamique</span>
+<span class="pv">hr</span> <span class="pd">(20-250 bpm)</span> · <span class="pv">sbp</span> <span class="pd">(40-300 mmHg)</span> · <span class="pv">dbp</span> · <span class="pv">map</span> · <span class="pv">spo2</span> · <span class="pv">ppv</span> · <span class="pv">pression_pulsee</span>
+
+<span class="ph"># Respiratoire</span>
+<span class="pv">etco2</span> <span class="pd">(mmHg)</span> · <span class="pv">peak_pressure</span> <span class="pd">(cmH₂O)</span> · <span class="pv">compliance</span> · <span class="pv">peep</span> · <span class="pv">rr</span>
+
+<span class="ph"># Profondeur anesthésie</span>
+<span class="pv">bis</span> <span class="pd">(0-100)</span> · <span class="pv">temp</span> <span class="pd">(30-43°C)</span>
+
+<span class="ph"># Contexte</span>
+<span class="pv">surgery_type</span> · <span class="pv">asa_score</span> · <span class="pv">duration_minutes</span> · <span class="pv">phase</span>
+
+<span class="ph"># Champs clés CHARLES</span>
+<span class="pg">vaia_detectable</span> <span class="pd">→ bool — CHARLES voit avant le moniteur</span>
+<span class="po">monitor_would_alarm</span> <span class="pd">→ bool — seuils classiques franchis</span>
+
+<span class="ph"># Publication MQTT</span>
+<span class="pv">Topic : bloc/{patient_id}/vitals · QoS 1 · toutes les 5 secondes</span>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Le prompt Codex à lancer ce soir</h3>
+    <div class="proc">
+<span class="ph">Crée simulation/perop_simulator.py</span>
+
+Un simulateur peropératoire qui publie via MQTT
+des constantes physiologiques toutes les 5 secondes.
+
+<span class="pg">SCÉNARIOS : hypotension_post_rachi · bronchospasme_debutant</span>
+<span class="pg">            saignement_occulte · curarisation_residuelle · normal_baseline</span>
+
+Chaque scénario a une timeline avec phases :
+<span class="pv">pre_event</span> → CHARLES détecte, moniteur ne voit rien
+<span class="pv">event</span>     → seuils classiques franchis
+<span class="pv">post_event</span> → résolution ou aggravation
+
+<span class="po">Contraintes absolues :</span>
+- Bruit gaussien sur chaque paramètre
+- Bornes physiologiques clampées
+- Timestamp UTC ISO 8601
+- Champ vaia_detectable : bool (tendances)
+- Champ monitor_would_alarm : bool (seuils fixes)
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 5 — DONNÉES & ML ════════════ -->
+<div class="page" id="p5">
+  <div class="page-header">
+    <div class="page-eyebrow">Étape 5 — Semaine 4</div>
+    <h2 class="page-title">Données & Modèles ML</h2>
+    <p class="page-sub">VitalDB pour prototyper. MIMIC-IV pour pre-training. Données CHU pour valider. XGBoost d'abord, LSTM ensuite. MLflow dès le premier modèle.</p>
+  </div>
+  <div class="container">
+
+    <h3>Stratégie données par phase</h3>
+    <table class="tbl">
+      <thead><tr><th>Source</th><th>Volume</th><th>Accès</th><th>Usage</th><th>Contrainte CNIL</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Simulateur</strong></td><td>Illimité</td><td>Immédiat</td><td>Architecture · UX · tests</td><td><span class="tag tag-green">Aucune</span></td></tr>
+        <tr><td><strong>VitalDB</strong></td><td>6 388 cas</td><td>Libre sur vitaldb.net</td><td>Proto ML · benchmark HPI</td><td><span class="tag tag-green">Données publiques</span></td></tr>
+        <tr><td><strong>MIMIC-IV</strong></td><td>70 000+ cas</td><td>Inscription libre PhysioNet</td><td>Pre-training LSTM</td><td><span class="tag tag-cyan">Accord PhysioNet</span></td></tr>
+        <tr><td><strong>Données CHU rétrospectives</strong></td><td>500-2 000/an</td><td>Via DRCI + DPO</td><td>Fine-tuning · validation FR</td><td><span class="tag tag-orange">MR-004 CNIL + convention</span></td></tr>
+        <tr><td><strong>EDS AP-HP</strong></td><td>Millions de séjours</td><td>Via Botrel / projet DOSE</td><td>Scale · publication</td><td><span class="tag tag-red">Comité éthique EDS + CNIL</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+    <h3>Premier notebook VitalDB — Ce que tu fais</h3>
+    <div class="proc">
+<span class="ph">import</span> vitaldb <span class="pd"># pip install vitaldb</span>
+<span class="ph">import</span> pandas <span class="ph">as</span> pd
+<span class="ph">import</span> matplotlib.pyplot <span class="ph">as</span> plt
+
+<span class="pd"># 1. Charger les cas avec événement hypotension (MAP &lt; 65)</span>
+cases = vitaldb.load_cases([<span class="pg">'SBP'</span>, <span class="pg">'DBP'</span>, <span class="pg">'HR'</span>, <span class="pg">'SpO2'</span>, <span class="pg">'EtCO2'</span>])
+
+<span class="pd"># 2. Label : MAP &lt; 65 dans les 5 min suivantes</span>
+<span class="pd"># 3. Features : pente PAM 3 min · variabilité FC · delta EtCO2</span>
+<span class="pd"># 4. Entraîner XGBoost · mesurer AUC-ROC</span>
+<span class="pd"># 5. Comparer au benchmark HPI Edwards (~0.88 AUC)</span>
+<span class="pd"># → Objectif V1 : AUC > 0.80</span>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Le stack ML recommandé</h3>
+    <div class="g3">
+      <div class="card">
+        <h4>Phase 1 — Maintenant</h4>
+        <ul class="check-list">
+          <li><strong>XGBoost</strong> — données tabulaires</li>
+          <li><strong>Features temporelles</strong> — pentes, variabilités</li>
+          <li><strong>AUC-ROC</strong> — métrique principale</li>
+          <li><strong>SHAP</strong> — explicabilité</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Phase 2 — Après CHU</h4>
+        <ul class="check-list">
+          <li><strong>LSTM bidirectionnel</strong> — séries temporelles</li>
+          <li><strong>Fine-tuning</strong> sur données françaises</li>
+          <li><strong>Calibration</strong> des probabilités</li>
+          <li><strong>Validation croisée</strong> site-to-site</li>
+        </ul>
+      </div>
+      <div class="card-red">
+        <h4 style="color:var(--red)">MLflow — OBLIGATOIRE dès le premier run</h4>
+        <ul class="check-list">
+          <li>Version modèle tracée pour chaque alerte</li>
+          <li>Métriques avant/après documentées</li>
+          <li>Exigence IEC 62304 non négociable</li>
+          <li><code>pip install mlflow && mlflow ui</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-orange">
+      <div class="ci">⚠️</div>
+      <div><strong>VitalDB est une base coréenne mono-centrique.</strong> Excellent pour prototyper et benchmarker. Insuffisant seul pour un produit médical français certifiable. La vraie validation viendra des données CHU françaises via le protocole de recherche.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 6 — MAR & CHU ════════════ -->
+<div class="page" id="p6">
+  <div class="page-header">
+    <div class="page-eyebrow">Étape 6 — Mois 2</div>
+    <h2 class="page-title">MAR & Partenaire CHU</h2>
+    <p class="page-sub">Tu ne proposes pas "ma startup". Tu proposes un projet de recherche appliquée en vigilance peropératoire. Les messages sont prêts. Les profils sont identifiés.</p>
+  </div>
+  <div class="container">
+
+    <div class="callout callout-orange">
+      <div class="ci">🔥</div>
+      <div><strong>Action immédiate ce soir :</strong> Envoyer les messages LinkedIn Botrel (mercredi Babinski) et Gayat (vendredi Cordier Pitié). Les deux messages sont rédigés et finalisés. Ne pas attendre.</div>
+    </div>
+
+    <h3>Contacts prioritaires identifiés</h3>
+    <table class="tbl">
+      <thead><tr><th>Profil</th><th>Lieu</th><th>Alignement CHARLES</th><th>Statut</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Dr Thomas Botrel</strong></td>
+          <td>Pitié-Salpêtrière</td>
+          <td>Ingénieur Arts et Métiers + MAR. Projet DOSE ANR 590k€ EDS AP-HP. Profil miroir exact.</td>
+          <td><span class="tag tag-orange">Message envoyé ce soir</span></td>
+        </tr>
+        <tr>
+          <td><strong>Pr Etienne Gayat</strong></td>
+          <td>Lariboisière AP-HP</td>
+          <td>Chairman DAR AP-HP Nord. Thèse en cours monitorage péri-op IA. Publications Super Learner.</td>
+          <td><span class="tag tag-orange">Message envoyé ce soir</span></td>
+        </tr>
+        <tr>
+          <td><strong>Pr Patrick Schoettker</strong></td>
+          <td>CHUV Lausanne</td>
+          <td>Chef service + co-fondateur Biospectal + jumeau numérique péri-op. Entrepreneur convaincu.</td>
+          <td><span class="tag tag-cyan">Cette semaine</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+    <h3>Ce que tu as avant chaque rendez-vous</h3>
+    <div class="g2">
+      <div class="card-green">
+        <h4 style="color:var(--green)">Tu apportes</h4>
+        <ul class="check-list">
+          <li class="done">One-pager PDF imprimé (2 pages)</li>
+          <li class="done">Tablette avec simulateur jouable</li>
+          <li class="done">1 scénario hypotension : CHARLES détecte 6 min avant</li>
+          <li class="done">1 phrase claire sur le périmètre non prescriptif</li>
+          <li class="done">1 plan de recherche simple (1 page)</li>
+        </ul>
+      </div>
+      <div class="card-red">
+        <h4 style="color:var(--red)">Tu ne dis JAMAIS</h4>
+        <ul class="check-list">
+          <li>"Je crée une startup"</li>
+          <li>"Voulez-vous être associé ?"</li>
+          <li>"J'ai besoin de vos données"</li>
+          <li>"Mon IA décide / prescrit"</li>
+          <li>Des chiffres de valorisation ou de sortie</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Convention avant toute donnée — L'ordre strict</h3>
+    <div class="proc">
+<span class="pd">Ordre de signature — JAMAIS dans le désordre</span>
+
+<span class="pg">1. NDA signé</span>         → avant tout échange technique détaillé
+<span class="pg">2. Lettre d'intention</span>  → accord de principe de collaboration
+<span class="pg">3. Convention tripartite</span> → SAS CHARLES / CHU / MAR
+   <span class="pd">Clauses essentielles :</span>
+   <span class="pv">- Propriété intellectuelle → SAS CHARLES</span>
+   <span class="pv">- Algorithmes restent dans la SAS, toujours</span>
+   <span class="pv">- Données anonymisées exploitables par SAS CHARLES</span>
+   <span class="pv">- Publications : co-signatures définies à l'avance</span>
+   <span class="pv">- Financement : répartition claire</span>
+<span class="py">4. Validation DRCI + DPO</span>
+<span class="po">5. Parts / pacte d'associés</span> → seulement après engagement réel prouvé
+<span class="pr">JAMAIS de parts à la parole</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 7 — RECHERCHE CLINIQUE ════════════ -->
+<div class="page" id="p7">
+  <div class="page-header">
+    <div class="page-eyebrow">Étape 7 — Mois 3</div>
+    <h2 class="page-title">Recherche clinique</h2>
+    <p class="page-sub">Procédure réelle DRCI / CPP / CNIL. La DRCI est la porte d'entrée officielle de tout projet de recherche clinique dans un CHU. Elle gère aussi les partenariats industriels.</p>
+  </div>
+  <div class="container">
+
+    <div class="callout callout-red">
+      <div class="ci">🚨</div>
+      <div><strong>Règle absolue :</strong> Jamais de données patients sans convention DRCI + DPO validée. Même si le MAR est d'accord verbalement. Même si tu travailles dans le service. La responsabilité pénale est réelle.</div>
+    </div>
+
+    <h3>La DRCI — Ce que c'est exactement</h3>
+    <div class="card-blue" style="margin-bottom:20px">
+      <p>La DRCI (Délégation à la Recherche Clinique et à l'Innovation) est sous l'autorité du Directeur Général du CHU et du président de la CME. Elle gère la promotion des essais cliniques, les partenariats industriels, les appels à projets (DGOS, ANR, projets européens), et la valorisation. <strong>C'est ton interlocuteur officiel pour tout partenariat externe industriel.</strong></p>
+    </div>
+
+    <h3>Les 6 étapes dans l'ordre chronologique</h3>
+
+    <div class="step-row">
+      <div class="step-num" style="background:rgba(0,229,160,0.15);border:2px solid var(--green);color:var(--green)">1</div>
+      <div class="step-body">
+        <div class="step-period">Maintenant → Mois 3</div>
+        <div class="step-title">Hors hôpital — Simulateur et données publiques</div>
+        <div class="step-desc">Aucune donnée hospitalière. Aucun cadre CNIL requis. Simulateur + VitalDB + MIMIC-IV + première interface + démo vidéo. C'est ce que tu as avant d'approcher la DRCI.</div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num" style="background:rgba(0,212,255,0.15);border:2px solid var(--cyan);color:var(--cyan)">2</div>
+      <div class="step-body">
+        <div class="step-period">Mois 2-4</div>
+        <div class="step-title">Identifier les bons interlocuteurs au CHU</div>
+        <div class="step-desc">Via ton MAR : obtenir une introduction à la DRCI. Identifier aussi : le DPO, la cellule valorisation, et si pertinent le biomédical/DSI pour les questions d'interopérabilité. Ne pas contacter la DSI avant l'accord médical.</div>
+        <div class="proc" style="margin-top:10px">
+<span class="ph">Questions à poser au CHU :</span>
+<span class="pg">→ Quel AIMS est en place ? (Diane, MetaVision, ORBIS...)</span>
+<span class="pg">→ Des données perop historiques sont-elles exploitables ?</span>
+<span class="pg">→ Y a-t-il un middleware / flux HL7 accessible ?</span>
+<span class="pg">→ Qui instruit les demandes partenariat externe ?</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num" style="background:rgba(0,212,255,0.15);border:2px solid var(--cyan);color:var(--cyan)">3</div>
+      <div class="step-body">
+        <div class="step-period">Mois 3-5 — NE PAS DÉCIDER SEUL</div>
+        <div class="step-title">Qualification du type de recherche avec le CHU</div>
+        <div class="step-desc">La CNIL distingue les recherches impliquant la personne humaine (MR-001 à 003) et celles qui ne l'impliquent pas (MR-004 à 006). Ce choix détermine tout ce qui suit. Le DPO et la DRCI qualifient — pas toi.</div>
+        <table class="tbl" style="margin-top:10px">
+          <thead><tr><th>Cadre</th><th>Quand</th><th>Procédure</th><th>Délai</th></tr></thead>
+          <tbody>
+            <tr><td><strong>MR-004 CNIL</strong></td><td>Réutilisation données déjà collectées (rétrospectif)</td><td>Déclaration CNIL simplifiée</td><td>1-3 mois</td></tr>
+            <tr><td><strong>RIPH risques minimes</strong></td><td>CHARLES montre les alertes aux IADE</td><td>CPP obligatoire + déclaration ANSM</td><td>4-6 mois</td></tr>
+            <tr><td><strong>PHRC / PREPS</strong></td><td>Financement public + étude formelle</td><td>CHU promoteur · porté par le MAR PH</td><td>12-18 mois</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num" style="background:rgba(255,210,77,0.15);border:2px solid var(--yellow);color:var(--yellow)">4</div>
+      <div class="step-body">
+        <div class="step-period">Mois 4-6 — AVANT TOUTE DONNÉE RÉELLE</div>
+        <div class="step-title">Convention tripartite SAS CHARLES / CHU / MAR</div>
+        <div class="step-desc">Rédigée avec un avocat spécialisé (2 000 à 4 000€ — le meilleur investissement du projet). Clauses : répartition IP, droits publications, gouvernance données, responsabilités, durée, exclusivité.</div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num" style="background:rgba(255,123,44,0.15);border:2px solid var(--orange);color:var(--orange)">5</div>
+      <div class="step-body">
+        <div class="step-period">Mois 5-8</div>
+        <div class="step-title">Protocole de recherche — Avec MAR et DRCI</div>
+        <div class="step-desc">En 2 temps dans le même protocole CPP :</div>
+        <div class="proc" style="margin-top:8px">
+<span class="ph">Temps 1 observationnel (mois 1-6) :</span>
+<span class="pg">CHARLES tourne en shadow — personne ne voit les alertes</span>
+<span class="pv">200-300 cas collectés et annotés</span>
+<span class="pv">Validation connecteurs et performances modèle</span>
+
+<span class="ph">Temps 2 interventionnel (mois 7-18) :</span>
+<span class="pg">IADE voient les alertes CHARLES</span>
+<span class="pv">Critère principal : délai détection CHARLES vs moniteur classique</span>
+<span class="pv">Critères secondaires : taux FP/FN · acceptabilité · satisfaction</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num" style="background:rgba(180,100,255,0.15);border:2px solid #9d4edd;color:#d4a0ff">6</div>
+      <div class="step-body">
+        <div class="step-period">Mois 8-12</div>
+        <div class="step-title">Pilote shadow — Mode observation uniquement</div>
+        <div class="step-desc">CHARLES tourne mais n'affiche rien aux cliniciens. Collection 500 à 1 000 cas annotés français. Réentraînement modèle. Préparation dossier CE IIa. Abstract SFAR.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 8 — RGPD & STOCKAGE ════════════ -->
+<div class="page" id="p8">
+  <div class="page-header">
+    <div class="page-eyebrow">Étape 8 — Continu</div>
+    <h2 class="page-title">RGPD & Stockage</h2>
+    <p class="page-sub">La règle change complètement selon la phase. Local simple au début. Infrastructure contrôlée dès les vraies données patients. HDS obligatoire dès l'hébergement pour tiers.</p>
+  </div>
+  <div class="container">
+
+    <div class="storage-level sl-0">
+      <div class="sl-label" style="color:var(--green)">Étape 1 — Simulateur · Aucune contrainte</div>
+      <p><strong>Type de données :</strong> Aucune donnée personnelle. Données fictives entièrement.</p>
+      <ul class="check-list">
+        <li class="done">Stockage local sur ton laptop</li>
+        <li class="done">Repo GitHub privé pour le code</li>
+        <li class="done">Docker local — Mosquitto, InfluxDB, PostgreSQL</li>
+        <li class="done">Aucune contrainte CNIL / RGPD</li>
+        <li class="done">Aucun HDS requis</li>
+      </ul>
+    </div>
+
+    <div class="storage-level sl-1">
+      <div class="sl-label" style="color:var(--cyan)">Étape 2 — VitalDB / MIMIC · Données publiques de recherche</div>
+      <p><strong>Type de données :</strong> Données publiques anonymisées coréennes/américaines. Pas de données patients français.</p>
+      <ul class="check-list">
+        <li class="done">Stockage local chiffré recommandé</li>
+        <li class="done">Datasets hors repo Git (trop volumineux)</li>
+        <li class="done">Accord PhysioNet pour MIMIC-IV</li>
+        <li class="done">Pas de contrainte CNIL française</li>
+        <li class="done">Disque chiffré BitLocker ou VeraCrypt</li>
+      </ul>
+    </div>
+
+    <div class="storage-level sl-2">
+      <div class="sl-label" style="color:var(--orange)">Étape 3 — Données CHU rétrospectives · Cadre strict</div>
+      <p><strong>Type de données :</strong> Données de santé personnelles ou pseudonymisées. RGPD s'applique pleinement.</p>
+      <ul class="check-list">
+        <li class="warn">Environnement du CHU préférable pour les données</li>
+        <li class="warn">Pseudonymisation avant tout traitement</li>
+        <li class="warn">Convention DPA signée avec le CHU</li>
+        <li class="warn">Registre des traitements obligatoire</li>
+        <li class="warn">DPO du CHU doit valider l'architecture</li>
+        <li class="warn">Durée de conservation définie dans le protocole</li>
+        <li class="warn">Jamais de copie sur ton laptop personnel sans accord DPO</li>
+      </ul>
+    </div>
+
+    <div class="storage-level sl-3">
+      <div class="sl-label" style="color:var(--red)">Étape 4 — Pilote réel temps réel · HDS obligatoire</div>
+      <p><strong>Type de données :</strong> Données patients identifiables en cours d'intervention.</p>
+      <ul class="check-list">
+        <li class="warn"><strong>HDS (Hébergement Données de Santé) obligatoire</strong> si tu héberges pour le CHU</li>
+        <li class="warn">Version HDS V2.0 devient référence à partir de mai 2026</li>
+        <li class="warn">Hébergeurs certifiés : Azure Healthcare APIs · OVH HDS · Outscale</li>
+        <li class="warn">TLS 1.3 sur toutes les connexions sans exception</li>
+        <li class="warn">AES-256 pour le chiffrement au repos</li>
+        <li class="warn">Audit log complet de chaque donnée traitée</li>
+        <li class="warn">Consentement patient selon cadre RIPH</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Architecture de stockage cible — Production</h3>
+    <div class="proc">
+<span class="ph">Stack CHARLES — Production</span>
+
+<span class="pg">NVMe SSD (services actifs)</span>
+├── InfluxDB        → séries temporelles haute fréquence
+├── PostgreSQL      → patients · alertes · audit log
+├── Redis           → cache live dernières valeurs
+└── Docker volumes  → backend FastAPI · frontend
+
+<span class="py">SATA HDD RAID 1 (données / backups)</span>
+├── Backups chiffrés AES-256
+├── Exports CSV / PDF / résumés SSPI
+├── Modèles MLflow versionnés
+└── Logs audit IEC 62304
+
+<span class="po">Cloud HDS (quand données patients réels)</span>
+├── Azure Healthcare APIs ou OVH HDS
+├── Certifié HDS V2.0 (obligatoire mai 2026+)
+└── Région France obligatoire
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 9 — FINANCEMENT ════════════ -->
+<div class="page" id="p9">
+  <div class="page-header">
+    <div class="page-eyebrow">Étape 9 — Continu</div>
+    <h2 class="page-title">Financement</h2>
+    <p class="page-sub">12 sources identifiées dans l'ordre chronologique réaliste. Note : i-Lab 2026 → deadline passée (3 févr. 2026). Viser i-Lab 2027 ou autres concours Bpifrance immédiats.</p>
+  </div>
+  <div class="container">
+
+    <div class="callout callout-red">
+      <div class="ci">⚠️</div>
+      <div><strong>Recadrage i-Lab :</strong> La deadline de dépôt i-Lab 2026 était le 3 février 2026. Cette fenêtre est fermée. Viser la prochaine édition (2027) ou d'autres concours Bpifrance immédiats comme Bpifrance Émergence ou Innovation.</div>
+    </div>
+
+    <h3>Les financements dans l'ordre chronologique</h3>
+    <table class="tbl">
+      <thead><tr><th>Quand</th><th>Source</th><th>Montant</th><th>Conditions clés</th><th>Délai</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Maintenant</strong></td>
+          <td>PEPITE / SNEE</td>
+          <td>Statut + accompagnement</td>
+          <td>Dossier projet + jury PEPITE</td>
+          <td>2-4 semaines</td>
+        </tr>
+        <tr>
+          <td><strong>Dès création SAS</strong></td>
+          <td>ACRE URSSAF</td>
+          <td>Exonération charges 45→25%</td>
+          <td>Formulaire 45 jours. Vérifier règles 2026 — elles ont évolué.</td>
+          <td>Immédiat</td>
+        </tr>
+        <tr>
+          <td><strong>Dès 1er salarié</strong></td>
+          <td>CIR (Crédit Impôt Recherche)</td>
+          <td class="money">30% dépenses R&D</td>
+          <td>SAS créée · déclaration fiscale annuelle · automatique</td>
+          <td>Annuel</td>
+        </tr>
+        <tr>
+          <td><strong>Mois 2-3</strong></td>
+          <td>DRCI CHU partenaire</td>
+          <td class="money">30 000 à 150 000€</td>
+          <td>MAR référent dans le CHU. Le plus rapide. Débloque le terrain.</td>
+          <td>1-3 mois</td>
+        </tr>
+        <tr>
+          <td><strong>Mois 3-6</strong></td>
+          <td>CIFRE (ANRT)</td>
+          <td class="money">~14 000€/an remboursé</td>
+          <td>SAS créée + directeur de thèse labo accrédité + sujet ANRT. 3 ans.</td>
+          <td>6-9 mois</td>
+        </tr>
+        <tr>
+          <td><strong>Mois 6+</strong></td>
+          <td>ANS Santé Numérique</td>
+          <td class="money">50 000 à 200 000€</td>
+          <td>2 appels/an · entreprise française · aligné feuille route numérique santé</td>
+          <td>3-6 mois</td>
+        </tr>
+        <tr>
+          <td><strong>Mois 6+</strong></td>
+          <td>ANR PRCE</td>
+          <td class="money">200 000 à 500 000€</td>
+          <td>Partenaire académique obligatoire. Ton MAR PH porte le dossier.</td>
+          <td>12-18 mois</td>
+        </tr>
+        <tr>
+          <td><strong>Mois 8+</strong></td>
+          <td>PHRC (Ministère Santé)</td>
+          <td class="money">100 000 à 500 000€</td>
+          <td>CHU promoteur · porté par le MAR PH. Couvre personnel + infra.</td>
+          <td>12-18 mois</td>
+        </tr>
+        <tr>
+          <td><strong>An 2</strong></td>
+          <td>Bpifrance i-Lab 2027</td>
+          <td class="money">300 000 à 600 000€</td>
+          <td>Prochaine édition. Préparer le dossier maintenant avec les données CHU.</td>
+          <td>6 mois</td>
+        </tr>
+        <tr>
+          <td><strong>An 2</strong></td>
+          <td>Business Angels santé</td>
+          <td class="money">200 000 à 600 000€</td>
+          <td>Données cliniques + CE IIa en cours + prototype validé</td>
+          <td>3-6 mois</td>
+        </tr>
+        <tr>
+          <td><strong>An 2-3</strong></td>
+          <td>EIC Accelerator Europe</td>
+          <td class="money">Jusqu'à 2,5M€ + 15M€ equity</td>
+          <td>Innovation de rupture · marché >1Md€ · équipe solide · résultats. Très sélectif (5%).</td>
+          <td>6-12 mois</td>
+        </tr>
+        <tr>
+          <td><strong>An 3+</strong></td>
+          <td>VC Série A</td>
+          <td class="money">3 à 8M€</td>
+          <td>CE IIa obtenu · premiers clients · ARR visible · équipe complète</td>
+          <td>6-12 mois</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+    <div class="callout callout-green">
+      <div class="ci">💰</div>
+      <div><strong>Ton risque financier personnel réel :</strong> Phase 1 → 0€ si bien monté (subventions + CIR + DRCI). Phase 2 → 50 000 à 100 000€ apport max pour déclencher les financements publics. Phase 3 → levée de fonds VC. Le vrai risque c'est ton temps et ton énergie — pas l'argent.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const idx = ['p0','p1','p2','p3','p4','p5','p6','p7','p8','p9'].indexOf(id);
+  document.querySelectorAll('.tab')[idx].classList.add('active');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

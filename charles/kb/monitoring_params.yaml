@@ -1,0 +1,539 @@
+# =============================================================================
+# CHARLES KB — Paramètres de Monitorage
+# Source: VitalDB 196 tracks + littérature SFAR/ASA
+# =============================================================================
+# Chaque paramètre contient:
+#   - source VitalDB (device/track)
+#   - plages normales (adulte standard sous AG)
+#   - seuils d'alerte pour CHARLES
+#   - signification clinique
+
+categories:
+
+  # =========================================================================
+  # HÉMODYNAMIQUE
+  # =========================================================================
+  hemodynamique:
+    label_fr: "Paramètres hémodynamiques"
+
+    parametres:
+
+      frequence_cardiaque:
+        label_fr: "Fréquence cardiaque"
+        label_en: "Heart rate"
+        abbreviation: HR
+        unite: "/min"
+        vitaldb_tracks:
+          - Solar8000/HR
+          - Solar8000/PLETH_HR
+          - CardioQ/HR
+        plage_normale: [50, 100]
+        seuils_charles:
+          critique_bas: 35
+          alerte_basse: 45
+          alerte_haute: 120
+          critique_haut: 150
+        signification:
+          bas: "Bradycardie — vagal, β-bloquant, hypothermie, BAV, hyperkaliémie"
+          haut: "Tachycardie — douleur, hypovolémie, anémie, sepsis, anaphylaxie, HM"
+
+      pression_arterielle_systolique:
+        label_fr: "Pression artérielle systolique"
+        label_en: "Systolic blood pressure"
+        abbreviation: PAS
+        unite: mmHg
+        vitaldb_tracks:
+          invasive: [Solar8000/ART_SBP, Solar8000/FEM_SBP]
+          non_invasive: [Solar8000/NIBP_SBP]
+        plage_normale: [90, 160]
+        seuils_charles:
+          critique_bas: 70
+          alerte_basse: 85
+          alerte_haute: 180
+          critique_haut: 200
+        trend_detection:
+          chute_rapide: "Δ > 30 mmHg en 5 min"
+
+      pression_arterielle_diastolique:
+        label_fr: "Pression artérielle diastolique"
+        label_en: "Diastolic blood pressure"
+        abbreviation: PAD
+        unite: mmHg
+        vitaldb_tracks:
+          invasive: [Solar8000/ART_DBP, Solar8000/FEM_DBP]
+          non_invasive: [Solar8000/NIBP_DBP]
+        plage_normale: [50, 90]
+        seuils_charles:
+          critique_bas: 35
+          alerte_basse: 45
+          alerte_haute: 100
+          critique_haut: 110
+
+      pression_arterielle_moyenne:
+        label_fr: "Pression artérielle moyenne"
+        label_en: "Mean arterial pressure"
+        abbreviation: PAM
+        unite: mmHg
+        vitaldb_tracks:
+          invasive: [Solar8000/ART_MBP, Solar8000/FEM_MBP, EV1000/ART_MBP]
+          non_invasive: [Solar8000/NIBP_MBP]
+        plage_normale: [65, 110]
+        formule: "PAD + (PAS - PAD) / 3"
+        seuils_charles:
+          critique_bas: 50
+          alerte_basse: 60
+          alerte_haute: 120
+          critique_haut: 140
+        signification:
+          bas: "Hypoperfusion organes — rein, cerveau, coronaires"
+          haut: "Risque hémorragie cérébrale, surcharge VG"
+
+      pression_veineuse_centrale:
+        label_fr: "Pression veineuse centrale"
+        label_en: "Central venous pressure"
+        abbreviation: PVC
+        unite: mmHg
+        vitaldb_tracks: [Solar8000/CVP, EV1000/CVP]
+        plage_normale: [2, 8]
+        seuils_charles:
+          alerte_haute: 15
+          critique_haut: 20
+        signification:
+          haut: "Surcharge droite, tamponnade, pneumothorax compressif, embolie"
+
+      segment_st:
+        label_fr: "Segment ST (ischémie myocardique)"
+        label_en: "ST segment"
+        unite: mm
+        vitaldb_tracks:
+          - Solar8000/ST_II
+          - Solar8000/ST_V5
+          - Solar8000/ST_AVF
+          - Solar8000/ST_I
+          - Solar8000/ST_III
+          - Solar8000/ST_AVR
+          - Solar8000/ST_AVL
+        seuil_ischémie: 2  # mm de déviation (sus ou sous)
+        signification: "Ischémie myocardique si sus- ou sous-décalage > 2 mm"
+
+  # =========================================================================
+  # DÉBIT CARDIAQUE / HÉMODYNAMIQUE AVANCÉE
+  # =========================================================================
+  hemodynamique_avancee:
+    label_fr: "Monitorage hémodynamique avancé"
+
+    parametres:
+
+      debit_cardiaque:
+        label_fr: "Débit cardiaque"
+        label_en: "Cardiac output"
+        abbreviation: CO / DC
+        unite: "L/min"
+        vitaldb_tracks: [Vigileo/CO, EV1000/CO, Vigilance/CO, CardioQ/CO]
+        plage_normale: [4.0, 8.0]
+
+      index_cardiaque:
+        label_fr: "Index cardiaque"
+        label_en: "Cardiac index"
+        abbreviation: CI / IC
+        unite: "L/min/m²"
+        vitaldb_tracks: [Vigileo/CI, EV1000/CI, Vigilance/CI, CardioQ/CI]
+        plage_normale: [2.5, 4.0]
+        seuils_charles:
+          critique_bas: 1.8
+          alerte_basse: 2.2
+
+      volume_ejection_systolique:
+        label_fr: "Volume d'éjection systolique"
+        label_en: "Stroke volume"
+        abbreviation: VES / SV
+        unite: "mL/battement"
+        vitaldb_tracks: [Vigileo/SV, EV1000/SV, Vigilance/SV, CardioQ/SV]
+        plage_normale: [60, 100]
+
+      variation_volume_ejection:
+        label_fr: "Variation du volume d'éjection"
+        label_en: "Stroke volume variation"
+        abbreviation: SVV / VVE
+        unite: "%"
+        vitaldb_tracks: [Vigileo/SVV, EV1000/SVV]
+        plage_normale: [0, 12]
+        seuils_charles:
+          seuil_remplissage: 13  # > 13% = précharge-dépendant
+        signification: "> 13% sous ventilation contrôlée = patient répondeur au remplissage"
+
+      resistances_vasculaires:
+        label_fr: "Résistances vasculaires systémiques"
+        label_en: "Systemic vascular resistance"
+        abbreviation: RVS / SVR
+        unite: "dyn·s/cm⁵"
+        vitaldb_tracks: [EV1000/SVR, EV1000/SVRI]
+        plage_normale: [800, 1200]
+
+  # =========================================================================
+  # OXYMÉTRIE
+  # =========================================================================
+  oxymetrie:
+    label_fr: "Oxymétrie"
+
+    parametres:
+
+      saturation_pulsee:
+        label_fr: "Saturation pulsée en oxygène"
+        label_en: "Pulse oximetry"
+        abbreviation: SpO2
+        unite: "%"
+        vitaldb_tracks: [Solar8000/PLETH_SPO2]
+        plage_normale: [96, 100]
+        seuils_charles:
+          critique_bas: 85
+          alerte_basse: 92
+        trend_detection:
+          chute_rapide: "Δ > 3% en 2 min"
+
+      saturation_veineuse_melee:
+        label_fr: "Saturation veineuse mêlée"
+        label_en: "Mixed venous oxygen saturation"
+        abbreviation: SvO2
+        unite: "%"
+        vitaldb_tracks: [Vigilance/SVO2]
+        plage_normale: [65, 75]
+        seuils_charles:
+          alerte_basse: 60
+          critique_bas: 50
+        signification:
+          bas: "Extraction O2 augmentée — bas débit, anémie, hypoxémie"
+
+      oxymetrie_cerebrale:
+        label_fr: "Oxymétrie cérébrale (NIRS)"
+        label_en: "Cerebral oximetry (NIRS)"
+        abbreviation: rSO2
+        unite: "%"
+        vitaldb_tracks: [Invos/SCO2_L, Invos/SCO2_R]
+        plage_normale: [60, 80]
+        seuils_charles:
+          alerte_basse: 55
+          critique_bas: 50
+          asymetrie_alerte: 10  # différence G-D > 10%
+
+  # =========================================================================
+  # CAPNOGRAPHIE / VENTILATION
+  # =========================================================================
+  ventilation:
+    label_fr: "Ventilation et capnographie"
+
+    parametres:
+
+      etco2:
+        label_fr: "CO2 en fin d'expiration"
+        label_en: "End-tidal CO2"
+        abbreviation: EtCO2
+        unite: mmHg
+        vitaldb_tracks: [Solar8000/ETCO2, Primus/ETCO2]
+        plage_normale: [35, 45]
+        seuils_charles:
+          critique_bas: 15
+          alerte_basse: 30
+          alerte_haute: 50
+          critique_haut: 60
+        signification:
+          tres_bas: "Intubation œsophagienne, ACR, débranchement, embolie massive"
+          bas: "Hyperventilation, hypothermie, bas débit"
+          haut: "Hypoventilation, HM, sepsis, pneumopéritoine CO2"
+
+      frequence_respiratoire:
+        label_fr: "Fréquence respiratoire"
+        label_en: "Respiratory rate"
+        abbreviation: FR
+        unite: "/min"
+        vitaldb_tracks:
+          - Solar8000/RR
+          - Solar8000/RR_CO2
+          - Solar8000/VENT_RR
+          - Primus/RR_CO2
+        plage_normale: [12, 20]
+
+      volume_courant:
+        label_fr: "Volume courant"
+        label_en: "Tidal volume"
+        abbreviation: Vt
+        unite: mL
+        vitaldb_tracks: [Solar8000/VENT_TV, Primus/TV]
+        cible: "6-8 mL/kg de poids idéal théorique"
+        seuils_charles:
+          alerte_haute_ml_kg: 10  # > 10 mL/kg PIT = VILI risk
+
+      pression_crete:
+        label_fr: "Pression de crête (PIP)"
+        label_en: "Peak inspiratory pressure"
+        abbreviation: PIP
+        unite: "cmH2O"
+        vitaldb_tracks: [Solar8000/VENT_PIP, Primus/PIP_MBAR]
+        plage_normale: [15, 25]
+        seuils_charles:
+          alerte_haute: 30
+          critique_haut: 40
+        signification:
+          haut: "Bronchospasme, coudure sonde, pneumothorax, compliance ↓"
+
+      pression_plateau:
+        label_fr: "Pression de plateau"
+        label_en: "Plateau pressure"
+        abbreviation: Pplat
+        unite: "cmH2O"
+        vitaldb_tracks: [Solar8000/VENT_PPLAT, Primus/PPLAT_MBAR]
+        plage_normale: [10, 20]
+        seuils_charles:
+          alerte_haute: 28
+          critique_haut: 30
+        signification:
+          haut: "Risque barotraumatisme — réduire Vt, vérifier compliance"
+
+      peep:
+        label_fr: "Pression expiratoire positive"
+        label_en: "Positive end-expiratory pressure"
+        abbreviation: PEEP
+        unite: "cmH2O"
+        vitaldb_tracks: [Solar8000/VENT_MEAS_PEEP, Primus/PEEP_MBAR]
+        reglage_standard: 5
+        reglage_obese: [8, 12]
+
+      compliance:
+        label_fr: "Compliance pulmonaire"
+        label_en: "Pulmonary compliance"
+        abbreviation: Cstat
+        unite: "mL/cmH2O"
+        vitaldb_tracks: [Solar8000/VENT_COMPL, Primus/COMPLIANCE]
+        plage_normale: [50, 80]
+        seuils_charles:
+          alerte_basse: 30
+        signification:
+          bas: "Pneumothorax, OAP, atélectasie, pneumopéritoine, obésité"
+
+      fio2:
+        label_fr: "Fraction inspirée en oxygène"
+        label_en: "Fraction of inspired oxygen"
+        abbreviation: FiO2
+        unite: "%"
+        vitaldb_tracks: [Solar8000/FIO2, Primus/FIO2, Solar8000/VENT_SET_FIO2, Primus/SET_FIO2]
+        reglage_standard: [30, 50]
+        signification: "FiO2 100% prolongée = risque atélectasie de résorption"
+
+      ventilation_minute:
+        label_fr: "Ventilation minute"
+        label_en: "Minute ventilation"
+        abbreviation: VM
+        unite: "L/min"
+        vitaldb_tracks: [Solar8000/VENT_MV, Primus/MV]
+        plage_normale: [5, 8]
+
+  # =========================================================================
+  # PROFONDEUR D'ANESTHÉSIE (BIS)
+  # =========================================================================
+  profondeur_anesthesie:
+    label_fr: "Profondeur d'anesthésie"
+
+    parametres:
+
+      bis:
+        label_fr: "Indice bispectral"
+        label_en: "Bispectral index"
+        abbreviation: BIS
+        unite: "sans unité (0-100)"
+        vitaldb_tracks: [BIS/BIS]
+        vitaldb_disponibilite_pct: 87.1
+        plages:
+          eveil: [80, 100]
+          sedation: [60, 80]
+          anesthesie_generale: [40, 60]
+          anesthesie_profonde: [20, 40]
+          burst_suppression: [0, 20]
+        seuils_charles:
+          alerte_haute: 65  # risque mémorisation
+          alerte_basse: 30  # anesthésie trop profonde
+          critique_bas: 20  # burst suppression
+
+      emg:
+        label_fr: "Électromyographie (puissance)"
+        label_en: "Electromyography power"
+        abbreviation: EMG
+        unite: dB
+        vitaldb_tracks: [BIS/EMG]
+        signification: "EMG élevé = artefact musculaire → BIS non fiable"
+
+      suppression_ratio:
+        label_fr: "Ratio de suppression"
+        label_en: "Suppression ratio"
+        abbreviation: SR
+        unite: "%"
+        vitaldb_tracks: [BIS/SR]
+        seuils_charles:
+          alerte_haute: 30
+          critique_haut: 50
+        signification: "> 0% = périodes de silence EEG = anesthésie trop profonde"
+
+      sef:
+        label_fr: "Fréquence de bord spectral"
+        label_en: "Spectral edge frequency"
+        abbreviation: SEF
+        unite: Hz
+        vitaldb_tracks: [BIS/SEF]
+        plage_normale_ag: [8, 13]
+
+  # =========================================================================
+  # AIVOC (Target-Controlled Infusion)
+  # =========================================================================
+  aivoc:
+    label_fr: "AIVOC — Anesthésie intraveineuse à objectif de concentration"
+
+    parametres:
+
+      propofol_ce:
+        label_fr: "Propofol — concentration au site effet"
+        label_en: "Propofol effect-site concentration"
+        unite: "mcg/mL"
+        vitaldb_tracks: [Orchestra/PPF20_CE]
+        plage_entretien: [2.0, 5.0]
+        modele_pk: "Schnider (adulte), Kataria (pédiatrique), Eleveld (universel)"
+
+      propofol_ct:
+        label_fr: "Propofol — concentration cible"
+        label_en: "Propofol target concentration"
+        unite: "mcg/mL"
+        vitaldb_tracks: [Orchestra/PPF20_CT]
+
+      propofol_cp:
+        label_fr: "Propofol — concentration plasmatique"
+        label_en: "Propofol plasma concentration"
+        unite: "mcg/mL"
+        vitaldb_tracks: [Orchestra/PPF20_CP]
+
+      remifentanil_ce:
+        label_fr: "Rémifentanil — concentration au site effet"
+        label_en: "Remifentanil effect-site concentration"
+        unite: "ng/mL"
+        vitaldb_tracks: [Orchestra/RFTN20_CE, Orchestra/RFTN50_CE]
+        plage_entretien: [2.0, 8.0]
+        modele_pk: "Minto"
+
+      remifentanil_ct:
+        label_fr: "Rémifentanil — concentration cible"
+        label_en: "Remifentanil target concentration"
+        unite: "ng/mL"
+        vitaldb_tracks: [Orchestra/RFTN20_CT, Orchestra/RFTN50_CT]
+
+      mac:
+        label_fr: "Concentration alvéolaire minimale"
+        label_en: "Minimum alveolar concentration"
+        abbreviation: MAC
+        unite: "sans unité"
+        vitaldb_tracks: [Primus/MAC]
+        cible_entretien: [0.8, 1.2]
+        seuils_charles:
+          alerte_basse: 0.5  # risque mémorisation
+          alerte_haute: 1.5  # surdosage
+
+  # =========================================================================
+  # TEMPÉRATURE
+  # =========================================================================
+  temperature:
+    label_fr: "Température"
+
+    parametres:
+
+      temperature_corporelle:
+        label_fr: "Température corporelle"
+        label_en: "Body temperature"
+        unite: "°C"
+        vitaldb_tracks: [Solar8000/BT, Vigilance/BT_PA]
+        plage_normale: [36.0, 37.5]
+        seuils_charles:
+          critique_bas: 34.0
+          alerte_basse: 35.5
+          alerte_haute: 38.0
+          critique_haut: 39.0
+        trend_detection:
+          montee_rapide: "Δ > 1°C en 30 min (suspicion HM)"
+          descente: "Δ > 0.5°C en 30 min"
+
+  # =========================================================================
+  # GAZ / AGENTS ANESTHÉSIQUES
+  # =========================================================================
+  gaz_anesthesiques:
+    label_fr: "Gaz et agents anesthésiques volatils"
+
+    parametres:
+
+      sevoflurane_expiree:
+        label_fr: "Sévoflurane expiré"
+        label_en: "Expired sevoflurane"
+        unite: kPa
+        vitaldb_tracks: [Primus/EXP_SEVO]
+        mac_1: 2.0  # % à 1 MAC adulte 40 ans
+
+      desflurane_expiree:
+        label_fr: "Desflurane expiré"
+        label_en: "Expired desflurane"
+        unite: kPa
+        vitaldb_tracks: [Primus/EXP_DES]
+        mac_1: 6.0  # % à 1 MAC adulte 40 ans
+
+      debits_gaz_frais:
+        label_fr: "Débits de gaz frais"
+        label_en: "Fresh gas flows"
+        vitaldb_tracks:
+          o2: Primus/FLOW_O2
+          air: Primus/FLOW_AIR
+          n2o: Primus/FLOW_N2O
+
+  # =========================================================================
+  # BIOLOGIE PEROPÉRATOIRE (endpoint /labs)
+  # =========================================================================
+  biologie_perop:
+    label_fr: "Résultats biologiques peropératoires"
+    vitaldb_endpoint: "/labs"
+
+    parametres:
+
+      hemoglobine:
+        label_fr: Hémoglobine
+        unite: "g/dL"
+        reference: [13, 17]
+        seuil_transfusion_standard: 7
+        seuil_transfusion_coronarien: 9
+
+      lactate:
+        label_fr: Lactate
+        unite: "mmol/L"
+        reference: [0.5, 2.2]
+        seuils_charles:
+          alerte_haute: 2.5
+          critique_haut: 4.0
+        signification: "Marqueur hypoperfusion tissulaire"
+
+      ph_arteriel:
+        label_fr: "pH artériel"
+        reference: [7.35, 7.45]
+        seuil_acidose: 7.25
+        seuil_alcalose: 7.50
+
+      potassium:
+        label_fr: Kaliémie
+        unite: "mmol/L"
+        reference: [3.5, 5.5]
+        seuils_charles:
+          critique_bas: 2.8
+          alerte_basse: 3.2
+          alerte_haute: 5.5
+          critique_haut: 6.0
+        signification: "Risque arythmie si < 3 ou > 5.5"
+
+      glycemie:
+        label_fr: Glycémie
+        unite: "mg/dL"
+        reference: [70, 110]
+        seuils_charles:
+          critique_bas: 50
+          alerte_basse: 70
+          alerte_haute: 180
+          critique_haut: 250

@@ -1,0 +1,109 @@
+version: "3.9"
+
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  CHARLES — Copilote IA Vigilance Anesthésique Peropératoire ║
+# ║  docker compose up --build                                   ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+services:
+
+  # ── MQTT Broker ──────────────────────────────────────────────
+  mosquitto:
+    image: eclipse-mosquitto:2
+    # ports retirés en prod — accès interne Docker uniquement
+    # ports:
+    #   - "1883:1883"
+    #   - "9001:9001"
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    restart: unless-stopped
+
+  # ── PostgreSQL ───────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: charles
+      POSTGRES_USER: charles
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-charles_dev_2026}
+    # ports retirés en prod — accès interne Docker uniquement
+    # ports:
+    #   - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U charles -d charles"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  # ── Redis (cache live) ──────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    # ports retirés en prod — accès interne Docker uniquement
+    # ports:
+    #   - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  # ── Backend FastAPI ─────────────────────────────────────────
+  backend:
+    build: ./services/backend
+    ports:
+      - "8000:8000"
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      DATABASE_URL: postgresql+asyncpg://charles:${POSTGRES_PASSWORD:-charles_dev_2026}@postgres:5432/charles
+      REDIS_URL: redis://redis:6379/0
+      KB_PATH: /kb
+      LLM_PROVIDER: ${LLM_PROVIDER:-ollama}
+      OLLAMA_URL: ${OLLAMA_URL:-http://host.docker.internal:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-meditron:7b}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      JWT_SECRET: ${JWT_SECRET:-charles-dev-secret-2026}
+      VITALDB_METADATA: /data/vitaldb/clinical_metadata.csv
+      VITALDB_CASES: /data/vitaldb/cases
+    volumes:
+      - ./kb:/kb:ro
+      - ./vitaldb/clinical_metadata.csv:/data/vitaldb/clinical_metadata.csv:ro
+      - ./vitaldb/cases:/data/vitaldb/cases:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  # ── Simulateur clinique ─────────────────────────────────────
+  simulator:
+    build: ./services/simulator
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      VITALDB_DIR: /data/vitaldb/cases
+    volumes:
+      - ./vitaldb/cases:/data/vitaldb/cases:ro
+    depends_on:
+      - mosquitto
+    restart: unless-stopped
+
+  # ── Frontend React ──────────────────────────────────────────
+  frontend:
+    build: ./services/frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  pgdata:

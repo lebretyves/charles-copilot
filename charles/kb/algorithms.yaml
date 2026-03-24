@@ -1,0 +1,177 @@
+# =============================================================================
+# CHARLES KB — Algorithmes Décisionnels
+# Source: SFAR/DAS/ASA guidelines
+# =============================================================================
+# Arbres décisionnels non-prescriptifs — CHARLES les utilise pour
+# contextualiser les alertes et anticiper la suite logique.
+
+algorithms:
+
+  # =========================================================================
+  # INTUBATION DIFFICILE
+  # =========================================================================
+  intubation_difficile:
+    label_fr: "Algorithme intubation difficile (SFAR 2017 / DAS 2015)"
+    label_en: "Difficult airway algorithm"
+    source: "SFAR RFE 2017 + DAS 2015"
+    trigger_charles: "Cormack ≥ 3 ou SpO2 ↓ pendant tentative intubation"
+
+    etapes:
+      plan_a:
+        label: "Laryngoscopie directe / vidéolaryngoscopie"
+        actions:
+          - "Optimisation position (sniffing position)"
+          - "Vidéolaryngoscope si Cormack ≥ 3"
+          - "Mandrin d'Eschmann"
+          - "Max 2 tentatives puis → Plan B"
+        surveillance_charles:
+          - spo2_chute
+          - duree_tentative_sec
+
+      plan_b:
+        label: "Masque laryngé 2e génération"
+        actions:
+          - "LMA 2e gen (i-gel, Supreme, ProSeal)"
+          - "Ventilation à travers ML"
+          - "Intubation à travers ML si possible"
+          - "Max 2 tentatives puis → Plan C/D"
+
+      plan_c:
+        label: "Ventilation au masque facial"
+        actions:
+          - "Masque facial 2 mains"
+          - "Canule oropharyngée (Guedel)"
+          - "Réveil du patient si possible"
+
+      plan_d:
+        label: "CICO — Abord trachéal en urgence"
+        critere: "Can't intubate, Can't oxygenate (SpO2 ↓↓)"
+        actions:
+          - "Cricothyroïdotomie au scalpel"
+          - "Kit de cricothyroïdotomie"
+          - "Trachéotomie chirurgicale en dernier recours"
+
+  # =========================================================================
+  # ANAPHYLAXIE PEROPÉRATOIRE
+  # =========================================================================
+  anaphylaxie_perop:
+    label_fr: "Algorithme anaphylaxie peropératoire (SFAR 2011)"
+    label_en: "Intraoperative anaphylaxis algorithm"
+    source: "SFAR 2011, WAO 2020"
+    trigger_charles: "Hypotension brutale + tachycardie + bronchospasme dans les 15 min post-injection"
+
+    diagnostic:
+      grade_1: "Signes cutanéo-muqueux seuls"
+      grade_2: "Atteinte multiviscérale modérée (bronchospasme léger, tachy, hypoTA modérée)"
+      grade_3: "Atteinte multiviscérale sévère (collapsus, bronchospasme sévère)"
+      grade_4: "Arrêt cardiaque"
+
+    traitement:
+      immediat:
+        - "ARRÊT agent suspecté"
+        - "Appel à l'aide"
+        - "FiO2 100%"
+        - "Remplissage cristalloïde 20-30 mL/kg"
+      adrenaline:
+        grade_2: "10-20 mcg IVD, répéter / 1-2 min"
+        grade_3: "100-200 mcg IVD, répéter"
+        grade_4: "1 mg IVD (protocole ACR)"
+      bilan:
+        - "Tryptase + histamine (H0, H1, H24)"
+        - "IgE spécifiques"
+        - "Orientation allergologue"
+
+  # =========================================================================
+  # HÉMORRAGIE MASSIVE
+  # =========================================================================
+  hemorragie_massive:
+    label_fr: "Algorithme hémorragie massive peropératoire"
+    label_en: "Massive hemorrhage protocol"
+    source: "SFAR 2015, ESA 2023"
+    trigger_charles: "Pertes > 1.5 mL/kg/min ou shock index > 1.0"
+
+    phases:
+      evaluation:
+        - "Quantifier pertes (aspiration, compresses, champ opératoire)"
+        - "Shock index = FC/PAS"
+        - "Communication chirurgien — contrôle hémorragie ?"
+      resuscitation:
+        remplissage: "Cristalloïde 20-30 mL/kg initial"
+        transfusion:
+          cg: "Objectif Hb > 7 g/dL (> 9 si coronarien)"
+          pfc: "Ratio CG:PFC = 1:1 si hémorragie massive"
+          plaquettes: "Si plaquettes < 50 000 et hémorragie active"
+          fibrinogene: "Si fibrinogène < 1.5 g/L"
+        vasopresseurs: "Noradrénaline IVSE si PAM < 65 malgré remplissage"
+        antifibrinolytique: "Acide tranexamique 1 g IVL"
+      monitorage:
+        - "GDS + lactate toutes les 30 min"
+        - "NFS + coag toutes les 30-60 min"
+        - "ROTEM/TEG si disponible"
+        - "Température (objectif > 35°C)"
+        - "Diurèse horaire"
+        - "Calcémie (hypocalcémie de dilution)"
+
+  # =========================================================================
+  # HYPERTHERMIE MALIGNE
+  # =========================================================================
+  hyperthermie_maligne:
+    label_fr: "Algorithme hyperthermie maligne"
+    label_en: "Malignant hyperthermia protocol"
+    source: "MHAUS, SFAR"
+    trigger_charles: "EtCO2 ↑↑ inexpliquée + rigidité + tachycardie + T° ↑ rapide"
+
+    traitement:
+      immediat:
+        - "ARRÊT IMMÉDIAT de TOUS les agents halogénés"
+        - "Arrêt succinylcholine si en cours"
+        - "Hyperventilation FiO2 100% (2-3× VM normale)"
+        - "Changer circuit anesthésie si possible (filtre charbon)"
+      dantrolene:
+        dose_initiale: "2.5 mg/kg IVD"
+        repetition: "Répéter 1 mg/kg toutes les 5-10 min"
+        dose_max: "10 mg/kg"
+        preparation: "1 flacon = 20 mg dans 60 mL eau stérile"
+      symptomatique:
+        - "Refroidissement actif (glace, lavage froid)"
+        - "Bicarbonate si acidose sévère (pH < 7.2)"
+        - "Traitement hyperkaliémie (insuline-glucose, calcium, salbutamol)"
+        - "Traitement arythmies (PAS d'inhibiteurs calciques avec dantrolène)"
+        - "Diurèse forcée (myoglobinurie)"
+      surveillance:
+        - "GDS + K+ + lactate toutes les 15 min"
+        - "CPK toutes les 6h"
+        - "Température continue"
+        - "Diurèse"
+        - "Réanimation 24-48h"
+
+  # =========================================================================
+  # ARRÊT CARDIAQUE PEROPÉRATOIRE
+  # =========================================================================
+  acr_perop:
+    label_fr: "Arrêt cardiaque peropératoire"
+    label_en: "Intraoperative cardiac arrest"
+    source: "ERC/ILCOR 2021, SFAR"
+    trigger_charles: "HR = 0 ou < 20 + EtCO2 chute brutale + absence courbe artérielle"
+
+    algorithme:
+      rythme_choquable:
+        label: "FV / TV sans pouls"
+        actions:
+          - "Défibrillation 200 J biphasique"
+          - "MCE 100-120/min"
+          - "Adrénaline 1 mg après 3e choc"
+          - "Amiodarone 300 mg après 3e choc"
+      rythme_non_choquable:
+        label: "Asystolie / DEM"
+        actions:
+          - "MCE 100-120/min"
+          - "Adrénaline 1 mg immédiatement, puis /3 min"
+          - "Rechercher cause réversible"
+      causes_reversibles:
+        4h: ["Hypoxie", "Hypovolémie", "Hypothermie", "Hypo/Hyperkaliémie"]
+        4t: ["Thrombose coronaire", "Thrombose pulmonaire", "Tamponnade", "Tension pneumothorax"]
+      monitoring_efficacite:
+        - "EtCO2 > 10 mmHg pendant MCE = efficace"
+        - "EtCO2 > 20 mmHg = bon pronostic"
+        - "Pression artérielle invasive si dispo"
