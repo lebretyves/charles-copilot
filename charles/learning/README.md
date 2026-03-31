@@ -74,6 +74,11 @@ Outputs created by fine-tuning step 3:
 - `environment_report.json` to confirm whether the machine is ready
 - `run_local.ps1` and a run-specific README
 
+Model governance:
+- `MODEL_REGISTRY.md` tracks adapter status across draft, reviewed, validated, and runtime-ready states
+- `model_cards/` contains the CHARLES adapter model card template plus filled cards for existing Meditron runs
+- new adapters should not be considered runtime-ready until both the registry entry and model card are complete
+
 Important:
 - weak labels are scaffolding, not final diagnoses
 - once CHARLES is connected to live non-public data, later retraining should happen only after review/validation
