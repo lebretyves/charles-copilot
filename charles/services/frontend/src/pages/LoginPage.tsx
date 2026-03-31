@@ -1,10 +1,9 @@
-// ═══════════════════════════════════════════════════════════════
-// CHARLES — Page de connexion
-// ═══════════════════════════════════════════════════════════════
-
-import { useState, FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { useAuth } from "../hooks/useAuth";
+
+const showDevAccounts = import.meta.env.VITE_SHOW_DEV_ACCOUNTS !== "false";
 
 export function LoginPage() {
   const { login, loading, error } = useAuth();
@@ -16,7 +15,6 @@ export function LoginPage() {
     e.preventDefault();
     const ok = await login(username, password);
     if (ok) {
-      // Redirection selon le rôle
       const raw = sessionStorage.getItem("charles_user");
       const user = raw ? JSON.parse(raw) : null;
       if (user?.role === "admin") navigate("/admin");
@@ -30,13 +28,14 @@ export function LoginPage() {
       <div className="login-card">
         <div className="login-header">
           <span className="login-logo">CHARLES</span>
-          <span className="login-subtitle">Copilote IA — Vigilance Anesthésique</span>
+          <span className="login-subtitle">Copilote IA - Vigilance Anesthesique</span>
         </div>
 
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="login-field">
             <label className="login-label">Identifiant</label>
             <input
+              data-testid="login-username"
               className="login-input"
               type="text"
               value={username}
@@ -50,27 +49,32 @@ export function LoginPage() {
           <div className="login-field">
             <label className="login-label">Mot de passe</label>
             <input
+              data-testid="login-password"
               className="login-input"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••••"
+              placeholder=".........."
               required
             />
           </div>
 
-          {error && <div className="login-error">{error}</div>}
+          {error ? <div className="login-error">{error}</div> : null}
 
-          <button className="login-btn" type="submit" disabled={loading}>
+          <button className="login-btn" data-testid="login-submit" type="submit" disabled={loading}>
             {loading ? "Connexion..." : "Se connecter"}
           </button>
         </form>
 
-        <div className="login-hint">
-          <strong>Comptes dev :</strong><br />
-          <code>iade1</code> / <code>iade2</code> / <code>mar1</code> → <code>charles2026</code><br />
-          <code>admin</code> → <code>admin2026</code>
-        </div>
+        {showDevAccounts ? (
+          <div className="login-hint">
+            <strong>Comptes dev :</strong>
+            <br />
+            <code>iade1</code> / <code>iade2</code> / <code>mar1</code> -&gt; <code>charles2026</code>
+            <br />
+            <code>admin</code> -&gt; <code>admin2026</code>
+          </div>
+        ) : null}
       </div>
     </div>
   );

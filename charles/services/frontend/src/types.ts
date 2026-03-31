@@ -63,10 +63,27 @@ export interface LLMAnalysis {
   call_mar_reason?: string;
   model: string;
   latency_ms: number;
+  prompt_id?: string;
+  prompt_version?: string;
+  rag_enabled?: boolean;
+  rag_sources?: string[];
+}
+
+export interface TransportMetrics {
+  reconnects: number;
+  messagesReceived: number;
+  waveChunksReceived: number;
+  droppedWaveChunks: number;
+  analysisRequests: number;
+  analysisErrors: number;
+  approxLagMs: number | null;
+  roomsWithWaveData: number;
+  connectedSince?: string | null;
+  lastMessageAt?: string | null;
 }
 
 export interface WSUpdate {
-  type: "update" | "init" | "llm_analysis";
+  type: "update" | "init" | "llm_analysis" | "llm_analysis_status" | "llm_analysis_error";
   room_id: string;
   vitals: VitalsFrame;
   ventilator?: VentilatorFrame;
@@ -75,6 +92,10 @@ export interface WSUpdate {
   aivoc_opioid?: AIVOCFrame;
   alerts: Alert[];
   llm_analysis?: LLMAnalysis;
+  status?: "queued" | "running" | "completed" | "error";
+  detail?: string;
+  trigger_type?: string;
+  job_id?: string;
   timestamp: string;
   // ── Phase anesthésique ──
   phase?: string;
@@ -133,6 +154,9 @@ export interface RoomState {
   aivoc_opioid?: AIVOCFrame;
   alerts: Alert[];
   llm_analysis?: LLMAnalysis;
+  llm_status?: "queued" | "running" | "completed" | "error";
+  llm_error?: string;
+  llm_job_id?: string;
   timestamp: string;
   history: VitalsFrame[];
   // ── Phase anesthésique ──
@@ -142,4 +166,31 @@ export interface RoomState {
   elapsed_s?: number;
   elapsed_fmt?: string;
   patient_info?: PatientInfo;
+  // ── Waveforms HF ──
+  waveBuffers?: WaveBuffers;
+  hasWaveData?: boolean;  // positionné une seule fois au 1er wave_chunk
+}
+
+// ── Waveforms haute fréquence ──────────────────────────────────
+export interface WaveformChunk {
+  type: "wave_chunk";
+  room_id: string;
+  t: number;
+  ecg?: number[];    // 500 Hz
+  pleth?: number[];  // 500 Hz
+  art?: number[];    // 500 Hz
+  co2?: number[];    // 25 Hz
+  awp?: number[];    // 25 Hz
+  eeg?: number[];    // 128 Hz
+}
+
+/** Buffers glissants de waveforms par signal (5 secondes max). */
+export interface WaveBuffers {
+  ecg: number[];    // max 2500 pts (5s @ 500Hz)
+  pleth: number[];
+  art: number[];
+  co2: number[];    // max 125 pts (5s @ 25Hz)
+  awp: number[];
+  eeg: number[];    // max 640 pts (5s @ 128Hz)
+  hasData: boolean;
 }

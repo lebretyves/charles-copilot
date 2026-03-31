@@ -38,3 +38,9 @@ vitaldb/
 - `clinical_metadata.csv` → alimente les KB YAML (terrains, chirurgies, populations)
 - `intraop_labs.csv` → corrélation signaux/biologie pour pattern detection
 - `cases/*.parquet` → mode replay simulateur (vrais signaux patients)
+- `waveforms/*.parquet` -> replay ECG / pleth / ART / CO2 / AWP / EEG haute frequence
+
+## Positionnement MVP
+- CHARLES utilise ici des waveforms issues d'un dataset public de recherche.
+- Le MVP est calibre pour de l'analyse et du replay de donnees publiques/anonymes.
+- Aucun flux HL7 n'est necessaire tant que le projet reste sur ce perimetre dataset.

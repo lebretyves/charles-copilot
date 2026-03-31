@@ -155,48 +155,93 @@ export function MARPage() {
 
                   return (
                     <div key={rid} className={`supervision-card ${criticals.length > 0 ? "supervision-card--critical" : warnings.length > 0 ? "supervision-card--warning" : ""}`}>
-                      <div className="supervision-room-header">
-                        <strong>{rid.replace("_", " ").toUpperCase()}</strong>
-                        <span className="supervision-time">{new Date(room.timestamp).toLocaleTimeString("fr-FR")}</span>
+                      {/* ── Entête salle façon scope ── */}
+                      <div className="sup-card-hdr">
+                        <span className="sup-card-room">{rid.replace(/_/g, " ").toUpperCase()}</span>
+                        {room.patient_info?.asa != null && (
+                          <span className={`sup-asa asa-${room.patient_info.asa}`}>ASA {room.patient_info.asa}</span>
+                        )}
+                        {(criticals.length > 0 || warnings.length > 0) && (
+                          <span className={`sup-alarm-dot ${criticals.length > 0 ? "sup-alarm-dot--crit" : "sup-alarm-dot--warn"}`}>⚠</span>
+                        )}
+                        <span className="sup-card-time">{new Date(room.timestamp).toLocaleTimeString("fr-FR")}</span>
                       </div>
 
-                      {/* Info patient */}
-                      {room.patient_info && (
-                        <div className="supervision-patient">
-                          {room.patient_info.age}ans {room.patient_info.sex} — {room.patient_info.opname ?? "Chirurgie"}
-                          {room.patient_info.asa && <span className={`cs-tag cs-asa asa-${room.patient_info.asa}`}> ASA {room.patient_info.asa}</span>}
+                      {/* ── Info patient compacte ── */}
+                      <div className="sup-patient-line">
+                        {room.patient_info ? (
+                          <>
+                            <span className="sup-pt-name">{room.patient_info.opname ?? "Chirurgie"}</span>
+                            <span className="sup-pt-demo">{room.patient_info.age}a {room.patient_info.sex}</span>
+                            {room.patient_info.ane_type && <span className="sup-pt-ane">{room.patient_info.ane_type}</span>}
+                          </>
+                        ) : (
+                          <span className="sup-pt-name" style={{ color: "#444" }}>Aucun patient</span>
+                        )}
+                      </div>
+
+                      {/* ── Grille vitaux style moniteur ── */}
+                      <div className="sup-vitals-grid">
+                        <div className="sup-vital">
+                          <span className="sup-vtag" style={{ color: "#007a30" }}>ECG</span>
+                          <span className="sup-vval" style={{ color: "#00e676" }}>{v.hr ?? "—"}</span>
+                          <span className="sup-vunit" style={{ color: "#005020" }}>bpm</span>
+                        </div>
+                        <div className="sup-vital">
+                          <span className="sup-vtag" style={{ color: "#0070b0" }}>SpO₂</span>
+                          <span className="sup-vval" style={{ color: "#29b6f6" }}>{v.spo2 ?? "—"}</span>
+                          <span className="sup-vunit" style={{ color: "#004880" }}>%</span>
+                        </div>
+                        <div className="sup-vital">
+                          <span className="sup-vtag" style={{ color: "#800000" }}>PAM</span>
+                          <span className="sup-vval" style={{ color: "#ef5350" }}>{v.pam ?? "—"}</span>
+                          <span className="sup-vunit" style={{ color: "#550000" }}>mmHg</span>
+                        </div>
+                        <div className="sup-vital">
+                          <span className="sup-vtag" style={{ color: "#807000" }}>CO₂</span>
+                          <span className="sup-vval" style={{ color: "#ffee58" }}>{v.etco2 ?? "—"}</span>
+                          <span className="sup-vunit" style={{ color: "#504800" }}>mmHg</span>
+                        </div>
+                        {room.bis && (
+                          <div className="sup-vital">
+                            <span className="sup-vtag" style={{ color: "#6020a0" }}>BIS</span>
+                            <span className="sup-vval" style={{ color: "#ce93d8" }}>{room.bis.bis ?? "—"}</span>
+                            <span className="sup-vunit" style={{ color: "#401060" }}></span>
+                          </div>
+                        )}
+                        {v.fr != null && (
+                          <div className="sup-vital">
+                            <span className="sup-vtag" style={{ color: "#806000" }}>FR</span>
+                            <span className="sup-vval" style={{ color: "#ffa726" }}>{v.fr}</span>
+                            <span className="sup-vunit" style={{ color: "#503800" }}>/min</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* ── Phase + durée ── */}
+                      {room.phase_label && (
+                        <div className="sup-phase-row">
+                          <span className="sup-phase-dot">◆</span>
+                          <span className="sup-phase-lbl">{room.phase_label}</span>
+                          {room.elapsed_fmt && <span className="sup-phase-time">{room.elapsed_fmt}</span>}
                         </div>
                       )}
 
-                      {/* Vitaux synthétiques */}
-                      <div className="supervision-vitals">
-                        <span style={{ color: "#00e676" }}>FC {v.hr}</span>
-                        <span style={{ color: "#29b6f6" }}>SpO2 {v.spo2}%</span>
-                        <span style={{ color: "#ef5350" }}>PAM {v.pam}</span>
-                        <span style={{ color: "#ffee58" }}>EtCO2 {v.etco2}</span>
-                        {room.bis && <span style={{ color: "#ce93d8" }}>BIS {room.bis.bis}</span>}
-                      </div>
-
-                      {/* Phase */}
-                      {room.phase_label && (
-                        <div className="supervision-phase">{room.phase_label} {room.elapsed_fmt && `· ${room.elapsed_fmt}`}</div>
-                      )}
-
-                      {/* Alertes */}
+                      {/* ── Alertes ou stable ── */}
                       {hasAlerts ? (
-                        <div className="supervision-alerts">
-                          {criticals.length > 0 && <span className="sup-badge sup-badge--critical">🔴 {criticals.length} critique{criticals.length > 1 ? "s" : ""}</span>}
-                          {warnings.length > 0 && <span className="sup-badge sup-badge--warning">🟡 {warnings.length} warning{warnings.length > 1 ? "s" : ""}</span>}
-                          <div className="sup-alert-list">
-                            {room.alerts.slice(0, 2).map((a, i) => (
-                              <div key={i} className="sup-alert-item" style={{ color: levelColor(a.level) }}>
-                                {a.title}
-                              </div>
-                            ))}
-                          </div>
+                        <div className="sup-alerts-block">
+                          {room.alerts.slice(0, 3).map((a, i) => (
+                            <div key={i} className={`sup-alert-row sup-alert--${a.level}`}>
+                              <span className="sup-alert-lv">{a.level === "critical" ? "CRITIQUE" : a.level === "warning" ? "AVERT." : "INFO"}</span>
+                              <span className="sup-alert-txt">{a.title}</span>
+                            </div>
+                          ))}
                         </div>
                       ) : (
-                        <div className="supervision-ok">● Patient stable</div>
+                        <div className="sup-stable-row">
+                          <span className="sup-stable-dot">●</span>
+                          <span>Patient stable</span>
+                        </div>
                       )}
 
                       {/* LLM */}

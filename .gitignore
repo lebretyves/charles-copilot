@@ -18,6 +18,7 @@ charles/vitaldb/cases/
 charles/vitaldb/clinical_metadata.csv
 charles/vitaldb/intraop_labs.csv
 charles/vitaldb/track_index.csv
+charles/vitaldb/failed_waveforms.txt
 
 # Docker volumes
 postgres_data/
@@ -26,6 +27,7 @@ redis_data/
 # Pytest
 .pytest_cache/
 **/__pycache__/
+pytest-cache-files-*/
 
 # IDE
 .vscode/
@@ -39,3 +41,9 @@ Desktop.ini
 
 # Archives
 *.zip
+
+# Frontend build helpers
+*.tsbuildinfo
+
+# Local review artifacts
+screenshot_*.png

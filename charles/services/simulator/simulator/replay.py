@@ -36,6 +36,11 @@ logger = logging.getLogger("charles.replay")
 MQTT_BROKER = os.getenv("MQTT_BROKER", "localhost")
 MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))
 VITALDB_DIR = os.getenv("VITALDB_DIR", "/data/vitaldb/cases")
+VITALDB_WAVES_DIR = os.getenv("VITALDB_WAVES_DIR", "/data/vitaldb/waveforms")
+
+# Taille d'un chunk waveform : 250 ms
+# 500Hz → 125 échantillons ; 25Hz → 6 échantillons ; 128Hz → 32 échantillons
+WAVE_CHUNK_MS = 250
 
 # Note : les mappings colonnes Parquet → CHARLES sont faits inline
 # dans row_to_message() avec extract_value() pour plus de flexibilité
@@ -90,6 +95,120 @@ def find_cases(vitaldb_dir: str) -> list[Path]:
     pattern = os.path.join(vitaldb_dir, "case_*.parquet")
     files = sorted(glob.glob(pattern))
     return [Path(f) for f in files]
+
+
+def find_waveform_files(case_id: str, waves_dir: str) -> dict[str, Path | None]:
+    """Trouve les fichiers waveform pour un cas donné."""
+    num = int(case_id)
+    base = Path(waves_dir)
+    return {
+        "500hz": base / f"wave_{num:05d}_500hz.parquet",
+        "25hz":  base / f"wave_{num:05d}_25hz.parquet",
+        "128hz": base / f"wave_{num:05d}_128hz.parquet",
+    }
+
+
+def stream_waveforms(
+    client: mqtt.Client,
+    case_id: str,
+    room_id: str,
+    waves_dir: str,
+    speed: float = 1.0,
+    stop_event=None,
+):
+    """Thread dédié au streaming waveforms HF (500Hz ECG/PLETH/ART, 25Hz CO2/AWP, 128Hz EEG)."""
+    files = find_waveform_files(case_id, waves_dir)
+
+    # Charger les fichiers disponibles
+    df500 = df25 = df128 = None
+    if files["500hz"].exists():
+        df500 = pd.read_parquet(files["500hz"])
+        logger.info("[WAVES] %s : 500Hz chargé %d lignes", case_id, len(df500))
+    if files["25hz"].exists():
+        df25 = pd.read_parquet(files["25hz"])
+        logger.info("[WAVES] %s : 25Hz chargé %d lignes", case_id, len(df25))
+    if files["128hz"].exists():
+        df128 = pd.read_parquet(files["128hz"])
+        logger.info("[WAVES] %s : 128Hz chargé %d lignes", case_id, len(df128))
+
+    if df500 is None and df25 is None and df128 is None:
+        logger.warning("[WAVES] Aucun fichier waveform trouvé pour cas %s", case_id)
+        return
+
+    # Convertir en arrays numpy pour vitesse
+    t500 = df500["time_sec"].values if df500 is not None else np.array([])
+    ecg  = df500["SNUADC/ECG_II"].values if df500 is not None and "SNUADC/ECG_II" in df500.columns else None
+    pleth = df500["SNUADC/PLETH"].values if df500 is not None and "SNUADC/PLETH" in df500.columns else None
+    art  = df500["SNUADC/ART"].values if df500 is not None and "SNUADC/ART" in df500.columns else None
+
+    t25  = df25["time_sec"].values if df25 is not None else np.array([])
+    co2  = df25["Primus/CO2"].values if df25 is not None and "Primus/CO2" in df25.columns else None
+    awp  = df25["Primus/AWP"].values if df25 is not None and "Primus/AWP" in df25.columns else None
+
+    t128 = df128["time_sec"].values if df128 is not None else np.array([])
+    eeg  = df128["BIS/EEG1_WAV"].values if df128 is not None and "BIS/EEG1_WAV" in df128.columns else None
+
+    # Durée totale
+    total_t = float(t500[-1]) if len(t500) > 0 else float(t25[-1]) if len(t25) > 0 else float(t128[-1])
+
+    # Indices courants
+    i500 = i25 = i128 = 0
+    CHUNK_S = WAVE_CHUNK_MS / 1000.0
+
+    t_current = 0.0
+    logger.info("[WAVES] Streaming waveforms cas %s sur %s (durée %.0fs)", case_id, room_id, total_t)
+
+    while t_current < total_t:
+        if stop_event and stop_event.is_set():
+            logger.info("[WAVES] Stop demandé pour cas %s", case_id)
+            break
+
+        t_end = t_current + CHUNK_S
+
+        # Extraire chunk 500Hz
+        chunk_ecg = chunk_pleth = chunk_art = None
+        if ecg is not None and len(t500) > 0:
+            mask = (t500 >= t_current) & (t500 < t_end)
+            if mask.any():
+                chunk_ecg   = [round(float(v), 4) for v in ecg[mask] if not np.isnan(v)]
+                chunk_pleth = [round(float(v), 4) for v in pleth[mask]] if pleth is not None else None
+                chunk_art   = [round(float(v), 2) for v in art[mask]] if art is not None else None
+
+        # Extraire chunk 25Hz
+        chunk_co2 = chunk_awp = None
+        if co2 is not None and len(t25) > 0:
+            mask25 = (t25 >= t_current) & (t25 < t_end)
+            if mask25.any():
+                chunk_co2 = [round(float(v), 3) for v in co2[mask25] if not np.isnan(v)]
+                chunk_awp = [round(float(v), 3) for v in awp[mask25]] if awp is not None else None
+
+        # Extraire chunk 128Hz
+        chunk_eeg = None
+        if eeg is not None and len(t128) > 0:
+            mask128 = (t128 >= t_current) & (t128 < t_end)
+            if mask128.any():
+                chunk_eeg = [round(float(v), 4) for v in eeg[mask128] if not np.isnan(v)]
+
+        # Publier seulement si au moins un signal
+        if any(x is not None for x in [chunk_ecg, chunk_co2, chunk_eeg]):
+            wave_payload = {
+                "type":  "wave_chunk",
+                "room_id": room_id,
+                "t": round(t_current, 3),
+                "ecg":   chunk_ecg,
+                "pleth": chunk_pleth,
+                "art":   chunk_art,
+                "co2":   chunk_co2,
+                "awp":   chunk_awp,
+                "eeg":   chunk_eeg,
+            }
+            topic = f"bloc/{room_id}/waves"
+            client.publish(topic, json.dumps(wave_payload), qos=0)
+
+        t_current = t_end
+        time.sleep(CHUNK_S / speed)
+
+    logger.info("[WAVES] Streaming waveforms cas %s terminé", case_id)
 
 
 def load_case(path: Path) -> pd.DataFrame:
@@ -227,12 +346,26 @@ def replay_case(
     loop: bool = False,
     stop_event=None,
     patient_info: dict = None,
+    with_waveforms: bool = False,
+    waves_dir: str = VITALDB_WAVES_DIR,
 ):
     """Lit un cas VitalDB parquet et publie sur MQTT."""
     df = load_case(case_path)
 
     # Déterminer le cas ID depuis le nom de fichier (case_0042.parquet → 42)
     case_id = case_path.stem.replace("case_", "")
+
+    # Lancer thread waveforms en parallèle si demandé
+    import threading as _threading
+    wave_thread = None
+    if with_waveforms:
+        wave_thread = _threading.Thread(
+            target=stream_waveforms,
+            args=(client, case_id, room_id, waves_dir, speed, stop_event),
+            daemon=True,
+        )
+        wave_thread.start()
+        logger.info("[WAVES] Thread waveforms démarré pour cas %s", case_id)
 
     # La première colonne est souvent le temps (index ou "time")
     if "time" in df.columns:

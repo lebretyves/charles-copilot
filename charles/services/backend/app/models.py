@@ -79,6 +79,20 @@ class MonitoringMessage(BaseModel):
     scenario: Optional[str] = None
 
 
+# ── Trame waveforms haute fréquence ──────────────────────────
+class WaveformChunk(BaseModel):
+    """Chunk de waveforms HF publiés toutes les 250ms par le simulateur."""
+    type: Optional[str] = None                # optionnel, ignoré
+    room_id: str
+    t: float                                  # offset temps (secondes)
+    ecg: Optional[list[float]] = None         # 500 Hz — ECG DII
+    pleth: Optional[list[float]] = None       # 500 Hz — SpO2 pléthysmogramme
+    art: Optional[list[float]] = None         # 500 Hz — PA invasive
+    co2: Optional[list[float]] = None         # 25 Hz  — Capnogramme (CO2)
+    awp: Optional[list[float]] = None         # 25 Hz  — Pression voie aérienne
+    eeg: Optional[list[float]] = None         # 128 Hz — EEG (BIS)
+
+
 # ── Alertes ────────────────────────────────────────────────────
 class Alert(BaseModel):
     id: Optional[int] = None
@@ -100,7 +114,7 @@ class WSUpdate(BaseModel):
     bis: Optional[BISFrame] = None
     aivoc_hypnotic: Optional[AIVOCFrame] = None
     aivoc_opioid: Optional[AIVOCFrame] = None
-    alerts: list[Alert] = []
+    alerts: list[Alert] = Field(default_factory=list)
     llm_analysis: Optional[LLMAnalysis] = None
     timestamp: datetime
     # ── Phase anesthésique ──
@@ -167,3 +181,7 @@ class LLMAnalysis(BaseModel):
     latency_ms: int
     prompt_tokens: int = 0
     completion_tokens: int = 0
+    prompt_id: str = "charles-perop-waveform-v1"
+    prompt_version: str = "2026-03-29"
+    rag_enabled: bool = False
+    rag_sources: list[str] = Field(default_factory=list)

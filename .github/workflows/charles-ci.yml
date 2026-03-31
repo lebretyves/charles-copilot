@@ -1,0 +1,86 @@
+name: CHARLES CI
+
+on:
+  push:
+    paths:
+      - "charles/**"
+      - ".github/workflows/charles-ci.yml"
+  pull_request:
+    paths:
+      - "charles/**"
+      - ".github/workflows/charles-ci.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "charles/services/frontend/package-lock.json"
+
+      - name: Install backend dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest
+          python -m pip install -r charles/services/backend/requirements.txt
+
+      - name: Run backend and golden tests
+        run: pytest charles/tests -q
+
+      - name: Install frontend dependencies
+        working-directory: charles/services/frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: charles/services/frontend
+        run: npm run build
+
+      - name: Install Playwright Chromium
+        working-directory: charles/services/frontend
+        run: npx playwright install --with-deps chromium
+
+      - name: Start Docker stack
+        working-directory: charles
+        run: docker compose up --build -d
+
+      - name: Wait for frontend and backend
+        run: |
+          for i in {1..40}; do
+            if curl -fsS http://127.0.0.1:8000/health >/dev/null && curl -fsS http://127.0.0.1:3000 >/dev/null; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Stack did not become ready in time" >&2
+          exit 1
+
+      - name: Run end-to-end smoke tests
+        working-directory: charles/services/frontend
+        env:
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:3000
+        run: npm run test:e2e
+
+      - name: Docker logs on failure
+        if: failure()
+        working-directory: charles
+        run: docker compose logs --tail=200
+
+      - name: Stop Docker stack
+        if: always()
+        working-directory: charles
+        run: docker compose down --remove-orphans -v

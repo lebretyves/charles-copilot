@@ -1,0 +1,171 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    env_file:
+      - .env.prod
+    environment:
+      MQTT_USER: ${MQTT_USER:-charles}
+      MQTT_PASSWORD_FILE: ${MQTT_PASSWORD_FILE:-/run/secrets/mqtt_password}
+    entrypoint: ["/bin/sh", "-c"]
+    user: root
+    command:
+      - |
+        PASSWORD="$${MQTT_PASSWORD:-}"
+        if [ -n "$${MQTT_PASSWORD_FILE:-}" ]; then PASSWORD="$$(cat "$$MQTT_PASSWORD_FILE")"; fi
+        if [ -z "$$PASSWORD" ]; then echo "Missing MQTT password"; exit 1; fi
+        rm -f /mosquitto/data/passwd
+        mosquitto_passwd -b -c /mosquitto/data/passwd "$$MQTT_USER" "$$PASSWORD"
+        chmod 640 /mosquitto/data/passwd
+        exec /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./ops/secrets:/run/secrets:ro
+      - mqttdata:/mosquitto/data
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    env_file:
+      - .env.prod
+    environment:
+      POSTGRES_DB: charles
+      POSTGRES_USER: charles
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U charles -d charles"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  backend:
+    build: ./services/backend
+    env_file:
+      - .env.prod
+    expose:
+      - "8000"
+    environment:
+      APP_ENV: prod
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USER: ${MQTT_USER:-charles}
+      MQTT_PASSWORD_FILE: ${MQTT_PASSWORD_FILE:-/run/secrets/mqtt_password}
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      KB_PATH: /kb
+      LLM_PROVIDER: ${LLM_PROVIDER:-ollama}
+      OLLAMA_URL: ${OLLAMA_URL:-http://host.docker.internal:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-meditron:7b}
+      OPENAI_API_KEY_FILE: ${OPENAI_API_KEY_FILE:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      LLM_ANALYSIS_TIMEOUT_S: ${LLM_ANALYSIS_TIMEOUT_S:-45}
+      JWT_SECRET_FILE: ${JWT_SECRET_FILE:-/run/secrets/jwt_secret}
+      CHARLES_DEFAULT_PASSWORD_FILE: ${CHARLES_DEFAULT_PASSWORD_FILE:-/run/secrets/default_password}
+      CHARLES_ADMIN_PASSWORD_FILE: ${CHARLES_ADMIN_PASSWORD_FILE:-/run/secrets/admin_password}
+      AUTH_TOKEN_EXPIRY_HOURS: ${AUTH_TOKEN_EXPIRY_HOURS:-12}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+      TRUSTED_HOSTS: ${TRUSTED_HOSTS}
+      FRONTEND_PUBLIC_URL: ${FRONTEND_PUBLIC_URL}
+      AUDIT_LOG_ENABLED: ${AUDIT_LOG_ENABLED:-true}
+      VITALDB_METADATA: /data/vitaldb/clinical_metadata.csv
+      VITALDB_CASES: /data/vitaldb/cases
+      VITALDB_WAVEFORMS: /data/vitaldb/waveforms
+    volumes:
+      - ./kb:/kb:ro
+      - ./vitaldb/clinical_metadata.csv:/data/vitaldb/clinical_metadata.csv:ro
+      - ./vitaldb/cases:/data/vitaldb/cases:ro
+      - ./vitaldb/waveforms:/data/vitaldb/waveforms:ro
+      - ./ops/secrets:/run/secrets:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      mosquitto:
+        condition: service_started
+    restart: unless-stopped
+
+  llm-worker:
+    build: ./services/backend
+    command: ["python", "-m", "app.llm_worker"]
+    env_file:
+      - .env.prod
+    environment:
+      APP_ENV: prod
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      KB_PATH: /kb
+      MQTT_PASSWORD_FILE: ${MQTT_PASSWORD_FILE:-/run/secrets/mqtt_password}
+      LLM_PROVIDER: ${LLM_PROVIDER:-ollama}
+      OLLAMA_URL: ${OLLAMA_URL:-http://host.docker.internal:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-meditron:7b}
+      OPENAI_API_KEY_FILE: ${OPENAI_API_KEY_FILE:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      LLM_ANALYSIS_TIMEOUT_S: ${LLM_ANALYSIS_TIMEOUT_S:-45}
+      AUDIT_LOG_ENABLED: ${AUDIT_LOG_ENABLED:-true}
+    volumes:
+      - ./kb:/kb:ro
+      - ./ops/secrets:/run/secrets:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/llm-worker.hb"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+
+  simulator:
+    build: ./services/simulator
+    env_file:
+      - .env.prod
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USER: ${MQTT_USER:-charles}
+      MQTT_PASSWORD_FILE: ${MQTT_PASSWORD_FILE:-/run/secrets/mqtt_password}
+      VITALDB_DIR: /data/vitaldb/cases
+      VITALDB_WAVES_DIR: /data/vitaldb/waveforms
+    volumes:
+      - ./vitaldb/cases:/data/vitaldb/cases:ro
+      - ./vitaldb/waveforms:/data/vitaldb/waveforms:ro
+      - ./ops/secrets:/run/secrets:ro
+    depends_on:
+      - mosquitto
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./services/frontend
+      args:
+        VITE_SHOW_DEV_ACCOUNTS: "false"
+    environment:
+      CHARLES_TLS_MODE: provided
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./ops/certs:/etc/nginx/certs:ro
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  mqttdata:

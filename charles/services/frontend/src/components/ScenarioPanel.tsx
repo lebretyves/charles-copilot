@@ -82,13 +82,18 @@ interface CaseResult {
   has_transfusion: boolean;
   death_inhosp: boolean;
   icu_days: number;
+  has_waveform: boolean;
 }
 
 interface ScenarioPanelProps {
   onClose: () => void;
+  hideClose?: boolean;
+  /** "all" = tous les cas  |  "waveforms" = cas avec waveforms HF uniquement */
+  mode?: "all" | "waveforms";
 }
 
-export function ScenarioPanel({ onClose }: ScenarioPanelProps) {
+export function ScenarioPanel({ onClose, hideClose = false, mode = "all" }: ScenarioPanelProps) {
+  const isWaveMode = mode === "waveforms";
   const [catalog, setCatalog] = useState<Catalog | null>(null);
   const [loading, setLoading] = useState(true);
   const [expandedCat, setExpandedCat] = useState<string | null>(null);
@@ -99,25 +104,36 @@ export function ScenarioPanel({ onClose }: ScenarioPanelProps) {
   const [targetRoom, setTargetRoom] = useState("salle_1");
   const [speed, setSpeed] = useState(2.0);
 
-  // Charger le catalogue
+  // Charger le catalogue (endpoint différent selon le mode)
   useEffect(() => {
-    fetch(`${API_URL}/scenarios/catalog`, { headers: authHeaders() })
+    const endpoint = isWaveMode ? `${API_URL}/scenarios/catalog/waveforms` : `${API_URL}/scenarios/catalog`;
+    fetch(endpoint, { headers: authHeaders() })
       .then((r) => r.json())
       .then((data) => {
         setCatalog(data);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, []);
+  }, [isWaveMode]);
+
+  // En mode waveforms : charger automatiquement les 50 premiers cas
+  useEffect(() => {
+    if (isWaveMode && !loading) {
+      void searchCases();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isWaveMode, loading]);
 
   // Rechercher les cas correspondants
   const searchCases = useCallback(async () => {
     setSearching(true);
     try {
+      // En mode waveforms, forcer le filtre has_waveform=true
+      const payload = isWaveMode ? { ...filters, has_waveform: true } : filters;
       const resp = await fetch(`${API_URL}/scenarios/search`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...authHeaders() },
-        body: JSON.stringify(filters),
+        body: JSON.stringify(payload),
       });
       const data = await resp.json();
       setResults(data);
@@ -125,7 +141,7 @@ export function ScenarioPanel({ onClose }: ScenarioPanelProps) {
       /* ignore */
     }
     setSearching(false);
-  }, [filters]);
+  }, [filters, isWaveMode]);
 
   // Lancer un cas VitalDB
   const launchVitalDB = async (caseid: number) => {
@@ -139,6 +155,7 @@ export function ScenarioPanel({ onClose }: ScenarioPanelProps) {
           room_id: targetRoom,
           caseid,
           speed,
+          with_waveforms: isWaveMode,
         }),
       });
     } catch {
@@ -187,7 +204,7 @@ export function ScenarioPanel({ onClose }: ScenarioPanelProps) {
       <div className="scenario-panel">
         <div className="scenario-header">
           <h2>Chargement du catalogue...</h2>
-          <button className="scenario-close" onClick={onClose}>✕</button>
+          {!hideClose && <button className="scenario-close" onClick={onClose}>✕</button>}
         </div>
       </div>
     );
@@ -198,7 +215,7 @@ export function ScenarioPanel({ onClose }: ScenarioPanelProps) {
       <div className="scenario-panel">
         <div className="scenario-header">
           <h2>Catalogue non disponible</h2>
-          <button className="scenario-close" onClick={onClose}>✕</button>
+          {!hideClose && <button className="scenario-close" onClick={onClose}>✕</button>}
         </div>
         <p className="scenario-empty">clinical_metadata.csv non trouvé.</p>
       </div>
@@ -206,21 +223,35 @@ export function ScenarioPanel({ onClose }: ScenarioPanelProps) {
   }
 
   return (
-    <div className="scenario-panel">
+    <div className={`scenario-panel ${isWaveMode ? "scenario-panel--wave" : ""}`} data-testid="scenario-panel">
       {/* Header */}
-      <div className="scenario-header">
-        <div>
-          <h2>Sélection de Scénario</h2>
-          <span className="scenario-count">{catalog.total_cases} cas VitalDB disponibles</span>
+      <div className={`scenario-header ${isWaveMode ? "scenario-header--wave" : ""}`}>
+        <div className="scenario-header-copy">
+          <span className="scenario-eyebrow">
+            {isWaveMode ? "Replay waveform haute frequence" : "Catalogue VitalDB"}
+          </span>
+          <h2>
+            {isWaveMode ? "📈 Scénarios Waveforms Réels" : "Sélection de Scénario"}
+          </h2>
+          <span className="scenario-count">
+            {catalog.total_cases} cas VitalDB{isWaveMode ? " avec waveforms haute fréquence" : ""} disponibles
+          </span>
+          {isWaveMode && (
+            <div className="wave-signals-info">
+              {["ECG DII 500Hz", "SpO₂ Pleth 500Hz", "PA invasive 500Hz", "Capno CO₂ 25Hz", "Pression VA 25Hz", "EEG 128Hz"].map((sig) => (
+                <span key={sig} className="wave-signal-tag">📡 {sig}</span>
+              ))}
+            </div>
+          )}
         </div>
-        <button className="scenario-close" onClick={onClose}>✕</button>
+        {!hideClose && <button className="scenario-close" onClick={onClose}>✕</button>}
       </div>
 
       {/* Salle cible + vitesse */}
       <div className="scenario-controls">
         <div className="scenario-control-group">
           <label>Salle cible</label>
-          <select value={targetRoom} onChange={(e) => setTargetRoom(e.target.value)}>
+          <select data-testid="scenario-target-room" value={targetRoom} onChange={(e) => setTargetRoom(e.target.value)}>
             <option value="salle_1">Salle 1</option>
             <option value="salle_2">Salle 2</option>
             <option value="salle_3">Salle 3</option>
@@ -228,7 +259,7 @@ export function ScenarioPanel({ onClose }: ScenarioPanelProps) {
         </div>
         <div className="scenario-control-group">
           <label>Vitesse replay</label>
-          <select value={speed} onChange={(e) => setSpeed(parseFloat(e.target.value))}>
+          <select data-testid="scenario-speed" value={speed} onChange={(e) => setSpeed(parseFloat(e.target.value))}>
             <option value="1">×1 (temps réel)</option>
             <option value="2">×2</option>
             <option value="5">×5</option>
@@ -242,6 +273,7 @@ export function ScenarioPanel({ onClose }: ScenarioPanelProps) {
         {Object.entries(catalog.categories).map(([catKey, cat]) => (
           <div key={catKey} className="scenario-category">
             <button
+              data-testid={`scenario-category-${catKey}`}
               className={`scenario-cat-header ${expandedCat === catKey ? "scenario-cat-header--open" : ""}`}
               onClick={() => setExpandedCat(expandedCat === catKey ? null : catKey)}
             >
@@ -262,6 +294,7 @@ export function ScenarioPanel({ onClose }: ScenarioPanelProps) {
                         {sub.options.map((opt) => (
                           <button
                             key={opt.value}
+                            data-testid={`launch-synthetic-${opt.value}`}
                             className={`scenario-synthetic-btn ${launching === opt.value ? "scenario-synthetic-btn--launching" : ""}`}
                             onClick={() => launchSynthetic(opt.value)}
                             disabled={launching !== null}
@@ -458,14 +491,23 @@ export function ScenarioPanel({ onClose }: ScenarioPanelProps) {
                     {c.icu_days > 0 && (
                       <span className="tag tag--icu">Réa {c.icu_days}j</span>
                     )}
+                    {c.has_waveform && (
+                      <span className="tag tag--wave">📈 Waveforms HF</span>
+                    )}
                   </div>
                 </div>
                 <button
-                  className={`scenario-launch-btn ${launching === c.caseid ? "scenario-launch-btn--active" : ""}`}
+                  data-testid={`launch-vitaldb-${c.caseid}`}
+                  className={`scenario-launch-btn ${launching === c.caseid ? "scenario-launch-btn--active" : ""} ${isWaveMode ? "scenario-launch-btn--wave" : ""}`}
                   onClick={() => launchVitalDB(c.caseid)}
                   disabled={launching !== null}
                 >
-                  {launching === c.caseid ? "⏳ Lancement..." : "▶ Lancer"}
+                  {launching === c.caseid
+                    ? "⏳ Lancement..."
+                    : isWaveMode
+                      ? "📈 Lancer + Waves"
+                      : "▶ Lancer"
+                  }
                 </button>
               </div>
             ))}

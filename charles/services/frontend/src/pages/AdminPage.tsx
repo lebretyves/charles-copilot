@@ -7,6 +7,8 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { getStoredToken } from "../hooks/useAuth";
+import { ScenarioPanel } from "../components/ScenarioPanel";
+import { useUXConfig, UX_CATALOG } from "../context/UXConfigContext";
 
 const API_URL = "/api";
 
@@ -15,6 +17,11 @@ interface Health {
   service: string;
   rooms_active: number;
   ws_clients: number;
+  db_persistence_failures?: number;
+  data_scope?: string;
+  uptime_s?: number;
+  last_monitoring_update_at?: string;
+  last_wave_chunk_at?: string;
 }
 
 interface KBStatus {
@@ -22,6 +29,24 @@ interface KBStatus {
   files: string[];
   llm_available: boolean;
   llm_provider: string;
+  llm_model?: string;
+}
+
+interface BackendMetrics {
+  monitoring_updates_total: number;
+  wave_chunks_total: number;
+  alerts_total: number;
+  critical_alerts_total: number;
+  llm_requests_total: number;
+  llm_completed_total: number;
+  llm_failures_total: number;
+  llm_timeouts_total: number;
+  ws_connections_total: number;
+  ws_disconnects_total: number;
+  ws_commands_total: number;
+  simulator_commands_total: number;
+  manual_alert_ack_total: number;
+  llm_avg_latency_ms?: number | null;
 }
 
 interface AlertStats {
@@ -42,7 +67,6 @@ interface GlobalAlerts {
   acknowledged: boolean;
 }
 
-const SYNTHETIC_SCENARIOS = ["normal", "hypotension", "desaturation", "anaphylaxie", "hemorragie"];
 const ROOMS = ["salle_1", "salle_2", "salle_3"];
 
 export function AdminPage() {
@@ -51,11 +75,12 @@ export function AdminPage() {
 
   const [health, setHealth] = useState<Health | null>(null);
   const [kbStatus, setKBStatus] = useState<KBStatus | null>(null);
+  const [metrics, setMetrics] = useState<BackendMetrics | null>(null);
   const [alerts, setAlerts] = useState<GlobalAlerts[]>([]);
   const [alertStats, setAlertStats] = useState<AlertStats | null>(null);
-  const [activeTab, setActiveTab] = useState<"system" | "alerts" | "simulator">("system");
+  const [activeTab, setActiveTab] = useState<"system" | "alerts" | "simulator" | "waveforms" | "ux">("system");
+  const { config: uxConfig, set: setUX } = useUXConfig();
   const [simRoom, setSimRoom] = useState("salle_1");
-  const [simScenario, setSimScenario] = useState("normal");
   const [simFeedback, setSimFeedback] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -69,12 +94,14 @@ export function AdminPage() {
 
   const loadSystem = useCallback(async () => {
     try {
-      const [h, kb] = await Promise.all([
+      const [h, kb, m] = await Promise.all([
         fetch(`${API_URL}/health`, { headers: authHeaders() }).then((r) => r.json()),
         fetch(`${API_URL}/kb/status`, { headers: authHeaders() }).then((r) => r.json()),
+        fetch(`${API_URL}/metrics`, { headers: authHeaders() }).then((r) => r.json()),
       ]);
       setHealth(h as Health);
       setKBStatus(kb as KBStatus);
+      setMetrics(m as BackendMetrics);
     } catch { /* ignore */ }
   }, []);
 
@@ -100,23 +127,6 @@ export function AdminPage() {
   useEffect(() => {
     if (activeTab === "alerts") void loadAlerts();
   }, [activeTab, loadAlerts]);
-
-  async function startScenario() {
-    setLoading(true);
-    setSimFeedback(null);
-    try {
-      const resp = await fetch(`${API_URL}/simulator/control`, {
-        method: "POST",
-        headers: authHeaders({ "Content-Type": "application/json" }),
-        body: JSON.stringify({ action: "start_synthetic", room_id: simRoom, scenario: simScenario, speed: 1.0 }),
-      });
-      if (resp.ok) setSimFeedback(`✅ Scénario "${simScenario}" lancé sur ${simRoom}`);
-      else setSimFeedback("❌ Erreur lors du lancement");
-    } catch {
-      setSimFeedback("❌ Impossible de contacter le backend");
-    }
-    setLoading(false);
-  }
 
   async function stopRoom() {
     setLoading(true);
@@ -149,12 +159,16 @@ export function AdminPage() {
 
       {/* Onglets */}
       <div className="page-tabs">
-        <button className={`page-tab ${activeTab === "system" ? "page-tab--active" : ""}`}
+        <button data-testid="admin-tab-system" className={`page-tab ${activeTab === "system" ? "page-tab--active" : ""}`}
           onClick={() => { setActiveTab("system"); void loadSystem(); }}>🖥️ Système / KB / LLM</button>
-        <button className={`page-tab ${activeTab === "alerts" ? "page-tab--active" : ""}`}
+        <button data-testid="admin-tab-alerts" className={`page-tab ${activeTab === "alerts" ? "page-tab--active" : ""}`}
           onClick={() => setActiveTab("alerts")}>📊 Stats & Alertes</button>
-        <button className={`page-tab ${activeTab === "simulator" ? "page-tab--active" : ""}`}
+        <button data-testid="admin-tab-simulator" className={`page-tab ${activeTab === "simulator" ? "page-tab--active" : ""}`}
           onClick={() => setActiveTab("simulator")}>🎭 Simulateur</button>
+        <button data-testid="admin-tab-waveforms" className={`page-tab ${activeTab === "waveforms" ? "page-tab--active" : ""}`}
+          onClick={() => setActiveTab("waveforms")}>📈 Waveforms réels</button>
+        <button className={`page-tab ${activeTab === "ux" ? "page-tab--active" : ""}`}
+          onClick={() => setActiveTab("ux")}>🖥️ Configuration UX</button>
       </div>
 
       <div className="mar-content">
@@ -176,6 +190,25 @@ export function AdminPage() {
                     <div className="stat-row"><span>Statut</span><span className="stat-val stat-ok">● {health.status}</span></div>
                     <div className="stat-row"><span>Salles actives</span><span className="stat-val">{health.rooms_active}</span></div>
                     <div className="stat-row"><span>Clients WebSocket</span><span className="stat-val">{health.ws_clients}</span></div>
+                    <div className="stat-row"><span>Echecs DB</span><span className="stat-val">{health.db_persistence_failures ?? 0}</span></div>
+                    <div className="stat-row"><span>Scope donnees</span><span className="stat-val">{health.data_scope ?? "public_anonymized_waveforms"}</span></div>
+                    <div className="stat-row"><span>Uptime</span><span className="stat-val">{Math.round(health.uptime_s ?? 0)}s</span></div>
+                  </div>
+                ) : <p className="text-muted">Chargement...</p>}
+              </div>
+
+              <div className="admin-card" data-testid="admin-metrics-card">
+                <div className="admin-card-title">ðŸ“Š Metrics live</div>
+                {metrics ? (
+                  <div className="admin-card-body">
+                    <div className="stat-row"><span>Updates monitor</span><span className="stat-val">{metrics.monitoring_updates_total}</span></div>
+                    <div className="stat-row"><span>Wave chunks</span><span className="stat-val">{metrics.wave_chunks_total}</span></div>
+                    <div className="stat-row"><span>Alertes critiques</span><span className="stat-val">{metrics.critical_alerts_total}</span></div>
+                    <div className="stat-row"><span>Demandes LLM</span><span className="stat-val">{metrics.llm_requests_total}</span></div>
+                    <div className="stat-row"><span>LLM OK / KO</span><span className="stat-val">{metrics.llm_completed_total} / {metrics.llm_failures_total}</span></div>
+                    <div className="stat-row"><span>Latence LLM moy.</span><span className="stat-val">{metrics.llm_avg_latency_ms ?? "—"} ms</span></div>
+                    <div className="stat-row"><span>Cmd simulateur</span><span className="stat-val">{metrics.simulator_commands_total}</span></div>
+                    <div className="stat-row"><span>WS connexions / cmds</span><span className="stat-val">{metrics.ws_connections_total} / {metrics.ws_commands_total}</span></div>
                   </div>
                 ) : <p className="text-muted">Chargement...</p>}
               </div>
@@ -214,7 +247,7 @@ export function AdminPage() {
                     </div>
                     <div className="stat-row"><span>Fournisseur</span><span className="stat-val">{kbStatus.llm_provider}</span></div>
                     {!kbStatus.llm_available && (
-                      <p className="admin-hint">Lancez Ollama : <code>ollama pull meditron:7b</code></p>
+                      <p className="admin-hint">Lancez Ollama : <code>ollama pull {kbStatus.llm_model ?? "meditron:7b"}</code></p>
                     )}
                   </div>
                 ) : <p className="text-muted">Chargement...</p>}
@@ -286,45 +319,131 @@ export function AdminPage() {
         {/* ── Contrôle simulateur ── */}
         {activeTab === "simulator" && (
           <div className="admin-simulator">
-            <h2 className="section-title">Contrôle du simulateur</h2>
-
-            <div className="sim-panel">
+            {/* Arrêt rapide d'une salle */}
+            <div className="sim-panel sim-panel--stop">
+              <h3 className="sim-stop-title">⏹ Arrêter une salle</h3>
               <div className="sim-row">
                 <label className="sim-label">Salle cible</label>
                 <select className="sim-select" value={simRoom} onChange={(e) => setSimRoom(e.target.value)}>
-                  {ROOMS.map((r) => <option key={r} value={r}>{r}</option>)}
+                  {ROOMS.map((r) => <option key={r} value={r}>{r.replace("_", " ").toUpperCase()}</option>)}
                 </select>
-              </div>
-
-              <div className="sim-row">
-                <label className="sim-label">Scénario synthétique</label>
-                <select className="sim-select" value={simScenario} onChange={(e) => setSimScenario(e.target.value)}>
-                  {SYNTHETIC_SCENARIOS.map((s) => <option key={s} value={s}>{s}</option>)}
-                </select>
-              </div>
-
-              <div className="sim-actions">
-                <button className="action-btn action-btn--primary" onClick={() => void startScenario()} disabled={loading}>
-                  ▶ Lancer scénario
-                </button>
                 <button className="action-btn action-btn--danger" onClick={() => void stopRoom()} disabled={loading}>
                   ⏹ Arrêter la salle
                 </button>
               </div>
-
               {simFeedback && <div className="sim-feedback">{simFeedback}</div>}
+            </div>
 
-              <div className="sim-hint">
-                <strong>Scénarios disponibles :</strong>
-                <ul>
-                  <li><strong>normal</strong> — cholécystectomie coelioscopique ASA 1, vitaux stables</li>
-                  <li><strong>hypotension</strong> — chute progressive PAS/PAM après induction</li>
-                  <li><strong>desaturation</strong> — SpO2 qui chute (intubation difficile)</li>
-                  <li><strong>anaphylaxie</strong> — réaction allergique brutale (tachycardie + hypotension + désaturation)</li>
-                  <li><strong>hemorragie</strong> — pertes sanguines progressives (tachycardie + hypotension)</li>
-                </ul>
+            {/* Catalogue complet VitalDB + scénarios synthétiques */}
+            <ScenarioPanel hideClose onClose={() => {}} mode="all" />
+          </div>
+        )}
+
+        {/* ── Configuration UX matériel ── */}
+        {activeTab === "ux" && (
+          <div className="admin-system">
+            <div className="section-header">
+              <h2 className="section-title">Configuration UX — Matériel disponible</h2>
+              <span className="text-muted small">Ce choix s'applique à toutes les salles. Persisté dans le navigateur.</span>
+            </div>
+
+            <div className="ux-cfg-grid">
+              {/* ── Moniteur scope ── */}
+              <div className="ux-cfg-section">
+                <div className="ux-cfg-label">📟 Moniteur patient (scope)</div>
+                <div className="ux-cfg-options">
+                  {UX_CATALOG.scope.map(opt => (
+                    <button
+                      key={opt.value}
+                      className={`ux-cfg-btn ${uxConfig.scope === opt.value ? "ux-cfg-btn--active" : ""}`}
+                      onClick={() => setUX({ scope: opt.value })}
+                    >
+                      <span className="ux-cfg-brand">{opt.tag}</span>
+                      <span className="ux-cfg-desc">{opt.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* ── Ventilateur ── */}
+              <div className="ux-cfg-section">
+                <div className="ux-cfg-label">💨 Ventilateur</div>
+                <div className="ux-cfg-options">
+                  {UX_CATALOG.vent.map(opt => (
+                    <button
+                      key={opt.value}
+                      className={`ux-cfg-btn ${uxConfig.vent === opt.value ? "ux-cfg-btn--active" : ""}`}
+                      onClick={() => setUX({ vent: opt.value })}
+                    >
+                      <span className="ux-cfg-brand">{opt.tag}</span>
+                      <span className="ux-cfg-desc">{opt.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* ── Profondeur anesthésie ── */}
+              <div className="ux-cfg-section">
+                <div className="ux-cfg-label">🧠 Profondeur d'anesthésie</div>
+                <div className="ux-cfg-options">
+                  {UX_CATALOG.bis.map(opt => (
+                    <button
+                      key={opt.value}
+                      className={`ux-cfg-btn ${uxConfig.bis === opt.value ? "ux-cfg-btn--active" : ""}`}
+                      onClick={() => setUX({ bis: opt.value })}
+                    >
+                      <span className="ux-cfg-brand">{opt.tag}</span>
+                      <span className="ux-cfg-desc">{opt.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* ── Pompe TCI ── */}
+              <div className="ux-cfg-section">
+                <div className="ux-cfg-label">💉 Pompe seringue TCI</div>
+                <div className="ux-cfg-options">
+                  {UX_CATALOG.pump.map(opt => (
+                    <button
+                      key={opt.value}
+                      className={`ux-cfg-btn ${uxConfig.pump === opt.value ? "ux-cfg-btn--active" : ""}`}
+                      onClick={() => setUX({ pump: opt.value })}
+                    >
+                      <span className="ux-cfg-brand">{opt.tag}</span>
+                      <span className="ux-cfg-desc">{opt.label}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
+
+            <div className="ux-cfg-current">
+              <span className="text-muted small">Configuration active :</span>
+              <code className="ux-cfg-summary">
+                Scope : {UX_CATALOG.scope.find(o => o.value === uxConfig.scope)?.label} ·
+                Vent : {UX_CATALOG.vent.find(o => o.value === uxConfig.vent)?.label} ·
+                BIS : {UX_CATALOG.bis.find(o => o.value === uxConfig.bis)?.label} ·
+                Pompe : {UX_CATALOG.pump.find(o => o.value === uxConfig.pump)?.label}
+              </code>
+            </div>
+          </div>
+        )}
+
+        {/* ── Waveforms réels ── */}
+        {activeTab === "waveforms" && (
+          <div className="admin-simulator">
+            <div className="wave-intro-banner">
+              <div className="wave-intro-icon">📈</div>
+              <div>
+                <div className="wave-intro-title">Scénarios VitalDB avec Waveforms Haute Fréquence</div>
+                <div className="wave-intro-desc">
+                  Replay de waveforms réels : ECG (500Hz), SpO₂ pléthysmogramme (500Hz), PA invasive (500Hz),
+                  Capnogramme CO₂ (25Hz), Pression voie aérienne (25Hz), EEG (128Hz).
+                  Les courbes en temps réel s'affichent sur les moniteurs de la salle sélectionnée.
+                </div>
+              </div>
+            </div>
+            <ScenarioPanel hideClose onClose={() => {}} mode="waveforms" />
           </div>
         )}
       </div>

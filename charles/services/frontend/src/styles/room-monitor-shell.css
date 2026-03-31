@@ -1,0 +1,185 @@
+/* RoomMonitor shell layout: extracted from scope.css to keep the waveform UI maintainable. */
+.rm-root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: #04040a;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 12px;
+  position: relative;
+}
+
+.rm-main {
+  display: grid;
+  grid-template-columns: 1fr 220px 185px;
+  gap: 3px;
+  padding: 0 3px 3px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.rm-col-left {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-height: 0;
+}
+
+.rm-scope-area {
+  flex: 6;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rm-vent-area {
+  flex: 5;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rm-col-mid {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-height: 0;
+}
+
+.rm-bis-area {
+  flex: 6;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rm-tof-area {
+  flex: 3;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rm-ia-area {
+  flex: 3;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rm-col-right {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rm-patient-bar {
+  background: #060609;
+  border-bottom: 1px solid #0e0e18;
+  padding: 0 10px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.pt-name {
+  color: #ccc;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.ptag {
+  border-radius: 2px;
+  padding: 0 4px;
+  font-size: 8px;
+  font-weight: 500;
+}
+
+.ptag-asa { background: #180e00; border: 1px solid #4a2000; color: #d06000; }
+.ptag-ane { background: #060615; border: 1px solid #181848; color: #6070b8; }
+.ptag-co  { background: #080006; border: 1px solid #200025; color: #906090; }
+
+.pt-demo {
+  color: #666;
+  font-size: 9px;
+}
+
+.rm-phase-tag {
+  margin-left: auto;
+  color: #e07000;
+  font-size: 8px;
+  font-weight: 500;
+  font-family: 'Roboto Mono', 'JetBrains Mono', monospace;
+}
+
+.rm-alerts {
+  position: relative;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 3px 3px;
+  flex-shrink: 0;
+}
+
+.rm-alert-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 26px;
+  padding: 4px 9px;
+  font-size: 10px;
+  border-radius: 5px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.rm-alert--critical {
+  background: linear-gradient(90deg, rgba(74, 0, 0, 0.96), rgba(32, 0, 0, 0.92));
+  border: 1px solid #5e1111;
+  color: #ff8787;
+  animation: blink 0.8s step-end infinite;
+}
+
+.rm-alert--warning {
+  background: linear-gradient(90deg, rgba(52, 22, 0, 0.96), rgba(20, 10, 0, 0.92));
+  border: 1px solid #5b2e08;
+  color: #ffae57;
+}
+
+.rm-alert-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 9px;
+  font-weight: 700;
+}
+.rm-alert-title { font-weight: 700; }
+.rm-alert-detail { flex: 1; opacity: 0.8; }
+
+.rm-alert-ack {
+  margin-left: auto;
+  cursor: pointer;
+  color: #f4f7ff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  font-size: 9px;
+  width: 18px;
+  height: 18px;
+  line-height: 1;
+}

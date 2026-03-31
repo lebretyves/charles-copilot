@@ -8,10 +8,11 @@ import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import { useCharlesWS } from "./hooks/useCharlesWS";
 import { RoomMonitor } from "./components/RoomMonitor";
-import { ScenarioPanel } from "./components/ScenarioPanel";
 import { LoginPage } from "./pages/LoginPage";
 import { MARPage } from "./pages/MARPage";
 import { AdminPage } from "./pages/AdminPage";
+import { PreviewPage } from "./pages/PreviewPage";
+import { UXConfigProvider } from "./context/UXConfigContext";
 import "./scope.css";
 
 const WS_URL = `${location.protocol.replace("http", "ws")}//${location.host}/ws`;
@@ -34,10 +35,9 @@ function RequireAuth({
 function IADEDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const { rooms, connected, acknowledgeAlert, requestAnalysis } = useCharlesWS(WS_URL);
+  const { rooms, connected, waveRef, acknowledgeAlert, requestAnalysis, transportMetrics } = useCharlesWS(WS_URL);
   const roomIds = Object.keys(rooms);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
-  const [showScenarios, setShowScenarios] = useState(false);
 
   const activeRoom = selectedRoom ?? roomIds[0] ?? null;
 
@@ -49,9 +49,12 @@ function IADEDashboard() {
           <span className="charles-subtitle iade-badge">IADE — Vigilance peropératoire</span>
         </div>
         <div className="status-right">
-          <span className="status-rooms">{roomIds.length} salle{roomIds.length > 1 ? "s" : ""}</span>
+          <span className="status-rooms" data-testid="status-rooms">{roomIds.length} salle{roomIds.length > 1 ? "s" : ""}</span>
           <span className={`status-dot ${connected ? "status-dot--ok" : "status-dot--err"}`} />
           <span className="status-text">{connected ? "Connecté" : "Déconnecté"}</span>
+          <span className="status-text" data-testid="transport-metrics">
+            ws {transportMetrics.messagesReceived} · waves {transportMetrics.waveChunksReceived} · lag {transportMetrics.approxLagMs ?? 0}ms
+          </span>
           {user?.role === "mar" || user?.role === "admin" ? (
             <button className="nav-btn" onClick={() => navigate("/mar")}>↗ MAR</button>
           ) : null}
@@ -64,12 +67,6 @@ function IADEDashboard() {
           </button>
         </div>
       </div>
-
-      <button className="scenario-toggle-btn" onClick={() => setShowScenarios(!showScenarios)}>
-        {showScenarios ? "✕ Fermer" : "🎯 Scénarios"}
-      </button>
-
-      {showScenarios && <ScenarioPanel onClose={() => setShowScenarios(false)} />}
 
       {roomIds.length === 0 ? (
         <div className="empty-state">
@@ -89,6 +86,7 @@ function IADEDashboard() {
                 return (
                   <button
                     key={rid}
+                    data-testid={`room-tab-${rid}`}
                     className={`room-tab ${rid === activeRoom ? "room-tab--active" : ""} ${
                       hasCritical ? "room-tab--critical" : hasWarning ? "room-tab--warning" : ""
                     }`}
@@ -106,6 +104,7 @@ function IADEDashboard() {
             <RoomMonitor
               roomId={activeRoom}
               data={rooms[activeRoom]}
+              waveRef={waveRef}
               onAcknowledgeAlert={acknowledgeAlert}
               onRequestAnalysis={() => requestAnalysis(activeRoom)}
             />
@@ -119,8 +118,10 @@ function IADEDashboard() {
 // ── Router principal ──────────────────────────────────────────
 export default function App() {
   return (
-    <Routes>
+    <UXConfigProvider>
+      <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/preview" element={<PreviewPage />} />
 
       <Route path="/" element={
         <RequireAuth>
@@ -143,5 +144,6 @@ export default function App() {
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+    </UXConfigProvider>
   );
 }

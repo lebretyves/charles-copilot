@@ -42,6 +42,7 @@ class MQTTConsumer:
             "bloc/+/bis",
             "bloc/+/aivoc",
             "bloc/+/full",
+            "bloc/+/waves",
         ]
         self._client: mqtt.Client | None = None
         self._thread: threading.Thread | None = None
@@ -89,12 +90,20 @@ class MQTTConsumer:
         if reason_code != 0:
             logger.warning("MQTT disconnected unexpectedly (rc=%s) — reconnexion automatique en cours", reason_code)
 
+    # Compteur pour logs waves (éviter spam)
+    _wave_rx_count: int = 0
+
     def _on_message(self, client, userdata, msg: mqtt.MQTTMessage):
         try:
             payload = json.loads(msg.payload.decode("utf-8"))
         except (json.JSONDecodeError, UnicodeDecodeError) as e:
             logger.warning("Bad MQTT payload on %s: %s", msg.topic, e)
             return
+
+        if msg.topic.endswith("/waves"):
+            MQTTConsumer._wave_rx_count += 1
+            if MQTTConsumer._wave_rx_count <= 3 or MQTTConsumer._wave_rx_count % 100 == 0:
+                logger.info("[MQTT] wave_chunk #%d reçu sur %s", MQTTConsumer._wave_rx_count, msg.topic)
 
         if self._loop and self._loop.is_running():
             asyncio.run_coroutine_threadsafe(

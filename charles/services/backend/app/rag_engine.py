@@ -10,7 +10,7 @@ Pipeline: KB YAML → chunks → embeddings → vector store in-memory → top-K
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any
 
 import httpx
@@ -30,6 +30,7 @@ class KBChunk:
     section: str         # e.g. "hemodynamiques > hypotension_post_induction"
     tags: list[str] = field(default_factory=list)
     embedding: list[float] = field(default_factory=list, repr=False)
+    score: float = 0.0
 
 
 class RAGEngine:
@@ -77,7 +78,7 @@ class RAGEngine:
         if self._client:
             await self._client.aclose()
 
-    async def retrieve(self, query: str, top_k: int = 5) -> list[KBChunk]:
+    async def retrieve(self, query: str, top_k: int | None = None) -> list[KBChunk]:
         """Retrouve les top-K chunks les plus pertinents pour une requête."""
         if not self._ready or not self._client:
             return []
@@ -102,10 +103,16 @@ class RAGEngine:
         norms = np.where(norms == 0, 1.0, norms)
         scores = (matrix / norms) @ q   # (N,) — O(N·D) en C, non bloquant
 
-        top_n = min(top_k, len(valid_chunks))
+        top_n = min(top_k or settings.rag_top_k, len(valid_chunks))
         top_indices = np.argpartition(scores, -top_n)[-top_n:]
         top_indices = top_indices[np.argsort(scores[top_indices])[::-1]]
-        return [valid_chunks[int(i)] for i in top_indices]
+        selected: list[KBChunk] = []
+        for idx in top_indices:
+            score = float(scores[int(idx)])
+            if score < settings.rag_min_score:
+                continue
+            selected.append(replace(valid_chunks[int(idx)], score=score))
+        return selected
 
     def build_rag_context(self, chunks: list[KBChunk]) -> str:
         """Formate les chunks récupérés en contexte textuel pour le LLM."""
@@ -114,10 +121,10 @@ class RAGEngine:
 
         parts = ["## Connaissances cliniques pertinentes (KB CHARLES)"]
         for i, chunk in enumerate(chunks, 1):
-            parts.append(f"\n### [{chunk.source}] {chunk.section}")
+            parts.append(f"\n### [{i}] {chunk.source} :: {chunk.section} (score {chunk.score:.2f})")
             parts.append(chunk.text)
 
-        return "\n".join(parts)
+        return "\n".join(parts)[: settings.rag_max_context_chars]
 
     # ── Chunking KB ────────────────────────────────────────────
 

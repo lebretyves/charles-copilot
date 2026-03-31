@@ -1,0 +1,71 @@
+dataset_id: vitaldb_waveforms_local50_dense
+dataset_version: "v1"
+description: >
+  Dense local waveform segmentation run on the first 50 VitalDB cases with
+  locally available waveforms. This manifest preserves the main CHARLES
+  training exports while writing segment outputs to a dedicated directory.
+source:
+  name: VitalDB
+  license: CC BY-NC-SA 4.0
+  citation: >
+    Lee HC, Park Y, Yoon SB, Yang SM, Park D, Jung CW. VitalDB, a high-fidelity
+    multi-parameter vital signs database in surgical patients. Sci Data. 2022.
+paths:
+  metadata_csv: vitaldb/clinical_metadata.csv
+  labs_csv: vitaldb/intraop_labs.csv
+  cases_dir: vitaldb/cases
+  waveforms_dir: vitaldb/waveforms
+  output_dir: learning/datasets/exports/vitaldb_waveforms_local50_dense
+case_glob: case_*.parquet
+context_columns:
+  - age
+  - sex
+  - bmi
+  - asa
+  - department
+  - optype
+  - dx
+  - opname
+  - ane_type
+  - emop
+  - icu_days
+  - death_inhosp
+  - cormack
+  - airway
+  - caseend
+  - intraop_ebl
+  - intraop_rbc
+  - intraop_ffp
+  - intraop_eph
+  - intraop_phe
+  - intraop_epi
+signal_specs:
+  - name: ecg
+    file_key: 500hz
+    column: SNUADC/ECG_II
+    sample_rate_hz: 500
+  - name: pleth
+    file_key: 500hz
+    column: SNUADC/PLETH
+    sample_rate_hz: 500
+  - name: art
+    file_key: 500hz
+    column: SNUADC/ART
+    sample_rate_hz: 500
+  - name: co2
+    file_key: 25hz
+    column: Primus/CO2
+    sample_rate_hz: 25
+  - name: awp
+    file_key: 25hz
+    column: Primus/AWP
+    sample_rate_hz: 25
+  - name: eeg
+    file_key: 128hz
+    column: BIS/EEG1_WAV
+    sample_rate_hz: 128
+segment_spec:
+  window_seconds: 30.0
+  stride_seconds: 5.0
+  min_signal_coverage: 0.75
+  min_required_signals: 2

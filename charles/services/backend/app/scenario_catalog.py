@@ -39,9 +39,11 @@ class ScenarioCatalog:
     """Catalogue exhaustif de cas VitalDB pour la sélection de scénarios."""
 
     def __init__(self, metadata_path: str | Path | None = None,
-                 cases_dir: str | Path | None = None):
+                 cases_dir: str | Path | None = None,
+                 waveforms_dir: str | Path | None = None):
         self.metadata_path = metadata_path
         self.cases_dir = cases_dir
+        self.waveforms_dir = waveforms_dir
         self.df: pd.DataFrame | None = None
         self.loaded = False
 
@@ -127,6 +129,27 @@ class ScenarioCatalog:
         else:
             self.df["has_parquet"] = True
             logger.info("Catalogue chargé: %d cas (parquet non vérifié)", len(self.df))
+
+        # — Fichiers waveforms disponibles ——————————————————————
+        if self.waveforms_dir:
+            wave_path = Path(self.waveforms_dir)
+            if wave_path.exists():
+                wave_available = set()
+                for f in wave_path.glob("wave_*_500hz.parquet"):
+                    try:
+                        # wave_00042_500hz.parquet → 42
+                        wave_available.add(int(f.stem.split("_")[1]))
+                    except (ValueError, IndexError):
+                        pass
+                self.df["has_waveform"] = self.df["caseid"].isin(wave_available)
+                logger.info(
+                    "Catalogue: %d cas avec waveforms haute fréquence",
+                    self.df["has_waveform"].sum(),
+                )
+            else:
+                self.df["has_waveform"] = False
+        else:
+            self.df["has_waveform"] = False
 
         self.loaded = True
 
@@ -548,15 +571,50 @@ class ScenarioCatalog:
                             "options": [
                                 {"value": "normal", "label": "Normal — Cholécystectomie ASA 1", "count": None},
                                 {"value": "hypotension", "label": "Hypotension progressive post-induction", "count": None},
-                                {"value": "desaturation", "label": "Intubation difficile — désaturation", "count": None},
+                                {"value": "desaturation", "label": "Désaturation — intubation difficile", "count": None},
                                 {"value": "anaphylaxie", "label": "Anaphylaxie peropératoire", "count": None},
                                 {"value": "hemorragie", "label": "Hémorragie peropératoire", "count": None},
+                                {"value": "bronchospasme", "label": "Bronchospasme sévère peropératoire", "count": None},
+                                {"value": "bradycardie", "label": "Bradycardie — réflexe vagal / néostigmine", "count": None},
+                                {"value": "crise_hypertensive", "label": "Crise hypertensive peropératoire", "count": None},
+                                {"value": "hyperthermie_maligne", "label": "Hyperthermie maligne — urgence vitale", "count": None},
+                                {"value": "embolie_gazeuse", "label": "Embolie gazeuse peropératoire", "count": None},
+                                {"value": "pneumothorax", "label": "Pneumothorax sous tension", "count": None},
+                                {"value": "reveil_perop", "label": "Réveil peropératoire (conscience intra-op)", "count": None},
+                                {"value": "acr", "label": "Arrêt cardio-respiratoire peropératoire", "count": None},
+                                {"value": "tachycardie", "label": "Tachycardie — analgésie insuffisante", "count": None},
+                                {"value": "hypothermie", "label": "Hypothermie peropératoire progressive", "count": None},
+                                {"value": "burst_suppression", "label": "Burst Suppression — surdosage hypnotique", "count": None},
+                                {"value": "intubation_difficile", "label": "Intubation difficile — voie aérienne critique", "count": None},
                             ],
                         },
                     },
                 },
             },
         }
+
+    # ════════════════════════════════════════════════════════════
+    #  CATALOGUE WAVEFORMS
+    # ════════════════════════════════════════════════════════════
+    def get_wave_catalog(self) -> dict[str, Any]:
+        """Catalogue filtré aux cas ayant des waveforms haute fréquence."""
+        if not self.loaded or self.df is None:
+            return {"loaded": False, "categories": {}}
+
+        df = self.df[self.df["has_parquet"] & self.df["has_waveform"]].copy()
+
+        base = self.get_catalog()
+        base["total_cases"] = len(df)
+        base["waveform_only"] = True
+        base["signals_available"] = [
+            {"id": "ecg", "label": "ECG DII", "hz": 500, "color": "#00e676"},
+            {"id": "pleth", "label": "SpO₂ Pléth", "hz": 500, "color": "#29b6f6"},
+            {"id": "art", "label": "PA invasive", "hz": 500, "color": "#ef5350"},
+            {"id": "co2", "label": "Capnogramme CO₂", "hz": 25, "color": "#ffee58"},
+            {"id": "awp", "label": "Pression voie aérienne", "hz": 25, "color": "#ce93d8"},
+            {"id": "eeg", "label": "EEG (BIS)", "hz": 128, "color": "#80cbc4"},
+        ]
+        return base
 
     # ════════════════════════════════════════════════════════════
     #  RECHERCHE / FILTRAGE
@@ -567,7 +625,9 @@ class ScenarioCatalog:
 
         df = self.df[self.df["has_parquet"]].copy()
 
-        # ── Filtres catégoriels (single = exact match) ─────────
+        # ── Filtre waveforms uniquement ────────────────────────
+        if filters.get("has_waveform"):
+            df = df[df["has_waveform"] == True]   # noqa: E712
         _SINGLE_COLS = {
             "sex": "sex", "department": "department", "optype": "optype",
             "approach": "approach", "position": "position",
@@ -695,6 +755,7 @@ class ScenarioCatalog:
                 "has_transfusion": bool(row.get("has_transfusion", 0)),
                 "death_inhosp": bool(row["death_inhosp"]) if pd.notna(row["death_inhosp"]) else False,
                 "icu_days": int(row["icu_days"]) if pd.notna(row["icu_days"]) else 0,
+                "has_waveform": bool(row.get("has_waveform", False)),
             })
 
         return {"total_matches": total, "cases": results}

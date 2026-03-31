@@ -1,415 +1,373 @@
-<p align="center">
-  <img src="https://img.shields.io/badge/CHARLES-IA%20Vigilance%20Anesthésique-00d084?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyMWMtNC45NyAwLTktNC4wMy05LTlzNC4wMy05IDktOSA5IDQuMDMgOSA5LTQuMDMgOS05IDl6bTAtMTZjLTMuODcgMC03IDMuMTMtNyA3czMuMTMgNyA3IDcgNy0zLjEzIDctNy0zLjEzLTctNy03eiIvPjxwYXRoIGZpbGw9IndoaXRlIiBkPSJNMTIuNSA3SDExdjZsNS4yNSAzLjE1Ljc1LTEuMjMtNC41LTIuNjdWN3oiLz48L3N2Zz4="/>
-  <br/>
-  <strong>Copilote IA d'aide à la vigilance anesthésique peropératoire</strong>
-</p>
-
----
-
 # CHARLES
 
-**CHARLES** — **C**opilote **H**ospitalier d'**A**ide en **R**éanimation et **L**ogiciel d'**E**xpertise en **S**urveillance — est un système temps réel d'aide à la vigilance pour les IADE (Infirmiers Anesthésistes Diplômés d'État) en peropératoire.
+CHARLES is a waveform-focused MVP for anesthesia monitoring replay and analysis.
 
-> **Projet MBA1 — Epitech Technology & Management** | Yves Le Bret — IADE
+Current scope:
+- replay of public VitalDB cases
+- high-frequency waveform streaming (ECG, pleth, invasive arterial pressure, CO2, airway pressure, EEG)
+- real-time dashboard
+- alert engine
+- optional LLM commentary layer
 
----
+This repository is currently positioned as a **research / demo MVP on public and anonymized data**.
+It is **not** documented as a production hospital deployment.
 
-## Table des matières
+## Why this README changed
 
-- [Contexte clinique](#contexte-clinique)
-- [Architecture](#architecture)
-- [Stack technique](#stack-technique)
-- [Fonctionnalités](#fonctionnalités)
-- [Démarrage rapide](#démarrage-rapide)
-- [Base de connaissances (KB)](#base-de-connaissances)
-- [Données VitalDB](#données-vitaldb)
-- [Intégration LLM](#intégration-llm)
-- [API REST](#api-rest)
-- [Tests](#tests)
-- [Structure du projet](#structure-du-projet)
-- [Roadmap](#roadmap)
-- [Licence](#licence)
+The project had a strong technical base, but the documentation mixed several stories:
+- anesthesia copilot
+- hospital production platform
+- local demo
+- waveform replay sandbox
 
----
+The repository is now documented around the real MVP:
 
-## Contexte clinique
+`public waveforms -> replay -> monitoring UI -> analysis -> exportable observations`
 
-L'anesthésie peropératoire repose sur la **vigilance continue** de l'IADE. Les moniteurs multiparamétriques (scope) délivrent un flux constant de données vitales que le soignant doit interpréter en temps réel, tout en gérant les administrations médicamenteuses, le bilan entrées/sorties et les événements chirurgicaux.
+## MVP scope
 
-**CHARLES** ne remplace pas l'IADE — il l'assiste :
+What CHARLES does today:
+- loads VitalDB metadata and waveform assets
+- replays waveform-enabled cases through the simulator
+- pushes live vitals and wave chunks over MQTT and WebSocket
+- renders a scope-like frontend
+- stores alerts, manual actions, fluid balance and LLM analyses in PostgreSQL
 
-- 🔍 **Détection précoce** — Alertes intelligentes basées sur des seuils adaptatifs, des règles multi-paramètres et la détection de tendances
-- 🧠 **Analyse contextuelle** — LLM enrichi par une base de connaissances clinique de 3 000+ lignes YAML
-- 📊 **Dashboard scope** — Interface temps réel façon moniteur d'anesthésie (dark theme, courbes de tendance)
-- 📁 **Traçabilité** — Persistence PostgreSQL complète (cas, alertes, analyses, médicaments, événements, bilan liquidien)
+What CHARLES does not claim today:
+- hospital interoperability
+- certified medical device behavior
+- HDS-ready hosted platform
+- HL7/FHIR integration
 
----
+## Data scope
+
+For this MVP, the project is handled as a workflow on **public / anonymized waveform datasets**.
+
+Important:
+- if you later connect real patient data, pseudonymized exports, hospital feeds, or care workflows, the security and compliance perimeter changes immediately
+- in that case, revisit CNIL / RGPD / HDS requirements before any deployment decision
 
 ## Architecture
 
 ```
-┌──────────────┐     MQTT      ┌──────────────────────────────────────────────┐
-│  Simulateur  │──────────────▶│                 Backend FastAPI              │
-│  (5 scénarios│  bloc/+/vitals│                                              │
-│  + replay    │               │  ┌────────────┐  ┌──────┐  ┌────────────┐   │
-│  VitalDB)    │               │  │Alert Engine │  │  KB  │  │ LLM Engine │   │
-└──────────────┘               │  │ (8 params × │  │ YAML │  │ (Ollama /  │   │
-                               │  │  3 niveaux  │  │ 10   │  │  OpenAI)   │   │
-                               │  │ + 7 règles  │  │files │  │            │   │
-                               │  │ + tendances)│  │      │  │            │   │
-                               │  └──────┬──────┘  └──┬───┘  └─────┬──────┘   │
-                               │         │            │            │           │
-                               │         ▼            ▼            ▼           │
-                               │  ┌─────────────────────────────────────────┐  │
-                               │  │              WebSocket /ws              │  │
-   ┌────────────┐              │  └──────────────────┬──────────────────────┘  │
-   │  Frontend   │◀════════════╡                     │                         │
-   │  React 18   │  WebSocket  │  ┌──────────┐  ┌────┴─────┐  ┌───────────┐   │
-   │  Dashboard  │             │  │PostgreSQL│  │  Redis   │  │  Mosquitto│   │
-   │  Scope-like │             │  │ 7 tables │  │  Cache   │  │  MQTT     │   │
-   └────────────┘              │  └──────────┘  └──────────┘  └───────────┘   │
-                               └──────────────────────────────────────────────┘
+simulator -> MQTT -> FastAPI backend -> WebSocket -> React monitor
+                           |-> PostgreSQL
+                           |-> Redis
+                           |-> optional LLM / RAG
 ```
 
-**6 services Docker** orchestrés via `docker-compose.yml` :
+Main services:
+- `services/backend`: FastAPI API, auth, alerts, catalog, LLM bridge, DB access
+- `services/frontend`: React monitor and admin screens
+- `services/simulator`: synthetic scenarios and VitalDB replay
+- `learning/`: VitalDB learning scaffolding (segment manifests, weak labels, future training pipelines)
+- `kb/`: YAML clinical knowledge base
+- `vitaldb/`: open dataset files and download helpers
+- `tests/`: backend and replay tests
 
-| Service | Image / Build | Port | Rôle |
-|---------|--------------|------|------|
-| Mosquitto | `eclipse-mosquitto:2` | 1883, 9001 | Broker MQTT — transport des données vitales |
-| PostgreSQL | `postgres:16-alpine` | 5432 | Persistence — 7 tables (cas, alertes, LLM, feedback, médicaments, événements, fluides) |
-| Redis | `redis:7-alpine` | 6379 | Cache temps réel des derniers vitaux par salle |
-| Backend | FastAPI (build) | 8000 | API REST + WebSocket + moteur d'alertes + LLM + KB |
-| Simulateur | Python (build) | — | Génération physiologique réaliste + replay VitalDB |
-| Frontend | React/Vite → Nginx | 3000 | Dashboard scope temps réel |
-
----
-
-## Stack technique
-
-| Couche | Technologies |
-|--------|-------------|
-| **Backend** | Python 3.12+ · FastAPI · Pydantic v2 · SQLAlchemy (async) · asyncpg · paho-mqtt · httpx · redis |
-| **Frontend** | React 18 · TypeScript · Vite 6 · Canvas API (mini-trends) · WebSocket natif |
-| **LLM** | Ollama (llama3.1:8b par défaut) ou OpenAI API (gpt-4o-mini) |
-| **Infrastructure** | Docker Compose · Mosquitto MQTT · PostgreSQL 16 · Redis 7 · Nginx |
-| **Données** | VitalDB (6 388 cas peropératoires, ~500 Mo parquet) · KB YAML clinique (3 000+ lignes) |
-| **Tests** | pytest · 21 tests unitaires (models, alert engine, KB, auth, LLM) |
-
----
-
-## Fonctionnalités
-
-### Moteur d'alertes (`alert_engine.py`)
-
-- **8 paramètres vitaux** surveillés : FC, PAS, PAD, PAM, SpO2, EtCO2, BIS, T°C
-- **3 niveaux d'alerte** par paramètre : info (attention) → warning (vigilance) → critical (action immédiate)
-- **7 règles multi-paramètres** : triade hypotension, détresse respiratoire, anesthésie inadéquate, hypovolémie, choc septique, hypothermie profonde, tempête catécholaminergique
-- **Détection de tendances** : alerte si chute > 20% d'un paramètre en 5 minutes
-- **Hystérésis** : évite les alertes oscillantes (seuil de retour différent du seuil de déclenchement)
-- **Seuils adaptatifs** : ajustement KB selon la population (pédiatrie, gériatrie, obstétrique, obèse)
-
-### Simulateur (`simulator/`)
-
-- **5 scénarios physiologiques** : Normal, Hypotension, Désaturation, Anaphylaxie, Hémorragie
-- **Modèle PhysioState** : bruit gaussien réaliste, corrélations inter-paramètres
-- **Replay VitalDB** : rejeu de vrais cas peropératoires en temps réel ajustable
-- Publication MQTT toutes les 5 secondes (vitals, ventilator, BIS, AIVOC)
-
-### Dashboard Frontend
-
-- **Interface scope** : dark theme inspiré GE/Philips, polices médicales
-- **Cartes vitaux** : FC, SpO2, PAS/PAD, EtCO2, BIS, T°C avec seuils colorés
-- **Mini-trends Canvas** : historique 120 points (10 min) par paramètre
-- **Multi-salles** : onglets pour surveiller plusieurs blocs simultanément
-- **Panel AIVOC** : propofol (Ce, Cp, Ct) et rémifentanil
-- **Panel LLM** : analyse IA contextuelle avec situation, risques, recommandations, confiance
-- **Alertes** : bandeau trié par sévérité avec acquittement
-
-### Base de connaissances (KB)
-
-10 fichiers YAML couvrant l'ensemble du périmètre anesthésique :
-
-| Fichier | Lignes | Domaine |
-|---------|--------|---------|
-| `monitoring_params.yaml` | 478 | Paramètres de monitorage + seuils CHARLES |
-| `surgeries.yaml` | 558 | Chirurgies par spécialité (risques, monitorage spécifique) |
-| `drugs_anesthesia.yaml` | 406 | Agents anesthésiques, PK, interactions |
-| `complications_perop.yaml` | 337 | Complications transversales peropératoires |
-| `terrains.yaml` | 331 | Comorbidités par système organique |
-| `populations.yaml` | 221 | Populations spécifiques (pédiatrie, gériatrie, obstétrique) |
-| `scores_cliniques.yaml` | 183 | Scores (ASA, Mallampati, Lee, Apfel…) |
-| `reference_trends.yaml` | 168 | Tendances de référence par population |
-| `algorithms.yaml` | 162 | Arbres décisionnels (intubation difficile, anaphylaxie…) |
-| `data_sources.yaml` | 155 | Sources de données référencées (VitalDB, MIMIC…) |
-
-### Persistence PostgreSQL
-
-7 tables normalisées : `cases`, `alerts`, `llm_analyses`, `alert_feedback`, `drug_administrations`, `case_events`, `fluid_balance`
-
-### API REST & WebSocket
-
-- **Auth JWT** (HMAC-SHA256) avec rôles IADE / MAR / Admin
-- **Authentification obligatoire** : tous les endpoints retournent 401 sans token valide
-- **Rate limiting** : `/auth/login` limité à 5 tentatives/minute par IP (protection brute force)
-- **CORS configurable** : origines autorisées via `CORS_ORIGINS` dans `.env`
-- **CRUD complet** : cas opératoires, alertes, médicaments, événements, bilan liquidien
-- **WebSocket bidirectionnel** : push temps réel + commandes (acquittement, analyse LLM)
-- **Endpoint LLM** : analyse contextuelle à la demande ou déclenchée par alertes critiques
-
----
-
-## Démarrage rapide
-
-### Prérequis
-
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Docker Compose v2)
-- (Optionnel) [Ollama](https://ollama.ai/) pour le LLM local
-
-### Lancement
-
-```bash
-# Cloner le projet
-git clone <repo-url> charles
-cd charles
-
-# Copier et configurer les variables d'environnement
-cp .env.example .env
-# Éditer .env : JWT_SECRET, POSTGRES_PASSWORD, etc.
-
-# Lancer tous les services
-docker compose up --build
-
-# Accéder au dashboard
-# → http://localhost:3000
-```
-
-### Comptes par défaut
-
-| Utilisateur | Mot de passe | Rôle |
-|-------------|-------------|------|
-| `iade1`, `iade2` | `charles2026` | IADE |
-| `mar1` | `charles2026` | MAR |
-| `admin` | `admin2026` | Admin |
-
-> ⚠️ Changer les mots de passe et le `JWT_SECRET` avant tout déploiement.
-
-### Avec LLM local (optionnel)
-
-```bash
-# Installer Ollama, puis :
-ollama pull llama3.1:8b
-
-# Le backend détecte automatiquement Ollama sur localhost:11434
-```
-
-### Avec OpenAI (alternative)
-
-```bash
-# Dans .env :
-LLM_PROVIDER=openai
-OPENAI_API_KEY=sk-...
-OPENAI_MODEL=gpt-4o-mini
-```
-
-### Développement local (sans Docker)
-
-```bash
-# Backend
-cd services/backend
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
-
-# Frontend
-cd services/frontend
-npm install
-npm run dev
-
-# Tests
-cd charles
-pytest tests/ -v
-```
-
----
-
-## Données VitalDB
-
-Le projet utilise [VitalDB](https://vitaldb.net), une base de données ouverte contenant **6 388 cas opératoires** avec données vitales continues haute résolution.
-
-- **Téléchargement** : `vitaldb/download_fast.py` — téléchargeur parallèle (4 workers)
-- **Format** : fichiers Parquet individuels dans `vitaldb/cases/`
-- **Taille** : ~500 Mo pour les 6 388 cas
-- **Replay** : `services/simulator/simulator/replay.py` — rejeu sur MQTT en temps réel
-
-> **Licence** : CC BY-NC-SA 4.0 — Usage académique/recherche uniquement.
-> Citation : Lee HC, Jung CW. Vital Recorder—a free research tool for automatic recording of high-resolution time-synchronised physiological data from multiple anaesthesia devices. *Scientific Reports* 2018;8:1527.
-
----
-
-## Intégration LLM
-
-CHARLES intègre un LLM pour fournir des analyses contextuelles aux IADE :
-
-1. **Prompt système** : définit CHARLES comme copilote IADE expert
-2. **Enrichissement KB** : le prompt inclut les données pertinentes de la kb clinique
-3. **Données vitales** : paramètres actuels + alertes actives + contexte cas
-4. **Réponse structurée JSON** : `situation`, `risques[]`, `recommandations[]`, `confiance` (0-100)
-
-**Déclenchement** :
-- Automatique sur alerte critique
-- Manuel via bouton "Analyser la situation" dans le dashboard
-- Via API `POST /rooms/{room_id}/analyze`
-
-**Providers supportés** :
-- **Ollama** (défaut) : `llama3.1:8b` en local — gratuit, pas de données envoyées
-- **OpenAI** : `gpt-4o-mini` — plus performant, nécessite clé API
-
----
-
-## API REST
-
-| Méthode | Endpoint | Description |
-|---------|----------|-------------|
-| `POST` | `/auth/login` | Authentification → token JWT |
-| `GET` | `/auth/me` | Utilisateur courant |
-| `POST` | `/cases` | Créer un cas opératoire |
-| `GET` | `/cases` | Lister les cas (filtres : room_id, status) |
-| `GET` | `/cases/{id}` | Détails d'un cas |
-| `PUT` | `/cases/{id}/end` | Terminer un cas |
-| `POST` | `/cases/{id}/drugs` | Enregistrer une administration médicamenteuse |
-| `POST` | `/cases/{id}/events` | Enregistrer un événement peropératoire |
-| `POST` | `/cases/{id}/fluids` | Enregistrer entrée/sortie liquidienne |
-| `GET` | `/cases/{id}/fluids` | Bilan entrées/sorties |
-| `GET` | `/alerts` | Lister les alertes (filtres : room_id, case_id, level) |
-| `PUT` | `/alerts/{id}/acknowledge` | Acquitter une alerte |
-| `POST` | `/rooms/{id}/analyze` | Déclencher analyse LLM pour une salle |
-| `GET` | `/kb/status` | État de la knowledge base |
-| `GET` | `/health` | Health check |
-| `WS` | `/ws` | WebSocket temps réel (push vitaux + alertes + LLM) |
-
----
-
-## Tests
-
-```bash
-# Lancer la suite complète (21 tests)
-pytest tests/test_backend.py -v
-
-# Couverture
-# - Modèles Pydantic (validation, sérialisation)
-# - Moteur d'alertes (seuils, multi-paramètres, hystérésis, BIS, tendances)
-# - KB Loader (chargement YAML, extraction seuils, contexte LLM)
-# - Auth (login, token, vérification)
-# - LLM Engine (construction prompt)
-```
-
----
-
-## Structure du projet
+## Repo layout
 
 ```
 charles/
-├── docker-compose.yml          # Orchestration 6 services
-├── init.sql                    # Schéma PostgreSQL (7 tables)
-├── .env                        # Variables d'environnement
-├── .gitignore                  # Exclusions Git
-│
-├── kb/                         # Knowledge Base clinique (10 fichiers YAML)
-│   ├── monitoring_params.yaml
-│   ├── surgeries.yaml
-│   ├── drugs_anesthesia.yaml
-│   ├── complications_perop.yaml
-│   ├── terrains.yaml
-│   ├── populations.yaml
-│   ├── scores_cliniques.yaml
-│   ├── reference_trends.yaml
-│   ├── algorithms.yaml
-│   └── data_sources.yaml
-│
-├── services/
-│   ├── backend/                # FastAPI + Alert Engine + LLM + KB + Auth
-│   │   ├── Dockerfile
-│   │   ├── requirements.txt
-│   │   └── app/
-│   │       ├── main.py         # Application FastAPI (REST + WS + MQTT)
-│   │       ├── alert_engine.py # Moteur d'alertes temps réel
-│   │       ├── llm_engine.py   # Intégration LLM (Ollama / OpenAI)
-│   │       ├── kb_loader.py    # Chargeur Knowledge Base YAML
-│   │       ├── database.py     # Couche PostgreSQL async
-│   │       ├── auth.py         # Authentification JWT
-│   │       ├── models.py       # Modèles Pydantic
-│   │       ├── config.py       # Configuration (pydantic-settings)
-│   │       └── mqtt_consumer.py# Consumer MQTT thread-safe
-│   │
-│   ├── frontend/               # React 18 + Vite + TypeScript
-│   │   ├── Dockerfile
-│   │   ├── package.json
-│   │   └── src/
-│   │       ├── App.tsx
-│   │       ├── scope.css       # Dark theme scope anesthésie
-│   │       ├── types.ts        # Types TypeScript
-│   │       ├── hooks/
-│   │       │   └── useCharlesWS.ts  # Hook WebSocket persistant
-│   │       └── components/
-│   │           ├── RoomMonitor.tsx   # Dashboard salle complet
-│   │           ├── VitalCard.tsx     # Carte paramètre vital + trend
-│   │           ├── AlertPanel.tsx    # Bandeau alertes
-│   │           ├── LLMPanel.tsx      # Panel recommandations IA
-│   │           └── StatusBar.tsx     # Barre de statut
-│   │
-│   └── simulator/              # Générateur de données physiologiques
-│       ├── Dockerfile
-│       ├── requirements.txt
-│       └── simulator/
-│           ├── main.py         # 5 scénarios (normal, hypoTA, désat, anaphylaxie, hémorragie)
-│           └── replay.py       # Replay VitalDB → MQTT
-│
-├── tests/
-│   └── test_backend.py         # 21 tests pytest
-│
-└── vitaldb/                    # Données VitalDB
-    ├── download_fast.py        # Téléchargeur parallèle
-    ├── watchdog_download.py    # Watchdog auto-relance
-    ├── catalog.yaml            # Index des 6 388 cas
-    └── cases/                  # Fichiers parquet (~500 Mo)
+  docker-compose.yml
+  start.py
+  start.sh
+  start.bat
+  learning/
+  kb/
+  services/
+    backend/
+    frontend/
+    simulator/
+  tests/
+  vitaldb/
+    README.md
+    download_waveforms.py
+    cases/
+    waveforms/
 ```
 
----
+## Quick start
 
-## Roadmap
+### Prerequisites
 
-- [x] Architecture microservices Docker Compose
-- [x] Broker MQTT + consumer temps réel
-- [x] Moteur d'alertes multi-niveaux avec hystérésis
-- [x] Dashboard React scope-like (dark theme, mini-trends)
-- [x] Simulateur 5 scénarios + replay VitalDB
-- [x] Knowledge Base clinique (10 fichiers YAML, 3 000+ lignes)
-- [x] Intégration LLM (Ollama / OpenAI)
-- [x] Persistence PostgreSQL (7 tables)
-- [x] API REST CRUD complète
-- [x] Auth JWT avec rôles
-- [x] RBAC complet — tous les endpoints protégés
-- [x] Rate limiting brute force (`/auth/login`)
-- [x] CORS configurable par environnement
-- [x] HEALTHCHECK sur les 3 services Docker
-- [x] Auto-reconnect MQTT avec backoff exponentiel
-- [x] Téléchargement VitalDB 6 388 cas
-- [x] Tests unitaires (21 tests)
-- [ ] CI/CD (GitHub Actions)
-- [ ] Tests d'intégration end-to-end
-- [ ] Monitoring Prometheus/Grafana
-- [ ] Mode SSPI (post-opératoire)
-- [ ] Application mobile IADE
+- Docker Desktop with Compose v2
+- optional: Ollama if you want local LLM analysis
 
----
+### Start the stack
 
-## Licence
+```bash
+cp .env.example .env
+docker compose up --build
+```
 
-Projet académique — MBA1 Epitech Technology & Management.
+Open:
+- frontend (standard HTTPS): `https://localhost`
+- frontend: `https://localhost:3000`
+- http redirect helper: `http://localhost:3080`
+- backend docs: `http://localhost:8000/docs`
 
-Données VitalDB sous licence **CC BY-NC-SA 4.0**.
+Notes:
+- the frontend now runs behind local TLS with an auto-generated self-signed certificate
+- your browser may show a local security warning the first time because the certificate is not publicly trusted
 
----
+### Production-like stack
 
-<p align="center">
-  <sub>CHARLES v0.1 — conçu par un IADE, pour les IADE.</sub>
-</p>
+The repository now also includes a stricter production-like path:
+
+```bash
+cp .env.prod.example .env.prod
+docker compose -f docker-compose.prod.yml --env-file .env.prod up --build -d
+```
+
+This mode expects:
+- real certificate files in `ops/certs/`
+- secret files in `ops/secrets/`
+- HTTPS-only origin/host settings
+
+Operational notes:
+- [Production guide](/d:/projet%20Iade/charles/ops/PRODUCTION.md)
+- [Backup script](/d:/projet%20Iade/charles/ops/backup-postgres.ps1)
+- [Restore script](/d:/projet%20Iade/charles/ops/restore-postgres.ps1)
+
+### Launcher scripts
+
+- Windows: `python start.py` or `start.bat`
+- macOS / Linux: `./start.sh`
+
+## Default accounts
+
+Development-only accounts:
+
+| Login | Password | Role |
+| --- | --- | --- |
+| `iade1` | `charles2026` | IADE |
+| `iade2` | `charles2026` | IADE |
+| `mar1` | `charles2026` | MAR |
+| `admin` | `admin2026` | Admin |
+
+Notes:
+- passwords can be overridden with `CHARLES_DEFAULT_PASSWORD` and `CHARLES_ADMIN_PASSWORD`
+- `JWT_SECRET` must be changed before sharing the stack
+- the production-like frontend build hides these demo hints automatically
+
+## LLM mode
+
+LLM analysis is optional.
+
+Supported providers:
+- Ollama
+- OpenAI API
+
+Default local model:
+
+```bash
+ollama pull meditron:7b
+```
+
+Behavior:
+- live waveform/vitals updates do **not** wait for the LLM anymore
+- critical-alert LLM analysis is launched in the background
+- manual analysis remains available from the UI
+
+## VitalDB dataset
+
+The waveform MVP is centered on VitalDB.
+
+Useful paths:
+- metadata: `vitaldb/clinical_metadata.csv`
+- numeric case files: `vitaldb/cases/`
+- waveform files: `vitaldb/waveforms/`
+
+Waveform replay is used for:
+- ECG
+- plethysmogram
+- invasive arterial pressure
+- CO2
+- airway pressure
+- EEG
+
+See `vitaldb/README.md` for dataset notes.
+
+## Learning scaffold
+
+The repository now includes a first learning scaffold under `learning/`.
+
+Step 1 implemented today:
+- dataset manifest for VitalDB waveform windows
+- reusable segment index builder
+- weak labels inferred from numeric windows
+
+Step 2 implemented today:
+- feature extraction for waveform and numeric windows
+- baseline problem inference on top of segment features
+- JSONL exports for feature datasets and ranked problem hypotheses
+
+Step 3 implemented today:
+- structured LLM dataset builder on top of problem outputs
+- deterministic `train/eval` split for local fine-tuning and local evals
+- reference JSON targets aligned with the CHARLES analysis schema
+
+Fine-tuning step 1 implemented today:
+- review pack generation for human validation / correction
+
+Fine-tuning step 2 implemented today:
+- export to local `chat` and `instruction` SFT formats
+- `gold_reference.jsonl` to preserve reviewer-aligned targets
+
+Fine-tuning step 3 implemented today:
+- local Meditron run scaffold generation
+- prepared text datasets ready for TRL SFT
+- `run_config.json`, environment validation, and launch scripts
+
+This stage is meant to prepare future local training on:
+- waveform morphology
+- problem scoring/classification
+- explanatory LLM outputs
+
+Important:
+- the scaffold now prepares the run pack for local LoRA/QLoRA
+- it still does not improve the model until you provide a local Transformers-compatible Meditron directory and launch training
+- an Ollama tag like `meditron:7b` remains the runtime target, not the training input format
+
+## Security level for this MVP
+
+Because the current scope is public/anonymized data, the immediate priority is **coherent MVP security**, not full hospital compliance.
+
+Implemented or expected for the MVP:
+- bearer auth on API routes
+- stronger password hashing than plain SHA-256
+- JWT secret in environment
+- file-based secret support for JWT, user passwords, MQTT and optional API keys
+- MQTT credentials in environment
+- audit-style logs for login, manual writes, simulator control and websocket access
+- explicit HTTP 503 on write persistence failure instead of false success
+- lightweight operational metrics on backend activity and waveform flow
+- local HTTPS by default, plus a production-like compose path with provided TLS certs
+
+Still not a hospital-ready security posture:
+- no MFA
+- no external secret vault
+- no RBAC administration UI
+- no formal incident runbook in repo
+- no HDS hosting statement
+
+## Operational metrics
+
+This MVP now exposes lightweight live metrics to make regressions visible early.
+
+Available today:
+- login success / failure counters
+- monitoring update count
+- forwarded waveform chunk count
+- alert and critical-alert counters
+- LLM request / success / failure / timeout counters
+- WebSocket connection and command counters
+- simulator command counter
+- average LLM latency
+
+Endpoints and UI:
+- `GET /health` returns uptime plus last monitoring / waveform activity timestamps
+- `GET /metrics` returns the full live counter snapshot
+- the Admin system tab surfaces these metrics directly in the UI
+
+## API highlights
+
+- `POST /auth/login`
+- `GET /health`
+- `GET /metrics`
+- `GET /rooms`
+- `GET /rooms/{room_id}`
+- `POST /rooms/{room_id}/analyze`
+- `GET /scenarios/catalog`
+- `GET /scenarios/catalog/waveforms`
+- `POST /scenarios/search`
+- `POST /simulator/control`
+
+## What was fixed for this cleanup
+
+- LLM model references are aligned on `meditron:7b`
+- admin password mismatch in launcher/docs is corrected
+- user-initiated write endpoints now fail loudly on DB persistence failure
+- critical-alert LLM work is backgrounded so live updates stay responsive
+- health endpoint exposes DB persistence failures and current data scope
+- admin page now shows the active data scope and LLM model hint
+- `.env.example` now matches the actual runtime settings
+
+## HL7 / FHIR
+
+Not needed for this MVP.
+
+You only need HL7/FHIR if you decide to connect CHARLES to:
+- hospital information systems
+- real monitor exports
+- admission / encounter / order systems
+- clinical documentation workflows
+
+Until then, keeping the project focused on waveform datasets is the right move.
+
+## Tests
+
+Backend tests:
+
+```bash
+pytest tests/test_backend.py -q
+```
+
+All backend and waveform regression tests:
+
+```bash
+pytest tests -q
+```
+
+Frontend type-check:
+
+```bash
+cd services/frontend
+node_modules/.bin/tsc -b
+```
+
+Frontend production build:
+
+```bash
+cd services/frontend
+npm run build
+```
+
+Frontend end-to-end smoke tests:
+
+```bash
+cd services/frontend
+npm run test:e2e
+```
+
+## Golden waveform tests
+
+Waveform generation now has deterministic golden references for smoke/regression validation.
+
+Files:
+- `tests/golden_waveforms.json`
+- `tests/test_metrics_and_golden.py`
+
+These tests verify:
+- waveform chunk shape and lengths
+- exact deterministic output for seeded synthetic cases
+- operational metrics behavior
+
+## CI
+
+GitHub Actions now runs:
+- backend + golden tests
+- frontend type-check and build
+- Playwright smoke tests against a full stack
+
+Workflow file:
+- `.github/workflows/charles-ci.yml`
+
+## Next sensible steps
+
+1. Add dataset provenance / licensing notes per source.
+2. Add a small export/report flow for waveform sessions.
+3. Continue splitting remaining CSS and simulator scenario blocks by feature.
+4. Add retention / archival strategy for long waveform sessions.
+5. Revisit compliance only if the project leaves the public-anonymized dataset perimeter.
