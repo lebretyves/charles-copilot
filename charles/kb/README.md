@@ -28,12 +28,45 @@ kb/
   complications_perop.yaml   # Complications transversales perop
   complications_by_surgery.yaml  # Complications specifiques par chirurgie
   algorithms.yaml            # Arbres decisionnels (intubation diff, anaphylaxie...)
+  complication_engine/       # Ossature complication-first pour fusion sources officielles + VitalDB
   reference_trends.yaml      # Tendances de reference par population/situation
   drugs_anesthesia.yaml      # Agents anesthesiques, modeles PK, interactions
   monitoring_params.yaml     # Tous les parametres de monitorage connus
   scores_cliniques.yaml      # Scores utilises (ASA, Mallampati, Lee, Apfel...)
   data_sources.yaml          # Sources de donnees (VitalDB, MIMIC, CHU...)
+  sources_officielles/       # Syntheses sourcees SFAR / MAPAR / SOFIA pour la KB
 ```
+
+## Dossier `sources_officielles`
+
+Le sous-dossier `sources_officielles/` n'est pas charge automatiquement par le
+backend. Il sert de couche documentaire et algorithmique pour preparer:
+
+- les futures extensions de `terrains.yaml`
+- les futures extensions de `complications_perop.yaml`
+- les signaux transverses officiels comme la capnographie ou le monitorage EEG/BIS
+- les facteurs ponderes et regles composites du moteur d'alerte
+- la documentation admin des seuils et complications
+
+## Dossier `complication_engine`
+
+Le sous-dossier `complication_engine/` fixe la logique de modelisation retenue:
+
+- les complications sont les objets centraux
+- les terrains sont des modulateurs, pas des detecteurs autonomes
+- la fusion se fait entre trois branches:
+  - `official_sources`
+  - `vitaldb_no_wave`
+  - `vitaldb_wave`
+
+Cette couche sert a preparer:
+
+- les futurs moteurs de score ponderes
+- la fusion entre referentiel officiel et observation de donnees
+- le mapping entre complications, terrains et donnees manquantes
+- la correlation explicite entre `sources_officielles` et `VitalDB`
+- les modules robustes de complication dedies, par exemple le moteur hypotension dans `learning/problems/hypotension_model.py`
+- les campagnes d'evaluation offline associees, par exemple `learning/evaluation/hypotension_model_precise_cases/`
 
 ## Convention
 

@@ -1,0 +1,610 @@
+version: "2026-04-02"
+model_id: hypotension_pluridimensional_state_model
+complication_id: hypotension_perioperatoire
+status: design_only_not_integrated
+goal: "detecter precocement, confirmer, caracteriser et suivre une hypotension peroperatoire avec un moteur hybride, explicable et centre episode"
+
+scope:
+  included:
+    - prediction_precoce
+    - confirmation_clinique
+    - estimation_causale
+    - estimation_severite
+    - estimation_refractarite
+    - analyse_waveform
+    - combinaison_multicourbes
+    - gestion_de_confiance
+  excluded_for_now:
+    - implementation_runtime
+    - calibration_sur_donnees_reelles
+    - apprentissage_supervise_final
+
+design_principles:
+  - "une hypotension ne doit jamais etre reduite a un seuil unique"
+  - "le moteur doit separer risque de bascule, episode, cause, severite et confiance"
+  - "la baseline patient et la phase peroperatoire stable sont toutes deux necessaires"
+  - "la memoire de l'episode doit etre conservee depuis le premier signe plausible"
+  - "les courbes doivent etre analysees seules puis combinees entre elles"
+  - "les donnees manquantes baissent d'abord la confiance avant de faire chuter le score"
+  - "les sorties doivent etre explicables au lit du patient"
+
+reference_bases:
+  official_sources:
+    facts_file: "kb/sources_officielles/complications/hypotension_perioperatoire/faits_source.yaml"
+    required_inputs_file: "kb/complication_engine/official_required_inputs.yaml"
+  mathematical_families:
+    - family_id: multivariate_statistical_process_control
+      role: "detecter les deviations multivariees par rapport a un etat stable"
+    - family_id: online_changepoint_detection
+      role: "detecter une rupture de regime ou une derive significative"
+    - family_id: state_space_and_bayesian_filtering
+      role: "estimer un etat latent et sa dynamique temporelle"
+    - family_id: supervised_waveform_prediction
+      role: "apprendre un risque d'hypotension sur waveform si des donnees etiquetees sont disponibles"
+  monitoring_inspirations:
+    - system_id: edwards_flotrac_vigileo
+      role: "derive des variables hemodynamiques a partir du waveform arteriel"
+    - system_id: edwards_hpi_acumen
+      role: "predire MAP < 65 via analyse waveform et support interpretatif"
+    - system_id: clearsight_cnap
+      role: "produire un waveform continu non invasif exploitable"
+    - system_id: masimo_pvi
+      role: "apporter une dimension de variabilite pleth/respiratoire"
+    - system_id: lidco_pulseco
+      role: "derive de la dynamique hemodynamique via pulse contour/pulse power"
+
+main_outputs:
+  - output_id: hypotension_risk_5min
+    description: "probabilite de basculer vers une hypotension cliniquement significative dans les prochaines minutes"
+    range: "0.0_to_1.0"
+  - output_id: hypotension_state
+    description: "etat latent dominant du patient a l'instant t"
+    range: "categorical"
+  - output_id: hypotension_severity
+    description: "intensite et retentissement probable de l'episode en cours"
+    range: "0.0_to_1.0"
+  - output_id: hypotension_refractory_flag
+    description: "presence probable d'une hypotension corrigee insuffisamment ou rechutant rapidement"
+    range: "boolean_or_probability"
+  - output_id: hypotension_cause_profile
+    description: "distribution des causes probables"
+    range: "multilabel_probability"
+  - output_id: hypotension_confidence
+    description: "confiance globale du moteur dans sa sortie"
+    range: "0.0_to_1.0"
+  - output_id: hypotension_explanation
+    description: "arguments positifs, contre-arguments et limites"
+    range: "structured_text"
+
+latent_state_model:
+  states:
+    - state_id: stable
+      meaning: "aucune derive physiologique significative"
+    - state_id: vulnerable
+      meaning: "terrain ou contexte augmentant la vulnerabilite sans signe fort actuel"
+    - state_id: early_transition
+      meaning: "premiers signes convergents avant hypotension declaree"
+    - state_id: probable_hypotension
+      meaning: "evidence convergente sans tous les criteres forts"
+    - state_id: confirmed_hypotension
+      meaning: "hypotension cliniquement constituee"
+    - state_id: critical_hypotension
+      meaning: "hypotension severe avec retentissement probable"
+    - state_id: refractory_hypotension
+      meaning: "hypotension persistante ou recidivante malgre traitement"
+    - state_id: recovering
+      meaning: "amelioration en cours mais episode non clos"
+  transition_principles:
+    - "les transitions doivent etre hysteretiques: on entre plus vite qu'on ne sort"
+    - "un retour transitoire en zone normale ne doit pas reclasser immediatement stable"
+    - "l'etat recovering doit preceder stable apres un vrai episode"
+    - "critical_hypotension et refractory_hypotension doivent avoir des chemins de sortie plus lents"
+
+episode_model:
+  episode_opening:
+    trigger: "premier ensemble plausible de signes convergents"
+    minimum_signal_sets:
+      - "deviation tensionnelle + derive recente"
+      - "deviation tensionnelle + support perfusionnel ou waveform"
+      - "changement brutal coherent en phase peroperatoire a risque"
+  episode_identity:
+    tracked_fields:
+      - episode_id
+      - t_start
+      - t_last_update
+      - peak_state
+      - peak_risk
+      - peak_severity
+      - relapse_count
+      - current_phase
+  episode_closure:
+    principle: "fermeture uniquement apres retour stable durable"
+    suggested_rule:
+      stable_duration_min: 3
+      no_new_strong_signal: true
+      no_recent_escalation_therapy: true
+
+memories:
+  instantaneous_memory:
+    id: M_now
+    time_window_seconds: 5
+    role: "capturer ce qui se passe maintenant"
+  short_memory:
+    id: M_short
+    time_window_seconds: 60_to_300
+    role: "capturer pente, derive, variabilite, reponse initiale"
+  episode_memory:
+    id: M_episode
+    time_window: "from_t_start"
+    role: "capturer burden, rechutes, reponse au traitement, duree et severite cumulee"
+  patient_case_memory:
+    id: M_case
+    time_window: "whole_case"
+    role: "apprendre la variabilite propre du patient et du cas"
+
+baselines:
+  patient_t0_baseline:
+    description: "reference patient-specifique de debut de prise en charge"
+    fields:
+      - baseline_map
+      - baseline_sap
+      - baseline_hr
+      - baseline_spo2
+      - baseline_etco2_if_available
+      - baseline_bis_if_available
+      - baseline_pleth_amplitude_if_available
+  stable_phase_baseline:
+    description: "reference dynamique sur une fenetre peroperatoire stable"
+    fields:
+      - stable_map
+      - stable_sap
+      - stable_hr
+      - stable_etco2
+      - stable_pleth_amplitude
+      - stable_bis
+      - stable_waveform_templates
+  adaptation_rules:
+    - "la baseline stable peut etre recalculee si une nouvelle phase durablement stable apparait"
+    - "la baseline t0 ne doit pas etre ecrasee"
+
+input_groups:
+  pressure_signals:
+    - MAP
+    - SAP
+    - DAP
+    - pulse_pressure_if_available
+    - arterial_waveform_if_available
+  perfusion_signals:
+    - EtCO2
+    - pleth_amplitude
+    - perfusion_index_if_available
+    - SpO2
+  cardiac_signals:
+    - HR
+    - rhythm_regularite
+    - ectopy_burden_if_available
+    - ECG_features_if_available
+  anesthesia_context:
+    - BIS_or_entropy_if_available
+    - anesthetic_agent_context
+    - neuraxial_context
+    - induction_recent_flag
+  interventions:
+    - vasopressor_dose
+    - vasopressor_timing
+    - fluid_bolus_timing
+    - anesthetic_reduction_flag
+  case_context:
+    - operative_phase
+    - estimated_blood_loss_if_available
+    - surgical_event_context
+  terrain:
+    - chronic_hypertension
+    - coronary_disease
+    - heart_failure
+    - frailty
+    - obstetric_context
+  quality:
+    - arterial_signal_quality
+    - pleth_signal_quality
+    - capno_signal_quality
+    - ecg_signal_quality
+    - baseline_reliability
+
+per_signal_vectorization:
+  template:
+    fields:
+      - absolute_level
+      - delta_vs_t0
+      - delta_vs_stable
+      - recent_slope
+      - recent_acceleration
+      - burden_component
+      - post_intervention_recovery
+      - signal_quality
+  examples:
+    MAP:
+      vector: "[absolute_level, delta_vs_t0, delta_vs_stable, recent_slope, recent_acceleration, burden_component, post_intervention_recovery, signal_quality]"
+    EtCO2:
+      vector: "[absolute_level, delta_vs_t0, delta_vs_stable, recent_slope, capno_shape_shift, burden_component, post_intervention_recovery, signal_quality]"
+    pleth:
+      vector: "[absolute_level, delta_vs_t0, delta_vs_stable, recent_slope, respiratory_variability, amplitude_loss_burden, post_intervention_recovery, signal_quality]"
+
+physiologic_axes:
+  - axis_id: pressure_axis
+    role: "porter la composante tensionnelle centrale"
+    inputs:
+      - MAP
+      - SAP
+      - delta_map_vs_t0
+      - delta_map_vs_stable
+      - time_under_threshold
+      - area_under_target
+  - axis_id: perfusion_axis
+    role: "documenter le retentissement ou la baisse de debit"
+    inputs:
+      - EtCO2
+      - pleth_amplitude
+      - perfusion_index_if_available
+      - SpO2_trend
+      - pulse_pressure_if_available
+  - axis_id: cardio_compensation_axis
+    role: "capturer tachycardie, bradycardie ou absence de compensation"
+    inputs:
+      - HR
+      - rhythm_regularite
+      - ectopy_burden_if_available
+  - axis_id: anesthesia_context_axis
+    role: "capturer surprofondeur et contexte d'induction"
+    inputs:
+      - BIS_or_entropy_if_available
+      - induction_recent_flag
+      - anesthetic_agent_context
+      - neuraxial_context
+  - axis_id: therapy_response_axis
+    role: "documenter correction, rechute et escalade"
+    inputs:
+      - vasopressor_dose
+      - vasopressor_timing
+      - fluid_bolus_timing
+      - post_intervention_recovery
+  - axis_id: terrain_tolerance_axis
+    role: "moduler la tolerance a l'hypotension"
+    inputs:
+      - chronic_hypertension
+      - coronary_disease
+      - heart_failure
+      - frailty
+      - obstetric_context
+  - axis_id: confidence_axis
+    role: "estimer qualite, coherences et manques"
+    inputs:
+      - arterial_signal_quality
+      - pleth_signal_quality
+      - capno_signal_quality
+      - baseline_reliability
+      - missingness
+  - axis_id: waveform_morphology_axis
+    role: "capturer les modifications de forme mono-courbe et multi-courbes"
+    inputs:
+      - abp_shape_features
+      - pleth_shape_features
+      - capno_shape_features
+      - ecg_shape_features_if_available
+      - multicurve_consistency_features
+
+waveform_analysis:
+  single_curve_analysis:
+    arterial_waveform:
+      features:
+        - systolic_upstroke_slope
+        - diastolic_decay_shape
+        - pulse_pressure_change
+        - beat_area_change
+        - dicrotic_notch_prominence
+        - respiratory_modulation_of_abp
+        - waveform_entropy
+      roles:
+        - "estimer derive hemodynamique precoce"
+        - "soutenir l'interpretation preload_vs_afterload"
+    pleth_waveform:
+      features:
+        - amplitude_change
+        - respiratory_variation
+        - perfusion_index_change_if_available
+        - beat_shape_flattening
+        - pulse_arrival_irregularity_if_linked_to_ecg
+        - clipping_or_signal_drop
+      roles:
+        - "soutenir hypoperfusion"
+        - "apporter un signal amont avant baisse tensionnelle marquee"
+    capnogram:
+      features:
+        - etco2_drop
+        - alveolar_plateau_change
+        - phase_ii_slope
+        - phase_iii_slope
+        - inspiratory_baseline_shift
+        - trace_loss_or_reduction
+      roles:
+        - "soutenir baisse de debit"
+        - "aider a distinguer hypovolemie, obstruction, probleme ventilatoire"
+    ecg_waveform:
+      features:
+        - rr_variability
+        - brady_tachy_transition
+        - ectopy_density
+        - qrs_width_change_if_available
+        - st_trend_if_available
+      roles:
+        - "soutenir profil cardiodepressif ou brady_dependant"
+        - "chercher des contre-preuves ou causes alternatives"
+  multicurve_combination:
+    principle: "une courbe seule suggere; plusieurs courbes synchrones convainquent"
+    pairwise_features:
+      - feature_id: map_etco2_coupling
+        description: "baisse synchrone ou decalee MAP/EtCO2"
+      - feature_id: map_pleth_coupling
+        description: "coherence entre derive tensionnelle et effondrement pleth"
+      - feature_id: ecg_pleth_timing_shift
+        description: "decalage ou irregularite battement ECG -> pleth"
+      - feature_id: abp_pleth_consistency
+        description: "accord ou contradiction entre waveform arteriel et pleth"
+      - feature_id: post_intervention_multicurve_recovery
+        description: "coherence de recuperation apres bolus ou vasopresseur"
+    higher_order_patterns:
+      - pattern_id: low_flow_multicurve_pattern
+        required_signs:
+          - MAP_or_SAP_down
+          - EtCO2_down
+          - pleth_down
+      - pattern_id: vasoplegic_post_induction_pattern
+        required_signs:
+          - abrupt_MAP_drop
+          - preserved_or_less_affected_EtCO2_early
+          - induction_context
+          - low_BIS_or_anesthetic_context
+      - pattern_id: refractory_pattern
+        required_signs:
+          - persistent_pressure_low
+          - escalating_vasopressor_need
+          - incomplete_multicurve_recovery
+    novelty_detection:
+      purpose: "detecter des modifications morphologiques non encore repertoriees dans la KB"
+      outputs:
+        - known_pattern_match
+        - plausible_emergent_pattern
+        - unexplained_waveform_anomaly
+      governance:
+        - "un pattern emergent ne devient pas une regle clinique sans validation repetition + plausibilite + revue medicale"
+
+causal_profiles:
+  labels:
+    - vasoplegic
+    - hypovolemic
+    - cardiodepressive
+    - brady_dependent
+    - obstructive
+    - mixed
+    - artifact
+    - indeterminate
+  examples:
+    vasoplegic:
+      supportive_signs:
+        - abrupt_map_drop_after_induction
+        - low_bis_context_possible
+        - vasopressor_need_rising
+        - etco2_not_initially_collapsing
+    hypovolemic:
+      supportive_signs:
+        - progressive_map_drop
+        - etco2_drop
+        - pleth_drop
+        - burden_building
+        - partial_response_to_vasopressor_only
+    cardiodepressive:
+      supportive_signs:
+        - map_drop
+        - inadequate_hr_compensation_or_brady
+        - etco2_drop
+        - ecg_or_context_support
+    artifact:
+      supportive_signs:
+        - isolated_pressure_drop
+        - poor_signal_quality
+        - contradiction_with_etco2_and_pleth
+  output_contract:
+    form: "probability_distribution"
+    no_early_hard_commitment: true
+
+phase_model:
+  values:
+    - preinduction
+    - induction
+    - postintubation
+    - maintenance
+    - event
+    - emergence
+  modulation_principles:
+    - "une chute tensionnelle post-induction augmente la priorite des hypotheses vasoplegie/surprofondeur"
+    - "une derive tardive avec EtCO2 en baisse augmente l'hypothese hypovolemique ou bas debit"
+    - "la phase module les transitions d'etat mais ne doit jamais ecraser les donnees physiologiques"
+
+core_engines:
+  transition_engine:
+    purpose: "detecter qu'on quitte un etat stable"
+    main_functions:
+      - deviation_score
+      - changepoint_score
+      - multicurve_coherence_score
+      - novelty_score
+    suggested_methods:
+      - adaptive_multivariate_monitoring
+      - online_changepoint_detection
+      - distance_to_stable_state
+  clinical_interpretation_engine:
+    purpose: "qualifier cliniquement la transition"
+    main_functions:
+      - confirmation_score
+      - cause_profile_score
+      - severity_score
+      - refractoriness_score
+      - contradiction_score
+  confidence_engine:
+    purpose: "estimer la fiabilite de la conclusion"
+    main_functions:
+      - signal_quality_score
+      - information_density_score
+      - missing_data_penalty
+      - cross_signal_consistency_score
+
+mathematical_variables:
+  deviation_t:
+    formula: "F1(X_t, baseline_t0, baseline_stable)"
+    meaning: "ecart physiologique multivarie a l'etat de reference"
+  changepoint_t:
+    formula: "F2(X_t, M_short)"
+    meaning: "probabilite de rupture ou d'acceleration de derive"
+  confirmation_t:
+    formula: "F3(MAP, SAP, duration, burden)"
+    meaning: "evidence forte d'hypotension constituee"
+  cause_t:
+    formula: "F4(axes, phase_t, terrain_t, response_t)"
+    meaning: "distribution causale"
+  response_t:
+    formula: "F5(interventions, post_intervention_dynamics)"
+    meaning: "qualite, vitesse et stabilite de la reponse"
+  confidence_t:
+    formula: "F6(signal_quality, missingness, coherence, info_density)"
+    meaning: "confiance sur la conclusion"
+  burden_t:
+    components:
+      - time_under_threshold
+      - area_under_target
+      - time_to_recovery
+      - vasopressor_corrected_burden
+
+recursive_update:
+  principle: "mise a jour recursive mais non reductrice"
+  state_update_formula: |
+    StateProb_t =
+      Update(
+        StateProb_{t-1},
+        Deviation_t,
+        Changepoint_t,
+        Confirmation_t,
+        Response_t,
+        Cause_t,
+        phase_t,
+        terrain_t
+      )
+  memory_formulas:
+    short_memory: "M_short_t = lambda * M_short_{t-1} + (1-lambda) * evidence_t"
+    episode_memory: "M_episode_t = integrate(evidence_u from t_start to t)"
+  risk_formulas:
+    risk_precoce: "f(Deviation_t, Changepoint_t, Cause_t, novelty_t)"
+    risk_constitue: "g(Confirmation_t, burden_t, perfusion_axis, Cause_t)"
+    final_risk: "combine(risk_precoce, risk_constitue, terrain_tolerance) - missing_penalty"
+  severity_formula:
+    severity: "h(Confirmation_t, burden_t, vasopressor_need, poor_response)"
+
+confirmation_rules:
+  official_skeleton:
+    - rule_id: map_below_65
+      source: "official_sources"
+      role: "strong_confirmation"
+    - rule_id: sap_below_90
+      source: "official_sources"
+      role: "supportive_confirmation"
+    - rule_id: relative_drop_vs_baseline
+      source: "official_sources"
+      role: "supportive_confirmation"
+    - rule_id: cumulative_burden
+      source: "official_sources"
+      role: "severity_and_confirmation"
+
+safety_overrides:
+  - override_id: very_low_map_critical
+    condition: "MAP < 55"
+    action: "force_state_at_least_critical_hypotension"
+  - override_id: multimodal_low_flow_escalation
+    condition: "pressure_low + etco2_drop + pleth_drop"
+    action: "increase_risk_and_severity_rapidly"
+  - override_id: refractory_after_treatment
+    condition: "pressure_low_persistent + escalating_vasopressor_need + incomplete_recovery"
+    action: "raise_refractory_flag"
+  - override_id: strong_artifact_suspicion
+    condition: "pressure_drop_isolated + poor_signal_quality + contradiction_multicurves"
+    action: "drop_confidence_and_raise_artifact_profile"
+
+contradicting_evidence:
+  principle: "chercher ce qui contredit l'hypotension vraie"
+  examples:
+    - "NIBP basse isolee sans derive EtCO2, sans derive pleth, sans reaction cardiaque"
+    - "waveform arteriel degrade ou amorti"
+    - "baseline peu fiable"
+    - "phase instable avec artefact probable"
+  use:
+    - "baisse la confiance"
+    - "augmente le profil artifact"
+    - "n'annule pas un critere fort si plusieurs signaux convergent"
+
+explainability_contract:
+  required_fields:
+    - top_supporting_signals
+    - top_contradicting_signals
+    - baseline_used
+    - phase_used
+    - dominant_cause_profile
+    - uncertainty_drivers
+    - missing_inputs
+    - active_overrides
+  example_output:
+    state: early_transition
+    risk_5min: 0.78
+    severity: 0.41
+    cause_profile: "vasoplegic 0.49 / hypovolemic 0.29 / indeterminate 0.22"
+    confidence: 0.72
+    explanation:
+      - "MAP -16 % vs phase stable"
+      - "derive continue sur 4 min"
+      - "EtCO2 relativement preserve"
+      - "BIS bas en post-induction"
+      - "terrain hypertendu chronique"
+
+implementation_strategy:
+  phase_1:
+    goal: "version simple explicable"
+    includes:
+      - official_rules
+      - baseline_t0
+      - stable_phase_baseline
+      - episode_memory
+      - state_model_basic
+      - confidence_basic
+  phase_2:
+    goal: "version multi-axes"
+    includes:
+      - causal_profiles_basic
+      - phase_model
+      - burden_rich
+      - contradiction_logic
+  phase_3:
+    goal: "version waveform avancee"
+    includes:
+      - single_curve_analysis
+      - multicurve_combination
+      - novelty_detection
+      - response_to_intervention_dynamics
+  phase_4:
+    goal: "version calibree"
+    includes:
+      - parameter_tuning
+      - event_level_validation
+      - false_positive_control
+      - prospective_refinement
+
+notes:
+  - "ce fichier decrit une architecture cible et non une implementation immediate"
+  - "la composante waveform doit d'abord enrichir la detection precoce et la confiance avant de modifier seule la sortie critique"
+  - "les patterns emergents non repertories doivent rester en statut observationnel tant qu'ils ne sont pas valides"
