@@ -6,6 +6,7 @@ import { VentilatorDrager, VentilatorGE } from "./room-monitor/Ventilators";
 import { BISMedtronic, BISEntropy, IABlock, TOFBlock } from "./room-monitor/AnesthesiaBlocks";
 import { PumpBraun, PumpFresenius } from "./room-monitor/Pumps";
 import { AlertStrips, PatientBar } from "./room-monitor/Shared";
+import { TrendHistoryCard } from "./room-monitor/TrendHistoryCard";
 
 interface RoomMonitorProps {
   roomId: string;
@@ -81,6 +82,15 @@ export function RoomMonitor({ roomId, data, waveRef, onAcknowledgeAlert, onReque
         </div>
 
         <div className="rm-col-right">{pump}</div>
+      </div>
+
+      <div className="rm-trend-area">
+        <TrendHistoryCard
+          history={data.history}
+          currentVitals={vitals}
+          elapsedFmt={data.elapsed_fmt}
+          phaseLabel={data.phase_label}
+        />
       </div>
     </div>
   );

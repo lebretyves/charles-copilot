@@ -14,6 +14,14 @@ export interface VitalsFrame {
   temp: number;
 }
 
+export interface TrendHistoryPoint {
+  vitals: VitalsFrame;
+  timestamp?: string;
+  elapsed_s?: number;
+  phase?: string;
+  phase_label?: string;
+}
+
 export interface VentilatorFrame {
   mode: string;
   vt: number;
@@ -158,7 +166,7 @@ export interface RoomState {
   llm_error?: string;
   llm_job_id?: string;
   timestamp: string;
-  history: VitalsFrame[];
+  history: TrendHistoryPoint[];
   // ── Phase anesthésique ──
   phase?: string;
   phase_label?: string;

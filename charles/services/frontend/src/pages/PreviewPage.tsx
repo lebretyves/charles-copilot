@@ -9,8 +9,32 @@ import { UXConfigProvider } from "../context/UXConfigContext";
 import type { RoomState } from "../types";
 import "../scope.css";
 
+function buildMockHistory() {
+  return Array.from({ length: 180 }, (_, index) => {
+    const elapsed_s = index * 20;
+    const wave = index / 12;
+    return {
+      elapsed_s,
+      phase_label: elapsed_s < 600 ? "Induction" : elapsed_s < 1800 ? "Entretien" : "Reveil",
+      vitals: {
+        hr: 68 + Math.round(Math.sin(wave) * 8),
+        spo2: 98 + Math.round(Math.sin(wave / 2) * 1),
+        pas: 126 + Math.round(Math.sin(wave / 1.7) * 10),
+        pad: 72 + Math.round(Math.cos(wave / 2.4) * 6),
+        pam: 89 + Math.round(Math.sin(wave / 1.9) * 8),
+        etco2: 35.5 + Math.sin(wave / 2.2) * 2.5,
+        fr: 12 + Math.round(Math.cos(wave / 2.8) * 2),
+        temp: 36.3 + Math.sin(wave / 6) * 0.25,
+      },
+    };
+  });
+}
+
+const MOCK_HISTORY = buildMockHistory();
+const MOCK_LAST_VITALS = MOCK_HISTORY[MOCK_HISTORY.length - 1]?.vitals;
+
 const MOCK_ROOM: RoomState = {
-  history: [],
+  history: MOCK_HISTORY,
   timestamp: new Date().toISOString(),
   hasWaveData: false,
   patient_info: {
@@ -26,8 +50,8 @@ const MOCK_ROOM: RoomState = {
   },
   phase_label: "Entretien",
   macro_phase: "PER",
-  elapsed_fmt: "01:24",
-  vitals: {
+  elapsed_fmt: "00:59",
+  vitals: MOCK_LAST_VITALS ?? {
     hr: 72,
     spo2: 98,
     pas: 128,
@@ -87,6 +111,19 @@ const MOCK_ROOM: RoomState = {
 
 const MOCK_ROOM_ALERT: RoomState = {
   ...MOCK_ROOM,
+  history: MOCK_HISTORY.map((point, index) => ({
+    ...point,
+    vitals: index > MOCK_HISTORY.length - 24
+      ? {
+          ...point.vitals,
+          hr: point.vitals.hr + 24,
+          spo2: Math.max(91, point.vitals.spo2 - 6),
+          pam: point.vitals.pam - 22,
+          etco2: point.vitals.etco2 - 5,
+          fr: point.vitals.fr + 8,
+        }
+      : point.vitals,
+  })),
   vitals: { ...MOCK_ROOM.vitals, hr: 118, spo2: 91, pam: 55 },
   bis: { bis: 72, sqi: 88, emg: 35, sr: 0 },
   alerts: [

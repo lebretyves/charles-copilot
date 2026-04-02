@@ -4,10 +4,19 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { useEffect, useRef, useCallback, useState } from "react";
-import type { WSUpdate, RoomState, VitalsFrame, LLMAnalysis, WaveformChunk, WaveBuffers, TransportMetrics } from "../types";
+import type {
+  WSUpdate,
+  RoomState,
+  VitalsFrame,
+  LLMAnalysis,
+  WaveformChunk,
+  WaveBuffers,
+  TransportMetrics,
+  TrendHistoryPoint,
+} from "../types";
 import { getStoredToken } from "./useAuth";
 
-const MAX_HISTORY = 120; // 10 min @ 5s interval
+const MAX_HISTORY = 50000; // Preserve long intra-op histories for trend navigation.
 const RECONNECT_DELAY = 3000;
 // Buffers waveforms glissants : 8 secondes max par signal
 const MAX_WAVE_500HZ = 4000;   // 8s @ 500Hz
@@ -20,6 +29,25 @@ function appendBuf(prev: number[], incoming: number[] | undefined | null, max: n
   if (!incoming || incoming.length === 0) return prev;
   const combined = [...prev, ...incoming];
   return combined.length > max ? combined.slice(combined.length - max) : combined;
+}
+
+function buildHistoryPoint(
+  vitals: VitalsFrame,
+  update: Pick<WSUpdate, "timestamp" | "elapsed_s" | "phase" | "phase_label">,
+  previous?: TrendHistoryPoint,
+): TrendHistoryPoint {
+  const elapsed = typeof update.elapsed_s === "number"
+    ? update.elapsed_s
+    : typeof previous?.elapsed_s === "number"
+      ? previous.elapsed_s + 5
+      : 0;
+  return {
+    vitals,
+    timestamp: update.timestamp,
+    elapsed_s: elapsed,
+    phase: update.phase,
+    phase_label: update.phase_label,
+  };
 }
 
 export function useCharlesWS(url: string) {
@@ -126,7 +154,19 @@ export function useCharlesWS(url: string) {
         const raw = data as WSUpdate & { rooms?: Record<string, RoomState> };
         const roomsData = raw.rooms ?? {};
         for (const [rid, rdata] of Object.entries(roomsData)) {
-          initRooms[rid] = { ...rdata, history: rdata.vitals ? [rdata.vitals] : [] };
+          initRooms[rid] = {
+            ...rdata,
+            history: rdata.vitals
+              ? [
+                  buildHistoryPoint(rdata.vitals, {
+                    timestamp: rdata.timestamp,
+                    elapsed_s: rdata.elapsed_s,
+                    phase: rdata.phase,
+                    phase_label: rdata.phase_label,
+                  }),
+                ]
+              : [],
+          };
           if (rdata.hasWaveData) {
             waveSeenRef.current.add(rid);
           }
@@ -193,9 +233,10 @@ export function useCharlesWS(url: string) {
         setRooms((prev) => {
           const existing = prev[data.room_id];
           const newVitals: VitalsFrame = data.vitals;
+          const nextPoint = buildHistoryPoint(newVitals, data, existing?.history?.[existing.history.length - 1]);
           const history = existing?.history
-            ? [...existing.history, newVitals].slice(-MAX_HISTORY)
-            : [newVitals];
+            ? [...existing.history, nextPoint].slice(-MAX_HISTORY)
+            : [nextPoint];
 
           return {
             ...prev,
