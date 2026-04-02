@@ -57,11 +57,17 @@ class HypotensionDetectorConfig:
     sap_critical: float = 75.0
     relative_drop_mild: float = 0.10
     relative_drop_severe: float = 0.25
+    early_relative_drop_mild: float = 0.05
+    early_relative_drop_severe: float = 0.18
     etco2_drop_mild: float = 0.08
     etco2_drop_severe: float = 0.20
     pleth_drop_mild: float = 0.10
     pleth_drop_severe: float = 0.30
     short_window_s: float = 180.0
+    fast_slope_window_s: float = 30.0
+    incipient_burden_window_s: float = 90.0
+    incipient_burden_fraction_mild: float = 0.10
+    incipient_burden_fraction_severe: float = 0.35
     episode_close_stable_s: float = 180.0
     refractory_after_s: float = 180.0
     sustained_confirm_s: float = 60.0
@@ -264,13 +270,16 @@ class HypotensionDetector:
         contradiction_score = self._compute_contradiction_score(snapshot, pressure_scores, perfusion_scores, waveform_scores)
         cause_profile = self._compute_cause_profile(snapshot, pressure_scores, perfusion_scores, context_scores, waveform_scores, contradiction_score)
         confidence = self._compute_confidence(snapshot, contradiction_score, waveform_scores)
+        has_nonpressure_support = perfusion_scores["support"] >= 0.12 or waveform_scores["multicurve"] >= 0.12
         deviation_score = (
-            0.45 * pressure_scores["relative"]
+            0.35 * pressure_scores["relative_early"]
             + 0.20 * pressure_scores["slope"]
+            + 0.10 * pressure_scores["incipient_burden"]
             + 0.20 * perfusion_scores["support"]
             + 0.15 * waveform_scores["novelty"]
         )
         changepoint_score = max(pressure_scores["slope"], waveform_scores["novelty"], perfusion_scores["trend"])
+        transition_coherence = self._compute_transition_coherence(snapshot, pressure_scores, perfusion_scores, context_scores, waveform_scores)
         confirmation_score = (
             0.50 * pressure_scores["absolute"]
             + 0.20 * pressure_scores["relative"]
@@ -278,10 +287,13 @@ class HypotensionDetector:
             + 0.15 * pressure_scores["burden"]
         )
         risk_precoce = _clip01(
-            0.40 * deviation_score
-            + 0.25 * changepoint_score
-            + 0.20 * perfusion_scores["support"]
-            + 0.15 * waveform_scores["multicurve"]
+            0.28 * deviation_score
+            + 0.18 * changepoint_score
+            + 0.16 * perfusion_scores["support"]
+            + 0.14 * waveform_scores["multicurve"]
+            + 0.14 * pressure_scores["relative_early"]
+            + 0.04 * pressure_scores["incipient_burden"]
+            + 0.12 * transition_coherence
             - 0.25 * contradiction_score
         )
         risk_constitue = _clip01(
@@ -308,10 +320,10 @@ class HypotensionDetector:
             + (1.0 - self.config.severity_smoothing_alpha) * severity
         )
         self._update_episode_burden(snapshot, dt)
-        state = self._update_state(snapshot, risk_precoce, risk_constitue, severity, contradiction_score)
+        state = self._update_state(snapshot, risk_precoce, risk_constitue, severity, contradiction_score, transition_coherence, pressure_scores, has_nonpressure_support)
         self._update_stable_baseline(snapshot, confidence, state)
 
-        explanation = self._build_explanation(snapshot, pressure_scores, perfusion_scores, waveform_scores, context_scores, contradiction_score, cause_profile, confidence)
+        explanation = self._build_explanation(snapshot, pressure_scores, perfusion_scores, waveform_scores, context_scores, contradiction_score, cause_profile, confidence, transition_coherence)
         self.memory.peak_risk = max(self.memory.peak_risk, max(risk_precoce, risk_constitue))
         self.memory.peak_severity = max(self.memory.peak_severity, severity)
         reported_risk = _clip01(max(risk_precoce, risk_constitue, self.memory.risk_short, severity if state != "stable" else 0.0))
@@ -348,6 +360,10 @@ class HypotensionDetector:
         while self._recent and self._recent[0].time_s < cutoff:
             self._recent.popleft()
 
+    def _recent_window(self, end_time_s: float, window_s: float) -> list[HypotensionSnapshot]:
+        cutoff = end_time_s - window_s
+        return [item for item in self._recent if item.time_s >= cutoff]
+
     def _compute_pressure_scores(self, snapshot: HypotensionSnapshot) -> dict[str, float]:
         baseline_map = self.baselines.stable.get("map") or self.baselines.patient_t0.get("map")
         baseline_sap = self.baselines.stable.get("sap") or self.baselines.patient_t0.get("sap")
@@ -365,6 +381,18 @@ class HypotensionDetector:
             mild=self.config.relative_drop_mild,
             severe=self.config.relative_drop_severe,
         )
+        relative_map_early = _score_relative_drop(
+            snapshot.map_value,
+            baseline_map,
+            mild=self.config.early_relative_drop_mild,
+            severe=self.config.early_relative_drop_severe,
+        )
+        relative_sap_early = _score_relative_drop(
+            snapshot.sap_value,
+            baseline_sap,
+            mild=self.config.early_relative_drop_mild,
+            severe=self.config.early_relative_drop_severe,
+        )
         slope = 0.0
         if len(self._recent) >= 2:
             first = self._recent[0]
@@ -372,17 +400,38 @@ class HypotensionDetector:
             if first.map_value is not None and last.map_value is not None and last.time_s > first.time_s:
                 map_slope = (last.map_value - first.map_value) / max(last.time_s - first.time_s, 1e-6)
                 slope = _linear_band(-map_slope, mild=0.01, severe=0.08)
+        slope_fast = 0.0
+        fast_window = self._recent_window(snapshot.time_s, self.config.fast_slope_window_s)
+        if len(fast_window) >= 2:
+            first_fast = fast_window[0]
+            last_fast = fast_window[-1]
+            if first_fast.map_value is not None and last_fast.map_value is not None and last_fast.time_s > first_fast.time_s:
+                map_slope_fast = (last_fast.map_value - first_fast.map_value) / max(last_fast.time_s - first_fast.time_s, 1e-6)
+                slope_fast = _linear_band(-map_slope_fast, mild=0.03, severe=0.20)
         burden = 0.0
         if self.memory.time_under_threshold_s > 0:
             burden = _clip01(
                 0.60 * _linear_band(self.memory.time_under_threshold_s, mild=30.0, severe=180.0)
                 + 0.40 * _linear_band(self.memory.area_under_target, mild=30.0, severe=300.0)
             )
+        incipient_burden = 0.0
+        incipient_window = self._recent_window(snapshot.time_s, self.config.incipient_burden_window_s)
+        valid_map = [item.map_value for item in incipient_window if item.map_value is not None]
+        if valid_map:
+            low_fraction = sum(1 for value in valid_map if value < self.config.map_target) / len(valid_map)
+            incipient_burden = _linear_band(
+                low_fraction,
+                mild=self.config.incipient_burden_fraction_mild,
+                severe=self.config.incipient_burden_fraction_severe,
+            )
         return {
             "absolute": _clip01(0.70 * absolute_map + 0.30 * absolute_sap),
             "relative": _clip01(0.65 * relative_map + 0.35 * relative_sap),
-            "slope": slope,
+            "relative_early": _clip01(0.65 * relative_map_early + 0.35 * relative_sap_early),
+            "slope": max(slope, slope_fast),
+            "slope_fast": slope_fast,
             "burden": burden,
+            "incipient_burden": incipient_burden,
         }
 
     def _compute_perfusion_scores(self, snapshot: HypotensionSnapshot) -> dict[str, float]:
@@ -468,6 +517,32 @@ class HypotensionDetector:
             contradiction += 0.05
         return _clip01(contradiction)
 
+    def _compute_transition_coherence(
+        self,
+        snapshot: HypotensionSnapshot,
+        pressure_scores: dict[str, float],
+        perfusion_scores: dict[str, float],
+        context_scores: dict[str, float],
+        waveform_scores: dict[str, float],
+    ) -> float:
+        components = 0.0
+        if pressure_scores["relative_early"] >= 0.20:
+            components += 1.0
+        if max(pressure_scores["slope_fast"], pressure_scores["slope"]) >= 0.20:
+            components += 1.0
+        if perfusion_scores["support"] >= 0.18:
+            components += 1.0
+        if waveform_scores["multicurve"] >= 0.18:
+            components += 1.0
+        near_threshold = False
+        if snapshot.map_value is not None and snapshot.map_value <= self.config.map_target + 3.0:
+            near_threshold = True
+        if snapshot.sap_value is not None and snapshot.sap_value <= self.config.sap_target + 8.0:
+            near_threshold = True
+        if near_threshold:
+            components += 0.5
+        return _linear_band(components, mild=1.0, severe=3.0)
+
     def _compute_cause_profile(
         self,
         snapshot: HypotensionSnapshot,
@@ -544,10 +619,15 @@ class HypotensionDetector:
         risk_constitue: float,
         severity: float,
         contradiction_score: float,
+        transition_coherence: float,
+        pressure_scores: dict[str, float],
+        has_nonpressure_support: bool,
     ) -> HypotensionState:
         previous_state = self.memory.state
         risk = max(risk_precoce, risk_constitue, self.memory.risk_short)
         confirmed_like = risk_constitue >= 0.72 or (snapshot.map_value is not None and snapshot.map_value < self.config.map_target and self.memory.time_under_threshold_s >= self.config.sustained_confirm_s)
+        near_threshold_pressure = pressure_scores["absolute"] >= 0.15 or (snapshot.map_value is not None and snapshot.map_value <= self.config.map_target)
+        permissive_early_support = has_nonpressure_support or near_threshold_pressure
 
         if snapshot.map_value is not None and snapshot.map_value <= self.config.map_critical:
             state: HypotensionState = "critical_hypotension"
@@ -555,8 +635,12 @@ class HypotensionDetector:
             state = "confirmed_hypotension"
         elif risk >= 0.60:
             state = "probable_hypotension"
-        elif risk >= 0.42:
+        elif (risk >= 0.42 and permissive_early_support) or (
+            risk_precoce >= 0.34 and transition_coherence >= 0.55 and contradiction_score <= 0.25 and permissive_early_support
+        ):
             state = "early_transition"
+        elif risk_precoce >= 0.30 and pressure_scores["relative_early"] >= 0.25 and contradiction_score <= 0.30:
+            state = "vulnerable"
         elif self.memory.episode_id is not None and self.memory.stable_duration_s < self.config.episode_close_stable_s:
             state = "recovering"
         else:
@@ -621,6 +705,7 @@ class HypotensionDetector:
         contradiction_score: float,
         cause_profile: dict[str, float],
         confidence: float,
+        transition_coherence: float,
     ) -> list[str]:
         reasons: list[str] = []
         baseline_map = self.baselines.stable.get("map") or self.baselines.patient_t0.get("map")
@@ -638,6 +723,10 @@ class HypotensionDetector:
             reasons.append(f"pleth_drop_score={perfusion_scores['pleth_drop']:.2f}")
         if waveform_scores["multicurve"] > 0:
             reasons.append(f"multicurve_score={waveform_scores['multicurve']:.2f}")
+        if pressure_scores["incipient_burden"] > 0:
+            reasons.append(f"incipient_burden_score={pressure_scores['incipient_burden']:.2f}")
+        if transition_coherence > 0:
+            reasons.append(f"transition_coherence={transition_coherence:.2f}")
         if context_scores["low_bis"] > 0:
             reasons.append("low_BIS_context")
         if context_scores["induction_context"] > 0:

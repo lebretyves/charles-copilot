@@ -56,6 +56,8 @@ Le moteur final de complication fusionnera:
   Script d'evaluation offline VitalDB pour mesurer les temps de detection `early/probable/confirmed/critical`.
 - `../learning/evaluation/hypotension_model_precise_cases/`
   Rapport et JSON de reference sur 2 cas avec waveforms et 2 cas sans waveforms.
+- `../learning/evaluation/hypotension_model_precise_cases_v2/`
+  Rapport v2 plus reactif sur les memes 4 cas, avec comparaison `v1 -> v2`.
 
 ## Regle de modelisation
 

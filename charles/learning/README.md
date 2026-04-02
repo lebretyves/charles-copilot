@@ -68,7 +68,8 @@ Hypotension workbench:
 - model module: `learning/problems/hypotension_model.py`
 - evaluation script: `learning/pipelines/evaluate_hypotension_model.py`
 - synthetic tests: `tests/test_learning_hypotension_model.py`
-- latest detailed evaluation report: `learning/evaluation/hypotension_model_precise_cases/hypotension_evaluation_report.md`
+- latest detailed evaluation report: `learning/evaluation/hypotension_model_precise_cases_v2/hypotension_evaluation_report.md`
+- latest v1 vs v2 comparison: `learning/evaluation/hypotension_model_precise_cases_v2/comparison_vs_v1.md`
 
 Typical command for the hypotension evaluator:
 
