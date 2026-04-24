@@ -13,9 +13,9 @@ Central registry for locally trained adapters used by the CHARLES learning pipel
 
 | Adapter | Base model | Dataset | Train / Eval | Status | Latest eval | Runtime |
 | --- | --- | --- | --- | --- | --- | --- |
-| `vitaldb_waveforms_v1_chat_meditron_lora` | `epfl-llm/meditron-7b` | `vitaldb_waveforms_v1` bootstrap run | `21 / 11` | `draft` | trainer eval only | `no` |
-| `vitaldb_waveforms_v1_chat_meditron_lora_cleanprompt` | `epfl-llm/meditron-7b` | `vitaldb_waveforms_v1` bootstrap run | `21 / 11` | `reviewed` | trainer eval only | `no` |
-| `vitaldb_waveforms_v1_chat_meditron_lora_allvariants` | `epfl-llm/meditron-7b` | `vitaldb_waveforms_v1` all variants | `270 / 63` | `validated` | balanced12 comparison summary | `no` |
+| `vitaldb_waveforms_v1_chat_meditron_lora` | `epfl-llm/meditron-7b` | `vitaldb_waveforms_v1` | `21 / 11` | `draft` | `eval_loss = 1.2746` | `no` |
+| `vitaldb_waveforms_v1_chat_meditron_lora_allvariants` | `epfl-llm/meditron-7b` | `vitaldb_waveforms_v1` | `270 / 63` | `validated` | `overall_score=0.9774` | `no` |
+| `vitaldb_waveforms_v1_chat_meditron_lora_cleanprompt` | `epfl-llm/meditron-7b` | `vitaldb_waveforms_v1` | `21 / 11` | `reviewed` | `eval_loss = 1.5079` | `no` |
 
 ## Promotion rules
 
@@ -31,5 +31,5 @@ An adapter can move to `runtime-ready` only if:
 ## Linked model cards
 
 - [vitaldb_waveforms_v1_chat_meditron_lora](./model_cards/vitaldb_waveforms_v1_chat_meditron_lora.md)
-- [vitaldb_waveforms_v1_chat_meditron_lora_cleanprompt](./model_cards/vitaldb_waveforms_v1_chat_meditron_lora_cleanprompt.md)
 - [vitaldb_waveforms_v1_chat_meditron_lora_allvariants](./model_cards/vitaldb_waveforms_v1_chat_meditron_lora_allvariants.md)
+- [vitaldb_waveforms_v1_chat_meditron_lora_cleanprompt](./model_cards/vitaldb_waveforms_v1_chat_meditron_lora_cleanprompt.md)

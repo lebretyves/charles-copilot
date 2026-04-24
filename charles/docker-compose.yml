@@ -123,15 +123,19 @@ services:
       CHARLES_ADMIN_PASSWORD: ${CHARLES_ADMIN_PASSWORD:-admin2026}
       CHARLES_ADMIN_PASSWORD_FILE: ${CHARLES_ADMIN_PASSWORD_FILE:-}
       AUTH_TOKEN_EXPIRY_HOURS: ${AUTH_TOKEN_EXPIRY_HOURS:-24}
-      CORS_ORIGINS: ${CORS_ORIGINS:-https://localhost:3000,https://127.0.0.1:3000,http://localhost:3080,http://127.0.0.1:3080,http://localhost:5173}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000,http://localhost:8080,http://127.0.0.1:8080,http://localhost:5173,http://127.0.0.1:5173}
       TRUSTED_HOSTS: ${TRUSTED_HOSTS:-localhost,127.0.0.1}
-      FRONTEND_PUBLIC_URL: ${FRONTEND_PUBLIC_URL:-https://localhost:3000}
+      FRONTEND_PUBLIC_URL: ${FRONTEND_PUBLIC_URL:-http://localhost:3000}
       AUDIT_LOG_ENABLED: ${AUDIT_LOG_ENABLED:-true}
+      LEARNING_ROOT: /data/learning
+      ALERTING_RUNTIME_PATH: /data/runtime/alert_rules.json
       VITALDB_METADATA: /data/vitaldb/clinical_metadata.csv
       VITALDB_CASES: /data/vitaldb/cases
       VITALDB_WAVEFORMS: /data/vitaldb/waveforms
     volumes:
       - ./kb:/kb:ro
+      - ./learning:/data/learning:ro
+      - ./ops/runtime:/data/runtime
       - ./vitaldb/clinical_metadata.csv:/data/vitaldb/clinical_metadata.csv:ro
       - ./vitaldb/cases:/data/vitaldb/cases:ro
       - ./vitaldb/waveforms:/data/vitaldb/waveforms:ro
@@ -155,8 +159,7 @@ services:
       VITALDB_DIR: /data/vitaldb/cases
       VITALDB_WAVES_DIR: /data/vitaldb/waveforms
     volumes:
-      - ./vitaldb/cases:/data/vitaldb/cases:ro
-      - ./vitaldb/waveforms:/data/vitaldb/waveforms:ro
+      - ./vitaldb:/data/vitaldb:ro
     depends_on:
       - mosquitto
     restart: unless-stopped
@@ -170,15 +173,75 @@ services:
     environment:
       CHARLES_TLS_MODE: ${CHARLES_TLS_MODE:-selfsigned}
     ports:
-      - "127.0.0.1:443:443"
-      - "127.0.0.1:3000:443"
-      - "127.0.0.1:3080:80"
+      - "127.0.0.1:3000:80"
     volumes:
       - ./ops/certs-local:/etc/nginx/certs
     depends_on:
       - backend
     restart: unless-stopped
 
+  # ── Prometheus (observabilité) ──────────────────────────────
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./ops/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # ── Grafana (dashboards) ────────────────────────────────────
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "127.0.0.1:3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
+      GF_USERS_ALLOW_SIGN_UP: false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./ops/monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./ops/monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+  # ── MLflow (tracking ML) ────────────────────────────────────
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:latest
+    ports:
+      - "127.0.0.1:5000:5000"
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    volumes:
+      - mlflow_data:/mlflow
+    command: mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri file:///mlflow/mlruns --default-artifact-root file:///mlflow/mlartifacts
+    restart: unless-stopped
+
+  # ── Nginx (load balancer) ───────────────────────────────────
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "127.0.0.1:8080:80"
+    volumes:
+      - ./ops/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+
 volumes:
   pgdata:
   mqttdata:
+  prometheus_data:
+  grafana_data:
+  mlflow_data:

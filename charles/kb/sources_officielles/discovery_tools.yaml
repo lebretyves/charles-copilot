@@ -1,0 +1,17 @@
+version: "2026-04-02"
+purpose: "Lister les outils de decouverte bibliographique qui aident a trouver des sources, sans servir eux-memes de preuve clinique finale"
+
+tools:
+  - tool_id: ebsco_research
+    label_fr: "EBSCO Research"
+    role: "discovery_only"
+    url: "https://research.ebsco.com/"
+    allowed_usage:
+      - "recherche bibliographique"
+      - "identification d'articles ou revues potentiellement utiles"
+      - "verification de mots-cles ou champs documentaires"
+    forbidden_usage:
+      - "citation comme source clinique primaire"
+      - "creation directe d'un fait_source"
+      - "justification normative d'une regle"
+    notes: "Le lien EBSCO doit conduire a une source primaire ensuite referencee dans la KB, pas rester comme preuve finale."

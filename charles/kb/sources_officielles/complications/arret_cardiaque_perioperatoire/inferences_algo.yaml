@@ -1,0 +1,17 @@
+topic_id: arret_cardiaque_perioperatoire
+inferences:
+  - inference_id: cardiac_arrest_hard_trigger
+    status: design_proposal
+    kind: hard_rule
+    proposal: "Traiter l'arret cardiaque comme une complication a seuils d'action immediats, sans score progressif classique."
+    derived_from:
+      - respiratory_arrest_over_10s
+      - compressions_100_120_per_min
+      - adrenaline_1mg_every_3_5_min
+  - inference_id: rhythm_specific_branching
+    status: design_proposal
+    kind: branch_rule
+    proposal: "Differencier le parcours TV/FV du parcours asystolie/AESP dans la logique explicative et les suggestions de cause reversible."
+    derived_from:
+      - biphasic_shock_200j
+      - amiodarone_300mg_after_3_shocks

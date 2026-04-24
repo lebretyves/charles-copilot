@@ -1,0 +1,7 @@
+topic_id: embolie_pulmonaire_etat_de_choc
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille
+open_points:
+  - "L'EtCO2 et la capnographie restent peu quantifies dans les sources francaises de haut niveau."
+  - "Il manque encore des donnees runtime structurees pour le contexte thromboembolique, la fonction VD et la thrombolyse reelle du patient."

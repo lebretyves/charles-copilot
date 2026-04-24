@@ -1,14 +1,8 @@
 ﻿"""
 CHARLES — Simulateur clinique peropératoire.
 
-Simule un bloc opératoire complet avec scénarios réalistes :
-- Scénario normal : ASA 1, cholécystectomie coelioscopique
-- Scénario hypotension : chute progressive PAS après induction
-- Scénario désaturation : SpO2 qui chute lors d'intubation difficile
-- Scénario anaphylaxie : réaction allergique brutale
-- Scénario hémorragique : pertes sanguines progressives
-
-Publie sur MQTT topic `bloc/{room_id}/full` toutes les 5 secondes.
+Rejoue exclusivement des données réelles VitalDB avec historique complet.
+Publie sur MQTT topic `bloc/{room_id}/full` avec données patient réelles.
 """
 
 from __future__ import annotations
@@ -22,9 +16,7 @@ from pathlib import Path
 
 import paho.mqtt.client as mqtt
 
-from simulator.scenarios import SCENARIOS, SimulatedRoom
 from simulator.vitaldb_support import load_vitaldb_patient_info
-from simulator.waveforms import WAVE_CHUNK_S, generate_synth_waves
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [SIMULATOR] %(message)s")
 logger = logging.getLogger("charles.simulator")
@@ -52,72 +44,53 @@ MQTT_USER = os.getenv("MQTT_USER", "")
 MQTT_PASSWORD = _read_secret_env("MQTT_PASSWORD", "MQTT_PASSWORD_FILE")
 
 CONTROL_TOPIC = "charles/simulator/control"
+EVENT_TOPIC = "charles/simulator/events"
 VITALDB_DIR = os.getenv("VITALDB_DIR", "/data/vitaldb/cases")
+VITALDB_DEFAULT_ROOMS = os.getenv("VITALDB_DEFAULT_ROOMS", "salle_1:1,salle_2:2,salle_3:3")
 
+
+def parse_default_rooms(default_rooms: str) -> list[tuple[str, int]]:
+    rooms: list[tuple[str, int]] = []
+    for item in default_rooms.split(","):
+        item = item.strip()
+        if not item:
+            continue
+        if ":" not in item:
+            logger.warning("Ignoré default room config invalide : %s", item)
+            continue
+        room_id, caseid_text = item.split(":", 1)
+        try:
+            rooms.append((room_id.strip(), int(caseid_text.strip())))
+        except ValueError:
+            logger.warning("Ignoré default room caseid invalide : %s", item)
+    return rooms
+
+
+def start_default_vitaldb_rooms(controller: "SimulatorController") -> None:
+    default_rooms = parse_default_rooms(VITALDB_DEFAULT_ROOMS)
+    if not default_rooms:
+        return
+
+    logger.info("Démarrage automatique des salles VitalDB : %s", VITALDB_DEFAULT_ROOMS)
+    for room_id, caseid in default_rooms:
+        controller.start_vitaldb(room_id, caseid, with_waveforms=True)
 
 # ══════════════════════════════════════════════════════════════
-#  GÉNÉRATION ONDES SYNTHÉTIQUES (250 ms par chunk)
+#  SIMULATEUR VITALDB UNIQUEMENT
 # ══════════════════════════════════════════════════════════════
 
 class SimulatorController:
-    """Contrôleur central : gère les salles synthétiques et VitalDB."""
+    """Contrôleur VitalDB : gère uniquement les replays de données réelles."""
 
     def __init__(self, mqtt_client: mqtt.Client):
         self.client = mqtt_client
-        self.rooms: dict[str, SimulatedRoom] = {}
         self.vitaldb_threads: dict[str, dict] = {}  # room_id → {"stop": Event}
-        self._wave_stops: dict[str, __import__("threading").Event] = {}
         self._lock = __import__("threading").Lock()
 
-        # Salles par défaut
-        self._add_synthetic("salle_1", "normal")
-        self._add_synthetic("salle_2", "hypotension")
-        self._add_synthetic("salle_3", "desaturation")
-
-    def _start_wave_thread(self, room_id: str):
-        """Démarre un thread 250 ms publiant les wave_chunks synthétiques pour room_id."""
-        import threading
-
-        # Arrêter le thread précédent s'il existe
-        old = self._wave_stops.pop(room_id, None)
-        if old:
-            old.set()
-
-        stop_ev = threading.Event()
-        self._wave_stops[room_id] = stop_ev
-
-        def _wave_loop():
-            t_ref = time.time()
-            while not stop_ev.is_set():
-                t_start = time.time() - t_ref
-                # Lire l'état courant sans verrou (lecture seule des champs float)
-                with self._lock:
-                    room = self.rooms.get(room_id)
-                if room is None:
-                    break   # salle supprimée → arrêter
-                try:
-                    payload = generate_synth_waves(room.state, room_id, t_start)
-                    topic   = f"bloc/{room_id}/waves"
-                    self.client.publish(topic, json.dumps(payload), qos=0)
-                except Exception as e:
-                    logger.debug("wave_thread %s error: %s", room_id, e)
-                stop_ev.wait(WAVE_CHUNK_S)
-
-        t = threading.Thread(target=_wave_loop, daemon=True, name=f"wave-{room_id}")
-        t.start()
-        logger.info("🌊 Wave thread démarré pour %s", room_id)
-
     def _stop_wave_thread(self, room_id: str):
-        ev = self._wave_stops.pop(room_id, None)
-        if ev:
-            ev.set()
-
-    def _add_synthetic(self, room_id: str, scenario_name: str):
-        with self._lock:
-            self._stop_vitaldb(room_id)
-            self.rooms[room_id] = SimulatedRoom(room_id=room_id, scenario_name=scenario_name)
-            logger.info("➕ %s → scénario synthétique: %s", room_id, scenario_name)
-        self._start_wave_thread(room_id)
+        """Arrête un éventuel thread de waveforms sur cette salle."""
+        # Implémentation temporaire - peut être étendue plus tard
+        pass
 
     def _stop_vitaldb(self, room_id: str):
         """Arrête un éventuel replay VitalDB sur cette salle."""
@@ -127,18 +100,22 @@ class SimulatorController:
             logger.info("⏹ VitalDB replay arrêté sur %s", room_id)
         self._stop_wave_thread(room_id)
 
-    def start_vitaldb(self, room_id: str, caseid: int, speed: float = 1.0,
-                      patient_info: dict = None, with_waveforms: bool = False):
+    def start_vitaldb(
+        self,
+        room_id: str,
+        caseid: int,
+        speed: float = 1.0,
+        patient_info: dict = None,
+        with_waveforms: bool = False,
+        case_id: str | None = None,
+    ):
         """Lance un replay VitalDB dans un thread dédié."""
         import threading
         from simulator.replay import find_cases, replay_case
 
-        # Arrêter la salle synthétique et/ou l'ancien replay
+        # Arrêter l'ancien replay s'il existe
         with self._lock:
-            self.rooms.pop(room_id, None)
             self._stop_vitaldb(room_id)
-        # Arrêter aussi le thread wave synthétique (le replay a les siennes)
-        self._stop_wave_thread(room_id)
 
         # Construire patient_info depuis VitalDB metadata si non fourni
         if not patient_info:
@@ -177,12 +154,19 @@ class SimulatorController:
                 logger.error("Erreur replay VitalDB %d: %s", caseid, e)
             finally:
                 self.vitaldb_threads.pop(room_id, None)
+                if case_id:
+                    self.client.publish(
+                        EVENT_TOPIC,
+                        json.dumps(
+                            {
+                                "type": "replay_finished",
+                                "room_id": room_id,
+                                "case_id": case_id,
+                            }
+                        ),
+                        qos=1,
+                    )
                 logger.info("✓ VitalDB replay terminé pour %s (case %d)", room_id, caseid)
-                # Revenir au synthétique normal
-                with self._lock:
-                    if room_id not in self.rooms:
-                        self.rooms[room_id] = SimulatedRoom(room_id=room_id, scenario_name="normal")
-                self._start_wave_thread(room_id)
 
         t = threading.Thread(target=_replay_thread, daemon=True)
         t.start()
@@ -195,56 +179,21 @@ class SimulatorController:
         room_id = payload.get("room_id", "salle_1")
         speed = payload.get("speed", 1.0)
 
-        if action == "start_synthetic":
-            scenario = payload.get("scenario", "normal")
-            if scenario not in SCENARIOS:
-                logger.warning("Scénario inconnu: %s", scenario)
-                return
-            self._add_synthetic(room_id, scenario)
-
-        elif action == "start_vitaldb":
+        if action == "start_vitaldb":
             caseid = payload.get("caseid")
             if caseid is None:
                 logger.warning("Pas de caseid dans la commande")
                 return
             patient_info = payload.get("patient_info")
             with_waveforms = bool(payload.get("with_waveforms", False))
-            self.start_vitaldb(room_id, caseid, speed, patient_info, with_waveforms)
+            case_id = payload.get("case_id")
+            self.start_vitaldb(room_id, caseid, speed, patient_info, with_waveforms, case_id)
 
         elif action == "stop":
-            with self._lock:
-                self.rooms.pop(room_id, None)
-                self._stop_vitaldb(room_id)
-            self._stop_wave_thread(room_id)
+            self._stop_vitaldb(room_id)
             logger.info("⏹ Salle %s arrêtée", room_id)
 
-    def tick_all(self):
-        """Tick toutes les salles synthétiques actives."""
-        with self._lock:
-            for room_id, room in list(self.rooms.items()):
-                msg = room.tick()
-                topic = f"bloc/{room.room_id}/full"
-                self.client.publish(topic, json.dumps(msg), qos=1)
-
-                # Rotation auto quand le scénario se termine
-                if room.scenario.step >= room.scenario.duration_steps:
-                    next_scenario = random.choice(list(SCENARIOS.keys()))
-                    self.rooms[room_id] = SimulatedRoom(
-                        room_id=room.room_id,
-                        scenario_name=next_scenario,
-                    )
-                    logger.info("🔄 %s → nouveau scénario: %s", room.room_id, next_scenario)
-                    # Le wave thread tourne déjà — pas besoin de le redémarrer
-
     def log_status(self):
-        with self._lock:
-            for r in self.rooms.values():
-                v = r.state
-                logger.info(
-                    "[%s] %s | FC=%d SpO2=%.0f PAS=%d PAM=%d EtCO2=%.0f BIS=%d | %s",
-                    r.room_id, r.scenario.name,
-                    v.hr, v.spo2, v.pas, v.pam, v.etco2, v.bis, r.phase,
-                )
         for rid, info in self.vitaldb_threads.items():
             logger.info("[%s] VitalDB replay case %d en cours", rid, info["caseid"])
 
@@ -291,12 +240,12 @@ def main():
             time.sleep(5)
     client.loop_start()
 
-    logger.info("Simulation started — %d salles synthétiques", len(controller.rooms))
+    start_default_vitaldb_rooms(controller)
+    logger.info("Simulation started — VitalDB uniquement")
 
     cycle = 0
     try:
         while True:
-            controller.tick_all()
             Path("/tmp/sim.hb").touch()  # heartbeat pour Docker HEALTHCHECK
 
             cycle += 1

@@ -1,0 +1,41 @@
+version: "2026-04-01"
+goal: "rendre explicites les vides entre referentiel officiel et observation VitalDB"
+
+gap_classes:
+  - terrain_not_in_vitaldb
+  - threshold_present_in_sources_but_not_computable
+  - complication_requires_context_not_recorded
+  - waveform_signal_missing
+  - event_timing_missing
+  - official_required_input_missing
+
+high_priority_gaps:
+  - gap_id: hypotension_relative_baseline_missing
+    complication_id: hypotension_perioperatoire
+    gap_class: threshold_present_in_sources_but_not_computable
+    description: "La baisse relative de pression arterielle par rapport a la baseline officielle n'est pas encore calculee proprement de bout en bout."
+  - gap_id: hemorrhage_biology_incomplete
+    complication_id: choc_hemorragique_transfusion_massive
+    gap_class: threshold_present_in_sources_but_not_computable
+    description: "Les seuils fibrinogene/coagulation/calcium de la KB officielle ne sont pas encore disponibles de facon dense dans tous les cas VitalDB."
+  - gap_id: anaphylaxis_trigger_timing_missing
+    complication_id: anaphylaxie_perioperatoire
+    gap_class: complication_requires_context_not_recorded
+    description: "Le lien temporel avec l'injection du produit suspect et les signes cutanes n'est pas structure dans VitalDB."
+  - gap_id: difficult_airway_attempt_count_missing
+    complication_id: intubation_extubation_difficiles
+    gap_class: event_timing_missing
+    description: "Le nombre exact de tentatives et leur duree ne sont pas encore normalises dans le pipeline VitalDB."
+  - gap_id: obstetric_context_missing
+    complication_id: hypotension_perioperatoire
+    gap_class: terrain_not_in_vitaldb
+    description: "Le contexte obstetrique n'est pas encore present comme terrain structure robuste dans VitalDB."
+  - gap_id: official_required_inputs_not_yet_collected
+    complication_id: multiple
+    gap_class: official_required_input_missing
+    description: "Plusieurs entrees exigees par les sources officielles ne sont pas encore structurees dans le systeme ; voir official_required_inputs.yaml."
+
+policy:
+  - "Un gap documente ne bloque pas l'analyse."
+  - "Un gap documente reduit la confiance ou garde la complication en alignement partiel."
+  - "Aucun algo final ne doit pretendre a une parite officielle tant que le gap critique n'est pas traite."

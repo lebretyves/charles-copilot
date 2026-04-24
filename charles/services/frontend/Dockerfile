@@ -16,5 +16,5 @@ COPY docker-entrypoint.d/10-generate-cert.sh /docker-entrypoint.d/10-generate-ce
 RUN chmod +x /docker-entrypoint.d/10-generate-cert.sh
 EXPOSE 80 443
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD wget --no-check-certificate -qO- https://127.0.0.1/health || exit 1
+    CMD wget -qO- http://127.0.0.1/health || exit 1
 CMD ["nginx", "-g", "daemon off;"]

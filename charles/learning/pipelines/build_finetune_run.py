@@ -12,8 +12,10 @@ from learning.finetune.config import (
     FineTuneDatasetConfig,
     FineTuneModelConfig,
     FineTuneRunConfig,
+    FineTuneTrackingConfig,
 )
 from learning.finetune.runtime import inspect_run_environment, write_prepared_text_dataset
+from learning.dvc_tracking import read_dvc_snapshot_metadata
 from learning.waveforms.segmenter import DEFAULT_MANIFEST_PATH, load_dataset_manifest, resolve_manifest_paths
 
 
@@ -56,8 +58,22 @@ def _count_prepared_metadata(path: Path) -> dict[str, dict[str, int]]:
     }
 
 
-def _write_instructions(run_dir: Path, config_path: Path, environment_report_path: Path, python_executable: str) -> Path:
+def _write_instructions(
+    run_dir: Path,
+    config_path: Path,
+    environment_report_path: Path,
+    python_executable: str,
+    tracking_uri: str | None,
+    experiment_name: str,
+) -> Path:
     instructions_path = run_dir / "README.md"
+    tracking_lines = [
+        "7. Optional local run tracking with MLflow:",
+        f"   tracking URI: `{tracking_uri or 'not configured'}`",
+        f"   experiment name: `{experiment_name}`",
+        "   Example UI command once MLflow is installed:",
+        f"   `& \"{python_executable}\" -m mlflow ui --backend-store-uri \"{tracking_uri or ''}\"`",
+    ]
     instructions_path.write_text(
         "\n".join(
             [
@@ -72,6 +88,8 @@ def _write_instructions(run_dir: Path, config_path: Path, environment_report_pat
                 f"   `& \"{python_executable}\" -m learning.finetune.train_local_sft --config \"{config_path}\" --validate-only`",
                 "5. Inspect the generated environment report and resolve any blocking issues.",
                 f"6. Launch training when the run is ready: `& \"{python_executable}\" -m learning.finetune.train_local_sft --config \"{config_path}\"`",
+                "",
+                *tracking_lines,
                 "",
                 "Artifacts written by this run pack:",
                 f"- config: `{config_path.name}`",
@@ -171,10 +189,12 @@ def build_finetune_run(
     repo_root = workspace_root.parent
     venv_python = workspace_root / ".venv-finetune" / "Scripts" / "python.exe"
     python_executable = str(venv_python) if venv_python.exists() else "py"
+    tracking_store = workspace_root / "mlruns"
 
     configured_model_path = base_model_path or str(
         (workspace_root / "local_models" / "meditron-7b-transformers")
     )
+    dvc_metadata = read_dvc_snapshot_metadata(output_dir)
     config = FineTuneRunConfig(
         run_id=run_name,
         created_at=datetime.now(timezone.utc).isoformat(),
@@ -188,6 +208,9 @@ def build_finetune_run(
             prepared_train_path=str(prepared_train_path),
             prepared_eval_path=str(prepared_eval_path) if prepared_eval_path.exists() else None,
             export_summary_path=str(export_summary_path) if export_summary_path.exists() else None,
+            dvc_snapshot_path=dvc_metadata["snapshot_path"] if dvc_metadata else None,
+            dvc_tracked_path=dvc_metadata["tracked_path"] if dvc_metadata else None,
+            dvc_md5=dvc_metadata["md5"] if dvc_metadata else None,
         ),
         model=FineTuneModelConfig(
             base_model_path=configured_model_path,
@@ -202,6 +225,17 @@ def build_finetune_run(
             environment_report_path=str(environment_report_path),
             training_summary_path=str(training_summary_path),
         ),
+        tracking=FineTuneTrackingConfig(
+            enabled=True,
+            strict=False,
+            tracking_uri=str(tracking_store),
+            experiment_name="charles-local-finetune",
+            run_name_prefix="charles",
+            tags={
+                "charles.dataset_id": manifest.dataset_id,
+                "charles.dataset_version": manifest.dataset_version,
+            },
+        ),
         notes=[
             "This scaffold assumes a local Transformers-compatible base model directory.",
             "Ollama remains the runtime target after fine-tuning, not the training input format.",
@@ -212,7 +246,14 @@ def build_finetune_run(
     environment = _collect_environment_report(config, config_path, repo_root)
     environment_report_path.write_text(json.dumps(environment, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    instructions_path = _write_instructions(run_dir, config_path, environment_report_path, python_executable)
+    instructions_path = _write_instructions(
+        run_dir,
+        config_path,
+        environment_report_path,
+        python_executable,
+        config.tracking.tracking_uri,
+        config.tracking.experiment_name,
+    )
     launch_script_path = _write_launch_script(run_dir, config_path, python_executable)
 
     train_profile = _count_prepared_metadata(prepared_train_path)
@@ -241,6 +282,11 @@ def build_finetune_run(
         "instructions_path": str(instructions_path),
         "launch_script_path": str(launch_script_path),
         "python_executable": python_executable,
+        "tracking_enabled": config.tracking.enabled,
+        "tracking_uri": config.tracking.tracking_uri,
+        "experiment_name": config.tracking.experiment_name,
+        "dvc_snapshot_path": config.dataset.dvc_snapshot_path,
+        "dvc_md5": config.dataset.dvc_md5,
     }
     (run_dir / "run_summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
     return summary

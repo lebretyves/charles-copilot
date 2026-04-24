@@ -1,7 +1,8 @@
 """
 CHARLES - Authentication helpers.
 
-JWT-like token handling plus a small in-memory user store for local/dev usage.
+Tokens are HMAC-signed and active users are cached in memory for fast auth.
+The cache is bootstrapped from PostgreSQL at startup.
 """
 
 from __future__ import annotations
@@ -11,8 +12,9 @@ import hashlib
 import hmac
 import json
 import logging
-import time
 import os
+import time
+from typing import Any
 
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -59,22 +61,154 @@ def _verify_password(password: str, stored_hash: str) -> bool:
         )
         return hmac.compare_digest(candidate, _b64decode(digest_text))
 
-    # Legacy SHA-256 compatibility for older hashes.
     return hmac.compare_digest(stored_hash, hashlib.sha256(password.encode()).hexdigest())
+
+
+def normalize_username(username: str) -> str:
+    return username.strip().lower()
 
 
 _DEFAULT_PWD = settings.charles_default_password
 _ADMIN_PWD = settings.charles_admin_password
-USERS = {
-    "iade1": {"password_hash": _hash_password(_DEFAULT_PWD), "role": "iade", "name": "IADE 1"},
-    "iade2": {"password_hash": _hash_password(_DEFAULT_PWD), "role": "iade", "name": "IADE 2"},
-    "mar1": {"password_hash": _hash_password(_DEFAULT_PWD), "role": "mar", "name": "MAR 1"},
-    "admin": {"password_hash": _hash_password(_ADMIN_PWD), "role": "admin", "name": "Admin"},
-}
+
+
+def _build_default_users() -> dict[str, dict[str, Any]]:
+    return {
+        "iade1": {
+            "password_hash": _hash_password(_DEFAULT_PWD),
+            "role": "iade",
+            "name": "IADE 1",
+            "is_active": True,
+            "must_change_password": False,
+            "source": "builtin",
+            "created_by": "bootstrap",
+        },
+        "iade2": {
+            "password_hash": _hash_password(_DEFAULT_PWD),
+            "role": "iade",
+            "name": "IADE 2",
+            "is_active": True,
+            "must_change_password": False,
+            "source": "builtin",
+            "created_by": "bootstrap",
+        },
+        "mar1": {
+            "password_hash": _hash_password(_DEFAULT_PWD),
+            "role": "mar",
+            "name": "MAR 1",
+            "is_active": True,
+            "must_change_password": False,
+            "source": "builtin",
+            "created_by": "bootstrap",
+        },
+        "admin": {
+            "password_hash": _hash_password(_ADMIN_PWD),
+            "role": "admin",
+            "name": "Admin",
+            "is_active": True,
+            "must_change_password": False,
+            "source": "builtin",
+            "created_by": "bootstrap",
+        },
+    }
+
+
+USERS: dict[str, dict[str, Any]] = _build_default_users()
+
+
+def _default_user_rows() -> list[dict[str, Any]]:
+    return [{"username": username, **payload} for username, payload in _build_default_users().items()]
+
+
+def _load_users_into_cache(rows: list[dict[str, Any]]) -> None:
+    USERS.clear()
+    for row in rows:
+        if not row.get("is_active", True):
+            continue
+        username = normalize_username(str(row["username"]))
+        USERS[username] = {
+            "password_hash": row["password_hash"],
+            "role": row["role"],
+            "name": row["name"],
+            "is_active": row.get("is_active", True),
+            "must_change_password": row.get("must_change_password", False),
+            "source": row.get("source", "admin"),
+            "created_by": row.get("created_by"),
+            "created_at": row.get("created_at"),
+            "updated_at": row.get("updated_at"),
+        }
+    if not USERS:
+        USERS.update(_build_default_users())
+
+
+def _get_db_module():
+    from app import database as db
+
+    return db
+
+
+async def refresh_user_store() -> None:
+    db = _get_db_module()
+    rows = await db.list_user_accounts(include_password_hash=True, include_inactive=False)
+    if not rows:
+        USERS.clear()
+        USERS.update(_build_default_users())
+        return
+    _load_users_into_cache(rows)
+
+
+async def bootstrap_user_store() -> None:
+    db = _get_db_module()
+    for row in _default_user_rows():
+        await db.ensure_user_account(row)
+    await refresh_user_store()
+
+
+async def list_users_for_admin() -> list[dict[str, Any]]:
+    db = _get_db_module()
+    return await db.list_user_accounts(include_password_hash=False, include_inactive=True)
+
+
+async def create_user_for_admin(
+    *,
+    username: str,
+    password: str,
+    role: str,
+    name: str,
+    created_by: str | None,
+    must_change_password: bool = True,
+) -> dict[str, Any]:
+    db = _get_db_module()
+    normalized_username = normalize_username(username)
+    if normalized_username in ("", "anonymous"):
+        raise ValueError("Nom d'utilisateur invalide")
+    if len(password) < 8:
+        raise ValueError("Le mot de passe doit contenir au moins 8 caracteres")
+    if not name.strip():
+        raise ValueError("Le nom affiche est requis")
+    if await db.get_user_account(normalized_username):
+        raise ValueError("Cet utilisateur existe deja")
+
+    created = await db.create_user_account(
+        {
+            "username": normalized_username,
+            "password_hash": _hash_password(password),
+            "role": role,
+            "name": name.strip(),
+            "is_active": True,
+            "must_change_password": must_change_password,
+            "source": "admin",
+            "created_by": created_by,
+        }
+    )
+    if not created:
+        raise ValueError("Creation utilisateur impossible")
+
+    await refresh_user_store()
+    return created
 
 
 def _create_token(payload: dict) -> str:
-    """Create a JWT-like token (HMAC-SHA256, no external dependency)."""
     header = {"alg": "HS256", "typ": "JWT"}
     payload["exp"] = int(time.time()) + TOKEN_EXPIRY
     payload["iat"] = int(time.time())
@@ -87,7 +221,6 @@ def _create_token(payload: dict) -> str:
 
 
 def _verify_token(token: str) -> dict | None:
-    """Verify and decode a token."""
     parts = token.split(".")
     if len(parts) != 3:
         return None
@@ -109,25 +242,38 @@ def _verify_token(token: str) -> dict | None:
 
 
 def verify_token(token: str) -> dict | None:
-    """Public API used by REST and WebSocket auth."""
     return _verify_token(token)
 
 
 def authenticate(username: str, password: str) -> dict | None:
-    """Authenticate a user and return a bearer token."""
-    user = USERS.get(username)
+    normalized_username = normalize_username(username)
+    user = USERS.get(normalized_username)
     if not user:
+        return None
+    if not user.get("is_active", True):
         return None
     if not _verify_password(password, user["password_hash"]):
         return None
-    token = _create_token({"sub": username, "role": user["role"], "name": user["name"]})
-    return {"access_token": token, "token_type": "bearer", "role": user["role"], "name": user["name"]}
+    token = _create_token(
+        {
+            "sub": normalized_username,
+            "role": user["role"],
+            "name": user["name"],
+            "must_change_password": user.get("must_change_password", False),
+        }
+    )
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "role": user["role"],
+        "name": user["name"],
+        "must_change_password": user.get("must_change_password", False),
+    }
 
 
 async def get_current_user(
     credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> dict:
-    """FastAPI dependency that extracts the current user from the bearer token."""
     if not credentials:
         raise HTTPException(status_code=401, detail="Authentification requise")
 
@@ -138,8 +284,6 @@ async def get_current_user(
 
 
 def require_role(*roles: str):
-    """FastAPI dependency that enforces an allowed role list."""
-
     async def check(user: dict = Depends(get_current_user)):
         if user.get("sub") in (None, "", "anonymous"):
             raise HTTPException(status_code=401, detail="Authentification requise")

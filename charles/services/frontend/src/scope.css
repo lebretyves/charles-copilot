@@ -13,6 +13,7 @@
 
 /* ── Reset + Base ────────────────────────────────────────────── */
 @import "./styles/room-monitor-shell.css";
+@import "./styles/trend-history-card.css";
 @import "./styles/scenario-panel.css";
 
 *, *::before, *::after {
@@ -1769,6 +1770,93 @@ html, body {
     border: 1px solid rgba(128,203,196,0.15);
   }
 
+  .user-admin-grid {
+    display: grid;
+    grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+  }
+
+  .user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .user-form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .user-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .user-form-input {
+    width: 100%;
+    min-height: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: rgba(8, 16, 26, 0.9);
+    color: var(--text-primary);
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .user-form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--text-primary);
+  }
+
+  .user-form-actions {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .user-table-wrap {
+    overflow-x: auto;
+  }
+
+  .user-source-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  .admin-feedback {
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: rgba(0, 230, 118, 0.08);
+    border: 1px solid rgba(0, 230, 118, 0.2);
+    color: var(--green);
+    font-size: 12px;
+  }
+
+  .admin-feedback--error {
+    background: rgba(239, 83, 80, 0.08);
+    border-color: rgba(239, 83, 80, 0.2);
+    color: var(--red);
+  }
+
+  @media (max-width: 1180px) {
+    .user-admin-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   .admin-hint {
     font-size: 11px;
     color: var(--text-muted);
@@ -2117,6 +2205,7 @@ html, body {
   font-size: 6px;
   color: #4a8898;
 }
+
 
 .sc-val {
   font-size: 20px;

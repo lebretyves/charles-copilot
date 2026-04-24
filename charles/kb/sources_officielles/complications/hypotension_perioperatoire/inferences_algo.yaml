@@ -1,0 +1,23 @@
+topic_id: hypotension_perioperatoire
+inferences:
+  - inference_id: hypotension_weighted_score
+    status: design_proposal
+    kind: weighted_factor
+    proposal: "Construire un score associant PAM < 65, baisse relative >= 20 % et charge temporelle sous seuil."
+    derived_from:
+      - map_absolute_low_65
+      - map_relative_drop_20pct
+      - duration_under_threshold_contributes_to_risk
+  - inference_id: hypotension_profile_modulation
+    status: design_proposal
+    kind: threshold_modulator
+    proposal: "Rendre les seuils plus sensibles et les alertes plus prioritaires chez le coronarien, l'HTA chronique, l'insuffisant cardiaque et le terrain obstetrique."
+    derived_from:
+      - individualized_targets_for_high_risk_profiles
+  - inference_id: hypotension_combined_context
+    status: design_proposal
+    kind: combination_candidate
+    proposal: "Ponderer plus fortement hypotension + bradycardie, hypotension + tachycardie et hypotension + baisse d'EtCO2 que l'hypotension isolee."
+    derived_from:
+      - map_absolute_low_65
+      - duration_under_threshold_contributes_to_risk

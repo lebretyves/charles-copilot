@@ -1,0 +1,156 @@
+version: "2026-04-01"
+principle: "terrains modify complications, they do not replace them"
+
+terrains:
+  - terrain_id: cardiovasculaire_haut_risque
+    type: physiologic_vulnerability
+    affects:
+      - complication_id: hypotension_perioperatoire
+        modifiers:
+          - modifier_type: increase_priority
+            strength: high
+          - modifier_type: lower_threshold
+            strength: medium
+            affected_features: [PAM, PAS]
+          - modifier_type: increase_missing_data_penalty
+            strength: medium
+      - complication_id: choc_hemorragique_transfusion_massive
+        modifiers:
+          - modifier_type: increase_priority
+            strength: medium
+          - modifier_type: upweight_factor
+            strength: medium
+            affected_features: [hemoglobin, PAM, PAS]
+
+  - terrain_id: obstetrique
+    type: context_specific
+    affects:
+      - complication_id: hypotension_perioperatoire
+        modifiers:
+          - modifier_type: increase_sensitivity
+            strength: high
+          - modifier_type: lower_threshold
+            strength: medium
+            affected_features: [PAS, PAM]
+      - complication_id: choc_hemorragique_transfusion_massive
+        modifiers:
+          - modifier_type: increase_priority
+            strength: high
+      - complication_id: intubation_extubation_difficiles
+        modifiers:
+          - modifier_type: increase_priority
+            strength: medium
+
+  - terrain_id: bpco_asthme
+    type: respiratory_terrain
+    affects:
+      - complication_id: bronchospasme_perioperatoire
+        modifiers:
+          - modifier_type: increase_sensitivity
+            strength: high
+          - modifier_type: upweight_factor
+            strength: high
+            affected_features: [Ppeak, EtCO2, SpO2]
+      - complication_id: anaphylaxie_perioperatoire
+        modifiers:
+          - modifier_type: upweight_factor
+            strength: medium
+            affected_features: [Ppeak, SpO2]
+
+  - terrain_id: obesite_saos_voies_aeriennes
+    type: airway_terrain
+    affects:
+      - complication_id: intubation_extubation_difficiles
+        modifiers:
+          - modifier_type: increase_priority
+            strength: high
+          - modifier_type: increase_sensitivity
+            strength: medium
+      - complication_id: bronchospasme_perioperatoire
+        modifiers:
+          - modifier_type: increase_missing_data_penalty
+            strength: low
+
+  - terrain_id: pediatrique
+    type: age_dependent
+    affects:
+      - complication_id: laryngospasme_enfant
+        modifiers:
+          - modifier_type: increase_priority
+            strength: high
+      - complication_id: bronchospasme_perioperatoire
+        modifiers:
+          - modifier_type: increase_sensitivity
+            strength: medium
+      - complication_id: intubation_extubation_difficiles
+        modifiers:
+          - modifier_type: increase_priority
+            strength: medium
+
+  - terrain_id: sujet_age_fragile
+    type: reduced_reserve
+    affects:
+      - complication_id: hypotension_perioperatoire
+        modifiers:
+          - modifier_type: increase_priority
+            strength: high
+      - complication_id: hypothermie_perioperatoire
+        modifiers:
+          - modifier_type: increase_sensitivity
+            strength: medium
+      - complication_id: anaphylaxie_perioperatoire
+        modifiers:
+          - modifier_type: increase_missing_data_penalty
+            strength: low
+
+  - terrain_id: insuffisance_renale
+    type: organ_vulnerability
+    affects:
+      - complication_id: hypotension_perioperatoire
+        modifiers:
+          - modifier_type: increase_priority
+            strength: medium
+          - modifier_type: increase_missing_data_penalty
+            strength: medium
+      - complication_id: choc_hemorragique_transfusion_massive
+        modifiers:
+          - modifier_type: upweight_factor
+            strength: medium
+            affected_features: [calcium_ionized, hemoglobin]
+
+  - terrain_id: anticoagulants_antiagregants
+    type: bleeding_thrombotic_balance
+    affects:
+      - complication_id: choc_hemorragique_transfusion_massive
+        modifiers:
+          - modifier_type: increase_priority
+            strength: high
+          - modifier_type: increase_sensitivity
+            strength: medium
+      - complication_id: embolie_pulmonaire_etat_de_choc
+        modifiers:
+          - modifier_type: require_additional_data
+            strength: medium
+
+  - terrain_id: htp
+    type: cardiopulmonary_vulnerability
+    affects:
+      - complication_id: embolie_pulmonaire_etat_de_choc
+        modifiers:
+          - modifier_type: increase_priority
+            strength: medium
+          - modifier_type: upweight_factor
+            strength: medium
+            affected_features: [SpO2, EtCO2, PAM]
+
+  - terrain_id: diabete
+    type: metabolic_autonomic
+    affects:
+      - complication_id: hypotension_perioperatoire
+        modifiers:
+          - modifier_type: increase_missing_data_penalty
+            strength: low
+      - complication_id: choc_hemorragique_transfusion_massive
+        modifiers:
+          - modifier_type: require_additional_data
+            strength: low

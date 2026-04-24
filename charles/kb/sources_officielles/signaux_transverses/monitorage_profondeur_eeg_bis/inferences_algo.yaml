@@ -1,0 +1,22 @@
+topic_id: monitorage_profondeur_eeg_bis
+inferences:
+  - inference_id: bis_as_context_not_universal_detector
+    status: design_proposal
+    kind: interpretation_rule
+    proposal: "Utiliser le BIS/EEG traite comme signal contextuel pour la profondeur hypnotique, pas comme detecteur universel de complication cardio-respiratoire."
+    derived_from:
+      - processed_eeg_monitoring_reduces_over_and_under_dose_risk
+      - processed_eeg_tracks_slowing_and_regularization
+  - inference_id: bis_can_help_disambiguate_hypotension
+    status: design_proposal
+    kind: support_factor
+    proposal: "En cas d'hypotension, un BIS bas ou un EEG traite tres ralenti peut soutenir l'hypothese de surprofondeur hypnotique plutot qu'une cause purement hemodynamique."
+    derived_from:
+      - bis_scale_zero_to_hundred
+      - processed_eeg_monitoring_reduces_over_and_under_dose_risk
+  - inference_id: bis_limitations_must_penalize_confidence
+    status: design_proposal
+    kind: confidence_penalty
+    proposal: "Reduire la confiance accordee au BIS/EEG traite quand le contexte anesthesique comprend ketamine ou protoxyde d'azote."
+    derived_from:
+      - processed_eeg_limited_with_ketamine_or_n2o

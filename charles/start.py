@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 """
-╔══════════════════════════════════════════════════════════════╗
-║  CHARLES — Lanceur universel (Windows / macOS / Linux)       ║
-║  python start.py                                             ║
-║                                                              ║
-║  Ce script :                                                 ║
-║   1. Vérifie / installe Docker si absent                     ║
-║   2. Démarre Docker Desktop (Win/Mac) ou le daemon (Linux)  ║
-║   3. Crée le .env depuis .env.example si manquant           ║
-║   4. Lance docker compose up --build                         ║
-║   5. Attend que le frontend soit prêt                        ║
-║   6. Ouvre le navigateur sur http://localhost:3000           ║
-╚══════════════════════════════════════════════════════════════╝
+CHARLES - Lanceur universel (Windows / macOS / Linux)
+python start.py
+
+Ce script :
+  1. Verifie / installe Docker si absent
+  2. Demarre Docker Desktop (Win/Mac) ou le daemon (Linux)
+  3. Cree le .env depuis .env.example si manquant
+  4. Lance docker compose up --build
+  5. Attend que le frontend soit pret
+  6. Ouvre le navigateur sur http://localhost:3000
 """
 
 import os
@@ -19,13 +17,15 @@ import sys
 import platform
 import subprocess
 import shutil
+import ssl
 import time
-import socket
+import urllib.request
 import webbrowser
 from pathlib import Path
 
 # ── Configuration ──────────────────────────────────────────────
 FRONTEND_URL   = "http://localhost:3000"
+FRONTEND_HEALTH_URL = f"{FRONTEND_URL}/health"
 BACKEND_URL    = "http://localhost:8000"
 HEALTHCHECK_TIMEOUT = 180  # secondes
 COMPOSE_FILE   = Path(__file__).parent / "docker-compose.yml"
@@ -57,32 +57,32 @@ DIM     = _ansi("2")
 
 
 def header():
-    print(f"""
-{CYAN}{BOLD}╔══════════════════════════════════════════════════════════════╗
-║  {WHITE}CHARLES{CYAN} — Copilote IA Vigilance Anesthésique Peropératoire  ║
-║  {DIM}Lanceur universel v1.0 — Windows · macOS · Linux{CYAN}              ║
-╚══════════════════════════════════════════════════════════════╝{RESET}
-""")
+    print(
+        f"\n{CYAN}{BOLD}=============================================================={RESET}\n"
+        f"{CYAN}{BOLD}  {WHITE}CHARLES{CYAN} - Lanceur universel v1.0{RESET}\n"
+        f"{DIM}  Copilote IA Vigilance Anesthesique Perioperatoire{RESET}\n"
+        f"{CYAN}{BOLD}=============================================================={RESET}\n"
+    )
 
 
 def info(msg: str):
-    print(f"  {BLUE}⬤{RESET}  {msg}")
+    print(f"  {BLUE}[INFO]{RESET} {msg}")
 
 
 def ok(msg: str):
-    print(f"  {GREEN}✔{RESET}  {msg}")
+    print(f"  {GREEN}[ OK ]{RESET} {msg}")
 
 
 def warn(msg: str):
-    print(f"  {YELLOW}⚠{RESET}  {msg}")
+    print(f"  {YELLOW}[WARN]{RESET} {msg}")
 
 
 def err(msg: str):
-    print(f"  {RED}✖{RESET}  {msg}")
+    print(f"  {RED}[ERR ]{RESET} {msg}")
 
 
 def step(msg: str):
-    print(f"\n{BOLD}{CYAN}▶ {msg}{RESET}")
+    print(f"\n{BOLD}{CYAN}== {msg}{RESET}")
 
 
 def fatal(msg: str):
@@ -122,11 +122,17 @@ def cmd_exists(name: str) -> bool:
     return shutil.which(name) is not None
 
 
-def is_port_open(host: str, port: int, timeout: float = 2.0) -> bool:
+def url_is_ready(url: str, timeout: float = 2.0) -> bool:
     try:
-        with socket.create_connection((host, port), timeout=timeout):
-            return True
-    except OSError:
+        if url.startswith("https://"):
+            ssl_context = ssl.create_default_context()
+            ssl_context.check_hostname = False
+            ssl_context.verify_mode = ssl.CERT_NONE
+            with urllib.request.urlopen(url, timeout=timeout, context=ssl_context) as response:
+                return 200 <= response.status < 400
+        with urllib.request.urlopen(url, timeout=timeout) as response:
+            return 200 <= response.status < 400
+    except Exception:
         return False
 
 
@@ -136,7 +142,7 @@ def check_python():
     major, minor = sys.version_info[:2]
     if major < 3 or (major == 3 and minor < 8):
         fatal(f"Python 3.8+ requis — version actuelle : {major}.{minor}")
-    ok(f"Python {major}.{minor} ✓")
+    ok(f"Python {major}.{minor} OK")
 
 
 # ── Docker : installation ──────────────────────────────────────
@@ -248,35 +254,17 @@ def wait_for_docker(timeout: int = 60):
         if docker_is_running():
             print()
             return True
-        print(f"\r  {BLUE}⬤{RESET}  Attente de Docker {'.' * (dots % 4 + 1)}   ", end="", flush=True)
+        print(f"\r  {BLUE}[INFO]{RESET} Attente de Docker {'.' * (dots % 4 + 1)}   ", end="", flush=True)
         dots += 1
         time.sleep(2)
     print()
     return False
 
 
-def print_summary():
-    print(
-        f"""
-{CYAN}{BOLD}=============================================================={RESET}
-{CYAN}{BOLD}  CHARLES is running{RESET}
-
-  {GREEN}Frontend{RESET}   http://localhost:3000
-  {BLUE}Backend{RESET}    http://localhost:8000/docs
-
-  Default admin account:
-    login    : admin
-    password : admin2026
-
-  Use docker compose down to stop the stack.
-"""
-    )
-
-
 def ensure_docker_running():
     step("Démarrage de Docker")
     if docker_is_running():
-        ok("Docker daemon actif ✓")
+        ok("Docker daemon actif")
         return
     warn("Docker n'est pas démarré — lancement automatique …")
     if OS == "windows":
@@ -291,7 +279,7 @@ def ensure_docker_running():
             "Docker n'a pas démarré dans le délai imparti.\n"
             "Lancez Docker Desktop manuellement puis relancez start.py"
         )
-    ok("Docker prêt ✓")
+    ok("Docker pret")
 
 
 # ── Docker Compose : vérification ─────────────────────────────
@@ -330,7 +318,7 @@ def ensure_env():
 def launch_stack(compose_cmd: list[str]):
     step("Lancement de la stack CHARLES")
     info("docker compose up --build (première fois : ~5 à 10 min) …")
-    print(f"\n{DIM}{'─' * 64}{RESET}\n")
+    print(f"\n{DIM}{'-' * 64}{RESET}\n")
 
     cmd = compose_cmd + [
         "--file", str(COMPOSE_FILE),
@@ -338,10 +326,10 @@ def launch_stack(compose_cmd: list[str]):
         "--remove-orphans"
     ]
     result = subprocess.run(cmd)
-    print(f"\n{DIM}{'─' * 64}{RESET}")
+    print(f"\n{DIM}{'-' * 64}{RESET}")
     if result.returncode != 0:
         fatal("docker compose up a échoué — consultez les logs ci-dessus.")
-    ok("Tous les services sont lancés en arrière-plan ✓")
+    ok("Tous les services sont lances en arriere-plan")
 
 
 # ── Attente du frontend ────────────────────────────────────────
@@ -350,13 +338,13 @@ def wait_for_frontend():
     deadline = time.time() + HEALTHCHECK_TIMEOUT
     dots = 0
     while time.time() < deadline:
-        if is_port_open("localhost", 3000):
+        if url_is_ready(FRONTEND_HEALTH_URL):
             print()
-            ok(f"Frontend prêt ✓ — {FRONTEND_URL}")
+            ok(f"Frontend pret - {FRONTEND_URL}")
             return
         remaining = int(deadline - time.time())
         print(
-            f"\r  {BLUE}⬤{RESET}  Démarrage des containers {'.' * (dots % 4 + 1)} "
+            f"\r  {BLUE}[INFO]{RESET} Demarrage des containers {'.' * (dots % 4 + 1)} "
             f"({remaining}s restantes)   ",
             end="", flush=True
         )
@@ -364,27 +352,7 @@ def wait_for_frontend():
         time.sleep(3)
     print()
     warn(f"Le frontend n'est pas encore disponible après {HEALTHCHECK_TIMEOUT}s.")
-    warn("Vous pouvez tout de même ouvrir http://localhost:3000 dans quelques instants.")
-
-
-# ── Affichage du résumé ────────────────────────────────────────
-def print_summary():
-    print(f"""
-{CYAN}{BOLD}╔══════════════════════════════════════════════════════════════╗
-║  {WHITE}CHARLES est démarré !{CYAN}                                         ║
-╠══════════════════════════════════════════════════════════════╣
-║                                                              ║
-║  {GREEN}Frontend IADE{CYAN}   →  http://localhost:3000                      ║
-║  {BLUE}Backend API{CYAN}     →  http://localhost:8000/docs                  ║
-║                                                              ║
-║  {YELLOW}Identifiants par défaut :{CYAN}                                     ║
-║    Login    : admin                                          ║
-║    Mot de passe : admin2026                                  ║
-║                                                              ║
-║  {DIM}Pour arrêter : docker compose down{CYAN}                             ║
-║  {DIM}Pour les logs : docker compose logs -f{CYAN}                         ║
-╚══════════════════════════════════════════════════════════════╝{RESET}
-""")
+    warn("Vous pouvez tout de meme ouvrir http://localhost:3000 dans quelques instants.")
 
 
 # ── Commandes utiles ───────────────────────────────────────────
@@ -403,16 +371,16 @@ def print_summary():
     print(
         f"""
 {CYAN}{BOLD}=============================================================={RESET}
-{CYAN}{BOLD}  CHARLES is running{RESET}
+{CYAN}{BOLD}  CHARLES est demarre{RESET}
 
-  {GREEN}Frontend{RESET}   http://localhost:3000
-  {BLUE}Backend{RESET}    http://localhost:8000/docs
+  {GREEN}Frontend{RESET}   {FRONTEND_URL}
+  {BLUE}Backend{RESET}    {BACKEND_URL}/docs
 
-  Default admin account:
+  Identifiants par defaut:
     login    : admin
     password : admin2026
 
-  Use docker compose down to stop the stack.
+  Utilisez docker compose down pour arreter la stack.
 """
     )
 
@@ -430,7 +398,7 @@ def main():
     ensure_docker_running()
 
     compose_cmd = get_compose_cmd()
-    ok(f"docker compose trouvé : {' '.join(compose_cmd)} ✓")
+    ok(f"docker compose trouve : {' '.join(compose_cmd)}")
 
     ensure_env()
     launch_stack(compose_cmd)

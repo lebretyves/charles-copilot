@@ -1,0 +1,7 @@
+topic_id: obstetrique
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille_partiel
+open_points:
+  - "Extraire dans un second passage les seuils d'intervention tensionnelle de la RFE SFAR preeclampsie grave si on veut un algorithme obstetrique haute criticite."
+  - "Distinguer plus finement la rachianesthesie de cesarienne programmee, l'extension peridurale urgente et l'hemorragie obstetricale."

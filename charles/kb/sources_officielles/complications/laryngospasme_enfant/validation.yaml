@@ -1,0 +1,6 @@
+topic_id: laryngospasme_enfant
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille
+open_points:
+  - "Le noyau documentaire est maintenant solide ; il manque surtout le contexte runtime de survenue, la capnographie temps reel et les donnees d'IVAS patient-specifiques."

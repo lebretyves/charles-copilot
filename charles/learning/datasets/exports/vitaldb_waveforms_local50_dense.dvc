@@ -1,0 +1,6 @@
+outs:
+- md5: cb70de4f3de660564150135b1b815ca6.dir
+  size: 246345578
+  nfiles: 2
+  hash: md5
+  path: vitaldb_waveforms_local50_dense

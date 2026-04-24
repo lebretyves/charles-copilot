@@ -1,0 +1,7 @@
+topic_id: choc_hemorragique_transfusion_massive
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille
+open_points:
+  - "Le dossier est maintenant exploitable pour un score combine hemodynamique-biologie, mais un second passage pourra encore separer plus finement suspicion precoce, transfusion massive previsible et transfusion massive declaree."
+  - "Conserver explicitement la difference entre facteurs de diagnostic, facteurs de gravite et cibles therapeutiques."

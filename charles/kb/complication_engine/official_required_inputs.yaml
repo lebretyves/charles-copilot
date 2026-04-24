@@ -1,0 +1,343 @@
+version: "2026-04-01"
+goal: "rendre explicites les donnees qu'il faut capter pour couvrir correctement les sources officielles"
+
+complications:
+  - complication_id: hypotension_perioperatoire
+    official_required_inputs:
+      required:
+        - input_id: baseline_blood_pressure
+          label_fr: "Pression arterielle de reference"
+          why: "necessaire pour calculer une baisse relative conforme aux sources officielles"
+          current_status: partial
+        - input_id: cumulative_hypotension_duration
+          label_fr: "Duree cumulee sous seuil"
+          why: "les sources insistent sur le burden hypotensif et pas seulement le minimum ponctuel"
+          current_status: missing
+      useful:
+        - input_id: vasopressor_timing
+          label_fr: "Horodatage des vasopresseurs"
+          why: "ameliore la distinction entre hypotension corrigee et hypotension refractaire"
+          current_status: partial
+        - input_id: processed_eeg_depth_index
+          label_fr: "Index EEG traite type BIS/Entropy"
+          why: "utile pour distinguer une hypotension de surprofondeur hypnotique d'une autre cause hemodynamique"
+          current_status: missing
+
+  - complication_id: choc_hemorragique_transfusion_massive
+    official_required_inputs:
+      required:
+        - input_id: estimated_blood_loss_time_series
+          label_fr: "Pertes sanguines horodatees"
+          why: "necessaire pour distinguer suspicion precoce et aggravation rapide"
+          current_status: partial
+        - input_id: fibrinogen
+          label_fr: "Fibrinogene"
+          why: "les sources officielles donnent un seuil direct < 1,5 g/L"
+          current_status: partial
+        - input_id: coagulation_panel
+          label_fr: "TP/TCA"
+          why: "les sources utilisent TP < 40 % ou TP/TCA > 1,5 fois la normale"
+          current_status: partial
+        - input_id: ionized_calcium
+          label_fr: "Calcemie ionisee"
+          why: "necessaire pour couvrir la correction de l'hypocalcemie"
+          current_status: partial
+      useful:
+        - input_id: surgical_hemostasis_context
+          label_fr: "Contexte de controle chirurgical du saignement"
+          why: "ameliore l'interpretation du choc hemorragique"
+          current_status: missing
+
+  - complication_id: anaphylaxie_perioperatoire
+    official_required_inputs:
+      required:
+        - input_id: suspect_drug_timing
+          label_fr: "Horodatage du produit suspect"
+          why: "le diagnostic officiel depend de la chronologie apres injection"
+          current_status: missing
+        - input_id: cutaneous_signs
+          label_fr: "Signes cutaneo-muqueux"
+          why: "participent au grade clinique d'anaphylaxie"
+          current_status: missing
+        - input_id: clinical_grade
+          label_fr: "Grade clinique d'anaphylaxie"
+          why: "utile pour la severite et la strategie adrenaline"
+          current_status: missing
+        - input_id: oxygenation_trend
+          label_fr: "Tendance d'oxygenation"
+          why: "les formes respiratoires imposent de suivre la cinetique de desaturation et pas seulement une SpO2 isolee"
+          current_status: partial
+        - input_id: capnography_or_bronchospasm_pattern
+          label_fr: "Capnographie ou pattern de bronchospasme"
+          why: "le CO2 et la forme de capno aident a objectiver la composante respiratoire de l'anaphylaxie"
+          current_status: partial
+      useful:
+        - input_id: tryptase_sampling
+          label_fr: "Prelevements tryptase"
+          why: "utile pour la confirmation secondaire"
+          current_status: missing
+        - input_id: airway_pressure
+          label_fr: "Pression des voies aeriennes"
+          why: "renforce la lecture des formes avec bronchospasme associe"
+          current_status: partial
+
+  - complication_id: bronchospasme_perioperatoire
+    official_required_inputs:
+      required:
+        - input_id: capnography_shape
+          label_fr: "Morphologie capnographique"
+          why: "les sources officielles et MAPAR insistent sur la courbe en requin"
+          current_status: partial
+        - input_id: airway_pressure
+          label_fr: "Pression des voies aeriennes"
+          why: "necessaire pour appliquer les signes de gravite type > 40-45 cmH2O"
+          current_status: available
+        - input_id: etco2_numeric_trend
+          label_fr: "Tendance numerique de l'EtCO2"
+          why: "permet d'associer la baisse de l'EtCO2 a la modification de la forme capnographique"
+          current_status: partial
+      useful:
+        - input_id: auscultation_or_wheeze
+          label_fr: "Sibilants / auscultation"
+          why: "ameliore la distinction bronchospasme vs cause mecanique"
+          current_status: missing
+        - input_id: spo2_trend
+          label_fr: "Tendance de la SpO2"
+          why: "utile pour caracteriser la gravite respiratoire et la reponse au traitement"
+          current_status: partial
+
+  - complication_id: intubation_extubation_difficiles
+    official_required_inputs:
+      required:
+        - input_id: attempt_count
+          label_fr: "Nombre de tentatives"
+          why: "la definition officielle d'intubation difficile depend du nombre de tentatives"
+          current_status: missing
+        - input_id: attempt_duration
+          label_fr: "Duree de tentative"
+          why: "necessaire pour l'alignement avec les definitions basees sur le temps"
+          current_status: partial
+        - input_id: extubation_risk_context
+          label_fr: "Contexte de risque d'extubation"
+          why: "les recommandations officielles couvrent aussi l'extubation difficile"
+          current_status: missing
+      useful:
+        - input_id: cormack_per_attempt
+          label_fr: "Cormack par tentative"
+          why: "ameliore le niveau de precision sur les voies aeriennes difficiles"
+          current_status: partial
+        - input_id: etco2_confirmation_after_airway_management
+          label_fr: "Confirmation capnographique apres prise de VA"
+          why: "utile pour objectiver la ventilation efficace apres intubation ou ventilation de sauvetage"
+          current_status: partial
+
+  - complication_id: hypothermie_perioperatoire
+    official_required_inputs:
+      required:
+        - input_id: core_temperature_continuous
+          label_fr: "Temperature centrale continue"
+          why: "necessaire pour appliquer le seuil officiel < 36 C et la duree d'exposition"
+          current_status: partial
+      useful:
+        - input_id: active_warming_context
+          label_fr: "Rechauffement actif"
+          why: "permet de distinguer echec de prevention et absence de prevention"
+          current_status: missing
+
+  - complication_id: hyperthermie_maligne
+    official_required_inputs:
+      required:
+        - input_id: triggering_agent_context
+          label_fr: "Exposition aux agents declencheurs"
+          why: "les sources officielles reposent sur l'association clinique + agent declencheur"
+          current_status: partial
+        - input_id: etco2_trend_velocity
+          label_fr: "Vitesse d'ascension de l'EtCO2"
+          why: "la cinetique compte plus qu'une valeur isolee"
+          current_status: partial
+        - input_id: rigidity_context
+          label_fr: "Rigidite musculaire"
+          why: "signe cle des recommandations"
+          current_status: missing
+      useful:
+        - input_id: dantrolene_admin
+          label_fr: "Administration de dantrolene"
+          why: "utile pour reconstituer l'evolution et valider la suspicion"
+          current_status: missing
+
+  - complication_id: arret_cardiaque_perioperatoire
+    official_required_inputs:
+      required:
+        - input_id: rhythm_class
+          label_fr: "Rythme choquable ou non choquable"
+          why: "l'algorithme officiel depend du type de rythme"
+          current_status: missing
+        - input_id: chest_compression_context
+          label_fr: "Contexte de massage cardiaque"
+          why: "utile pour l'interpretation de l'EtCO2 et de l'etat per-op"
+          current_status: missing
+      useful:
+        - input_id: shock_delivery_log
+          label_fr: "Journal des chocs"
+          why: "ameliore le suivi de l'algorithme per-op"
+          current_status: missing
+
+  - complication_id: embolie_pulmonaire_etat_de_choc
+    official_required_inputs:
+      required:
+        - input_id: thromboembolic_context
+          label_fr: "Contexte thromboembolique"
+          why: "sans contexte thrombotique, la specificite reste faible"
+          current_status: missing
+        - input_id: right_ventricular_context
+          label_fr: "Contexte de surcharge ventriculaire droite"
+          why: "utile pour distinguer une embolie pulmonaire des autres chocs"
+          current_status: missing
+        - input_id: etco2_sudden_drop
+          label_fr: "Chute brutale de l'EtCO2"
+          why: "le CO2 est une donnee respiratoire-cle pour la suspicion d'embolie pulmonaire grave"
+          current_status: partial
+      useful:
+        - input_id: thrombolysis_context
+          label_fr: "Contexte de thrombolyse"
+          why: "utile pour les formes graves"
+          current_status: missing
+        - input_id: oxygenation_trend
+          label_fr: "Tendance d'oxygenation"
+          why: "aide a caracteriser l'aggravation respiratoire associee au choc"
+          current_status: partial
+
+  - complication_id: laryngospasme_enfant
+    official_required_inputs:
+      required:
+        - input_id: pediatric_context
+          label_fr: "Contexte pediatrique structure"
+          why: "la complication est specifique de l'enfant dans notre referentiel"
+          current_status: partial
+        - input_id: extubation_or_stimulation_phase
+          label_fr: "Phase per-extubation ou stimulation laryngee"
+          why: "le contexte de survenue est central"
+          current_status: missing
+        - input_id: ventilation_absence_or_stridor
+          label_fr: "Absence de ventilation ou stridor"
+          why: "renforce la specificite clinique du laryngospasme"
+          current_status: missing
+        - input_id: capnography_presence
+          label_fr: "Presence ou disparition de la capnographie"
+          why: "le signal CO2 aide a objectiver l'absence de ventilation efficace"
+          current_status: partial
+      useful:
+        - input_id: recent_uri
+          label_fr: "IVAS recente"
+          why: "facteur de risque important dans les sources"
+          current_status: missing
+        - input_id: spo2_drop_kinetics
+          label_fr: "Cinetique de desaturation"
+          why: "utile pour differencier un episode rapidement severe d'un evenement plus transitoire"
+          current_status: partial
+
+terrains:
+  - terrain_id: sujet_age_fragile
+    official_required_inputs:
+      - input_id: frailty_status
+        label_fr: "Statut de fragilite"
+        current_status: missing
+      - input_id: reserve_fonctionnelle
+        label_fr: "Reserve fonctionnelle"
+        current_status: missing
+
+  - terrain_id: pediatrique
+    official_required_inputs:
+      - input_id: age_class
+        label_fr: "Classe d'age operatoire"
+        current_status: partial
+      - input_id: recent_uri
+        label_fr: "IVAS recente"
+        current_status: missing
+
+  - terrain_id: obstetrique
+    official_required_inputs:
+      - input_id: pregnancy_status
+        label_fr: "Grossesse en cours"
+        current_status: missing
+      - input_id: obstetric_subcontext
+        label_fr: "Contexte obstetrical"
+        current_status: missing
+      - input_id: preeclampsia_status
+        label_fr: "Preeclampsie"
+        current_status: missing
+
+  - terrain_id: diabete
+    official_required_inputs:
+      - input_id: diabetes_type
+        label_fr: "Type de diabete"
+        current_status: missing
+      - input_id: insulin_pump
+        label_fr: "Pompe a insuline"
+        current_status: missing
+      - input_id: autonomic_neuropathy
+        label_fr: "Neuropathie autonome"
+        current_status: missing
+
+  - terrain_id: insuffisance_renale
+    official_required_inputs:
+      - input_id: renal_stage
+        label_fr: "Stade d'insuffisance renale"
+        current_status: missing
+      - input_id: creatinine_clearance
+        label_fr: "Clairance de la creatinine"
+        current_status: missing
+      - input_id: urine_output_continuous
+        label_fr: "Diurese continue"
+        current_status: missing
+
+  - terrain_id: cardiovasculaire_haut_risque
+    official_required_inputs:
+      - input_id: coronary_status
+        label_fr: "Coronaropathie"
+        current_status: missing
+      - input_id: heart_failure_status
+        label_fr: "Insuffisance cardiaque"
+        current_status: missing
+      - input_id: arrhythmia_structured
+        label_fr: "Arythmie structuree"
+        current_status: missing
+
+  - terrain_id: htp
+    official_required_inputs:
+      - input_id: pulmonary_hypertension_status
+        label_fr: "HTP connue"
+        current_status: missing
+      - input_id: right_ventricular_status
+        label_fr: "Statut du ventricule droit"
+        current_status: missing
+
+  - terrain_id: obesite_saos_voies_aeriennes
+    official_required_inputs:
+      - input_id: osa_status
+        label_fr: "SAOS confirme"
+        current_status: missing
+      - input_id: cpap_use
+        label_fr: "Usage de CPAP"
+        current_status: missing
+
+  - terrain_id: bpco_asthme
+    official_required_inputs:
+      - input_id: respiratory_terrain_subtype
+        label_fr: "BPCO ou asthme"
+        current_status: missing
+      - input_id: recent_exacerbation
+        label_fr: "Exacerbation recente"
+        current_status: missing
+
+  - terrain_id: anticoagulants_antiagregants
+    official_required_inputs:
+      - input_id: antithrombotic_drug_exact
+        label_fr: "Traitement antithrombotique exact"
+        current_status: missing
+      - input_id: last_dose_time
+        label_fr: "Date de derniere prise"
+        current_status: missing
+      - input_id: neuraxial_plan
+        label_fr: "Projet neuraxial"
+        current_status: missing

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 from typing import Literal
 
@@ -47,6 +48,8 @@ class Settings(BaseSettings):
     mqtt_password_file: str | None = None
 
     kb_path: str = "kb"
+    learning_root: str = "learning"
+    alerting_runtime_path: str = "ops/runtime/alert_rules.json"
     vitaldb_metadata: str = "vitaldb/clinical_metadata.csv"
     vitaldb_cases: str = "vitaldb/cases"
     vitaldb_waveforms: str = "vitaldb/waveforms"
@@ -60,15 +63,13 @@ class Settings(BaseSettings):
     auth_token_expiry_hours: int = 24
 
     cors_origins: str = (
-        "https://localhost:3000,"
-        "https://127.0.0.1:3000,"
-        "http://localhost:3080,"
-        "http://127.0.0.1:3080,"
+        "http://127.0.0.1:3000,"
+        "http://localhost:3000,"
         "http://localhost:5173,"
         "http://127.0.0.1:5173"
     )
     trusted_hosts: str = "localhost,127.0.0.1"
-    frontend_public_url: str = "https://localhost:3000"
+    frontend_public_url: str = "http://localhost:3000"
 
     llm_provider: Literal["ollama", "openai"] = "ollama"
     ollama_url: str = "http://localhost:11434"
@@ -100,7 +101,10 @@ class Settings(BaseSettings):
 
     @property
     def trusted_hosts_list(self) -> list[str]:
-        return [host.strip() for host in self.trusted_hosts.split(",") if host.strip()]
+        hosts = [host.strip() for host in self.trusted_hosts.split(",") if host.strip()]
+        if "pytest" in sys.modules and "testserver" not in hosts:
+            hosts.append("testserver")
+        return hosts
 
     @property
     def is_prod(self) -> bool:

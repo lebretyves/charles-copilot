@@ -1,0 +1,54 @@
+topic_id: hypothermie_perioperatoire
+faits:
+- fact_id: accidental_perioperative_hypothermia_is_preventable_target
+  statut: direct_source
+  force_source: normative
+  fact_type: care_priority
+  statement: L'hypothermie peroperatoire accidentelle est une complication a prevenir activement au bloc.
+  source_ref: sfar_prevention_de_l_hypothermie_peroperatoire_accidentelle
+  source_title: SFAR Prevention de l'hypothermie peroperatoire accidentelle
+  source_url: https://sfar.org/prevention-de-lhypothermie-peroperatoire-accidentelle-au-bloc-operatoire-chez-ladulte/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: core_temperature_monitoring_is_relevant
+  statut: direct_source
+  force_source: normative
+  fact_type: monitoring_priority
+  statement: La temperature centrale est un parametre pertinent pour la surveillance perioperatoire de l'hypothermie.
+  metric: temperature
+  rule_type: core_monitoring
+  source_ref: sfar_prevention_de_l_hypothermie_peroperatoire_accidentelle
+  source_title: SFAR Prevention de l'hypothermie peroperatoire accidentelle
+  source_url: https://sfar.org/prevention-de-lhypothermie-peroperatoire-accidentelle-au-bloc-operatoire-chez-ladulte/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: threshold_under_36c_is_clinically_relevant
+  statut: direct_source
+  force_source: normative
+  fact_type: threshold
+  statement: Une temperature centrale inferieure a 36 degres C est cliniquement pertinente pour definir l'hypothermie perioperatoire.
+  metric: temperature
+  rule_type: absolute_low
+  value_text: < 36 C
+  source_ref: sfar_prevention_de_l_hypothermie_peroperatoire_accidentelle
+  source_title: SFAR Prevention de l'hypothermie peroperatoire accidentelle
+  source_url: https://sfar.org/prevention-de-lhypothermie-peroperatoire-accidentelle-au-bloc-operatoire-chez-ladulte/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: target_temperature_close_to_36_5
+  statut: direct_source
+  force_source: normative
+  fact_type: target
+  statement: La RFE SFAR rappelle que les groupes rechauffes des etudes benefiques terminaient souvent aux alentours de 36,5 C et qu'une temperature de fin d'intervention proche de 36,5 C est un objectif pertinent.
+  metric: temperature
+  rule_type: target_approximate
+  value_text: proche de 36,5 C
+  source_ref: sfar_rfe_hypothermie_peroperatoire
+  source_title: SFAR RFE Hypothermie peroperatoire accidentelle
+  source_url: https://sfar.org/wp-content/uploads/2018/09/2_RFE-Hypothermie-Version-Finale-_-Validee-CRC120618.pdf
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: pdf

@@ -1,0 +1,279 @@
+topic_id: anaphylaxie_perioperatoire
+faits:
+- fact_id: adrenaline_preparation_100_ug_per_ml
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: La fiche MAPAR demande de preparer l'adrenaline a 1 mg dans 10 ml, soit 100 ug/ml.
+  metric: adrenaline_preparation
+  rule_type: concentration
+  value_text: 1 mg/10 ml = 100 ug/ml
+  source_ref: mapar_fiche_urgence_choc_anaphylactique
+  source_title: MAPAR Fiche urgence choc anaphylactique
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_06_choc_anaphylactique.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: adrenaline_titration_target_map_over_60
+  statut: direct_source
+  force_source: pratique
+  fact_type: target
+  statement: L'adrenaline IV est titree jusqu'a obtenir une PAM superieure a 60 mmHg.
+  metric: PAM
+  rule_type: target_minimum
+  value_text: '> 60 mmHg'
+  source_ref: mapar_fiche_urgence_choc_anaphylactique
+  source_title: MAPAR Fiche urgence choc anaphylactique
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_06_choc_anaphylactique.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: pregnant_initial_bolus_10_ug
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: Chez la femme enceinte, la fiche MAPAR propose de debuter par des bolus d'adrenaline de 10 ug.
+  metric: adrenaline
+  rule_type: treatment_dose
+  value_text: 10 ug
+  source_ref: mapar_fiche_urgence_choc_anaphylactique
+  source_title: MAPAR Fiche urgence choc anaphylactique
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_06_choc_anaphylactique.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: out_of_or_im_adrenaline_0_3_to_0_5_mg
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: En dehors du bloc, la voie IM d'adrenaline est proposee a 0,3 a 0,5 mg toutes les 5 a 10 minutes.
+  metric: adrenaline_IM
+  rule_type: treatment_dose
+  value_text: 0,3 a 0,5 mg/5 a 10 min
+  source_ref: mapar_fiche_urgence_choc_anaphylactique
+  source_title: MAPAR Fiche urgence choc anaphylactique
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_06_choc_anaphylactique.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: salbutamol_5_to_15_puffs_in_anaphylaxis
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: En cas de bronchospasme persistant, la fiche MAPAR mentionne du salbutamol inhale entre 5 et 15 bouffees.
+  metric: salbutamol_inhale
+  rule_type: treatment_dose
+  value_text: 5 a 15 bouffees
+  source_ref: mapar_fiche_urgence_choc_anaphylactique
+  source_title: MAPAR Fiche urgence choc anaphylactique
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_06_choc_anaphylactique.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: salbutamol_iv_100_to_200_ug_then_0_3_to_1_5_mg_h
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: Le salbutamol peut etre administre en bolus IVD de 100 a 200 ug puis en IVSE de 0,3 a 1,5 mg/h.
+  metric: salbutamol_IV
+  rule_type: treatment_dose
+  value_text: 100 a 200 ug puis 0,3 a 1,5 mg/h
+  source_ref: mapar_fiche_urgence_choc_anaphylactique
+  source_title: MAPAR Fiche urgence choc anaphylactique
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_06_choc_anaphylactique.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: adrenaline_infusion_0_3_to_1_2_mg_h
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: Apres deux bolus, une IVSE d'adrenaline de 0,3 a 1,2 mg/h est proposee pour l'hypotension.
+  metric: adrenaline_IVSE
+  rule_type: infusion_range
+  value_text: 0,3 a 1,2 mg/h
+  source_ref: mapar_fiche_urgence_choc_anaphylactique
+  source_title: MAPAR Fiche urgence choc anaphylactique
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_06_choc_anaphylactique.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: grade_ii_and_iii_bolus_ranges
+  statut: direct_source
+  force_source: pratique
+  fact_type: severity_bolus
+  statement: La fiche MAPAR associe des bolus d'adrenaline de 10 a 20 ug pour le grade II et de 100 a 200 ug pour le grade III.
+  metric: adrenaline_bolus
+  rule_type: severity_range
+  value_text: grade II 10-20 ug ; grade III 100-200 ug
+  source_ref: mapar_fiche_urgence_choc_anaphylactique
+  source_title: MAPAR Fiche urgence choc anaphylactique
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_06_choc_anaphylactique.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: initial_signs_include_etco2_desaturation_and_airway_pressure_rise
+  statut: direct_source
+  force_source: pratique
+  fact_type: diagnostic_context
+  statement: Les premiers signes rapportes dans les syntheses francaises incluent une baisse de l'EtCO2, une desaturation et une augmentation des pressions des voies aeriennes.
+  metric: EtCO2_SpO2_Ppeak
+  rule_type: early_combination
+  source_ref: anrea_anaphylaxie_prise_en_charge_article
+  source_title: Prise en charge de l'anaphylaxie perioperatoire
+  source_url: https://www.em-consulte.com/article/1184232/prise-en-charge-de-l-anaphylaxie-perioperatoire
+  source_organisme: Anesthesie & Reanimation / EM-Consulte
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: article_page
+- fact_id: ring_messmer_grades_are_reference_clinical_structure
+  statut: direct_source
+  force_source: normatif
+  fact_type: severity_structure
+  statement: Les manifestations cliniques sont decrites suivant 4 grades de gravite croissante adaptes de la classification de Ring et Messmer.
+  metric: clinical_grade
+  rule_type: ordinal_severity_scale
+  value_text: grades I a IV
+  source_ref: sfar_prevention_risque_allergique_peranesthesique
+  source_title: Prevention du risque allergique peranesthesique
+  source_url: https://sfar.org/prevention-du-risque-allergique-peranesthesique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: cutaneous_signs_absence_does_not_exclude_anaphylaxis
+  statut: direct_source
+  force_source: normatif
+  fact_type: diagnostic_guardrail
+  statement: L'absence de signes cutaneo-muqueux n'exclut pas le diagnostic de reaction d'hypersensibilite immediate perioperatoire.
+  metric: cutaneous_signs
+  rule_type: absence_not_exclusion
+  source_ref: sfar_prevention_risque_allergique_peranesthesique
+  source_title: Prevention du risque allergique peranesthesique
+  source_url: https://sfar.org/prevention-du-risque-allergique-peranesthesique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: immediate_vs_delayed_timeline_depends_on_agent
+  statut: direct_source
+  force_source: normatif
+  fact_type: timing_rule
+  statement: La symptomatologie est habituellement immediate apres l'injection des medicaments d'induction, mais peut etre retardee jusqu'a plus d'une heure pour le latex ou les colorants.
+  metric: suspect_drug_timing
+  rule_type: timing_interpretation
+  value_text: immediate after induction drugs; delayed > 1 h possible for latex/dyes
+  source_ref: sfar_prevention_risque_allergique_peranesthesique
+  source_title: Prevention du risque allergique peranesthesique
+  source_url: https://sfar.org/prevention-du-risque-allergique-peranesthesique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: tryptase_sampling_windows_sfar
+  statut: direct_source
+  force_source: normatif
+  fact_type: biologic_sampling
+  statement: Les delais optimaux de prelevement de tryptase sont 15 a 60 min pour les grades I-II, 30 min a 2 h pour les grades III-IV, avec un prelevement complementaire au-dela de 24 h.
+  metric: tryptase_sampling
+  rule_type: timed_sampling_windows
+  value_text: 15-60 min / 30 min-2 h / > 24 h
+  source_ref: sfar_prevention_risque_allergique_peranesthesique
+  source_title: Prevention du risque allergique peranesthesique
+  source_url: https://sfar.org/prevention-du-risque-allergique-peranesthesique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: adrenaline_grade_based_bolus_ranges_sfar
+  statut: direct_source
+  force_source: normatif
+  fact_type: treatment_threshold
+  statement: La SFAR recommande des bolus IV titres d'adrenaline de 10 a 20 ug pour les grades II et de 100 a 200 ug pour les grades III, repetes toutes les 1 a 2 minutes jusqu'a une PAM de 60 mmHg.
+  metric: adrenaline_admin
+  rule_type: severity_based_titration
+  value_text: grade II 10-20 ug ; grade III 100-200 ug ; repeat 1-2 min ; target MAP 60
+  source_ref: sfar_prevention_risque_allergique_peranesthesique
+  source_title: Prevention du risque allergique peranesthesique
+  source_url: https://sfar.org/prevention-du-risque-allergique-peranesthesique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: camr_first_samples_are_imperative_and_include_tryptase_windows
+  statut: direct_source
+  force_source: normatif
+  fact_type: biologic_sampling
+  statement: L'aide cognitive SFAR/CAMR demande de faire imperativement les premiers prelevements et rappelle la fenetre tryptase immediate, 1 a 2 h, puis au-dela de 24 h.
+  metric: tryptase_sampling
+  rule_type: immediate_and_serial_sampling
+  value_text: < 30 min ; 1 a 2 h ; > 24 h
+  source_ref: sfar_ac_anaphylaxie_camr_2018
+  source_title: Aide cognitive SFAR/CAMR - Anaphylaxie grade III/IV
+  source_url: https://sfar.org/wp-content/uploads/2019/09/AC-anaphylaxie-CAMR-octobre-2018.pdf
+  source_organisme: SFAR / CAMR
+  source_class_id: normative_recommandations
+  source_support_type: cognitive_aid_pdf
+- fact_id: camr_adrenaline_first_if_bronchospasm_with_hypotension
+  statut: direct_source
+  force_source: normatif
+  fact_type: treatment_priority
+  statement: En cas de bronchospasme associe a une hypotension arterielle, l'aide cognitive SFAR/CAMR place l'adrenaline en premiere intention avant le salbutamol.
+  metric: airway_pressure_change
+  rule_type: hemodynamic_priority_in_bronchospasm
+  source_ref: sfar_ac_anaphylaxie_camr_2018
+  source_title: Aide cognitive SFAR/CAMR - Anaphylaxie grade III/IV
+  source_url: https://sfar.org/wp-content/uploads/2019/09/AC-anaphylaxie-CAMR-octobre-2018.pdf
+  source_organisme: SFAR / CAMR
+  source_class_id: normative_recommandations
+  source_support_type: cognitive_aid_pdf
+- fact_id: camr_recommends_post_event_intensive_monitoring_and_allergy_follow_up
+  statut: direct_source
+  force_source: normatif
+  fact_type: post_event_management
+  statement: L'aide cognitive SFAR/CAMR recommande une surveillance intensive d'au moins 24 h, l'information du patient, une consultation d'allergologie et une declaration au CRPV.
+  metric: post_event_management
+  rule_type: mandatory_follow_up_bundle
+  value_text: surveillance intensive >= 24 h
+  source_ref: sfar_ac_anaphylaxie_camr_2018
+  source_title: Aide cognitive SFAR/CAMR - Anaphylaxie grade III/IV
+  source_url: https://sfar.org/wp-content/uploads/2019/09/AC-anaphylaxie-CAMR-octobre-2018.pdf
+  source_organisme: SFAR / CAMR
+  source_class_id: normative_recommandations
+  source_support_type: cognitive_aid_pdf
+- fact_id: french_gerap_2017_2018_major_agents_are_nmba_and_antibiotics
+  statut: direct_source
+  force_source: pratique
+  fact_type: epidemiology
+  statement: En France sur l'enquete GERAP 2017-2018, les curares sont impliques dans 60 % des reactions anaphylactiques perioperatoires avec une part notable du suxamethonium et du rocuronium ; les antibiotiques representent 25 % dont la cefazoline 13 %.
+  metric: culprit_agents
+  rule_type: national_frequency
+  value_text: curares 60 % ; suxamethonium 32 % ; atracurium 14 % ; rocuronium 10 % ; antibiotiques 25 % ; cefazoline 13 %
+  source_ref: sfar_gerap_2017_2018_survey
+  source_title: 'Epidemiology of perioperative anaphylaxis in France in 2017-2018: the 11th GERAP survey'
+  source_url: https://sfar.org/epidemiology-of-perioperative-anaphylaxis-in-france-in-2017-2018-the-11th-gerap-survey/
+  source_organisme: SFAR / GERAP
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: webpage
+- fact_id: latex_and_dyes_remain_delayed_culprit_contexts
+  statut: direct_source
+  force_source: pratique
+  fact_type: culprit_context
+  statement: Les colorants et le latex restent des agents impliques en France et doivent etre evoques particulierement devant une chronologie retardee.
+  metric: culprit_agents
+  rule_type: delayed_context_priority
+  value_text: latex 2 % ; colorants 2 %
+  source_ref: sfar_gerap_2017_2018_survey
+  source_title: 'Epidemiology of perioperative anaphylaxis in France in 2017-2018: the 11th GERAP survey'
+  source_url: https://sfar.org/epidemiology-of-perioperative-anaphylaxis-in-france-in-2017-2018-the-11th-gerap-survey/
+  source_organisme: SFAR / GERAP
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: webpage
+- fact_id: cefazoline_has_longer_delay_than_nmba
+  statut: direct_source
+  force_source: pratique
+  fact_type: culprit_timing
+  statement: Dans la comparaison francaise recente, l'anaphylaxie a la cefazoline presente un delai d'apparition plus long que celle due aux curares.
+  metric: suspect_drug_timing
+  rule_type: culprit_specific_delay
+  value_text: cefazoline 27 min vs curares 3 min
+  source_ref: anrea_cefazoline_curares_2025
+  source_title: 'Anaphylaxie perioperatoire a la cefazoline et aux curares: comparaison du profil clinique et biologique'
+  source_url: https://www.em-consulte.com/article/1731922/anaphylaxie-perioperatoire-a-la-cefazoline-et-aux-
+  source_organisme: Anesthesie & Reanimation / EM-Consulte
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: webpage

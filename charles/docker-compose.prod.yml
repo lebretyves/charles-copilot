@@ -79,11 +79,15 @@ services:
       TRUSTED_HOSTS: ${TRUSTED_HOSTS}
       FRONTEND_PUBLIC_URL: ${FRONTEND_PUBLIC_URL}
       AUDIT_LOG_ENABLED: ${AUDIT_LOG_ENABLED:-true}
+      LEARNING_ROOT: /data/learning
+      ALERTING_RUNTIME_PATH: /data/runtime/alert_rules.json
       VITALDB_METADATA: /data/vitaldb/clinical_metadata.csv
       VITALDB_CASES: /data/vitaldb/cases
       VITALDB_WAVEFORMS: /data/vitaldb/waveforms
     volumes:
       - ./kb:/kb:ro
+      - ./learning:/data/learning:ro
+      - ./ops/runtime:/data/runtime
       - ./vitaldb/clinical_metadata.csv:/data/vitaldb/clinical_metadata.csv:ro
       - ./vitaldb/cases:/data/vitaldb/cases:ro
       - ./vitaldb/waveforms:/data/vitaldb/waveforms:ro

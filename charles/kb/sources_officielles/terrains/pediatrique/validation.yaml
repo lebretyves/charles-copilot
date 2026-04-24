@@ -1,0 +1,7 @@
+topic_id: pediatrique
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille_partiel
+open_points:
+  - "Extraire dans un second passage les tables exactes de pression arterielle et de perfusion par classes d'age si elles sont formulables ligne a ligne depuis la RPP pediatrique."
+  - "Distinguer explicitement les seuils applicables au nourrisson, a l'enfant de moins de 6 ans et a l'enfant ORL."

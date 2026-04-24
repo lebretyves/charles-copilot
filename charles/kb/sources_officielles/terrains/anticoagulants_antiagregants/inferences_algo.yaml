@@ -1,0 +1,32 @@
+﻿topic_id: anticoagulants_antiagregants
+inferences:
+  - inference_id: inf_01
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`entrees`: type d'agent, heure derniere prise, chirurgie a risque hemorragique, Hb, plaquettes, TP/INR, TCA, saignement estime"
+    derived_from:
+      - fact_01
+  - inference_id: inf_02
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`modulateurs`: coronarien stente, haut risque thrombotique, chirurgie urgente, geste neuraxial"
+    derived_from:
+      - fact_01
+  - inference_id: inf_03
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`sorties`: sur-risque hemorragique, sur-risque transfusionnel, seuil de suspicion hemorragique abaisse, message d'attention neuraxiale"
+    derived_from:
+      - fact_01
+  - inference_id: inf_04
+    status: design_proposal
+    kind: kb_extension
+    proposal: "creer un terrain trans-systeme `antithrombotique`"
+    derived_from:
+      - fact_01
+  - inference_id: inf_05
+    status: design_proposal
+    kind: kb_extension
+    proposal: "l'utiliser comme multiplicateur du score de saignement et du seuil de recours biologique"
+    derived_from:
+      - fact_01

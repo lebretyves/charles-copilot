@@ -1,0 +1,88 @@
+topic_id: arret_cardiaque_perioperatoire
+topic_type: complication
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_acr_asystolie_bloc
+  organisme: SFAR
+  niveau_source: normatif
+  title: ACR asystolie au bloc operatoire
+  url: https://sfar.org/download/acr-asystolie-au-bloc-operatoire/
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: sfar_acr_rythme_choquable_bloc
+  organisme: SFAR
+  niveau_source: normatif
+  title: ACR rythme choquable au bloc operatoire
+  url: https://sfar.org/wp-content/uploads/2019/09/ACR-Rythme-choquable-au-bloc-operatoire-V2.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+- source_id: cfrc_recommandations_2025
+  organisme: CFRC
+  niveau_source: normatif
+  title: Recommandations ERC 2025 - RCP et prise en charge de l'arret cardiaque
+  url: https://www.cfrc.fr/recommandations
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: cfrc_reanimation_adulte_2025
+  organisme: CFRC
+  niveau_source: normatif
+  title: Reanimation adulte et ACR - Protocoles et recommandations
+  url: https://www.cfrc.fr/reanimation-adulte
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: mapar_arret_cardiaque_adulte
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Fiche urgence arret cardiaque chez l'adulte
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_01_arret_cardiaque_adulte.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: ghrmsa_aide_cognitive_acr_adulte_enfant
+  organisme: GHRMSA Anesthesie
+  niveau_source: pratique
+  title: "Aide cognitive : prise en charge de l'arret cardio-respiratoire"
+  url: https://ghrmsa-anesthesie.fr/IMG/pdf/aide_cognitive_acr_em3.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+- source_id: ghrmsa_aide_cognitive_asystolie_bloc
+  organisme: GHRMSA Anesthesie
+  niveau_source: pratique
+  title: ACR sur asystolie au bloc operatoire
+  url: https://ghrmsa-anesthesie.fr/IMG/pdf/sfar_2016-aide_cognitive_asystolie.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+- source_id: sfar_jouffroy_arret_cardiaque_bloc_2017
+  organisme: SFAR
+  niveau_source: pedagogique
+  title: Arret cardiaque au bloc operatoire en chirurgie programmee
+  url: https://sfar.org/wp-content/uploads/2017/10/Jouffroy-Arret-cardiaque-au-bloc-operatoire-en-chirurgie-programmee.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+documentary_layers:
+  normative_recommandations:
+  - sfar_aides_cognitives
+  - sfar_acr_asystolie_bloc
+  - sfar_acr_rythme_choquable_bloc
+  - cfrc_recommandations_2025
+  - cfrc_reanimation_adulte_2025
+  professionnelle_pratique_fr:
+  - mapar_arret_cardiaque_adulte
+  - anrea_arret_cardiaque_bloc_2023
+  - prat_an_arret_cardiaque_bloc_2019
+  - ghrmsa_aide_cognitive_acr_adulte_enfant
+  - ghrmsa_aide_cognitive_asystolie_bloc
+  - hfb_aides_cognitives_adultes_sfar_index
+  pedagogique_enseignement_medecins:
+  - cfar_referentiel_metier
+  - sfar_jouffroy_arret_cardiaque_bloc_2017
+documentary_notes:
+- La couche officielle devient plus solide avec SFAR adulte + CFRC/ERC 2025 ; il reste toutefois a structurer le contexte patient-specifique et les logs de reanimation.
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id
+  resource_catalog_ref: kb/sources_officielles/source_resource_catalog.yaml
+  landscape_ref: kb/sources_officielles/complication_source_landscape.yaml

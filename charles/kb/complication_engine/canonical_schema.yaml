@@ -1,0 +1,69 @@
+version: "2026-04-01"
+philosophy: "complication_first"
+
+core_objects:
+  complication_assessment:
+    description: "Sortie canonique de toute branche d'analyse pour une complication donnee."
+    required_fields:
+      - complication_id
+      - branch_id
+      - evidence_items
+      - raw_score
+      - confidence
+      - missing_inputs
+      - explainability
+
+  evidence_item:
+    description: "Brique unitaire de preuve, issue d'une source officielle, d'un vital, d'une tendance ou d'une waveform."
+    required_fields:
+      - evidence_id
+      - source_type
+      - metric
+      - value
+      - comparator
+      - weight
+      - provenance
+
+  terrain_modifier:
+    description: "Facteur appliquant une modulation legere a un algorithme de complication."
+    required_fields:
+      - terrain_id
+      - target_complication_id
+      - modifier_type
+      - strength
+      - affected_features
+
+scales:
+  score_range: "0.0_to_1.0"
+  confidence_range: "0.0_to_1.0"
+  modifier_strength:
+    - low
+    - medium
+    - high
+
+modifier_types:
+  - increase_priority
+  - increase_sensitivity
+  - decrease_sensitivity
+  - lower_threshold
+  - raise_threshold
+  - upweight_factor
+  - downweight_factor
+  - require_additional_data
+  - increase_missing_data_penalty
+
+branch_ids:
+  - official_sources
+  - vitaldb_no_wave
+  - vitaldb_wave
+
+final_output_contract:
+  required_fields:
+    - complication_id
+    - final_score
+    - final_confidence
+    - severity
+    - contributing_branches
+    - terrain_adjustments
+    - missing_data_penalty
+    - top_factors

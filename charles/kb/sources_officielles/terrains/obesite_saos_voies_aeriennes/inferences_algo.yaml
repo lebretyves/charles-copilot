@@ -1,0 +1,32 @@
+﻿topic_id: obesite_saos_voies_aeriennes
+inferences:
+  - inference_id: inf_01
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`entrees`: BMI, Mallampati, ouverture buccale, antecedent de VA difficile, SpO2, temps de desaturation, PEEP, Ppeak"
+    derived_from:
+      - fact_01
+  - inference_id: inf_02
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`modulateurs`: SAOS connu, obesite morbide, chirurgie ORL ou cervicale, decubitus, opioides"
+    derived_from:
+      - fact_01
+  - inference_id: inf_03
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`sorties`: score de risque intubation, score de risque extubation, seuils plus stricts de desaturation, priorisation de l'analyse LLM sur echec de ventilation"
+    derived_from:
+      - fact_01
+  - inference_id: inf_04
+    status: design_proposal
+    kind: kb_extension
+    proposal: "lier population `obese` et terrain `saos`"
+    derived_from:
+      - fact_01
+  - inference_id: inf_05
+    status: design_proposal
+    kind: kb_extension
+    proposal: "preparer un score combine `morphotype + histoire VA + dynamique SpO2`"
+    derived_from:
+      - fact_01

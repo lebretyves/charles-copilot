@@ -1,0 +1,127 @@
+topic_id: bronchospasme_perioperatoire
+faits:
+- fact_id: high_airway_pressure_40_45
+  statut: direct_source
+  force_source: pratique
+  fact_type: threshold
+  statement: Une pression d'insufflation superieure a 40-45 cmH2O fait partie des signes de bronchospasme chez l'adulte dans la fiche urgence MAPAR.
+  metric: pression_insufflation
+  rule_type: absolute_high
+  value_text: '> 40-45 cmH2O'
+  source_ref: mapar_bronchospasme_chez_l_adulte
+  source_title: MAPAR Fiche urgence bronchospasme chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: etco2_decrease_and_capnogram_plateau_loss
+  statut: direct_source
+  force_source: pratique
+  fact_type: pattern
+  statement: La diminution de l'EtCO2 et la disparition du plateau sur le capnographe sont des signes compatibles avec le bronchospasme.
+  metric: EtCO2_capnography
+  rule_type: pattern_change
+  source_ref: mapar_bronchospasme_chez_l_adulte
+  source_title: MAPAR Fiche urgence bronchospasme chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: spo2_under_90_is_severity_sign
+  statut: direct_source
+  force_source: pratique
+  fact_type: threshold
+  statement: Une SpO2 inferieure a 90 % est un signe de gravite dans la fiche MAPAR.
+  metric: SpO2
+  rule_type: absolute_low
+  value_text: < 90 %
+  source_ref: mapar_bronchospasme_chez_l_adulte
+  source_title: MAPAR Fiche urgence bronchospasme chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: salbutamol_10_15_puffs
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: Le salbutamol inhale est indique a la dose de 10 a 15 bouffees, a repeter si necessaire apres 15 minutes.
+  metric: salbutamol_inhale
+  rule_type: treatment_dose
+  value_text: 10-15 bouffees puis reevaluation a 15 min
+  source_ref: mapar_bronchospasme_chez_l_adulte
+  source_title: MAPAR Fiche urgence bronchospasme chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: salbutamol_ivse_0_25_to_5
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: Une IVSE de salbutamol de 0,25 a 5 mg/h figure dans la fiche MAPAR.
+  metric: salbutamol_IVSE
+  rule_type: infusion_range
+  value_text: 0,25 a 5 mg/h
+  source_ref: mapar_bronchospasme_chez_l_adulte
+  source_title: MAPAR Fiche urgence bronchospasme chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: ipratropium_0_5_mg
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: Le bromure d'ipratropium inhale peut etre utilise a la dose de 0,5 mg.
+  metric: ipratropium
+  rule_type: treatment_dose
+  value_text: 0,5 mg
+  source_ref: mapar_bronchospasme_chez_l_adulte
+  source_title: MAPAR Fiche urgence bronchospasme chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: methylpred_1_2_mg_per_kg
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: La methylprednisolone IV est proposee a la dose de 1 a 2 mg/kg.
+  metric: methylprednisolone
+  rule_type: treatment_dose
+  value_text: 1 a 2 mg/kg
+  source_ref: mapar_bronchospasme_chez_l_adulte
+  source_title: MAPAR Fiche urgence bronchospasme chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: magnesium_2g_20min
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: Le sulfate de magnesium peut etre utilise a la dose de 2 g en 20 minutes.
+  metric: magnesium
+  rule_type: treatment_dose
+  value_text: 2 g en 20 min
+  source_ref: mapar_bronchospasme_chez_l_adulte
+  source_title: MAPAR Fiche urgence bronchospasme chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: adrenaline_10_100_ug
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: En cas de persistance du bronchospasme, l'adrenaline IVD titree est indiquee entre 10 et 100 microgrammes.
+  metric: adrenaline
+  rule_type: treatment_dose
+  value_text: 10 a 100 ug
+  source_ref: mapar_bronchospasme_chez_l_adulte
+  source_title: MAPAR Fiche urgence bronchospasme chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf

@@ -77,6 +77,8 @@ class MonitoringMessage(BaseModel):
     elapsed_fmt: Optional[str] = None
     patient_info: Optional[dict] = None
     scenario: Optional[str] = None
+    is_historical: bool = False
+    history_seeded: bool = False
 
 
 # ── Trame waveforms haute fréquence ──────────────────────────
@@ -109,6 +111,7 @@ class Alert(BaseModel):
 class WSUpdate(BaseModel):
     type: str = "update"
     room_id: str
+    case_id: Optional[str] = None
     vitals: VitalsFrame
     ventilator: Optional[VentilatorFrame] = None
     bis: Optional[BISFrame] = None
@@ -124,6 +127,7 @@ class WSUpdate(BaseModel):
     elapsed_s: Optional[int] = None
     elapsed_fmt: Optional[str] = None
     patient_info: Optional[dict] = None
+    history_seeded: bool = False
 
 
 class FluidBalance(BaseModel):

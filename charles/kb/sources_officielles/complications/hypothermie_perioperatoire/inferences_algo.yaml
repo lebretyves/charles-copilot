@@ -1,0 +1,29 @@
+topic_id: hypothermie_perioperatoire
+inferences:
+  - inference_id: hypothermia_core_temp_monitoring
+    status: design_proposal
+    kind: monitoring_target
+    proposal: "Utiliser la temperature centrale comme signal principal de depistage."
+    derived_from:
+      - core_temperature_monitoring_is_relevant
+      - threshold_under_36c_is_clinically_relevant
+  - inference_id: hypothermia_absolute_threshold
+    status: design_proposal
+    kind: rule_candidate
+    proposal: "Construire une regle absolue de depistage et de gravite autour du seuil < 36 C."
+    derived_from:
+      - threshold_under_36c_is_clinically_relevant
+  - inference_id: hypothermia_combined_context
+    status: design_proposal
+    kind: combination_candidate
+    proposal: "Augmenter le score si hypothermie associee a hemorragie, coagulopathie ou reveil retarde."
+    derived_from:
+      - accidental_perioperative_hypothermia_is_preventable_target
+      - threshold_under_36c_is_clinically_relevant
+  - inference_id: hypothermia_preop_and_perop_scores
+    status: design_proposal
+    kind: kb_extension
+    proposal: "Creer un score de risque preoperatoire puis un score dynamique de refroidissement peroperatoire."
+    derived_from:
+      - accidental_perioperative_hypothermia_is_preventable_target
+      - core_temperature_monitoring_is_relevant

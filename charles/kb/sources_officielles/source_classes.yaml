@@ -1,0 +1,49 @@
+version: "2026-04-01"
+purpose: "Hierarchiser les sources documentaires francophones utiles a CHARLES"
+
+classes_documentaires:
+  - class_id: normative_recommandations
+    label_fr: "Recommandations et referentiels normatifs"
+    role: "socle prioritaire pour les faits_source et les regles candidates"
+    includes:
+      - "SFAR recommandations, RFE, aides cognitives officielles"
+      - "HAS lorsque le sujet est directement exploitable pour la pratique perioperatoire"
+    typical_strengths:
+      - "definitions cliniques"
+      - "seuils ou cibles explicites"
+      - "algorithmes de crise validables"
+    limitations:
+      - "pas toujours assez fines sur la cinetique des signaux"
+      - "peu de ponderations quantitatives entre variables"
+
+  - class_id: professionnelle_pratique_fr
+    label_fr: "Revues et veille professionnelle francaise"
+    role: "densifier la physiopathologie, la lecture des signaux et les details pratiques"
+    includes:
+      - "Anesthesie & Reanimation"
+      - "MonAnesthesie"
+      - "MAPAR hors recommandations deja reprises ailleurs"
+    typical_strengths:
+      - "cas cliniques commentes"
+      - "mises au point"
+      - "dossiers thematiques ventilation/hemodynamique/pediatrie"
+    limitations:
+      - "pas toujours normatif"
+      - "souvent proteges par copyright"
+
+  - class_id: pedagogique_enseignement_medecins
+    label_fr: "Cours, referentiels d'enseignement et supports medicaux"
+    role: "expliquer et completer la logique clinique lorsque le normatif est trop peu detaille"
+    includes:
+      - "CFAR"
+      - "SOFIA"
+      - "supports SFAR pedagogiques ou monitorage"
+      - "supports hospitalo-universitaires AP-HP / CHU"
+    typical_strengths:
+      - "clarification physiopathologique"
+      - "logique clinique"
+      - "formation DES / DPC"
+      - "contextualisation des terrains complexes et des techniques de reanimation"
+    limitations:
+      - "niveau de preuve heterogene"
+      - "moins adapte seul a la creation d'un algo final"

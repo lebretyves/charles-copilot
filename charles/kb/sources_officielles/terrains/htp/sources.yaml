@@ -1,0 +1,18 @@
+topic_id: htp
+topic_type: terrain
+date_consultation: 2026-04-01
+sources:
+- source_id: mapar_gestion_peri_operatoire_de_l_htp
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Gestion peri-operatoire de l'HTP
+  url: https://www.mapar.org/presentation/1/Staff%20junior/13/Gestion%20p%C3%A9ri-op%C3%A9ratoire%20de%20l%E2%80%99HTP
+  support_type: webpage
+  date_consultation: 2026-04-01
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id

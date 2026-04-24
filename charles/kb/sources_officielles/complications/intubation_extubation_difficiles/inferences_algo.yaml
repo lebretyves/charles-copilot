@@ -1,0 +1,16 @@
+topic_id: intubation_extubation_difficiles
+inferences:
+  - inference_id: difficult_intubation_runtime_flag
+    status: design_proposal
+    kind: runtime_definition
+    proposal: "Utiliser > 2 tentatives et/ou > 10 min comme definition documentaire de difficulte, tout en gardant l'oxygenation comme priorite absolue."
+    derived_from:
+      - difficult_intubation_definition_mapar
+      - difficult_intubation_definition_sofia
+      - oxygenation_priority_in_unexpected_failure
+  - inference_id: extubation_separate_score
+    status: design_proposal
+    kind: score_family
+    proposal: "Conserver un score distinct d'extubation difficile, sans le deduire automatiquement du seul score d'intubation."
+    derived_from:
+      - oxygenation_priority_in_unexpected_failure

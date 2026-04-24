@@ -1,0 +1,91 @@
+topic_id: anaphylaxie_perioperatoire
+topic_type: complication
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_hypersensibilite_immediate_perioperatoire
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Hypersensibilite immediate perioperatoire
+  url: https://sfar.org/diagnostic-et-prise-en-charge-des-reactions-dhypersensibilite-immediate-perioperatoires/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_prevention_risque_allergique_peranesthesique
+  organisme: SFAR
+  niveau_source: normatif
+  title: Prevention du risque allergique peranesthesique
+  url: https://sfar.org/prevention-du-risque-allergique-peranesthesique/
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: mapar_fiche_urgence_choc_anaphylactique
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Fiche urgence choc anaphylactique
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_06_choc_anaphylactique.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: sofia_complications_anaphylactiques_et_anaphylactoides
+  organisme: SOFIA
+  niveau_source: pedagogique
+  title: SOFIA Complications anaphylactiques et anaphylactoides
+  url: https://sofia.medicalistes.fr/spip/IMG/pdf/Complications_anaphylactiques_et_anaphylactoides_de_l_anesthesie_generale_Mertes-Dewachter-Laxenaire_.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: ghrmsa_choc_anaphylactique_cognitive_aid
+  organisme: GHRMSA Anesthesie
+  niveau_source: pratique
+  title: Presentation d'une aide cognitive pour la prise en charge du choc anaphylactique
+  url: https://ghrmsa-anesthesie.fr/IMG/pdf/22.10.18_bolvy-choc_anaphylactique.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+- source_id: sfar_gerap_2017_2018_survey
+  organisme: SFAR / GERAP
+  niveau_source: pratique
+  title: "Epidemiology of perioperative anaphylaxis in France in 2017-2018: the 11th GERAP survey"
+  url: https://sfar.org/epidemiology-of-perioperative-anaphylaxis-in-france-in-2017-2018-the-11th-gerap-survey/
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: anrea_cefazoline_curares_2025
+  organisme: Anesthesie & Reanimation / EM-Consulte
+  niveau_source: pratique
+  title: "Anaphylaxie perioperatoire a la cefazoline et aux curares: comparaison du profil clinique et biologique"
+  url: https://www.em-consulte.com/article/1731922/anaphylaxie-perioperatoire-a-la-cefazoline-et-aux-
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: emconsulte_tryptase_anaphylaxie_2019
+  organisme: EM-Consulte
+  niveau_source: pedagogique
+  title: "La mesure de la tryptase: possible critere complementaire pour le diagnostic de l'anaphylaxie peroperatoire"
+  url: https://www.em-consulte.com/article/1286244/la-mesure-de-la-tryptase-possible-critere-compleme
+  support_type: webpage
+  date_consultation: 2026-04-02
+documentary_layers:
+  normative_recommandations:
+  - sfar_hypersensibilite_immediate_perioperatoire
+  - sfar_aides_cognitives
+  - sfar_prevention_risque_allergique_peranesthesique
+  - sfar_ac_anaphylaxie_camr_2018
+  professionnelle_pratique_fr:
+  - mapar_fiche_urgence_choc_anaphylactique
+  - anrea_anaphylaxie_prise_en_charge_article
+  - anrea_anaphylaxie_physiopathologie_2025
+  - anrea_anaphylaxie_epidemiologie_2025
+  - anrea_cefazoline_curares_2025
+  - anrea_presentation
+  - ghrmsa_choc_anaphylactique_cognitive_aid
+  - sfar_gerap_2017_2018_survey
+  pedagogique_enseignement_medecins:
+  - sofia_complications_anaphylactiques_et_anaphylactoides
+  - cfar_risque_allergique_formation
+  - emc_anaphylaxie_generale_2019
+  - emconsulte_tryptase_anaphylaxie_2019
+documentary_notes:
+- Le noyau francais couvre maintenant grade clinique, chronologie, tryptase, signes respiratoires precoces, aide cognitive bloc et principaux agents en cause. Le principal manque restant est la capture runtime patient-specifique.
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id
+  resource_catalog_ref: kb/sources_officielles/source_resource_catalog.yaml
+  landscape_ref: kb/sources_officielles/complication_source_landscape.yaml

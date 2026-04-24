@@ -1,0 +1,35 @@
+topic_id: cardiovasculaire_haut_risque
+faits:
+- fact_id: relative_hypotension_is_clinically_important
+  statut: direct_source
+  force_source: normative
+  fact_type: threshold_context
+  statement: La baisse relative de pression arterielle par rapport a la baseline est importante chez le patient cardiovasculaire a risque.
+  source_ref: sfar_optimisation_hemodynamique_perioperatoire_adulte_dont_obstetrique
+  source_title: SFAR Optimisation hemodynamique perioperatoire - Adulte dont obstetrique
+  source_url: https://sfar.org/optimisation-hemodynamique-perioperatoire-adulte-dont-obstetrique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: hypotension_burden_matters
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: burden
+  statement: La duree sous hypotension participe au risque autant que le seuil instantane.
+  source_ref: sofia_controle_perioperatoire_de_la_pression_arterielle
+  source_title: SOFIA Controle perioperatoire de la pression arterielle
+  source_url: https://sofia.medicalistes.fr/spip/IMG/pdf/controle_perioperatoire_de_la_pression_arterielle_pierre-gregoire_guinot_dijon_.pdf
+  source_organisme: SOFIA
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: targets_must_be_individualized
+  statut: direct_source
+  force_source: normative
+  fact_type: terrain_modulator
+  statement: Les objectifs tensionnels doivent etre individualises selon le profil cardiovasculaire.
+  source_ref: sfar_optimisation_hemodynamique_perioperatoire_adulte_dont_obstetrique
+  source_title: SFAR Optimisation hemodynamique perioperatoire - Adulte dont obstetrique
+  source_url: https://sfar.org/optimisation-hemodynamique-perioperatoire-adulte-dont-obstetrique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage

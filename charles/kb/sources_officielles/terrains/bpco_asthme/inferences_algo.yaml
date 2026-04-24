@@ -1,0 +1,32 @@
+﻿topic_id: bpco_asthme
+inferences:
+  - inference_id: inf_01
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`entrees`: SpO2, EtCO2, pente expiratoire, Ppeak, Vt, FR, I:E, FiO2"
+    derived_from:
+      - fact_01
+  - inference_id: inf_02
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`modulateurs`: BPCO, asthme actif, infection recente, chirurgie thoraco-abdominale, tabagisme"
+    derived_from:
+      - fact_01
+  - inference_id: inf_03
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`sorties`: score d'obstruction, detection auto-PEEP probable, seuils SpO2 personnalises, tri entre bronchospasme et cause mecanique"
+    derived_from:
+      - fact_01
+  - inference_id: inf_04
+    status: design_proposal
+    kind: kb_extension
+    proposal: "formaliser les terrains `bpco`, `asthme`, `insuffisance_respiratoire_chronique`"
+    derived_from:
+      - fact_01
+  - inference_id: inf_05
+    status: design_proposal
+    kind: kb_extension
+    proposal: "relier capno en requin et hausse de Ppeak a un facteur `obstruction_probable`"
+    derived_from:
+      - fact_01

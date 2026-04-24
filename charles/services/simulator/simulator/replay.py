@@ -22,7 +22,8 @@ import sys
 import time
 import argparse
 import glob
-from datetime import datetime, timezone
+import random
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 
@@ -115,6 +116,7 @@ def stream_waveforms(
     waves_dir: str,
     speed: float = 1.0,
     stop_event=None,
+    start_offset_s: float = 0.0,
 ):
     """Thread dédié au streaming waveforms HF (500Hz ECG/PLETH/ART, 25Hz CO2/AWP, 128Hz EEG)."""
     files = find_waveform_files(case_id, waves_dir)
@@ -155,8 +157,8 @@ def stream_waveforms(
     i500 = i25 = i128 = 0
     CHUNK_S = WAVE_CHUNK_MS / 1000.0
 
-    t_current = 0.0
-    logger.info("[WAVES] Streaming waveforms cas %s sur %s (durée %.0fs)", case_id, room_id, total_t)
+    t_current = max(0.0, float(start_offset_s))
+    logger.info("[WAVES] Streaming waveforms cas %s sur %s (depart %.0fs / duree %.0fs)", case_id, room_id, t_current, total_t)
 
     while t_current < total_t:
         if stop_event and stop_event.is_set():
@@ -218,6 +220,45 @@ def load_case(path: Path) -> pd.DataFrame:
     return df
 
 
+def build_publish_schedule(times: np.ndarray, sample_interval: float) -> list[tuple[int, float]]:
+    if len(times) == 0:
+        return []
+
+    base_time = float(times[0])
+    schedule: list[tuple[int, float]] = []
+    previous_elapsed: float | None = None
+    for index, raw_time in enumerate(times):
+        elapsed = max(0.0, float(raw_time) - base_time)
+        if previous_elapsed is not None and (elapsed - previous_elapsed) < sample_interval:
+            continue
+        schedule.append((index, elapsed))
+        previous_elapsed = elapsed
+    return schedule
+
+
+def choose_random_start_position(
+    schedule: list[tuple[int, float]],
+    total_duration_s: float,
+    min_history_s: float = 15 * 60,
+    min_remaining_s: float = 5 * 60,
+) -> int:
+    if len(schedule) <= 1:
+        return 0
+
+    eligible_positions = [
+        position
+        for position, (_, elapsed_s) in enumerate(schedule)
+        if elapsed_s >= min_history_s and (total_duration_s - elapsed_s) >= min_remaining_s
+    ]
+    if not eligible_positions:
+        fallback_start = max(1, len(schedule) // 3)
+        fallback_end = max(fallback_start, len(schedule) - 1)
+        eligible_positions = list(range(fallback_start, fallback_end))
+    if not eligible_positions:
+        return min(1, len(schedule) - 1)
+    return random.choice(eligible_positions)
+
+
 def extract_value(row: dict, col_names: list[str]) -> Optional[float]:
     """Extrait la première valeur non-NaN parmi les colonnes candidates."""
     for col in col_names:
@@ -228,8 +269,17 @@ def extract_value(row: dict, col_names: list[str]) -> Optional[float]:
     return None
 
 
-def row_to_message(row: dict, case_id: str, room_id: str, row_time: float,
-                   total_duration_s: float = 0, patient_info: dict = None) -> dict:
+def row_to_message(
+    row: dict,
+    source_case_id: str,
+    room_id: str,
+    row_time: float,
+    total_duration_s: float = 0,
+    patient_info: dict = None,
+    *,
+    timestamp: datetime | None = None,
+    case_id_override: str | None = None,
+) -> dict:
     """Convertit une ligne parquet en message MQTT format CHARLES."""
     # ── Vitals ──
     hr = extract_value(row, ["Solar8000/HR"])
@@ -321,9 +371,9 @@ def row_to_message(row: dict, case_id: str, room_id: str, row_time: float,
 
     return {
         "room_id": room_id,
-        "case_id": f"vitaldb_{case_id}",
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "scenario": f"vitaldb_replay_{case_id}",
+        "case_id": case_id_override or f"vitaldb_{source_case_id}",
+        "timestamp": (timestamp or datetime.now(timezone.utc)).isoformat(),
+        "scenario": f"vitaldb_replay_{source_case_id}",
         "phase": phase_id,
         "phase_label": phase_label,
         "macro_phase": REPLAY_MACRO_PHASE.get(phase_id, "PER"),

@@ -1,0 +1,53 @@
+topic_id: bpco_asthme
+topic_type: terrain
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_bronchospasme
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Bronchospasme
+  url: https://sfar.org/download/bronchospasme/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: mapar_bronchospasme_adulte
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Fiche urgence Bronchospasme chez l'adulte
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: mapar_fiches_urgence
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Fiches urgence
+  url: https://www.mapar.org/index.php/fiches-urgence
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: aphp_avicenne_anesthesie_reanimation
+  organisme: AP-HP Avicenne
+  niveau_source: pedagogique
+  title: AP-HP Avicenne - Service d'anesthesie-reanimation
+  url: https://www.aphp.fr/avicenne/service-d-anesthesie-reanimation
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: reamondor_aphp_ventilation_artificielle
+  organisme: AP-HP / ReaMondor
+  niveau_source: pedagogique
+  title: ReaMondor AP-HP - Ventilation artificielle
+  url: https://reamondor.aphp.fr/familles/les-techniques-de-reanimation/ventilation-artificielle/
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: sfar_enfants_asthmatiques_preop_2017
+  organisme: SFAR
+  niveau_source: pedagogique
+  title: Variabilite de l'approche des anesthesistes dans la prise en charge pre operatoire des enfants asthmatiques
+  url: https://sfar.org/variability-in-anesthesiologists-approach-to-the-preoperative-management-of-asthmatic-children/
+  support_type: webpage
+  date_consultation: 2026-04-02
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id

@@ -1,0 +1,32 @@
+﻿topic_id: htp
+inferences:
+  - inference_id: inf_01
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`entrees`: SpO2, EtCO2, FC, PAS/PAM, Ppeak, signes de bas debit, besoin vasopresseur"
+    derived_from:
+      - fact_01
+  - inference_id: inf_02
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`modulateurs`: HTP connue, chirurgie thoracique, ventilation positive, antecedent d'insuffisance VD"
+    derived_from:
+      - fact_01
+  - inference_id: inf_03
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`sorties`: score de stress VD, escalade rapide si hypoxemie + hypercapnie + hypotension, priorisation des complications respiratoires"
+    derived_from:
+      - fact_01
+  - inference_id: inf_04
+    status: design_proposal
+    kind: kb_extension
+    proposal: "ajouter un modulateur `risque_vd`"
+    derived_from:
+      - fact_01
+  - inference_id: inf_05
+    status: design_proposal
+    kind: kb_extension
+    proposal: "relier ce terrain a un facteur combine `SpO2 + EtCO2 + PAM + Ppeak`"
+    derived_from:
+      - fact_01

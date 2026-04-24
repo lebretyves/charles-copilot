@@ -1,0 +1,21 @@
+topic_id: choc_hemorragique_transfusion_massive
+inferences:
+  - inference_id: hemorrhage_combined_score
+    status: design_proposal
+    kind: weighted_factor
+    proposal: "Construire un score hemorragique combinant tendance PA/FC, estimation de pertes, besoin vasopresseur et biologie quand disponible."
+    derived_from:
+      - hemorrhagic_shock_requires_early_recognition
+      - hemorrhage_assessment_is_multidimensional
+  - inference_id: massive_transfusion_readiness_flag
+    status: design_proposal
+    kind: context_flag
+    proposal: "Activer un drapeau de preparation transfusion massive selon chirurgie, terrain antithrombotique et aggravation hemodynamique."
+    derived_from:
+      - transfusion_massive_risk_requires_anticipation
+  - inference_id: hemorrhage_protocol_priority
+    status: design_proposal
+    kind: alert_priority
+    proposal: "Rehausser la priorite quand les signaux hemodynamiques s'aggravent rapidement ou qu'une biologie de choc apparait."
+    derived_from:
+      - protocolized_operational_response_is_recommended

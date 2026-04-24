@@ -1,3 +1,6 @@
+-r ../requirements.txt
+
+# Install torch separately with the wheel matching your CPU/CUDA setup.
 transformers
 trl
 peft
@@ -6,4 +9,3 @@ datasets
 bitsandbytes
 huggingface_hub
 sentencepiece
-pydantic

@@ -1,0 +1,111 @@
+topic_id: laryngospasme_enfant
+faits:
+- fact_id: cpap_fio2_100_first_line
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: La CPAP avec FiO2 a 100 % fait partie de la prise en charge initiale du laryngospasme chez l'enfant.
+  metric: FiO2
+  rule_type: first_line
+  value_text: 100 %
+  source_ref: mapar_laryngospasme_enfant
+  source_title: MAPAR Fiche urgence laryngospasme chez l'enfant
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_10_laryngospasme_enfant.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: succinylcholine_im_4mg_per_kg
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: En l'absence d'acces veineux, la succinylcholine IM est indiquee a 4 mg/kg.
+  metric: succinylcholine_IM
+  rule_type: treatment_dose
+  value_text: 4 mg/kg
+  source_ref: mapar_laryngospasme_enfant
+  source_title: MAPAR Fiche urgence laryngospasme chez l'enfant
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_10_laryngospasme_enfant.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: propofol_1_2mg_per_kg
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: Le propofol peut etre utilise a la dose de 1 a 2 mg/kg.
+  metric: propofol
+  rule_type: treatment_dose
+  value_text: 1 a 2 mg/kg
+  source_ref: mapar_laryngospasme_enfant
+  source_title: MAPAR Fiche urgence laryngospasme chez l'enfant
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_10_laryngospasme_enfant.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: recent_uri_increases_risk
+  statut: direct_source
+  force_source: pratique
+  fact_type: risk_context
+  statement: Une infection recente des voies aeriennes superieures augmente le risque de complication respiratoire, dont le laryngospasme.
+  source_ref: mapar_anesthesie_de_l_enfant_enrhume
+  source_title: MAPAR L'anesthesie de l'enfant enrhume depuis 30 ans
+  source_url: https://www.mapar.org/article/1/Communication%20MAPAR/luz7el2p/L%E2%80%99anesth%C3%A9sie%20de%20l%E2%80%99enfant%20enrhum%C3%A9%20depuis%2030%20ans.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: laryngospasm_occurs_mainly_induction_and_emergence
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: timing_context
+  statement: La revue pediatrique rapportee par SOFIA retrouve la majorite des laryngospasmes a l'induction et au reveil, avec une faible proportion pendant l'entretien.
+  metric: perioperative_phase
+  rule_type: predominant_occurrence_phase
+  value_text: induction 46 % ; entretien 10 % ; reveil 44 %
+  source_ref: sofia_laryngospasme_pediatrie_2009
+  source_title: Laryngospasme en pediatrie
+  source_url: https://sofia.medicalistes.fr/spip/IMG/pdf/laryngospasme_en_pediatrie.pdf
+  source_organisme: SOFIA
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: children_under_five_are_overrepresented
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: age_risk
+  statement: Les enfants de moins de 5 ans, et en particulier les plus jeunes, sont surrepresentes parmi les cas de laryngospasme.
+  metric: age
+  rule_type: high_risk_age_group
+  value_text: 68 % <= 5 ans
+  source_ref: sofia_laryngospasme_pediatrie_2009
+  source_title: Laryngospasme en pediatrie
+  source_url: https://sofia.medicalistes.fr/spip/IMG/pdf/laryngospasme_en_pediatrie.pdf
+  source_organisme: SOFIA
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: inadequate_anesthesia_depth_is_a_risk_factor
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: risk_context
+  statement: Une profondeur d'anesthesie insuffisante a l'induction ou au reveil favorise le laryngospasme.
+  metric: anesthesia_depth
+  rule_type: risk_factor
+  value_text: profondeur insuffisante induction/reveil
+  source_ref: sofia_laryngospasme_pediatrie_2009
+  source_title: Laryngospasme en pediatrie
+  source_url: https://sofia.medicalistes.fr/spip/IMG/pdf/laryngospasme_en_pediatrie.pdf
+  source_organisme: SOFIA
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: upper_airway_irritation_is_triggering_context
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: triggering_context
+  statement: L'irritation des voies aeriennes superieures en phase legere d'anesthesie est un contexte declenchant classique.
+  metric: upper_airway_stimulation
+  rule_type: triggering_context
+  value_text: irritation VAS en anesthesie legere
+  source_ref: sofia_laryngospasme_pediatrie_2009
+  source_title: Laryngospasme en pediatrie
+  source_url: https://sofia.medicalistes.fr/spip/IMG/pdf/laryngospasme_en_pediatrie.pdf
+  source_organisme: SOFIA
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf

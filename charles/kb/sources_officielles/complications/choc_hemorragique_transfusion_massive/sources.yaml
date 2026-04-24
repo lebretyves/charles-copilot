@@ -1,0 +1,73 @@
+topic_id: choc_hemorragique_transfusion_massive
+topic_type: complication
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_reanimation_du_choc_hemorragique
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Reanimation du choc hemorragique
+  url: https://sfar.org/recommandations-sur-la-reanimation-du-choc-hemorragique/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_plyo_en_choc_hemorragique_risque_de_transfusion_massive
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR PLYO en choc hemorragique / risque de transfusion massive
+  url: https://sfar.org/indications-de-transfusion-de-plasmas-lyophilises-plyo-chez-un-patient-en-choc-hemorragique-ou-a-risque-de-transfusion-massive-en-milieu-civil/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_qfp_transfusion_massive
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR QFP Transfusion Massive
+  url: https://sfar.org/qfp-transfusion-massive/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_ac_choc_hemorragique_per_postop
+  organisme: SFAR
+  niveau_source: normatif
+  title: Aide cognitive SFAR - Choc hemorragique per et/ou post-operatoire
+  url: https://sfar.org/download/choc-hemorragique-per-et-ou-post-operatoire/
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: has_transfusion_plasma_therapeutique
+  organisme: HAS
+  niveau_source: normatif
+  title: 'HAS Transfusion de plasma therapeutique : produits, indications'
+  url: https://www.has-sante.fr/jcms/c_1264081/fr/transfusion-de-plasma-therapeutique-produits-indications
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: mapar_fiche_urgence_choc_hemorragique
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Fiche urgence choc hemorragique
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_05_choc_hemorragique.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+documentary_layers:
+  normative_recommandations:
+  - sfar_reanimation_du_choc_hemorragique
+  - sfar_plyo_en_choc_hemorragique_risque_de_transfusion_massive
+  - sfar_qfp_transfusion_massive
+  - has_transfusion_plasma_therapeutique
+  - sfar_aides_cognitives
+  - sfar_ac_choc_hemorragique_per_postop
+  professionnelle_pratique_fr:
+  - mapar_fiche_urgence_choc_hemorragique
+  - anrea_hemodynamique_issue
+  - anrea_transfusion_massive_2020
+  pedagogique_enseignement_medecins:
+  - cfar_referentiel_metier
+  - emc_choc_hemorragique_2009
+  - emc_transfusion_massive_2009
+documentary_notes:
+- La branche normative est maintenant forte a la fois sur les seuils/cibles et sur l'outil operationnel bloc grace a l'aide cognitive SFAR dediee.
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id
+  resource_catalog_ref: kb/sources_officielles/source_resource_catalog.yaml
+  landscape_ref: kb/sources_officielles/complication_source_landscape.yaml

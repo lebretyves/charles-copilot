@@ -1,0 +1,54 @@
+topic_id: sujet_age_fragile
+faits:
+- fact_id: agearisk_targets_over_75
+  statut: direct_source
+  force_source: normative
+  fact_type: population_definition
+  statement: AGEARISK cible les patients de plus de 75 ans operes d'une chirurgie a risque intermediaire ou eleve.
+  metric: age
+  rule_type: inclusion
+  value_text: '> 75 ans'
+  source_ref: sfar_agearisk
+  source_title: SFAR AGEARISK
+  source_url: https://sfar.org/agearisk/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: twenty_percent_operated_each_year
+  statut: direct_source
+  force_source: normative
+  fact_type: epidemiology
+  statement: Selon AGEARISK, 20 % des sujets de plus de 75 ans sont operes chaque annee.
+  value_text: 20 %/an
+  source_ref: sfar_agearisk
+  source_title: SFAR AGEARISK
+  source_url: https://sfar.org/agearisk/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: thirty_percent_major_complication_after_major_surgery
+  statut: direct_source
+  force_source: normative
+  fact_type: epidemiology
+  statement: En chirurgie majeure, 30 % des patients ages developpent une complication postoperatoire grave.
+  value_text: 30 %
+  source_ref: sfar_agearisk
+  source_title: SFAR AGEARISK
+  source_url: https://sfar.org/agearisk/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: frailty_five_criteria
+  statut: direct_source
+  force_source: normative
+  fact_type: frailty_definition
+  statement: Le phenotype de fragilite de Fried repose sur 5 criteres, dont un amaigrissement involontaire de plus de 5 kg.
+  metric: fragility
+  rule_type: phenotype_definition
+  value_text: 5 criteres ; perte de poids > 5 kg
+  source_ref: sfar_pourquoi_lanesthesiste_doit_sinteresser_a_la_fragilite
+  source_title: SFAR Pourquoi l'anesthesiste doit s'interesser a la fragilite
+  source_url: https://sfar.org/pourquoi-lanesthesiste-doit-sinteresser-a-la-fragilite/
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: webpage

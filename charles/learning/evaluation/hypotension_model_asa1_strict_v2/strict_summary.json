@@ -1,0 +1,267 @@
+{
+  "subset": "ASA1_strict_hypotension_v2_only",
+  "cohort_definition": {
+    "asa1_source": "asa == 1.0",
+    "asa1_conflict": "asa == 1.0 and (preop_htn == 1 or preop_dm == 1)",
+    "asa1_strict": "asa == 1.0 and preop_htn == 0 and preop_dm == 0",
+    "asa_effective_for_analysis": "2.0 when asa1_conflict else asa_num"
+  },
+  "hypotension_total": 4515,
+  "asa1_source_total": 1241,
+  "asa1_strict_total": 1170,
+  "asa1_conflict_total": 71,
+  "strict_elapsed_seconds": 571.141,
+  "removed_elapsed_seconds": 42.524,
+  "source_summary_reference": {
+    "subset": "ASA1_hypotension_v2_only",
+    "total_cases_in_subset": 1241,
+    "with_waveforms": 13,
+    "without_waveforms": 1228,
+    "elapsed_seconds": 616.449,
+    "overall": {
+      "count": 1241,
+      "early": {
+        "available": 1241,
+        "detected_before_onset": 739,
+        "mean_s": 892.409,
+        "median_s": 128.0
+      },
+      "probable": {
+        "available": 1241,
+        "detected_before_onset": 550,
+        "mean_s": 724.994,
+        "median_s": 0.0
+      },
+      "confirmed": {
+        "available": 1241,
+        "detected_before_onset": 327,
+        "mean_s": 518.082,
+        "median_s": -58.0
+      },
+      "mean_peak_risk": 0.6943,
+      "mean_peak_confidence": 0.7821
+    },
+    "waveforms_enabled": {
+      "count": 13,
+      "early": {
+        "available": 13,
+        "detected_before_onset": 13,
+        "mean_s": 877.231,
+        "median_s": 594.0
+      },
+      "probable": {
+        "available": 13,
+        "detected_before_onset": 10,
+        "mean_s": 610.308,
+        "median_s": 500.0
+      },
+      "confirmed": {
+        "available": 13,
+        "detected_before_onset": 4,
+        "mean_s": 198.615,
+        "median_s": -58.0
+      },
+      "mean_peak_risk": 0.8418,
+      "mean_peak_confidence": 0.9998
+    },
+    "numeric_only": {
+      "count": 1228,
+      "early": {
+        "available": 1228,
+        "detected_before_onset": 726,
+        "mean_s": 892.57,
+        "median_s": 123.0
+      },
+      "probable": {
+        "available": 1228,
+        "detected_before_onset": 540,
+        "mean_s": 726.208,
+        "median_s": 0.0
+      },
+      "confirmed": {
+        "available": 1228,
+        "detected_before_onset": 323,
+        "mean_s": 521.464,
+        "median_s": -58.0
+      },
+      "mean_peak_risk": 0.6927,
+      "mean_peak_confidence": 0.7798
+    }
+  },
+  "strict_summary": {
+    "overall": {
+      "count": 1170,
+      "early": {
+        "available": 1170,
+        "detected_before_onset": 691,
+        "mean_s": 893.827,
+        "median_s": 120.0
+      },
+      "probable": {
+        "available": 1170,
+        "detected_before_onset": 511,
+        "mean_s": 728.335,
+        "median_s": 0.0
+      },
+      "confirmed": {
+        "available": 1170,
+        "detected_before_onset": 310,
+        "mean_s": 529.27,
+        "median_s": -58.0
+      },
+      "mean_peak_risk": 0.6929,
+      "mean_peak_confidence": 0.782
+    },
+    "waveforms_enabled": {
+      "count": 11,
+      "early": {
+        "available": 11,
+        "detected_before_onset": 11,
+        "mean_s": 895.091,
+        "median_s": 500.0
+      },
+      "probable": {
+        "available": 11,
+        "detected_before_onset": 8,
+        "mean_s": 632.364,
+        "median_s": 500.0
+      },
+      "confirmed": {
+        "available": 11,
+        "detected_before_onset": 3,
+        "mean_s": 175.091,
+        "median_s": -58.0
+      },
+      "mean_peak_risk": 0.8372,
+      "mean_peak_confidence": 0.9998
+    },
+    "numeric_only": {
+      "count": 1159,
+      "early": {
+        "available": 1159,
+        "detected_before_onset": 680,
+        "mean_s": 893.815,
+        "median_s": 110.0
+      },
+      "probable": {
+        "available": 1159,
+        "detected_before_onset": 503,
+        "mean_s": 729.246,
+        "median_s": 0.0
+      },
+      "confirmed": {
+        "available": 1159,
+        "detected_before_onset": 307,
+        "mean_s": 532.632,
+        "median_s": -58.0
+      },
+      "mean_peak_risk": 0.6915,
+      "mean_peak_confidence": 0.78
+    },
+    "with_waveforms": 11,
+    "without_waveforms": 1159
+  },
+  "removed_conflict_summary": {
+    "overall": {
+      "count": 71,
+      "early": {
+        "available": 71,
+        "detected_before_onset": 48,
+        "mean_s": 869.042,
+        "median_s": 460.0
+      },
+      "probable": {
+        "available": 71,
+        "detected_before_onset": 39,
+        "mean_s": 669.944,
+        "median_s": 68.0
+      },
+      "confirmed": {
+        "available": 71,
+        "detected_before_onset": 17,
+        "mean_s": 333.718,
+        "median_s": -58.0
+      },
+      "mean_peak_risk": 0.7167,
+      "mean_peak_confidence": 0.7833
+    },
+    "waveforms_enabled": {
+      "count": 2,
+      "early": {
+        "available": 2,
+        "detected_before_onset": 2,
+        "mean_s": 779.0,
+        "median_s": 779.0
+      },
+      "probable": {
+        "available": 2,
+        "detected_before_onset": 2,
+        "mean_s": 489.0,
+        "median_s": 489.0
+      },
+      "confirmed": {
+        "available": 2,
+        "detected_before_onset": 1,
+        "mean_s": 328.0,
+        "median_s": 328.0
+      },
+      "mean_peak_risk": 0.867,
+      "mean_peak_confidence": 1.0
+    },
+    "numeric_only": {
+      "count": 69,
+      "early": {
+        "available": 69,
+        "detected_before_onset": 46,
+        "mean_s": 871.652,
+        "median_s": 430.0
+      },
+      "probable": {
+        "available": 69,
+        "detected_before_onset": 37,
+        "mean_s": 675.188,
+        "median_s": 14.0
+      },
+      "confirmed": {
+        "available": 69,
+        "detected_before_onset": 16,
+        "mean_s": 333.884,
+        "median_s": -58.0
+      },
+      "mean_peak_risk": 0.7123,
+      "mean_peak_confidence": 0.7771
+    },
+    "with_waveforms": 2,
+    "without_waveforms": 69
+  },
+  "comparison_vs_asa1_source": {
+    "source_cases": 1241,
+    "strict_cases": 1170,
+    "removed_conflict_cases": 71,
+    "removed_fraction_pct": 5.721,
+    "strict_fraction_pct": 94.279,
+    "early": {
+      "source_rate_pct": 59.549,
+      "strict_rate_pct": 59.06,
+      "rate_delta_pct_points": -0.489,
+      "mean_s_delta": 1.418,
+      "median_s_delta": -8.0
+    },
+    "probable": {
+      "source_rate_pct": 44.319,
+      "strict_rate_pct": 43.675,
+      "rate_delta_pct_points": -0.644,
+      "mean_s_delta": 3.341,
+      "median_s_delta": 0.0
+    },
+    "confirmed": {
+      "source_rate_pct": 26.35,
+      "strict_rate_pct": 26.496,
+      "rate_delta_pct_points": 0.146,
+      "mean_s_delta": 11.188,
+      "median_s_delta": 0.0
+    },
+    "peak_risk_delta": -0.0014,
+    "peak_confidence_delta": -0.0001
+  }
+}

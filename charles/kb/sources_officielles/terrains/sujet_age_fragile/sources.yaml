@@ -1,0 +1,32 @@
+topic_id: sujet_age_fragile
+topic_type: terrain
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_agearisk
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR AGEARISK
+  url: https://sfar.org/agearisk/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_optimisation_patient_adulte
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Programme d'optimisation perioperatoire du patient adulte
+  url: https://sfar.org/programme-doptimisation-perioperatoire-du-patient-adulte/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_pourquoi_lanesthesiste_doit_sinteresser_a_la_fragilite
+  organisme: SFAR
+  niveau_source: pedagogique
+  title: SFAR Pourquoi l'anesthesiste doit s'interesser a la fragilite
+  url: https://sfar.org/pourquoi-lanesthesiste-doit-sinteresser-a-la-fragilite/
+  support_type: webpage
+  date_consultation: 2026-04-01
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id

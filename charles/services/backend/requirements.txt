@@ -13,3 +13,4 @@ pyyaml==6.0.*
 numpy==2.2.*
 pandas>=2.2,<3
 pyarrow>=17,<20
+prometheus-client==0.21.*

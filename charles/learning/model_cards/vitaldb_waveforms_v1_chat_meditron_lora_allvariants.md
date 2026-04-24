@@ -3,7 +3,7 @@
 ## Identity
 
 - Adapter name: `vitaldb_waveforms_v1_chat_meditron_lora_allvariants`
-- Version: `v1-allvariants`
+- Version: `chat_meditron_lora_allvariants`
 - Date: `2026-03-30`
 - Status: `validated`
 
@@ -16,8 +16,8 @@
 
 ## Intended use
 
-- Primary purpose: local structured perioperative interpretation across `full_wave`, `no_wave`, and `partial_wave` inputs
-- Expected inputs: CHARLES chat-format samples generated from VitalDB-derived structured features and context
+- Primary purpose: local structured perioperative interpretation for `chat`-format CHARLES samples
+- Expected inputs: CHARLES structured train/eval samples generated from VitalDB-derived features, alerts, and context
 - Expected outputs: structured JSON analyses for the CHARLES worker / review pipeline
 - Explicit non-goals: raw waveform primary detection, unsupervised online learning, autonomous clinical use
 
@@ -29,10 +29,12 @@
 - Eval samples: `63`
 - Input variants: `full_wave`, `no_wave`, `partial_wave`
 - Dataset notes:
-  - `333` exported samples in total
-  - `111` samples per input variant
-  - bootstrap pending review status at export time
-  - balanced offline comparison performed on a `12`-sample evaluation subset
+  - `333` exported samples in the dataset release
+  - export mode: `bootstrap_pending`
+  - train variants: full_wave=90, no_wave=90, partial_wave=90
+  - top train complications: vasopressor_support=216, ephedrine_support=207, postop_icu_admission=126, intraop_hyperglycemia_lab=99, phenylephrine_support=63
+- DVC snapshot: `learning/datasets/exports/vitaldb_waveforms_v1.dvc`
+- DVC md5: `33cf19ccdb9971ae6a62eff07e5c3637.dir`
 
 ## Training configuration
 
@@ -43,23 +45,24 @@
 - Sequence length: `2048`
 - Batch size: `1`
 - Gradient accumulation: `8`
-- Learning rate: `1e-4`
-- Epochs: `2`
+- Learning rate: `0.0001`
+- Epochs: `2.0`
 - Seed: `42`
-- Hardware: local GPU workflow
+- Hardware: NVIDIA GeForce RTX 5060 Laptop GPU
 
 ## Evaluation
 
 - Trainer metrics:
   - `train_loss = 0.4751`
+  - `train_runtime = 2637.0747`
   - `eval_loss = 0.1930`
   - `eval_mean_token_accuracy = 0.9335`
-- Downstream balanced comparison (`12` samples):
-  - `json_parse_ok = 1.0`
-  - `schema_valid = 1.0`
-  - `call_mar_accuracy = 1.0`
+- Downstream comparison metrics:
+  - `json_parse_ok = 1.0000`
+  - `schema_valid = 1.0000`
+  - `call_mar_accuracy = 1.0000`
   - `overall_score = 0.9774`
-- Main takeaways: this is the strongest documented adapter so far for offline CHARLES-style structured interpretation
+- Main takeaways: Strong offline structured-output performance on the available evaluation slice.
 
 ## Limitations
 

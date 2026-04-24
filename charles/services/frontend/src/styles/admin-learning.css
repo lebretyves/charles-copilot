@@ -1,0 +1,211 @@
+.learning-dashboard {
+  gap: 1.25rem;
+}
+
+.learning-subtitle {
+  color: rgba(232, 242, 255, 0.72);
+  font-size: 0.92rem;
+  margin-top: 0.2rem;
+}
+
+.learning-meta-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 1.4rem;
+  color: rgba(232, 242, 255, 0.78);
+  font-size: 0.88rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(140, 186, 255, 0.16);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(11, 18, 35, 0.96), rgba(8, 13, 25, 0.94));
+}
+
+.learning-note-list {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.learning-note {
+  padding: 0.8rem 0.95rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 194, 102, 0.22);
+  background: rgba(82, 54, 10, 0.28);
+  color: #f8dfaf;
+  font-size: 0.9rem;
+}
+
+.learning-kpis .admin-card-body {
+  gap: 0.75rem;
+}
+
+.learning-status-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.learning-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem 0.62rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border: 1px solid rgba(170, 196, 255, 0.16);
+  background: rgba(18, 28, 48, 0.72);
+  color: #d7e8ff;
+}
+
+.learning-pill--good {
+  color: #83f0bf;
+  border-color: rgba(79, 210, 149, 0.3);
+  background: rgba(13, 58, 39, 0.42);
+}
+
+.learning-pill--warn {
+  color: #ffd18c;
+  border-color: rgba(255, 176, 74, 0.28);
+  background: rgba(79, 47, 10, 0.38);
+}
+
+.learning-pill--muted {
+  color: rgba(219, 232, 255, 0.76);
+}
+
+.learning-path,
+.learning-secondary,
+.learning-path-block {
+  color: rgba(189, 211, 243, 0.64);
+  font-size: 0.76rem;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.learning-primary {
+  color: #f4f8ff;
+  font-weight: 700;
+  font-size: 0.92rem;
+  margin-bottom: 0.15rem;
+}
+
+.learning-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.learning-grid--details {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.learning-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 190, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(13, 19, 34, 0.97), rgba(8, 12, 24, 0.95));
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.24);
+  min-width: 0;
+}
+
+.learning-panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+
+.learning-panel-head h3 {
+  margin: 0;
+  color: #f5f9ff;
+  font-size: 1rem;
+}
+
+.learning-panel-head span {
+  color: rgba(206, 223, 249, 0.75);
+  font-size: 0.8rem;
+}
+
+.learning-table-wrap {
+  overflow: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(142, 188, 255, 0.12);
+}
+
+.learning-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+.learning-table thead {
+  background: rgba(18, 29, 52, 0.96);
+}
+
+.learning-table th,
+.learning-table td {
+  padding: 0.8rem 0.9rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(140, 186, 255, 0.08);
+  color: rgba(236, 244, 255, 0.9);
+  font-size: 0.86rem;
+}
+
+.learning-table th {
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(185, 205, 237, 0.7);
+}
+
+.learning-empty,
+.learning-empty-row {
+  color: rgba(214, 228, 250, 0.72);
+  text-align: center;
+  padding: 1.2rem;
+}
+
+.learning-empty--error {
+  border: 1px solid rgba(255, 122, 122, 0.25);
+  border-radius: 14px;
+  background: rgba(76, 13, 13, 0.28);
+  color: #ffc5c5;
+}
+
+.learning-detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.learning-path-block {
+  border-top: 1px dashed rgba(146, 190, 255, 0.16);
+  padding-top: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+@media (max-width: 1180px) {
+  .learning-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .learning-meta-bar {
+    flex-direction: column;
+  }
+
+  .learning-table {
+    min-width: 560px;
+  }
+}

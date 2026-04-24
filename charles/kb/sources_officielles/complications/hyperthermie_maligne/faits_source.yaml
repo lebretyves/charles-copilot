@@ -1,0 +1,125 @@
+topic_id: hyperthermie_maligne
+faits:
+- fact_id: triggers_halogenes_sux
+  statut: direct_source
+  force_source: normative
+  fact_type: trigger_context
+  statement: Les agents halogenes et la succinylcholine sont des facteurs declenchants explicites de l'hyperthermie maligne.
+  source_ref: sfar_ac_hyperthermie_maligne
+  source_title: SFAR aide cognitive Hyperthermie maligne
+  source_url: https://sfar.org/wp-content/uploads/2019/09/ac-hyperthermie-maligne.pdf
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: pdf
+- fact_id: initial_dantrolene_2_5_mg_per_kg
+  statut: direct_source
+  force_source: normative
+  fact_type: treatment_threshold
+  statement: La dose initiale de dantrolene est de 2,5 mg/kg IVD.
+  metric: dantrolene
+  rule_type: treatment_dose
+  value_text: 2,5 mg/kg IVD
+  source_ref: sfar_ac_hyperthermie_maligne
+  source_title: SFAR aide cognitive Hyperthermie maligne
+  source_url: https://sfar.org/wp-content/uploads/2019/09/ac-hyperthermie-maligne.pdf
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: pdf
+- fact_id: repeat_dantrolene_1_mg_per_kg
+  statut: direct_source
+  force_source: normative
+  fact_type: treatment_threshold
+  statement: En cas d'echec apres quelques minutes, une dose complementaire de 1 mg/kg IVD peut etre repetee.
+  metric: dantrolene
+  rule_type: repeat_dose
+  value_text: 1 mg/kg IVD
+  source_ref: sfar_ac_hyperthermie_maligne
+  source_title: SFAR aide cognitive Hyperthermie maligne
+  source_url: https://sfar.org/wp-content/uploads/2019/09/ac-hyperthermie-maligne.pdf
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: pdf
+- fact_id: max_dantrolene_10_mg_per_kg
+  statut: direct_source
+  force_source: normative
+  fact_type: treatment_threshold
+  statement: La dose totale maximale de dantrolene est de 10 mg/kg.
+  metric: dantrolene
+  rule_type: cumulative_max
+  value_text: 10 mg/kg
+  source_ref: sfar_ac_hyperthermie_maligne
+  source_title: SFAR aide cognitive Hyperthermie maligne
+  source_url: https://sfar.org/wp-content/uploads/2019/09/ac-hyperthermie-maligne.pdf
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: pdf
+- fact_id: cooling_stop_under_38
+  statut: direct_source
+  force_source: pratique
+  fact_type: threshold
+  statement: Le refroidissement doit etre arrete des que la temperature centrale passe sous 38 C.
+  metric: temperature
+  rule_type: cooling_stop_threshold
+  value_text: < 38 C
+  source_ref: mapar_hyperthermie_maligne
+  source_title: MAPAR Fiche urgence Hyperthermie maligne adulte-enfant
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_15_hyperthermie_maligne.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: hyperventilation_two_to_three_times_minute_ventilation
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: L'hyperventilation est recommandee a 2 a 3 fois la ventilation minute en oxygene pur.
+  metric: ventilation
+  rule_type: treatment_intensity
+  value_text: 2 a 3 x ventilation minute
+  source_ref: mapar_hyperthermie_maligne
+  source_title: MAPAR Fiche urgence Hyperthermie maligne adulte-enfant
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_15_hyperthermie_maligne.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: saline_cooling_15_ml_per_kg_x3
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: Le refroidissement interne peut utiliser du NaCl 0,9 % glace a 15 ml/kg en 15 min, jusqu'a trois fois.
+  metric: cooling_fluid
+  rule_type: treatment_dose
+  value_text: 15 ml/kg en 15 min x3
+  source_ref: mapar_hyperthermie_maligne
+  source_title: MAPAR Fiche urgence Hyperthermie maligne adulte-enfant
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_15_hyperthermie_maligne.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: bicarbonate_1_meq_per_kg
+  statut: direct_source
+  force_source: normative
+  fact_type: treatment_threshold
+  statement: Le bicarbonate de sodium est propose a 1 mEq/kg en cas d'acidose metabolique.
+  metric: bicarbonate
+  rule_type: treatment_dose
+  value_text: 1 mEq/kg
+  source_ref: sfar_ac_hyperthermie_maligne
+  source_title: SFAR aide cognitive Hyperthermie maligne
+  source_url: https://sfar.org/wp-content/uploads/2019/09/ac-hyperthermie-maligne.pdf
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: pdf
+- fact_id: post_crisis_surveillance_48h
+  statut: direct_source
+  force_source: normative
+  fact_type: follow_up
+  statement: Une surveillance en reanimation de 48 heures est indiquee apres la crise.
+  metric: icu_surveillance
+  rule_type: duration
+  value_text: 48 h
+  source_ref: sfar_ac_hyperthermie_maligne
+  source_title: SFAR aide cognitive Hyperthermie maligne
+  source_url: https://sfar.org/wp-content/uploads/2019/09/ac-hyperthermie-maligne.pdf
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: pdf

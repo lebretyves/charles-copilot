@@ -1,0 +1,39 @@
+topic_id: cardiovasculaire_haut_risque
+topic_type: terrain
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_optimisation_hemodynamique_perioperatoire_adulte_dont_obstetrique
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Optimisation hemodynamique perioperatoire - Adulte dont obstetrique
+  url: https://sfar.org/optimisation-hemodynamique-perioperatoire-adulte-dont-obstetrique/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sofia_controle_perioperatoire_de_la_pression_arterielle
+  organisme: SOFIA
+  niveau_source: pedagogique
+  title: SOFIA Controle perioperatoire de la pression arterielle
+  url: https://sofia.medicalistes.fr/spip/IMG/pdf/controle_perioperatoire_de_la_pression_arterielle_pierre-gregoire_guinot_dijon_.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: aphp_pitie_salpetriere_anesthesie_reanimation
+  organisme: AP-HP Pitie-Salpetriere
+  niveau_source: pedagogique
+  title: AP-HP Pitie-Salpetriere - Departement d'anesthesie-reanimation
+  url: https://pitiesalpetriere.aphp.fr/anesthesie-reanimation/
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: aphp_bichat_anesthesie_reanimation
+  organisme: AP-HP Bichat
+  niveau_source: pedagogique
+  title: AP-HP Bichat - Service d'anesthesie-reanimation
+  url: https://www.aphp.fr/service/service-01-011
+  support_type: webpage
+  date_consultation: 2026-04-02
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id

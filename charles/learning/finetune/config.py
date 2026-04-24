@@ -14,6 +14,9 @@ class FineTuneDatasetConfig(BaseModel):
     prepared_train_path: str
     prepared_eval_path: str | None = None
     export_summary_path: str | None = None
+    dvc_snapshot_path: str | None = None
+    dvc_tracked_path: str | None = None
+    dvc_md5: str | None = None
 
 
 class FineTuneModelConfig(BaseModel):
@@ -82,6 +85,15 @@ class FineTuneArtifactsConfig(BaseModel):
     training_summary_path: str
 
 
+class FineTuneTrackingConfig(BaseModel):
+    enabled: bool = True
+    strict: bool = False
+    tracking_uri: str | None = None
+    experiment_name: str = "charles-local-finetune"
+    run_name_prefix: str = "charles"
+    tags: dict[str, str] = Field(default_factory=dict)
+
+
 class FineTuneRunConfig(BaseModel):
     run_id: str
     created_at: str
@@ -93,6 +105,7 @@ class FineTuneRunConfig(BaseModel):
     quantization: FineTuneQuantizationConfig = Field(default_factory=FineTuneQuantizationConfig)
     training: FineTuneTrainingConfig = Field(default_factory=FineTuneTrainingConfig)
     artifacts: FineTuneArtifactsConfig
+    tracking: FineTuneTrackingConfig = Field(default_factory=FineTuneTrackingConfig)
     notes: list[str] = Field(default_factory=list)
 
     @field_validator("notes", mode="before")

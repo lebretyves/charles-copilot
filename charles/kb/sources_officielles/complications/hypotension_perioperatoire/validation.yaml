@@ -1,0 +1,8 @@
+topic_id: hypotension_perioperatoire
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille_partiel
+open_points:
+  - "Verifier si la cible de PAM doit etre explicitement ajustee au terrain coronarien/HTA a partir des articles EM-Consulte complets."
+  - "Ajouter si possible un support francais plus explicite sur la sous-estimation de l'hypotension par mesure intermittente."
+  - "Conserver la these DUMAS comme source secondaire et non normative dans les regles finales."

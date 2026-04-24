@@ -94,6 +94,27 @@ charles/
 - Docker Desktop with Compose v2
 - optional: Ollama if you want local LLM analysis
 
+### Local Python tooling
+
+Docker is enough for the main monitoring stack, but local scripts outside containers now use layered requirement files:
+
+- backend runtime image: `services/backend/requirements.txt`
+- learning datasets, DVC snapshots and MLflow helpers: `learning/requirements.txt`
+- local fine-tuning extras on top of the learning stack: `learning/finetune/requirements.txt`
+- optional load testing helpers: `tests/requirements.txt`
+
+Typical installs:
+
+```bash
+py -m pip install -r learning/requirements.txt
+py -m pip install -r learning/finetune/requirements.txt
+py -m pip install -r tests/requirements.txt
+```
+
+Important:
+- `learning/finetune/requirements.txt` intentionally does not pin `torch`
+- install the CPU or CUDA wheel that matches your machine before launching local SFT
+
 ### Start the stack
 
 ```bash
@@ -102,14 +123,16 @@ docker compose up --build
 ```
 
 Open:
-- frontend (standard HTTPS): `https://localhost`
-- frontend: `https://localhost:3000`
-- http redirect helper: `http://localhost:3080`
+- frontend: `http://localhost:3000`
+- local gateway: `http://localhost:8080`
 - backend docs: `http://localhost:8000/docs`
+- Grafana: `http://localhost:3001`
+- Prometheus: `http://localhost:9090`
+- MLflow: `http://localhost:5000`
 
 Notes:
-- the frontend now runs behind local TLS with an auto-generated self-signed certificate
-- your browser may show a local security warning the first time because the certificate is not publicly trusted
+- the dev stack currently serves the frontend over plain HTTP locally
+- the production-like compose path remains the HTTPS/TLS entry point with certificates
 
 ### Production-like stack
 
@@ -269,13 +292,24 @@ Available today:
 Endpoints and UI:
 - `GET /health` returns uptime plus last monitoring / waveform activity timestamps
 - `GET /metrics` returns the full live counter snapshot
+- `GET /metrics/prometheus` exposes a Prometheus scrape endpoint for authenticated clinical/admin roles
 - the Admin system tab surfaces these metrics directly in the UI
+
+## Admin capabilities
+
+The admin area now groups the runtime controls added in this iteration:
+
+- live alerting rule inspection, save and reset through `/admin/alerting/config`
+- user listing and account creation through `/admin/users`
+- learning registry, DVC snapshot and MLflow tracking visibility through `/admin/learning/status`
+- live operational metrics and runtime health from the frontend admin tabs
 
 ## API highlights
 
 - `POST /auth/login`
 - `GET /health`
 - `GET /metrics`
+- `GET /metrics/prometheus`
 - `GET /rooms`
 - `GET /rooms/{room_id}`
 - `POST /rooms/{room_id}/analyze`
@@ -283,6 +317,12 @@ Endpoints and UI:
 - `GET /scenarios/catalog/waveforms`
 - `POST /scenarios/search`
 - `POST /simulator/control`
+- `GET /admin/alerting/config`
+- `PUT /admin/alerting/config`
+- `POST /admin/alerting/config/reset`
+- `GET /admin/users`
+- `POST /admin/users`
+- `GET /admin/learning/status`
 
 ## What was fixed for this cleanup
 
@@ -339,6 +379,13 @@ Frontend end-to-end smoke tests:
 ```bash
 cd services/frontend
 npm run test:e2e
+```
+
+Optional backend load test helpers:
+
+```bash
+py -m pip install -r tests/requirements.txt
+locust -f tests/load_test.py
 ```
 
 ## Golden waveform tests

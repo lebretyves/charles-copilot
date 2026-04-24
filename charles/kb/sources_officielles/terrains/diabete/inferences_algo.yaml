@@ -1,0 +1,32 @@
+﻿topic_id: diabete
+inferences:
+  - inference_id: inf_01
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`entrees`: glycemie, trend glycemique, type de diabete, traitement, FC, PA, duree de jeune, insuline perop"
+    derived_from:
+      - fact_01
+  - inference_id: inf_02
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`modulateurs`: pompe a insuline, insulinotherapie, chirurgie majeure, neuropathie autonome, insuffisance renale associee"
+    derived_from:
+      - fact_01
+  - inference_id: inf_03
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`sorties`: alerte hypo/hyperglycemie, augmentation de sensibilite a l'instabilite hemodynamique, facteur de risque aspiration si gastroparasie"
+    derived_from:
+      - fact_01
+  - inference_id: inf_04
+    status: design_proposal
+    kind: kb_extension
+    proposal: "lier le terrain diabetique a des regles sur glycemie et variabilite hemodynamique"
+    derived_from:
+      - fact_01
+  - inference_id: inf_05
+    status: design_proposal
+    kind: kb_extension
+    proposal: "creer un facteur `neuropathie_autonome_suspectee`"
+    derived_from:
+      - fact_01

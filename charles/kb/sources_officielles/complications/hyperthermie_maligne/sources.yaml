@@ -1,0 +1,61 @@
+topic_id: hyperthermie_maligne
+topic_type: complication
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_recommandations_experts_risque_hyperthermie_maligne
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Recommandations d'experts pour le risque d'Hyperthermie Maligne
+  url: https://sfar.org/recommandations-dexperts-pour-le-risque-dhyperthermie-maligne-en-anesthesie-reanimation/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_prise_en_charge_de_lhyperthermie_maligne
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Prise en charge de l'Hyperthermie Maligne
+  url: https://sfar.org/prise-en-charge-de-lhyperthermie-maligne/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_ac_hyperthermie_maligne
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR aide cognitive Hyperthermie maligne
+  url: https://sfar.org/wp-content/uploads/2019/09/ac-hyperthermie-maligne.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: mapar_hyperthermie_maligne
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Fiche urgence Hyperthermie maligne adulte-enfant
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_15_hyperthermie_maligne.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: sofia_fiche_de_synthese_prise_en_charge_de_lhyperthermie_maligne
+  organisme: SOFIA
+  niveau_source: pedagogique
+  title: SOFIA Fiche de synthese prise en charge de l'hyperthermie maligne
+  url: https://sofia.medicalistes.fr/spip/IMG/pdf/fiche_de_synthese_prise_en_charge_de_l_hyperthermie_maligne_2019_sfar.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+documentary_layers:
+  normative_recommandations:
+  - sfar_prise_en_charge_de_lhyperthermie_maligne
+  - sfar_recommandations_experts_risque_hyperthermie_maligne
+  - sfar_ac_hyperthermie_maligne
+  - sfar_aides_cognitives
+  professionnelle_pratique_fr:
+  - mapar_hyperthermie_maligne
+  - anrea_presentation
+  pedagogique_enseignement_medecins:
+  - sofia_fiche_de_synthese_prise_en_charge_de_lhyperthermie_maligne
+documentary_notes:
+- Convergence francaise forte sur les declencheurs, le dantrolene et la conduite de crise.
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id
+  resource_catalog_ref: kb/sources_officielles/source_resource_catalog.yaml
+  landscape_ref: kb/sources_officielles/complication_source_landscape.yaml

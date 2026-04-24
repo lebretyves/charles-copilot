@@ -1,0 +1,107 @@
+topic_id: intubation_extubation_difficiles
+topic_type: complication
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_intubation_difficile_et_extubation_en_anesthesie_chez_l_adulte
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Intubation difficile et extubation en anesthesie chez l'adulte
+  url: https://sfar.org/actualisation-de-recommandations-intubation-difficile-et-extubation-en-anesthesie-chez-ladulte/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_rfe_intubation_difficile_v2_pdf
+  organisme: SFAR
+  niveau_source: normatif
+  title: RFE 2017 Intubation difficile et extubation en anesthesie chez l'adulte - version PDF
+  url: https://sfar.org/wp-content/uploads/2017/09/2_RFE-intubation-difficile-SFAR_V2.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+- source_id: sfar_anrea_intubation_extubation_adulte_pdf
+  organisme: SFAR / Anesthesie & Reanimation
+  niveau_source: normatif
+  title: RFE ANREA Intubation difficile et extubation en anesthesie chez l'adulte
+  url: https://sfar.org/wp-content/uploads/2017/09/RFE-ANREA-Intubation-difficile-et-extubation-en-anesthesie-chez-l-adulte.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+- source_id: sfar_srlf_intubation_extubation_reanimation_2017
+  organisme: SFAR / SRLF / Anesthesie & Reanimation
+  niveau_source: normatif
+  title: Intubation et extubation du patient en reanimation
+  url: https://sfar.org/wp-content/uploads/2016/09/Intubation-et-extubation-du-patient-en-reanimation-ANREA.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+- source_id: sfar_texte_court_intubation_difficile
+  organisme: SFAR
+  niveau_source: normatif
+  title: Texte court SFAR - Intubation difficile
+  url: https://sfar.org/wp-content/uploads/2015/09/2a_SFAR_texte_court_Intubation-difficile.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+- source_id: mapar_intubation
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Intubation
+  url: https://www.mapar.org/article/pdf/739/Intubation
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: apsf_fr_asa_difficult_airway_2022
+  organisme: APSF France
+  niveau_source: pratique
+  title: Mise au point APSF - recommandations 2022 sur les pratiques de gestion des voies aeriennes difficiles
+  url: https://www.apsf.org/fr/article/mise-au-point-de-lanesthesia-patient-safety-foundation-recommandations-2022-sur-les-pratiques-de-gestion-des-voies-aeriennes-difficiles-de-lamerican-society-of-anesthesiologis/
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: sofia_intubation_difficile_support_sfar
+  organisme: SOFIA
+  niveau_source: pedagogique
+  title: SOFIA Intubation difficile - support SFAR
+  url: https://sofia.medicalistes.fr/spip/IMG/pdf/l_intubation_difficile_SFAR_.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: reamondor_aphp_intubation
+  organisme: AP-HP / ReaMondor
+  niveau_source: pedagogique
+  title: ReaMondor AP-HP - Intubation
+  url: https://reamondor.aphp.fr/familles/les-techniques-de-reanimation/intubation/
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: reamondor_aphp_ventilation_artificielle
+  organisme: AP-HP / ReaMondor
+  niveau_source: pedagogique
+  title: ReaMondor AP-HP - Ventilation artificielle
+  url: https://reamondor.aphp.fr/familles/les-techniques-de-reanimation/ventilation-artificielle/
+  support_type: webpage
+  date_consultation: 2026-04-02
+documentary_layers:
+  normative_recommandations:
+  - sfar_intubation_difficile_et_extubation_en_anesthesie_chez_ladulte
+  - sfar_aides_cognitives
+  - sfar_rfe_intubation_difficile_v2_pdf
+  - sfar_anrea_intubation_extubation_adulte_pdf
+  - sfar_srlf_intubation_extubation_reanimation_2017
+  - sfar_texte_court_intubation_difficile
+  professionnelle_pratique_fr:
+  - mapar_intubation
+  - anrea_voies_aeriennes_pediatrie_article
+  - monanesthesie_newsletter_zero
+  - apsf_fr_asa_difficult_airway_2022
+  pedagogique_enseignement_medecins:
+  - sofia_intubation_difficile_support_sfar
+  - cfar_referentiel_des
+  - cfar_referentiel_metier
+  - emc_controle_voies_aeriennes_2022
+  - emc_extubation_risk_2008
+  - reamondor_aphp_intubation
+  - reamondor_aphp_ventilation_artificielle
+  - reamondor_aphp_tracheotomie
+documentary_notes:
+- Le noyau normatif est maintenant fort sur definition, limitation des tentatives, oxygenation et extubation a risque ; il manque surtout la capture runtime des tentatives et du contexte d'extubation.
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id
+  resource_catalog_ref: kb/sources_officielles/source_resource_catalog.yaml
+  landscape_ref: kb/sources_officielles/complication_source_landscape.yaml

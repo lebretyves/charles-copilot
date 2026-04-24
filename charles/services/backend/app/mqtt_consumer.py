@@ -43,6 +43,7 @@ class MQTTConsumer:
             "bloc/+/aivoc",
             "bloc/+/full",
             "bloc/+/waves",
+            "charles/simulator/events",
         ]
         self._client: mqtt.Client | None = None
         self._thread: threading.Thread | None = None

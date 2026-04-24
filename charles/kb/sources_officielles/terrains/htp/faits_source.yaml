@@ -1,0 +1,35 @@
+topic_id: htp
+faits:
+- fact_id: htp_management_requires_preop_evaluation
+  statut: direct_source
+  force_source: pratique
+  fact_type: care_scope
+  statement: Le support MAPAR inscrit l'HTP dans un cadre de prise en charge perioperatoire associant evaluation preoperatoire, terrain, techniques et medicaments d'anesthesie.
+  source_ref: mapar_gestion_peri_operatoire_de_l_htp
+  source_title: MAPAR Gestion peri-operatoire de l'HTP
+  source_url: https://www.mapar.org/presentation/1/Staff%20junior/13/Gestion%20p%C3%A9ri-op%C3%A9ratoire%20de%20l%E2%80%99HTP
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: webpage
+- fact_id: htp_source_focuses_on_cardiopulmonary_effects_of_anesthesia
+  statut: direct_source
+  force_source: pratique
+  fact_type: physiologic_focus
+  statement: Le document MAPAR centre explicitement l'analyse sur les consequences de l'anesthesie sur la circulation cardio-pulmonaire.
+  source_ref: mapar_gestion_peri_operatoire_de_l_htp
+  source_title: MAPAR Gestion peri-operatoire de l'HTP
+  source_url: https://www.mapar.org/presentation/1/Staff%20junior/13/Gestion%20p%C3%A9ri-op%C3%A9ratoire%20de%20l%E2%80%99HTP
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: webpage
+- fact_id: htp_requires_choice_of_anesthetic_technique
+  statut: direct_source
+  force_source: pratique
+  fact_type: anesthetic_strategy
+  statement: Le choix de la technique d'anesthesie fait partie des points centraux de la gestion perioperatoire de l'HTP.
+  source_ref: mapar_gestion_peri_operatoire_de_l_htp
+  source_title: MAPAR Gestion peri-operatoire de l'HTP
+  source_url: https://www.mapar.org/presentation/1/Staff%20junior/13/Gestion%20p%C3%A9ri-op%C3%A9ratoire%20de%20l%E2%80%99HTP
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: webpage

@@ -2,6 +2,25 @@
 
 This directory hosts the learning scaffolding for CHARLES.
 
+## Install
+
+Base dataset, tracking and registry helpers:
+
+```bash
+py -m pip install -r learning/requirements.txt
+```
+
+Local fine-tuning extras:
+
+```bash
+py -m pip install -r learning/finetune/requirements.txt
+```
+
+Important:
+- `learning/finetune/requirements.txt` extends the base learning stack
+- install the `torch` wheel separately so it matches the local CPU/CUDA environment
+- MLflow and DVC stay optional at runtime in the scaffold, but installing them enables the full local tracking flow
+
 The target architecture is intentionally split into three layers:
 
 1. `waveforms/`

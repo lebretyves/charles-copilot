@@ -97,9 +97,25 @@ CREATE TABLE IF NOT EXISTS fluid_balance (
     product_name    VARCHAR(128)
 );
 
+-- Utilisateurs applicatifs
+CREATE TABLE IF NOT EXISTS app_users (
+    username            VARCHAR(64) PRIMARY KEY,
+    password_hash       TEXT NOT NULL,
+    role                VARCHAR(16) NOT NULL CHECK (role IN ('iade', 'mar', 'admin')),
+    name                VARCHAR(128) NOT NULL,
+    is_active           BOOLEAN NOT NULL DEFAULT TRUE,
+    must_change_password BOOLEAN NOT NULL DEFAULT FALSE,
+    source              VARCHAR(32) NOT NULL DEFAULT 'admin',
+    created_by          VARCHAR(64),
+    created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at          TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 -- Index pour les requêtes fréquentes
 CREATE INDEX idx_alerts_case ON alerts(case_id);
 CREATE INDEX idx_alerts_timestamp ON alerts(timestamp);
 CREATE INDEX idx_drug_admin_case ON drug_administrations(case_id);
 CREATE INDEX idx_case_events_case ON case_events(case_id);
 CREATE INDEX idx_fluid_case ON fluid_balance(case_id);
+CREATE INDEX idx_app_users_role ON app_users(role);
+CREATE INDEX idx_app_users_active ON app_users(is_active);

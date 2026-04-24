@@ -135,6 +135,7 @@ def inspect_run_environment(config: FineTuneRunConfig) -> dict[str, Any]:
         required_packages.append("bitsandbytes")
 
     package_versions = {name: _package_version(name) for name in required_packages}
+    tracking_package_version = _package_version("mlflow") if config.tracking.enabled else None
 
     base_model_dir = Path(config.model.base_model_path)
     tokenizer_dir = Path(config.model.tokenizer_path) if config.model.tokenizer_path else base_model_dir
@@ -176,16 +177,29 @@ def inspect_run_environment(config: FineTuneRunConfig) -> dict[str, Any]:
     for name, version in package_versions.items():
         if version is None:
             blocking_issues.append(f"Missing Python package: {name}")
+    if config.tracking.enabled and config.tracking.strict and tracking_package_version is None:
+        blocking_issues.append("Missing Python package: mlflow (tracking is enabled in strict mode).")
 
     gpu = _detect_torch_runtime()
     if gpu.get("installed") and not gpu.get("cuda_available"):
         blocking_issues.append("Torch is installed but CUDA is not available for local fine-tuning.")
+
+    tracking_checks = {
+        "enabled": config.tracking.enabled,
+        "strict": config.tracking.strict,
+        "tracking_uri": config.tracking.tracking_uri,
+        "experiment_name": config.tracking.experiment_name,
+        "package_version": tracking_package_version,
+        "package_installed": tracking_package_version is not None,
+        "will_track": bool(config.tracking.enabled and tracking_package_version is not None),
+    }
 
     return {
         "run_id": config.run_id,
         "dataset_checks": dataset_checks,
         "model_checks": model_files,
         "package_versions": package_versions,
+        "tracking_checks": tracking_checks,
         "gpu": gpu,
         "blocking_issues": blocking_issues,
         "launch_ready": not blocking_issues,

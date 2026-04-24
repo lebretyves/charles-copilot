@@ -1,0 +1,38 @@
+﻿topic_id: sujet_age_fragile
+inferences:
+  - inference_id: inf_01
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`entrees`: age, type de chirurgie, chirurgie majeure oui/non, PA de reference, temperature, SpO2, delais de recuperation"
+    derived_from:
+      - fact_01
+  - inference_id: inf_02
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`modulateurs`: reserve physiologique basse, fragilite, risque cognitif, risque d'hypothermie, tolerance reduite a l'hypotension"
+    derived_from:
+      - fact_01
+  - inference_id: inf_03
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`sorties`: sensibilite accrue sur hypotension relative, hypothermie, desaturation, delai d'analyse LLM plus court si profil fragile"
+    derived_from:
+      - fact_01
+  - inference_id: inf_04
+    status: design_proposal
+    kind: kb_extension
+    proposal: "mapper vers `geriatrique` dans `populations.yaml`"
+    derived_from:
+      - fact_01
+  - inference_id: inf_05
+    status: design_proposal
+    kind: kb_extension
+    proposal: "ajouter un facteur `hypotension_relative_personnalisee`"
+    derived_from:
+      - fact_01
+  - inference_id: inf_06
+    status: design_proposal
+    kind: kb_extension
+    proposal: "ajouter un modulateur `fragilite_elevee` independant de l'age seul"
+    derived_from:
+      - fact_01

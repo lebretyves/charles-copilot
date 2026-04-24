@@ -1,0 +1,204 @@
+version: "2026-04-01"
+goal: "Associer a chaque complication un paysage de sources en 3 classes documentaires"
+
+complications:
+  - complication_id: hypotension_perioperatoire
+    source_layers:
+      normative_recommandations:
+        - "sfar_optimisation_hemodynamique_perioperatoire_adulte_dont_obstetrique"
+        - "sfar_aides_cognitives"
+        - "sfar_controle_perioperatoire_pression_arterielle"
+      professionnelle_pratique_fr:
+        - "anrea_hemodynamique_issue"
+        - "anrea_bp_target_2022"
+        - "anrea_presentation"
+        - "monanesthesie_home"
+        - "anrea_bis_update_2025"
+        - "f2ar_objectif_pression_per_operatoire_2025"
+      pedagogique_enseignement_medecins:
+        - "sofia_controle_perioperatoire_de_la_pression_arterielle"
+        - "cfar_referentiel_des"
+        - "sfar_monitorage_profondeur_article"
+        - "emc_surveillance_profondeur_2022"
+        - "ghrmsa_hypotension_peroperatoire_lefauconnier"
+        - "bordeaux_hypotension_coriat_2017"
+        - "dumas_hpi_hypotension_2023"
+    notes:
+      - "Le BIS/EEG n'est pas un detecteur d'hypotension, mais un appui pour interpreter une possible surprofondeur."
+
+  - complication_id: choc_hemorragique_transfusion_massive
+    source_layers:
+      normative_recommandations:
+        - "sfar_reanimation_du_choc_hemorragique"
+        - "sfar_plyo_en_choc_hemorragique_risque_de_transfusion_massive"
+        - "sfar_qfp_transfusion_massive"
+        - "has_transfusion_plasma_therapeutique"
+        - "sfar_aides_cognitives"
+        - "sfar_ac_choc_hemorragique_per_postop"
+      professionnelle_pratique_fr:
+        - "mapar_fiche_urgence_choc_hemorragique"
+        - "anrea_hemodynamique_issue"
+        - "anrea_transfusion_massive_2020"
+      pedagogique_enseignement_medecins:
+        - "cfar_referentiel_metier"
+        - "emc_choc_hemorragique_2009"
+        - "emc_transfusion_massive_2009"
+    notes:
+      - "La branche normative est maintenant forte a la fois sur les seuils/cibles et sur l'outil operationnel bloc grace a l'aide cognitive SFAR dediee."
+
+  - complication_id: anaphylaxie_perioperatoire
+    source_layers:
+      normative_recommandations:
+        - "sfar_hypersensibilite_immediate_perioperatoire"
+        - "sfar_aides_cognitives"
+        - "sfar_prevention_risque_allergique_peranesthesique"
+        - "sfar_ac_anaphylaxie_camr_2018"
+      professionnelle_pratique_fr:
+        - "mapar_fiche_urgence_choc_anaphylactique"
+        - "anrea_anaphylaxie_prise_en_charge_article"
+        - "anrea_anaphylaxie_physiopathologie_2025"
+        - "anrea_anaphylaxie_epidemiologie_2025"
+        - "anrea_cefazoline_curares_2025"
+        - "anrea_presentation"
+        - "ghrmsa_choc_anaphylactique_cognitive_aid"
+        - "sfar_gerap_2017_2018_survey"
+      pedagogique_enseignement_medecins:
+        - "sofia_complications_anaphylactiques_et_anaphylactoides"
+        - "cfar_risque_allergique_formation"
+        - "emc_anaphylaxie_generale_2019"
+        - "emconsulte_tryptase_anaphylaxie_2019"
+    notes:
+      - "Le noyau francais couvre maintenant grade clinique, chronologie, tryptase, signes respiratoires precoces, aide cognitive bloc et principaux agents en cause. Le principal manque restant est la capture runtime patient-specifique."
+
+  - complication_id: bronchospasme_perioperatoire
+    source_layers:
+      normative_recommandations:
+        - "sfar_bronchospasme"
+        - "sfar_aides_cognitives"
+      professionnelle_pratique_fr:
+        - "mapar_bronchospasme_chez_l_adulte"
+        - "anrea_ventilation_issue"
+        - "anrea_presentation"
+        - "monanesthesie_home"
+      pedagogique_enseignement_medecins:
+        - "cfar_referentiel_des"
+        - "cfar_referentiel_metier"
+        - "reamondor_aphp_ventilation_artificielle"
+    notes:
+      - "La capnographie et la pression des voies aeriennes sont des pivots plus riches que la seule SpO2."
+
+  - complication_id: intubation_extubation_difficiles
+    source_layers:
+      normative_recommandations:
+        - "sfar_intubation_difficile_et_extubation_en_anesthesie_chez_ladulte"
+        - "sfar_aides_cognitives"
+        - "sfar_rfe_intubation_difficile_v2_pdf"
+        - "sfar_anrea_intubation_extubation_adulte_pdf"
+        - "sfar_srlf_intubation_extubation_reanimation_2017"
+        - "sfar_texte_court_intubation_difficile"
+      professionnelle_pratique_fr:
+        - "mapar_intubation"
+        - "anrea_voies_aeriennes_pediatrie_article"
+        - "monanesthesie_newsletter_zero"
+        - "apsf_fr_asa_difficult_airway_2022"
+      pedagogique_enseignement_medecins:
+        - "sofia_intubation_difficile_support_sfar"
+        - "cfar_referentiel_des"
+        - "cfar_referentiel_metier"
+        - "emc_controle_voies_aeriennes_2022"
+        - "emc_extubation_risk_2008"
+        - "reamondor_aphp_intubation"
+        - "reamondor_aphp_ventilation_artificielle"
+        - "reamondor_aphp_tracheotomie"
+    notes:
+      - "Le noyau normatif est maintenant fort sur definition, limitation des tentatives, oxygenation et extubation a risque ; il manque surtout la capture runtime des tentatives et du contexte d'extubation."
+
+  - complication_id: hypothermie_perioperatoire
+    source_layers:
+      normative_recommandations:
+        - "sfar_prevention_de_l_hypothermie_peroperatoire_accidentelle"
+        - "sfar_rfe_hypothermie_peroperatoire"
+      professionnelle_pratique_fr:
+        - "anrea_hemodynamique_issue"
+      pedagogique_enseignement_medecins:
+        - "cfar_referentiel_metier"
+        - "cfar_referentiel_des"
+    notes:
+      - "La densite documentaire francaise est plus faible ici hors SFAR ; il reste surtout a extraire plus finement les modulateurs."
+
+  - complication_id: hyperthermie_maligne
+    source_layers:
+      normative_recommandations:
+        - "sfar_prise_en_charge_de_lhyperthermie_maligne"
+        - "sfar_recommandations_experts_risque_hyperthermie_maligne"
+        - "sfar_ac_hyperthermie_maligne"
+        - "sfar_aides_cognitives"
+      professionnelle_pratique_fr:
+        - "mapar_hyperthermie_maligne"
+        - "anrea_presentation"
+      pedagogique_enseignement_medecins:
+        - "sofia_fiche_de_synthese_prise_en_charge_de_lhyperthermie_maligne"
+    notes:
+      - "Convergence francaise forte sur les declencheurs, le dantrolene et la conduite de crise."
+
+  - complication_id: arret_cardiaque_perioperatoire
+    source_layers:
+      normative_recommandations:
+        - "sfar_aides_cognitives"
+        - "sfar_acr_asystolie_bloc"
+        - "sfar_acr_rythme_choquable_bloc"
+        - "cfrc_recommandations_2025"
+        - "cfrc_reanimation_adulte_2025"
+      professionnelle_pratique_fr:
+        - "mapar_arret_cardiaque_adulte"
+        - "anrea_arret_cardiaque_bloc_2023"
+        - "prat_an_arret_cardiaque_bloc_2019"
+        - "ghrmsa_aide_cognitive_acr_adulte_enfant"
+        - "ghrmsa_aide_cognitive_asystolie_bloc"
+        - "hfb_aides_cognitives_adultes_sfar_index"
+      pedagogique_enseignement_medecins:
+        - "cfar_referentiel_metier"
+        - "sfar_jouffroy_arret_cardiaque_bloc_2017"
+    notes:
+      - "La couche officielle devient plus solide avec SFAR adulte + CFRC/ERC 2025 ; il reste toutefois a structurer le contexte patient-specifique et les logs de reanimation."
+
+  - complication_id: embolie_pulmonaire_etat_de_choc
+    source_layers:
+      normative_recommandations:
+        - "sfar_aides_cognitives"
+      professionnelle_pratique_fr:
+        - "mapar_embolie_pulmonaire_et_choc"
+        - "anrea_ventilation_issue"
+        - "anrea_hemodynamique_issue"
+        - "ghrmsa_aide_cognitive_asystolie_bloc"
+        - "urgences_ara_referentiel_ep_2022"
+      pedagogique_enseignement_medecins:
+        - "cfar_referentiel_metier"
+        - "emc_embolie_pulmonaire_perioperatoire_2023"
+        - "emc_thrombolyse_ep_2008"
+        - "sfar_lapostolle_embolie_pulmonaire_grave"
+    notes:
+      - "La densite documentaire s'ameliore pour la definition d'instabilite, le VD, le sPESI et la reperfusion, mais l'EtCO2 temps reel reste peu quantifie."
+
+  - complication_id: laryngospasme_enfant
+    source_layers:
+      normative_recommandations:
+        - "sfar_laryngospasme_en_pediatrie"
+        - "sfar_ac_laryngospasme_pediatrie"
+        - "sfar_rfe_gestion_vas_enfant"
+        - "adarpef_rfe_gestion_vas_enfant"
+      professionnelle_pratique_fr:
+        - "mapar_laryngospasme_enfant"
+        - "anrea_pediatrie_issue"
+        - "anrea_ventilation_pediatrique_article"
+        - "anrea_voies_aeriennes_pediatrie_article"
+        - "anrea_laryngospasme_enfant_enrhume_2022"
+        - "anrea_laryngospasme_mythe_ou_realite_2015"
+        - "prat_an_enfant_enrhume_2019"
+        - "anrea_enfant_enrhume_2025"
+      pedagogique_enseignement_medecins:
+        - "mapar_anesthesie_de_l_enfant_enrhume"
+        - "cfar_referentiel_metier"
+        - "sofia_laryngospasme_pediatrie_2009"
+    notes:
+      - "Le noyau normatif devient solide sur le laryngospasme pediatrique ; les principaux manques restants concernent surtout le contexte de survenue et la capture runtime."

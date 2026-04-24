@@ -1,0 +1,32 @@
+topic_id: pediatrique
+topic_type: terrain
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_optimisation_hemodynamique_perioperatoire_pediatrie
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Optimisation hemodynamique perioperatoire - Pediatrie
+  url: https://sfar.org/optimisation-hemodynamique-perioperatoire-pediatrie/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_organisation_de_l_anesthesie_pediatrique
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Organisation de l'anesthesie pediatrique
+  url: https://sfar.org/organisation-de-lanesthesie-pediatrique/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_gestion_des_voies_aeriennes_de_l_enfant
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Gestion des voies aeriennes de l'enfant
+  url: https://sfar.org/gestion-des-voies-aeriennes-de-lenfant/
+  support_type: webpage
+  date_consultation: 2026-04-01
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id

@@ -1,0 +1,46 @@
+topic_id: anticoagulants_antiagregants
+topic_type: terrain
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_gestion_agents_antiplaquettaires_procedure_invasive_programmee
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Gestion des agents antiplaquettaires pour une procedure invasive programmee
+  url: https://sfar.org/gestion-agents-antiplaquettaires-procedure-invasive-programmee/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_gestion_agents_antiplaquettaires_procedure_invasive_non_programmee_ou_hemorragie
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Gestion des agents antiplaquettaires en cas de procedure invasive non programmee ou d'hemorragie
+  url: https://sfar.org/gestion-des-agents-antiplaquettaires-en-cas-de-procedure-invasive-non-programmee-ou-dhemorragie/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_gestion_perioperatoire_patients_sous_aod_en_urgence
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Gestion perioperatoire des patients sous AOD en urgence
+  url: https://sfar.org/download/gestion-perioperatoire-des-patients-sous-aod-en-urgence/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_gestion_de_l_anticoagulation_dans_un_contexte_d_urgence
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Gestion de l'anticoagulation dans un contexte d'urgence
+  url: https://sfar.org/gestion-de-lanticoagulation-dans-un-contexte-durgence/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: mapar_protocoles_mapar_2025
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Protocoles MAPAR 2025
+  url: https://www.mapar.org/livre/Livre%20de%20protocoles/1/Protocoles%20MAPAR
+  support_type: webpage
+  date_consultation: 2026-04-01
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id

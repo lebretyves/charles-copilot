@@ -17,10 +17,12 @@ from pathlib import Path
 from typing import Any
 
 import redis.asyncio as aioredis
-from fastapi import Depends, FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
+from fastapi import Depends, FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel as _BM
 from starlette.middleware.trustedhost import TrustedHostMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 try:
     from slowapi import Limiter, _rate_limit_exceeded_handler
     from slowapi.util import get_remote_address
@@ -49,6 +51,18 @@ except ModuleNotFoundError:
         client = getattr(request, "client", None)
         return getattr(client, "host", "local")
 
+
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["X-XSS-Protection"] = "1; mode=block"
+        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+        response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' wss: https:;"
+        return response
+
+
 from app.config import settings
 from app.models import (
     Alert,
@@ -70,18 +84,22 @@ from app.llm_jobs import (
     read_worker_status,
     status_event,
 )
+from app.learning_dashboard import build_learning_dashboard_payload
 from app.mqtt_consumer import MQTTConsumer
 from app.kb_loader import KnowledgeBase
 from app.metrics import MetricsStore
 from app.scenario_catalog import ScenarioCatalog
+from app.alerting_routes import create_alerting_router
 from app.simulator_routes import create_simulator_router
+from app.user_admin_routes import create_user_admin_router
 from app import database as db
-from app.auth import authenticate, get_current_user, require_role, verify_token
+from app.auth import authenticate, bootstrap_user_store, get_current_user, require_role, verify_token
 
 logger = logging.getLogger("charles")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(name)s] %(message)s")
 
 limiter = Limiter(key_func=get_remote_address)
+MAX_ROOM_HISTORY_POINTS = 50000
 
 
 # ── State global ───────────────────────────────────────────────
@@ -90,10 +108,12 @@ class AppState:
         self.redis: aioredis.Redis | None = None
         self.ws_clients: set[WebSocket] = set()
         self.mqtt_consumer: MQTTConsumer | None = None
-        self.alert_engine: AlertEngine = AlertEngine()
+        self.alert_engine: AlertEngine = AlertEngine(runtime_path=settings.alerting_runtime_path)
         self.kb: KnowledgeBase = KnowledgeBase()
         self.catalog: ScenarioCatalog = ScenarioCatalog()
         self.rooms: dict[str, dict[str, Any]] = {}  # room_id -> latest data
+        self.room_histories: dict[str, list[dict[str, Any]]] = {}
+        self.room_historical_alerts: dict[str, list[dict[str, Any]]] = {}
         self.room_cases: dict[str, str] = {}  # room_id -> case_id actif
         self.llm_event_task: asyncio.Task[Any] | None = None
         self.metrics: MetricsStore = MetricsStore()
@@ -120,7 +140,7 @@ async def lifespan(app: FastAPI):
     state.kb.load()
 
     # Alert engine avec seuils KB
-    state.alert_engine = AlertEngine(kb=state.kb)
+    state.alert_engine = AlertEngine(kb=state.kb, runtime_path=settings.alerting_runtime_path)
 
     # Catalogue scénarios VitalDB
     metadata_csv = Path(settings.vitaldb_metadata)
@@ -139,6 +159,7 @@ async def lifespan(app: FastAPI):
 
     # DB
     await db.init_db()
+    await bootstrap_user_store()
 
     # MQTT
     state.mqtt_consumer = MQTTConsumer(
@@ -178,16 +199,17 @@ if _SLOWAPI_AVAILABLE:
     app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
-    TrustedHostMiddleware,
-    allowed_hosts=settings.trusted_hosts_list,
-)
-app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins_list,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type"],
 )
+app.add_middleware(
+    TrustedHostMiddleware,
+    allowed_hosts=settings.trusted_hosts_list,
+)
+app.add_middleware(SecurityHeadersMiddleware)
 
 
 def audit_log(action: str, status: str = "ok", **fields: Any) -> None:
@@ -224,13 +246,81 @@ async def broadcast_json(payload: dict[str, Any]) -> None:
     await broadcast_text(json.dumps(payload, default=str))
 
 
+def build_history_point(msg: MonitoringMessage) -> dict[str, Any]:
+    return {
+        "vitals": msg.vitals.model_dump(),
+        "timestamp": msg.timestamp.isoformat(),
+        "elapsed_s": msg.elapsed_s,
+        "phase": msg.phase,
+        "phase_label": msg.phase_label,
+    }
+
+
+def build_stored_alert_record(
+    *,
+    alert: Alert,
+    room_id: str,
+    case_id: str | None,
+    alert_id: int | None,
+    historical_backfill: bool,
+    elapsed_s: int | None,
+    phase: str | None,
+    phase_label: str | None,
+) -> dict[str, Any]:
+    parameters = dict(alert.parameters)
+    parameters.update(
+        {
+            "historical_backfill": historical_backfill,
+            "elapsed_s": elapsed_s,
+            "phase": phase,
+            "phase_label": phase_label,
+        }
+    )
+    return {
+        "id": alert_id,
+        "case_id": case_id,
+        "room_id": room_id,
+        "timestamp": alert.timestamp.isoformat(),
+        "level": alert.level,
+        "rule_id": alert.rule_id,
+        "title": alert.title,
+        "detail": alert.detail,
+        "parameters": parameters,
+        "acknowledged": False,
+    }
+
+
+async def notify_room_reset(room_id: str, reason: str) -> None:
+    await broadcast_json(
+        {
+            "type": "room_reset",
+            "room_id": room_id,
+            "reason": reason,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
+    )
+
+
+async def reset_room_runtime(room_id: str, reason: str, *, clear_case_mapping: bool = False) -> None:
+    state.alert_engine.reset_room(room_id)
+    state.rooms.pop(room_id, None)
+    state.room_histories.pop(room_id, None)
+    state.room_historical_alerts.pop(room_id, None)
+    if clear_case_mapping:
+        state.room_cases.pop(room_id, None)
+    await notify_room_reset(room_id, reason)
+
+
 def build_room_snapshot(
     msg: MonitoringMessage,
     alerts: list[Alert],
     previous_room: dict[str, Any] | None = None,
+    history: list[dict[str, Any]] | None = None,
+    historical_alerts: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     previous = previous_room or {}
     return {
+        "case_id": msg.case_id or previous.get("case_id"),
         "vitals": msg.vitals.model_dump(),
         "ventilator": msg.ventilator.model_dump() if msg.ventilator else None,
         "bis": msg.bis.model_dump() if msg.bis else None,
@@ -248,6 +338,10 @@ def build_room_snapshot(
         "elapsed_s": msg.elapsed_s,
         "elapsed_fmt": msg.elapsed_fmt,
         "patient_info": msg.patient_info,
+        "history": history if history is not None else list(previous.get("history", [])),
+        "historical_alerts": (
+            historical_alerts if historical_alerts is not None else list(previous.get("historical_alerts", []))
+        ),
     }
 
 
@@ -369,6 +463,21 @@ async def get_llm_runtime_status() -> dict[str, Any]:
         "llm_worker_timestamp": worker_status.get("timestamp"),
         "llm_queue_depth": queue_len,
     }
+
+
+async def handle_simulator_event(payload: dict[str, Any]) -> None:
+    if payload.get("type") != "replay_finished":
+        return
+
+    room_id = payload.get("room_id")
+    if not room_id:
+        return
+
+    case_id = payload.get("case_id") or state.room_cases.get(room_id)
+    if case_id:
+        await db.end_case(case_id)
+    state.room_cases.pop(room_id, None)
+    await reset_room_runtime(room_id, "replay_finished")
 
 
 # ── MQTT message handler ──────────────────────────────────────
@@ -494,6 +603,10 @@ async def _legacy_blocking_handle_mqtt_message(topic: str, payload: dict):
 # ── MQTT waveform handler ──────────────────────────────────────
 async def handle_mqtt_message(topic: str, payload: dict):
     """Latest non-blocking handler used by the MQTT consumer."""
+    if topic == "charles/simulator/events":
+        await handle_simulator_event(payload)
+        return
+
     if topic.endswith("/waves"):
         await handle_wave_message(topic, payload)
         return
@@ -515,21 +628,71 @@ async def handle_mqtt_message(topic: str, payload: dict):
             json.dumps(payload, default=str),
         )
 
+    history = state.room_histories.setdefault(room_id, [])
+    historical_alerts = state.room_historical_alerts.setdefault(room_id, [])
+    case_id = msg.case_id or state.room_cases.get(room_id)
+    if msg.case_id:
+        state.room_cases[room_id] = msg.case_id
+
     alerts = state.alert_engine.evaluate(msg)
     state.metrics.incr("alerts_total", len(alerts))
     state.metrics.incr("critical_alerts_total", sum(1 for alert in alerts if alert.level == "critical"))
-    case_id = state.room_cases.get(room_id)
+
+    history_point = build_history_point(msg)
+    history.append(history_point)
+    if len(history) > MAX_ROOM_HISTORY_POINTS:
+        del history[:-MAX_ROOM_HISTORY_POINTS]
+
+    if msg.is_historical:
+        for alert in alerts:
+            stored_alert = build_stored_alert_record(
+                alert=alert,
+                room_id=room_id,
+                case_id=case_id,
+                alert_id=None,
+                historical_backfill=True,
+                elapsed_s=msg.elapsed_s,
+                phase=msg.phase,
+                phase_label=msg.phase_label,
+            )
+            stored_alert["id"] = await db.save_alert(
+                {
+                    "case_id": case_id,
+                    "room_id": room_id,
+                    "timestamp": alert.timestamp,
+                    "level": alert.level,
+                    "rule_id": alert.rule_id,
+                    "title": alert.title,
+                    "detail": alert.detail,
+                    "parameters": json.dumps(stored_alert["parameters"]),
+                }
+            )
+            historical_alerts.append(stored_alert)
+        return
+
     for alert in alerts:
-        await db.save_alert({
-            "case_id": case_id,
-            "room_id": room_id,
-            "timestamp": alert.timestamp,
-            "level": alert.level,
-            "rule_id": alert.rule_id,
-            "title": alert.title,
-            "detail": alert.detail,
-            "parameters": json.dumps(alert.parameters),
-        })
+        stored_alert = build_stored_alert_record(
+            alert=alert,
+            room_id=room_id,
+            case_id=case_id,
+            alert_id=None,
+            historical_backfill=False,
+            elapsed_s=msg.elapsed_s,
+            phase=msg.phase,
+            phase_label=msg.phase_label,
+        )
+        stored_alert["id"] = await db.save_alert(
+            {
+                "case_id": case_id,
+                "room_id": room_id,
+                "timestamp": alert.timestamp,
+                "level": alert.level,
+                "rule_id": alert.rule_id,
+                "title": alert.title,
+                "detail": alert.detail,
+                "parameters": json.dumps(stored_alert["parameters"]),
+            }
+        )
 
     previous_room = state.rooms.get(room_id)
     if state.redis and (
@@ -540,10 +703,17 @@ async def handle_mqtt_message(topic: str, payload: dict):
             **(previous_room or {}),
             **(await read_room_llm_state(state.redis, room_id)),
         }
-    state.rooms[room_id] = build_room_snapshot(msg, alerts, previous_room)
+    state.rooms[room_id] = build_room_snapshot(
+        msg,
+        alerts,
+        previous_room,
+        history=history,
+        historical_alerts=historical_alerts,
+    )
 
     ws_update = WSUpdate(
         room_id=room_id,
+        case_id=case_id,
         vitals=msg.vitals,
         ventilator=msg.ventilator,
         bis=msg.bis,
@@ -558,6 +728,7 @@ async def handle_mqtt_message(topic: str, payload: dict):
         elapsed_s=msg.elapsed_s,
         elapsed_fmt=msg.elapsed_fmt,
         patient_info=msg.patient_info,
+        history_seeded=msg.history_seeded,
     )
     await broadcast_text(ws_update.model_dump_json())
 
@@ -679,6 +850,37 @@ async def metrics(user: dict = Depends(require_role("admin", "mar", "iade"))):
     }
 
 
+@app.get("/metrics/prometheus")
+async def metrics_prometheus(user: dict = Depends(require_role("admin", "mar", "iade"))):
+    """Expose metrics in Prometheus format."""
+    from prometheus_client import Gauge, Counter, Histogram, generate_latest
+
+    # Expose current metrics as Prometheus gauges/counters
+    metrics_data = state.metrics.snapshot()
+    llm_runtime = await get_llm_runtime_status()
+
+    # Create temporary metrics for Prometheus (in a real setup, these would be global counters/gauges)
+    rooms_active = Gauge('charles_rooms_active', 'Number of active rooms') 
+    rooms_active.set(len(state.rooms))
+    ws_clients = Gauge('charles_ws_clients', 'Number of WebSocket clients') 
+    ws_clients.set(len(state.ws_clients))
+    db_failures = Counter('charles_db_persistence_failures_total', 'Database persistence failures') 
+    db_failures.inc(db.get_failure_count())
+
+    # Add other metrics from snapshot
+    for key, value in metrics_data.items():
+        if isinstance(value, (int, float)) and not key.endswith('_at'):  # Skip timestamps for now
+            gauge = Gauge(f'charles_{key}', f'Metric {key}')
+            gauge.set(value)
+
+    for key, value in llm_runtime.items():
+        if isinstance(value, (int, float, bool)):  # Handle booleans as 0/1
+            gauge = Gauge(f'charles_llm_{key}', f'LLM {key}')
+            gauge.set(1 if value else 0 if isinstance(value, bool) else value)
+
+    return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
+
+
 @app.get("/rooms")
 async def list_rooms(user: dict = Depends(require_role("iade", "mar", "admin"))):
     """Liste des salles actives avec dernières valeurs."""
@@ -711,6 +913,25 @@ async def get_room_alerts(room_id: str, user: dict = Depends(require_role("iade"
     if not data:
         raise HTTPException(status_code=404, detail="Room not found")
     return data.get("alerts", [])
+
+
+@app.get("/rooms/{room_id}/history")
+async def get_room_history(room_id: str, user: dict = Depends(require_role("iade", "mar", "admin"))):
+    data = state.rooms.get(room_id)
+    if not data:
+        raise HTTPException(status_code=404, detail="Room not found")
+    return {
+        "room_id": room_id,
+        "case_id": data.get("case_id"),
+        "history": data.get("history", []),
+        "historical_alerts": data.get("historical_alerts", []),
+        "vitals": data.get("vitals"),
+        "phase": data.get("phase"),
+        "phase_label": data.get("phase_label"),
+        "macro_phase": data.get("macro_phase"),
+        "elapsed_s": data.get("elapsed_s"),
+        "elapsed_fmt": data.get("elapsed_fmt"),
+    }
 
 
 # ── CRUD Cases ─────────────────────────────────────────────────
@@ -905,9 +1126,29 @@ async def kb_status(user: dict = Depends(require_role("admin"))):
     }
 
 
+@app.get("/admin/learning/status")
+async def learning_status(user: dict = Depends(require_role("admin"))):
+    return build_learning_dashboard_payload()
+
+
+app.include_router(
+    create_alerting_router(
+        state=state,
+        audit_log=audit_log,
+        require_role_factory=require_role,
+    )
+)
+
 app.include_router(
     create_simulator_router(
         state=state,
+        audit_log=audit_log,
+        require_role_factory=require_role,
+    )
+)
+
+app.include_router(
+    create_user_admin_router(
         audit_log=audit_log,
         require_role_factory=require_role,
     )

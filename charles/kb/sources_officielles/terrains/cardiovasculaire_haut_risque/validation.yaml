@@ -1,0 +1,7 @@
+topic_id: cardiovasculaire_haut_risque
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille_partiel
+open_points:
+  - "Le dossier est exploitable pour des modulateurs de terrain, mais un passage supplementaire sera utile si l'on veut des seuils chiffres patient-specifiques."
+  - "Conserver separement les notions de seuil absolu, de baisse relative et de burden hypotensif."

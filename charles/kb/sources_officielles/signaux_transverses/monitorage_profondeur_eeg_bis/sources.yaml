@@ -1,0 +1,18 @@
+topic_id: monitorage_profondeur_eeg_bis
+topic_type: signal_transversal
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_monitorage_profondeur_anesthesie_enfant
+  organisme: SFAR
+  niveau_source: pedagogique
+  title: SFAR Le monitorage de la profondeur de l'anesthesie chez l'enfant
+  url: https://sfar.org/wp-content/uploads/2016/12/monitorage-de-la-profondeur-danesthesie-en-pediatrie-16-constant-1473331839.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id

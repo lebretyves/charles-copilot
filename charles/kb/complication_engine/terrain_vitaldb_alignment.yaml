@@ -1,0 +1,119 @@
+version: "2026-04-01"
+goal: "aligner les terrains officiels avec les donnees VitalDB disponibles ou manquantes"
+
+terrains_alignment:
+  - terrain_id: sujet_age_fragile
+    vitaldb_fields_available:
+      - age
+    partial_proxies:
+      - asa
+    missing_fields:
+      - frailty_score
+      - cognition
+      - perte_de_poids
+      - reserve_fonctionnelle
+    readiness: partial
+
+  - terrain_id: pediatrique
+    vitaldb_fields_available:
+      - age
+      - weight
+    partial_proxies: []
+    missing_fields:
+      - classe_age_operatoire_structuree
+      - IVAS_recente
+      - prematurite
+    readiness: partial
+
+  - terrain_id: obstetrique
+    vitaldb_fields_available: []
+    partial_proxies: []
+    missing_fields:
+      - grossesse
+      - type_cesarienne
+      - rachianesthesie_obstetrique
+      - preeclampsie
+    readiness: weak
+
+  - terrain_id: diabete
+    vitaldb_fields_available:
+      - preop_dm
+      - preop_gluc
+    partial_proxies:
+      - intraop_hyperglycemia_lab
+    missing_fields:
+      - type_diabete
+      - pompe_insuline
+      - neuropathie_autonome
+    readiness: partial
+
+  - terrain_id: insuffisance_renale
+    vitaldb_fields_available:
+      - preop_cr
+      - preop_bun
+    partial_proxies:
+      - renal_dysfunction_lab
+    missing_fields:
+      - clairance
+      - stade_IRC
+      - diurese_continue
+    readiness: partial
+
+  - terrain_id: cardiovasculaire_haut_risque
+    vitaldb_fields_available:
+      - preop_htn
+      - preop_ecg
+    partial_proxies: []
+    missing_fields:
+      - coronaropathie_formelle
+      - insuffisance_cardiaque_formelle
+      - valvulopathie
+      - arythmie_structuree
+    readiness: weak
+
+  - terrain_id: htp
+    vitaldb_fields_available: []
+    partial_proxies: []
+    missing_fields:
+      - HTP_connue
+      - echo_vd
+      - traitement_specifique_HTP
+    readiness: weak
+
+  - terrain_id: obesite_saos_voies_aeriennes
+    vitaldb_fields_available:
+      - weight
+      - height
+      - bmi
+      - cormack
+      - airway
+    partial_proxies:
+      - difficult_airway_proxy
+    missing_fields:
+      - SAOS_formel
+      - stop_bang
+      - CPAP
+    readiness: partial
+
+  - terrain_id: bpco_asthme
+    vitaldb_fields_available:
+      - preop_pft
+      - preop_pao2
+      - preop_paco2
+      - preop_sao2
+    partial_proxies: []
+    missing_fields:
+      - distinction_bpco_vs_asthme
+      - traitement_bronchodilatateur
+      - exacerbation_recente
+    readiness: partial
+
+  - terrain_id: anticoagulants_antiagregants
+    vitaldb_fields_available: []
+    partial_proxies: []
+    missing_fields:
+      - traitement_antithrombotique_exact
+      - date_derniere_prise
+      - indication_thrombotique
+      - risque_neuraxial
+    readiness: weak

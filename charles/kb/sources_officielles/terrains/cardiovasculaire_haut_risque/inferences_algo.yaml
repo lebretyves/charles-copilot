@@ -1,0 +1,32 @@
+﻿topic_id: cardiovasculaire_haut_risque
+inferences:
+  - inference_id: inf_01
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`entrees`: PAS/PAM de base, PAM instantanee, duree sous seuil, FC, ECG/ST si disponible, vasopresseurs, lactate"
+    derived_from:
+      - fact_01
+  - inference_id: inf_02
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`modulateurs`: HTA chronique, coronaropathie, insuffisance cardiaque, valvulopathie, arythmie"
+    derived_from:
+      - fact_01
+  - inference_id: inf_03
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`sorties`: score de dette hemodynamique, seuils relatifs personnalises, escalade plus precoce si coronarien ou insuffisant cardiaque"
+    derived_from:
+      - fact_01
+  - inference_id: inf_04
+    status: design_proposal
+    kind: kb_extension
+    proposal: "creer un facteur `hypotension_relative_chargee`"
+    derived_from:
+      - fact_01
+  - inference_id: inf_05
+    status: design_proposal
+    kind: kb_extension
+    proposal: "ponderer FC et PAM differemment selon coronarien vs insuffisant cardiaque"
+    derived_from:
+      - fact_01

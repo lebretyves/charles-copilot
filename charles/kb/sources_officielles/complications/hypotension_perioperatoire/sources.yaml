@@ -1,0 +1,91 @@
+topic_id: hypotension_perioperatoire
+topic_type: complication
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_optimisation_hemodynamique_perioperatoire_adulte_dont_obstetrique
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Optimisation hemodynamique perioperatoire - Adulte dont obstetrique
+  url: https://sfar.org/optimisation-hemodynamique-perioperatoire-adulte-dont-obstetrique/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sofia_controle_perioperatoire_de_la_pression_arterielle
+  organisme: SOFIA
+  niveau_source: pedagogique
+  title: SOFIA Controle perioperatoire de la pression arterielle
+  url: https://sofia.medicalistes.fr/spip/IMG/pdf/controle_perioperatoire_de_la_pression_arterielle_pierre-gregoire_guinot_dijon_.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: sfar_controle_perioperatoire_pression_arterielle
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Controle perioperatoire de la pression arterielle
+  url: https://sfar.org/download/contro%CC%82le-perioperatoire-de-la-pression-arterielle/
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: f2ar_objectif_pression_per_operatoire_2025
+  organisme: F2AR
+  niveau_source: pratique
+  title: Quel objectif de pression arterielle en per-operatoire ?
+  url: https://www.f2ar.org/contenu/quel-objectif-de-pression-arterielle-en-per-operatoire/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: ghrmsa_hypotension_peroperatoire_lefauconnier
+  organisme: GHRMSA Anesthesie
+  niveau_source: pedagogique
+  title: Hypotension peroperatoire - support de cours
+  url: https://ghrmsa-anesthesie.fr/IMG/pdf/lefauconnier-hypotension_peroperatoire.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: bordeaux_hypotension_coriat_2017
+  organisme: CHU Bordeaux / Reanesth
+  niveau_source: pedagogique
+  title: Hypotension arterielle peroperatoire - P. Coriat
+  url: https://reanesth.chu-bordeaux.fr/Congr%C3%A8s-et-s%C3%A9minaires/Cours-europ%C3%A9ens-du-grand-Sud-Ouest/2017/Textes/Hypotension-art%C3%A9rielle-perop%C3%A9ratoire-P-Coriat.pdf/
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: anrea_bp_target_2022
+  organisme: Anesthesie & Reanimation / EM-Consulte
+  niveau_source: pratique
+  title: Quelle cible de pression arterielle en anesthesie-reanimation ?
+  url: https://www.em-consulte.com/article/1509787/quelle-cible-de-pression-arterielle-en-anesthesie-
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: dumas_hpi_hypotension_2023
+  organisme: DUMAS / Faculte de medecine AMU
+  niveau_source: pedagogique
+  title: Interet et efficacite du monitorage predictif de l'hypotension arterielle par la technologie HPI
+  url: https://dumas.ccsd.cnrs.fr/dumas-04132838
+  support_type: webpage
+  date_consultation: 2026-04-01
+documentary_layers:
+  normative_recommandations:
+  - sfar_optimisation_hemodynamique_perioperatoire_adulte_dont_obstetrique
+  - sfar_aides_cognitives
+  - sfar_controle_perioperatoire_pression_arterielle
+  professionnelle_pratique_fr:
+  - anrea_hemodynamique_issue
+  - anrea_bp_target_2022
+  - anrea_presentation
+  - monanesthesie_home
+  - anrea_bis_update_2025
+  - f2ar_objectif_pression_per_operatoire_2025
+  pedagogique_enseignement_medecins:
+  - sofia_controle_perioperatoire_de_la_pression_arterielle
+  - cfar_referentiel_des
+  - sfar_monitorage_profondeur_article
+  - emc_surveillance_profondeur_2022
+  - ghrmsa_hypotension_peroperatoire_lefauconnier
+  - bordeaux_hypotension_coriat_2017
+  - dumas_hpi_hypotension_2023
+documentary_notes:
+- Le BIS/EEG n'est pas un detecteur d'hypotension, mais un appui pour interpreter une possible surprofondeur.
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id
+  resource_catalog_ref: kb/sources_officielles/source_resource_catalog.yaml
+  landscape_ref: kb/sources_officielles/complication_source_landscape.yaml

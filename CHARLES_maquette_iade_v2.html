@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CHARLES — IADE Monitor v4</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Roboto+Mono:wght@300;400&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050507;font-family:'Inter',sans-serif;color:#b0b0b0;-webkit-font-smoothing:antialiased;font-size:12px}
+.app{display:grid;grid-template-rows:28px 24px 26px 18px 1fr;height:100vh;overflow:hidden}
+.topbar{background:#06060c;border-bottom:1px solid #111;padding:0 10px;display:flex;align-items:center;gap:8px}
+.logo{color:#00c853;font-weight:600;font-size:13px;letter-spacing:3px;font-family:'Roboto Mono',monospace}
+.dot-ok{width:6px;height:6px;border-radius:50%;background:#00c853;display:inline-block;box-shadow:0 0 5px #00c85388}
+.tbtn{background:transparent;border:1px solid #1a1a28;border-radius:2px;color:#333;font-size:9px;padding:1px 6px;cursor:pointer;font-family:'Inter',sans-serif}
+.tbtn:hover{color:#666;border-color:#333}
+.config-bar{background:#040408;border-bottom:1px solid #0e0e18;padding:0 8px;display:flex;gap:10px;align-items:center}
+.cg{display:flex;gap:1px;align-items:center}
+.cg-lbl{font-size:7px;color:#1a1a1a;text-transform:uppercase;letter-spacing:1px;margin-right:3px;font-weight:600}
+.cb{background:transparent;border:none;border-bottom:1px solid transparent;color:#2a2a2a;font-size:9px;padding:1px 5px;cursor:pointer;transition:all .1s;font-family:'Inter',sans-serif}
+.cb:hover{color:#555}
+.cb.on{border-bottom-color:#1565c0;color:#5c9de0;font-weight:500}
+.csep{color:#111;font-size:10px}
+/* Toggle clair/sombre */
+.vtoggle{margin-left:4px;display:flex;align-items:center;gap:3px}
+.vtog-btn{background:transparent;border:1px solid #1a2a3a;border-radius:10px;color:#1a3040;font-size:7px;padding:1px 5px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.vtog-btn.on{background:#c8d8e0;border-color:#a0b8c0;color:#1a3a4a;font-weight:600}
+.vtog-btn.on-dark{background:#0e1828;border-color:#182838;color:#4090c0;font-weight:600}
+.patient-bar{background:#060609;border-bottom:1px solid #0e0e18;padding:0 10px;display:flex;gap:5px;align-items:center}
+.pt-name{color:#ccc;font-size:11px;font-weight:500}
+.ptag{border-radius:2px;padding:0 4px;font-size:8px;font-weight:500}
+.ptag-asa{background:#180e00;border:1px solid #4a2000;color:#d06000}
+.ptag-ane{background:#060615;border:1px solid #181848;color:#6070b8}
+.ptag-co{background:#080006;border:1px solid #200025;color:#906090}
+.phase-tag{margin-left:auto;color:#e07000;font-size:8px;font-weight:500;font-family:'Roboto Mono',monospace}
+.alert-strip{background:#0e0600;border-bottom:1px solid #280f00;padding:0 10px;display:flex;align-items:center;gap:5px;font-size:9px;color:#b06000}
+@keyframes fl{50%{opacity:.15}}
+.a-lbl{font-weight:700;color:#e07000;animation:fl .8s step-end infinite}
+.a-ack{margin-left:auto;cursor:pointer;color:#333;font-size:8px}
+/* GRILLE */
+.main{display:grid;grid-template-columns:1fr 210px 172px;gap:3px;padding:3px;overflow:hidden;min-height:0}
+.col-left{display:flex;flex-direction:column;gap:3px;min-height:0;overflow:hidden}
+.scope-area{flex:6;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.respi-area{flex:5;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.col-mid{display:flex;flex-direction:column;gap:3px;min-height:0;overflow:hidden}
+.bis-area{flex:6;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.tof-area{flex:3;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.ia-area{flex:3;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.col-right{min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.block{border-radius:3px;overflow:hidden;display:flex;flex-direction:column;min-height:0;flex:1}
+
+/* =========================================================
+   SCOPE DRAGER C500
+   ========================================================= */
+.scope-drager{background:#000;border:1px solid #0e0e0e;position:relative}
+.scd-hdr{height:20px;background:#030303;border-bottom:1px solid #0d0d0d;display:flex;align-items:center;padding:0 6px;gap:6px;flex-shrink:0}
+.scd-brand{color:#005a8a;font-size:8px;font-weight:600;letter-spacing:1px}
+.scd-model{color:#0d1d26;font-size:8px}
+.scd-alarm{background:#1a0000;border:1px solid #500;color:#d00;font-size:7px;padding:0 4px;border-radius:2px;animation:fl .9s step-end infinite}
+.scd-time{margin-left:auto;color:#1e1e1e;font-size:9px;font-family:'Roboto Mono',monospace}
+.scd-waves{position:absolute;top:20px;left:60px;right:60px;bottom:17px;background:#000}
+.scd-waves canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.scd-labels{position:absolute;left:0;top:20px;bottom:17px;width:60px;z-index:5;display:flex;flex-direction:column;pointer-events:none}
+.scd-lrow{flex:1;padding:3px 3px 0;border-bottom:1px solid #0a0a0a;display:flex;flex-direction:column}
+.scd-ltag{font-size:7px;font-weight:700;letter-spacing:.2px;text-transform:uppercase}
+.scd-lval{font-size:20px;font-weight:600;line-height:1;letter-spacing:-1px;font-family:'Roboto Mono',monospace}
+.scd-lsub{font-size:7px;font-weight:400;opacity:.55}
+.scd-nums{position:absolute;right:0;top:20px;bottom:17px;width:60px;z-index:5;display:flex;flex-direction:column;border-left:1px solid #0d0d0d;pointer-events:none;background:#000}
+.scd-nrow{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;border-bottom:1px solid #0d0d0d}
+.scd-nlbl{font-size:6px;color:#1d1d1d;text-transform:uppercase;letter-spacing:.4px}
+.scd-nval{font-size:17px;font-weight:600;line-height:1.1;font-family:'Roboto Mono',monospace}
+.scd-nunit{font-size:6px;color:#1a1a1a}
+.scd-keys{position:absolute;bottom:0;left:0;right:0;height:17px;z-index:10;background:#030303;border-top:1px solid #0d0d0d;display:flex;align-items:center}
+.scd-key{flex:1;text-align:center;font-size:7px;color:#1d1d1d;border-right:1px solid #0d0d0d;padding:1px 0;cursor:pointer}
+.scd-key:last-child{border-right:none}
+.scd-key:hover{color:#444;background:#050505}
+.scope-ge{background:#000208;border:1px solid #000613;position:relative}
+.scg-hdr{height:20px;background:#00060e;border-bottom:1px solid #000816;display:flex;align-items:center;padding:0 6px;gap:4px;flex-shrink:0}
+.scg-brand{color:#1260b0;font-size:13px;font-weight:900;font-style:italic}
+.scg-model{color:#08172e;font-size:8px;margin-left:2px}
+.scg-time{margin-left:auto;color:#04101f;font-size:8px;font-family:'Roboto Mono',monospace}
+.scg-waves{position:absolute;top:20px;left:58px;right:60px;bottom:0;background:#000208}
+.scg-waves canvas{position:absolute;inset:0;width:100%;height:100%}
+.scg-labels{position:absolute;left:0;top:20px;bottom:0;width:58px;z-index:5;display:flex;flex-direction:column;pointer-events:none}
+.scg-lrow{flex:1;padding:3px 4px 0;border-bottom:1px solid #000810}
+.scg-ltag{font-size:7px;font-weight:600;letter-spacing:.2px}
+.scg-lval{font-size:20px;font-weight:600;line-height:1;font-family:'Roboto Mono',monospace}
+.scg-lsub{font-size:7px;opacity:.5}
+.scg-nums{position:absolute;right:0;top:20px;bottom:0;width:60px;z-index:5;border-left:1px solid #000816;display:flex;flex-direction:column;background:#000208;pointer-events:none}
+.scg-nrow{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;border-bottom:1px solid #000816}
+.scg-nlbl{font-size:6px;color:#04182a;text-transform:uppercase;letter-spacing:.4px}
+.scg-nval{font-size:17px;font-weight:600;font-family:'Roboto Mono',monospace}
+.scg-nunit{font-size:6px;color:#04182a}
+.scope-philips{background:#000104;border:1px solid #000514;position:relative}
+.scp-hdr{height:20px;background:#000610;border-bottom:1px solid #000820;display:flex;align-items:center;padding:0 6px;gap:4px;flex-shrink:0}
+.scp-logo{color:#0053a0;font-size:10px;font-style:italic;font-weight:700}
+.scp-model{color:#061e36;font-size:8px;margin-left:3px}
+.scp-time{margin-left:auto;color:#061e36;font-size:8px;font-family:'Roboto Mono',monospace}
+.scp-waves{position:absolute;top:20px;left:58px;right:60px;bottom:0;background:#000104}
+.scp-waves canvas{position:absolute;inset:0;width:100%;height:100%}
+.scp-labels{position:absolute;left:0;top:20px;bottom:0;width:58px;z-index:5;display:flex;flex-direction:column;pointer-events:none}
+.scp-lrow{flex:1;padding:3px 4px 0;border-bottom:1px solid #05051e}
+.scp-ltag{font-size:7px;font-weight:600;letter-spacing:.2px}
+.scp-lval{font-size:20px;font-weight:600;line-height:1;font-family:'Roboto Mono',monospace}
+.scp-lsub{font-size:7px;opacity:.5}
+.scp-nums{position:absolute;right:0;top:20px;bottom:0;width:60px;z-index:5;border-left:1px solid #05051e;display:flex;flex-direction:column;background:#000104;pointer-events:none}
+.scp-nrow{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;border-bottom:1px solid #05051e}
+.scp-nlbl{font-size:6px;color:#091c30;text-transform:uppercase;letter-spacing:.4px}
+.scp-nval{font-size:17px;font-weight:600;font-family:'Roboto Mono',monospace}
+.scp-nunit{font-size:6px;color:#091c30}
+
+/* =========================================================
+   DRAGER PERSEUS A500 — MODE SOMBRE (par défaut) + CLAIR
+   Photo réelle: fond gris/blanc, courbes colorées vives,
+   2 graphiques (boucle PV + courbes temps), tableau paramètres
+   ========================================================= */
+
+/* SOMBRE (nuit bloc op) */
+.vpd-dark{background:#0d1218;border:1px solid #182030}
+.vpd-dark .vpd-hdr{background:#08101c;border-bottom-color:#111e2c}
+.vpd-dark .vpd-lane{background:#0d1218;border-bottom-color:#111e2c}
+.vpd-dark .vpd-axis{border-right-color:#141e2c}
+.vpd-dark .vpd-av{color:#1e3a4a}
+.vpd-dark .vpd-az{color:#2a4a5a;border-top-color:#1a2e3a}
+.vpd-dark .vpd-params{border-left-color:#111e2c;background:#08101c}
+.vpd-dark .vpdp{background:#0a1626;border-color:#1a2e40}
+.vpd-dark .vpdp-lbl{color:#1e3a50}
+.vpd-dark .vpdp-set{color:#122030}
+.vpd-dark .vpd-gas{background:#060e14;border-top-color:#111e2c}
+.vpd-dark .vpd-gi{border-right-color:#111e2c}
+.vpd-dark .vpd-glbl{color:#122030}
+
+/* CLAIR (comme la photo — fond blanc/gris clair Dräger) */
+.vpd-light{background:#d8dde2;border:1px solid #b0b8c0}
+.vpd-light .vpd-hdr{background:#c8cfd6;border-bottom:1px solid #a8b0b8}
+.vpd-light .vpd-brand{color:#005080}
+.vpd-light .vpd-model{color:#4a6070}
+.vpd-light .vpd-modebox{background:#e8eef4;border-color:#5090b0}
+.vpd-light .vpd-modelbl{color:#3060a0}
+.vpd-light .vpd-modeval{color:#004a70}
+.vpd-light .vpd-alarm-y{color:#c04000;background:#fff0e0;border-color:#e08000}
+.vpd-light .vpd-chrono{color:#405060}
+.vpd-light .vpd-lane{background:#e8edf2;border-bottom:1px solid #c0cad2}
+.vpd-light .vpd-axis{border-right:1px solid #a8b4bc}
+.vpd-light .vpd-av{color:#607888}
+.vpd-light .vpd-az{color:#405060;border-top-color:#8090a0}
+.vpd-light .vpd-ltag{mix-blend-mode:multiply}
+.vpd-light .vpd-lmeas{mix-blend-mode:multiply}
+.vpd-light .vpd-params{border-left:1px solid #b0bcc4;background:#cdd4da}
+.vpd-light .vpdp{background:#dde3e8;border:1px solid #b0bcc4}
+.vpd-light .vpdp-lbl{color:#405060}
+.vpd-light .vpdp-meas.ok{color:#006838}
+.vpd-light .vpdp-meas.warn{color:#b04000}
+.vpd-light .vpdp-meas.alarm{color:#c00000}
+.vpd-light .vpdp-set{color:#607888}
+.vpd-light .vpd-gas{background:#c8d0d6;border-top:1px solid #a8b4bc}
+.vpd-light .vpd-gi{border-right:1px solid #a8b4bc}
+.vpd-light .vpd-glbl{color:#405060}
+/* courbes en mode clair — plus saturées pour visibilité */
+.vpd-light .vpd-lane canvas{filter:saturate(1.3) brightness(0.55)}
+
+/* GE AISYS — SOMBRE */
+.vga-dark{background:#040c1a;border:1px solid #08121e}
+.vga-dark .vga-hdr{background:#04101e;border-bottom-color:#081424}
+.vga-dark .vga-lane{background:#040c1a;border-bottom-color:#08121e}
+.vga-dark .vga-axis{border-right-color:#081420}
+.vga-dark .vga-av{color:#0a2040}
+.vga-dark .vga-az{color:#152a48;border-top-color:#0c1e30}
+.vga-dark .vga-params{border-left-color:#081420;background:#040c1a}
+.vga-dark .vgap{background:#050e22;border-color:#0a1828}
+.vga-dark .vgap-lbl{color:#0a2040}
+.vga-dark .vgap-set{color:#061830}
+.vga-dark .vga-tabs{background:#04101e;border-top-color:#081420}
+.vga-dark .vga-tab{color:#0a2040;border-right-color:#081420}
+.vga-dark .vga-tab.on{color:#4090c8;background:#050e24;border-bottom:2px solid #2070b0}
+.vga-dark .vga-alarm{color:#d87800;background:#100c00;border-color:#382000}
+.vga-dark .vga-chrono{color:#0a2040}
+
+/* GE AISYS — CLAIR */
+.vga-light{background:#e0e8f0;border:1px solid #b0c0d0}
+.vga-light .vga-hdr{background:#ccd6e0;border-bottom:1px solid #a0b0c0}
+.vga-light .vga-brand{color:#0060b0}
+.vga-light .vga-model{color:#3060a0}
+.vga-light .vga-modebox{background:#e8f0f8;border-color:#4080c0}
+.vga-light .vga-modeval{color:#0050a0}
+.vga-light .vga-alarm{color:#b04000;background:#fff0e0;border-color:#e08000}
+.vga-light .vga-chrono{color:#3060a0}
+.vga-light .vga-lane{background:#e8f0f8;border-bottom:1px solid #b0c0d0}
+.vga-light .vga-axis{border-right:1px solid #90a8c0}
+.vga-light .vga-av{color:#406080}
+.vga-light .vga-az{color:#304860;border-top-color:#709ab0}
+.vga-light .vga-params{border-left:1px solid #90a8bc;background:#ccd6e0}
+.vga-light .vgap{background:#d8e4ee;border:1px solid #a0b4c8}
+.vga-light .vgap-lbl{color:#304860}
+.vga-light .vgap-meas.ok{color:#0050a0}
+.vga-light .vgap-meas.gn{color:#006830}
+.vga-light .vgap-meas.warn{color:#a04000}
+.vga-light .vgap-set{color:#506878}
+.vga-light .vga-tabs{background:#c0ccd6;border-top:1px solid #90a8bc}
+.vga-light .vga-tab{color:#304860;border-right-color:#90a8bc}
+.vga-light .vga-tab.on{color:#0060c0;background:#d8e8f8;border-bottom:2px solid #0060c0}
+.vga-light .vga-lane canvas{filter:saturate(1.2) brightness(0.5)}
+
+/* Styles communs ventilateurs (structure, indépendant du thème) */
+.vpd-hdr{height:26px;display:flex;align-items:center;padding:0 7px;gap:5px;flex-shrink:0}
+.vpd-brand{font-size:7px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.vpd-model{font-size:8px}
+.vpd-modebox{border-radius:3px;padding:1px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 3px;min-width:44px}
+.vpd-modelbl{font-size:5px;text-transform:uppercase;letter-spacing:.5px}
+.vpd-modeval{font-size:10px;font-weight:600;line-height:1.2;font-family:'Roboto Mono',monospace}
+.vpd-alarm-y{font-size:7px;border-radius:2px;padding:0 4px;animation:fl .9s step-end infinite}
+.vpd-chrono{margin-left:auto;font-size:9px;font-family:'Roboto Mono',monospace}
+.vpd-body{flex:1;display:flex;min-height:0;overflow:hidden}
+.vpd-curves{flex:1;display:flex;flex-direction:column;min-height:0}
+.vpd-lane{flex:1;position:relative;border-bottom-width:1px;border-bottom-style:solid;min-height:0;overflow:hidden}
+.vpd-lane:last-child{border-bottom:none!important}
+.vpd-lane canvas{position:absolute;left:22px;top:0;bottom:0;right:0;width:calc(100% - 22px);height:100%}
+.vpd-axis{position:absolute;left:0;top:0;bottom:0;width:22px;z-index:3;display:flex;flex-direction:column;justify-content:space-between;padding:2px 1px;pointer-events:none;border-right-width:1px;border-right-style:solid}
+.vpd-av{font-size:5px;font-family:'Roboto Mono',monospace;text-align:right;line-height:1}
+.vpd-az{font-size:5px;font-family:'Roboto Mono',monospace;text-align:right;line-height:1;border-top-width:1px;border-top-style:solid;margin-top:1px;padding-top:1px}
+.vpd-ltag{position:absolute;top:2px;left:25px;font-size:6px;font-weight:600;z-index:2;text-transform:uppercase;letter-spacing:.3px;pointer-events:none}
+.vpd-lmeas{position:absolute;top:1px;right:3px;font-size:15px;font-weight:600;z-index:2;font-family:'Roboto Mono',monospace;line-height:1;pointer-events:none}
+.vpd-params{width:120px;flex-shrink:0;overflow:hidden}
+.vpd-pgrid{display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:2px;height:100%}
+.vpdp{border-width:1px;border-style:solid;border-radius:3px;padding:3px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0}
+.vpdp-lbl{font-size:5px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.vpdp-meas{font-size:16px;font-weight:600;line-height:1;font-family:'Roboto Mono',monospace}
+.vpdp-meas.ok{color:#00c860}
+.vpdp-meas.warn{color:#d88000}
+.vpdp-meas.alarm{color:#e02020;animation:fl .7s step-end infinite}
+.vpdp-unit{font-size:5px}
+.vpdp-set{font-size:7px;font-family:'Roboto Mono',monospace;margin-top:1px;line-height:1}
+.vpd-gas{height:22px;border-top-width:1px;border-top-style:solid;display:flex;align-items:stretch;flex-shrink:0}
+.vpd-gi{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-right-width:1px;border-right-style:solid}
+.vpd-gi:last-child{border-right:none!important}
+.vpd-glbl{font-size:5px;text-transform:uppercase;letter-spacing:.2px}
+.vpd-gval{font-size:12px;font-weight:600;font-family:'Roboto Mono',monospace;line-height:1}
+.vpd-gval.gn{color:#40a858}
+.vpd-gval.yl{color:#c8980a}
+.vpd-gval.cy{color:#00aac0}
+
+/* GE AISYS commun */
+.vga-hdr{height:26px;display:flex;align-items:center;padding:0 7px;gap:5px;flex-shrink:0}
+.vga-brand{font-size:14px;font-weight:900;font-style:italic}
+.vga-model{font-size:7px}
+.vga-modebox{border-radius:3px;padding:1px 7px;margin-left:4px}
+.vga-modeval{font-size:10px;font-weight:600;font-family:'Roboto Mono',monospace}
+.vga-alarm{font-size:7px;border-radius:2px;padding:0 4px;margin-left:auto}
+.vga-chrono{font-size:9px;font-family:'Roboto Mono',monospace;margin-left:4px}
+.vga-body{flex:1;display:flex;min-height:0;overflow:hidden}
+.vga-curves{flex:1;display:flex;flex-direction:column;min-height:0}
+.vga-lane{flex:1;position:relative;border-bottom-width:1px;border-bottom-style:solid;min-height:0;overflow:hidden}
+.vga-lane:last-child{border-bottom:none!important}
+.vga-lane canvas{position:absolute;left:22px;top:0;bottom:0;right:0;width:calc(100% - 22px);height:100%}
+.vga-axis{position:absolute;left:0;top:0;bottom:0;width:22px;z-index:3;display:flex;flex-direction:column;justify-content:space-between;padding:2px 1px;pointer-events:none;border-right-width:1px;border-right-style:solid}
+.vga-av{font-size:5px;font-family:'Roboto Mono',monospace;text-align:right;line-height:1}
+.vga-az{font-size:5px;font-family:'Roboto Mono',monospace;text-align:right;line-height:1;border-top-width:1px;border-top-style:solid;margin-top:1px;padding-top:1px}
+.vga-ltag{position:absolute;top:2px;left:25px;font-size:6px;font-weight:600;z-index:2;text-transform:uppercase;letter-spacing:.3px;pointer-events:none}
+.vga-lmeas{position:absolute;top:1px;right:3px;font-size:15px;font-weight:600;z-index:2;font-family:'Roboto Mono',monospace;line-height:1;pointer-events:none}
+.vga-params{width:112px;flex-shrink:0;overflow:hidden}
+.vga-pgrid{display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:2px;height:100%}
+.vgap{border-width:1px;border-style:solid;border-radius:3px;padding:3px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0}
+.vgap-lbl{font-size:5px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.vgap-meas{font-size:16px;font-weight:600;line-height:1;font-family:'Roboto Mono',monospace}
+.vgap-meas.ok{color:#3090d0}
+.vgap-meas.gn{color:#30b870}
+.vgap-meas.warn{color:#c07800}
+.vgap-unit{font-size:5px}
+.vgap-set{font-size:7px;font-family:'Roboto Mono',monospace;margin-top:1px;line-height:1}
+.vga-tabs{height:20px;display:flex;flex-shrink:0}
+.vga-tab{flex:1;display:flex;align-items:center;justify-content:center;font-size:7px;border-right-width:1px;border-right-style:solid;cursor:pointer}
+.vga-tab:last-child{border-right:none!important}
+
+/* BIS MEDTRONIC */
+.bis-medtronic{background:#040810;border:1px solid #05091a}
+.bm-inner{flex:1;display:flex;min-height:0;overflow:hidden}
+.bm-side{width:20px;background:#030610;border-right:1px solid #07091c;display:flex;flex-direction:column;align-items:center;padding:4px 0;gap:4px;flex-shrink:0}
+.bm-ico{width:16px;height:16px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:6px;color:#0a1428;cursor:pointer}
+.bm-ico.on{background:#080c24;color:#2858a0;border:1px solid #0a1836}
+.bm-core{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.bm-topbar{height:16px;background:#030710;border-bottom:1px solid #070a1c;display:flex;align-items:center;padding:0 5px;flex-shrink:0}
+.bm-tbrand{color:#0c2050;font-size:7px;font-weight:500;letter-spacing:1px;text-transform:uppercase}
+.bm-tdate{margin-left:auto;color:#0a1838;font-size:6px;font-family:'Roboto Mono',monospace}
+.bm-bigrow{background:#030a14;padding:3px 6px;display:flex;align-items:center;gap:5px;flex-shrink:0;border-bottom:1px solid #07091c}
+.bm-bisstack{display:flex;flex-direction:column}
+.bm-bislbl{font-size:6px;color:#0c2858;text-transform:uppercase;letter-spacing:2px}
+.bm-sqilbl{font-size:6px;color:#0c2040}
+.bm-num{font-size:54px;font-weight:500;color:#cc22dd;line-height:.9;letter-spacing:-2px;font-family:'Roboto Mono',monospace;text-shadow:0 0 10px #9900aa38}
+.bm-rstack{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:1px}
+.bm-dur{font-size:9px;color:#7020a0;font-family:'Roboto Mono',monospace}
+.bm-sr{font-size:7px;color:#0c2050}
+.bm-emg{font-size:7px;color:#0c1e40}
+.bm-dsa{flex:1;position:relative;background:#020508;border-bottom:1px solid #07091c;min-height:0;overflow:hidden}
+.bm-dsa canvas{position:absolute;inset:0;width:100%;height:100%}
+.bm-dsa-lbl{position:absolute;top:2px;left:3px;font-size:6px;color:#0a1630;z-index:2}
+.bm-eegrow{height:28px;background:#020406;border-bottom:1px solid #050810;position:relative;flex-shrink:0;overflow:hidden}
+.bm-eegrow canvas{position:absolute;inset:0;width:100%;height:100%}
+.bm-eeglbl{position:absolute;top:1px;left:3px;font-size:6px;color:#0a1428;z-index:2}
+.bm-metrics{background:#030710;border-bottom:1px solid #07091c;display:flex;justify-content:space-around;padding:2px;flex-shrink:0}
+.bm-m{text-align:center}
+.bm-mlbl{font-size:6px;color:#0c2050;text-transform:uppercase;letter-spacing:.4px}
+.bm-mval{font-size:13px;font-weight:600;color:#4050a0;font-family:'Roboto Mono',monospace;line-height:1.1}
+.bm-munit{font-size:6px;color:#0c1840}
+.bm-foot{background:#020408;padding:1px;text-align:center;flex-shrink:0}
+.bm-fbrand{color:#0a1e48;font-size:7px;font-weight:500;letter-spacing:2px;text-transform:uppercase}
+.bis-ge{background:#000208;border:1px solid #000818}
+.bge-hdr{height:18px;background:#000818;border-bottom:1px solid #001030;display:flex;align-items:center;padding:0 5px;flex-shrink:0}
+.bge-brand{color:#1060a8;font-size:12px;font-weight:900;font-style:italic}
+.bge-model{color:#08203e;font-size:7px;margin-left:4px}
+.bge-body{flex:1;display:flex;flex-direction:column;gap:3px;padding:4px;min-height:0;overflow:hidden}
+.bge-vals{display:flex;justify-content:center;align-items:baseline;gap:8px}
+.bge-v{text-align:center}
+.bge-vlbl{font-size:7px;color:#08204a;text-transform:uppercase;letter-spacing:.5px}
+.bge-vnum{font-size:40px;font-weight:500;line-height:1;color:#0a9090;font-family:'Roboto Mono',monospace;letter-spacing:-1px}
+.bge-sep{font-size:18px;color:#050a14}
+.bge-eeg{flex:1;min-height:0;background:#000105;border:1px solid #001020;border-radius:2px;position:relative;overflow:hidden}
+.bge-eeg canvas{position:absolute;inset:0;width:100%;height:100%}
+.bge-params{display:grid;grid-template-columns:1fr 1fr;gap:2px;flex-shrink:0}
+.bge-p{background:#000105;border:1px solid #001020;border-radius:2px;padding:1px 5px;text-align:center}
+.bge-plbl{font-size:6px;color:#08204a}
+.bge-pval{font-size:13px;font-weight:600;color:#0a9090;font-family:'Roboto Mono',monospace}
+/* TOF */
+.tof-block{background:#040408;border:1px solid #0c0c15}
+.tof-hdr{height:18px;background:#060618;border-bottom:1px solid #0c0c1e;display:flex;align-items:center;padding:0 5px;flex-shrink:0}
+.tof-brand{color:#005880;font-size:8px;font-weight:600;letter-spacing:.5px}
+.tof-model{color:#102028;font-size:7px;margin-left:4px}
+.tof-mode{margin-left:auto;background:#08081a;border:1px solid #101828;color:#1e4888;font-size:7px;border-radius:2px;padding:0 4px;font-weight:500}
+.tof-body{flex:1;display:flex;flex-direction:column;align-items:center;padding:4px 6px;gap:3px;min-height:0;overflow:hidden}
+.tof-ratio{text-align:center}
+.tof-rlbl{font-size:6px;color:#10202a;text-transform:uppercase;letter-spacing:1px}
+.tof-rval{font-size:38px;font-weight:600;font-family:'Roboto Mono',monospace;line-height:1;letter-spacing:-1px}
+.tof-rval.ok{color:#2a9040}
+.tof-pct{font-size:8px;margin-top:-2px;text-align:center}
+.tof-dots{display:flex;gap:3px}
+.tof-dot{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:500}
+.tof-dot.on{background:#051606;border:1px solid #205030;color:#30804a}
+.tof-dot.off{background:#080808;border:1px solid #161616;color:#1e1e1e}
+.tof-stim-mode{background:#07081a;border:1px solid #0e1428;color:#1848a0;font-size:7px;border-radius:2px;padding:1px 6px}
+.tof-site{font-size:6px;color:#10202a;margin-top:1px;text-align:center}
+.tof-metrics{display:grid;grid-template-columns:1fr 1fr;gap:2px;width:100%}
+.tof-m{background:#050508;border:1px solid #0c0c14;border-radius:2px;padding:1px 4px;text-align:center}
+.tof-mlbl{font-size:6px;color:#10202a;text-transform:uppercase}
+.tof-mval{font-size:13px;font-weight:600;font-family:'Roboto Mono',monospace}
+/* IA */
+.ia-block{background:#05050d;border:1px solid #0d0d1e;display:flex;flex-direction:column;padding:4px 6px;gap:2px;min-height:0;overflow:hidden}
+.ia-head{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.ia-badge{border:1px solid #18183a;color:#3040a0;font-size:8px;font-weight:500;border-radius:2px;padding:0 4px}
+.ia-conf{font-size:7px;color:#1a5828;margin-left:2px}
+.ia-time{margin-left:auto;font-size:7px;color:#151525;font-family:'Roboto Mono',monospace}
+.ia-sit{color:#666;font-size:8px;line-height:1.4;flex-shrink:0}
+.ia-risks{display:flex;flex-wrap:wrap;gap:2px;flex-shrink:0}
+.ia-rtag{background:#0e0600;border:1px solid #2e1500;color:#a05800;font-size:7px;border-radius:2px;padding:0 3px}
+.ia-recos{overflow:hidden;min-height:0}
+.ia-reco{color:#444;font-size:8px;line-height:1.4;display:block}
+.ia-reco::before{content:"\2192 ";color:#222}
+
+/* =========================================================
+   B.BRAUN SPACE+ — Fidèle à la réalité
+   Fond gris perle/blanc cassé, boutons carrés gris,
+   canal propofol jaune, canal remi violet, canal nor rouge
+   header avec logo B|BRAUN vert, barre d'état grise
+   ========================================================= */
+.ps-braun{background:#d8d8d0;border:1.5px solid #b0b0a8;display:flex;flex-direction:column}
+/* Barre d'état supérieure — fine, grise foncée */
+.psb-statusbar{height:14px;background:#2a2a28;display:flex;align-items:center;padding:0 5px;gap:6px;flex-shrink:0}
+.psb-sb-dot{width:5px;height:5px;border-radius:50%;background:#22a830}
+.psb-sb-txt{color:#a0a098;font-size:6px;font-family:'Roboto Mono',monospace}
+.psb-sb-alm{margin-left:auto;color:#f0a000;font-size:6px;font-weight:700}
+/* Bandeau Logo */
+.psb-logobnd{height:20px;background:#e8e8e0;border-bottom:1px solid #c0c0b8;display:flex;align-items:center;padding:0 6px;flex-shrink:0}
+.psb-logo{color:#006622;font-weight:800;font-size:12px;letter-spacing:.2px;font-family:'Inter',sans-serif}
+.psb-logo-sub{color:#338844;font-size:7px;margin-left:3px}
+.psb-tcimode{margin-left:auto;background:#004a80;color:#fff;font-size:8px;font-weight:600;border-radius:2px;padding:1px 5px}
+/* Corps principal — canaux */
+.psb-channels{flex:1;display:flex;flex-direction:column;gap:0;min-height:0;overflow:hidden}
+/* Chaque canal = 1/3 hauteur, avec bandeau couleur à gauche */
+.psb-chan{display:flex;flex-direction:column;flex:1;min-height:0;border-bottom:1px solid #b8b8b0}
+.psb-chan:last-child{border-bottom:none}
+.psb-chan-top{display:flex;align-items:stretch;flex:1;min-height:0}
+/* Bande couleur verticale à gauche (12px) */
+.psb-colorband{width:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.psb-colorband-text{font-size:5px;font-weight:700;color:#fff;writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:1px;text-transform:uppercase}
+/* Zone info principale */
+.psb-chaninfo{flex:1;display:flex;flex-direction:column;justify-content:center;padding:2px 4px;background:#e0e0d8;min-width:0}
+.psb-drugname{font-size:9px;font-weight:700;color:#1a1a18;line-height:1}
+.psb-drugconc{font-size:6px;color:#505048;line-height:1.2}
+.psb-cecp{display:flex;gap:4px;align-items:baseline;margin-top:1px}
+.psb-ce-val{font-size:17px;font-weight:700;font-family:'Roboto Mono',monospace;line-height:1}
+.psb-ce-lbl{font-size:6px;color:#707068;font-family:'Roboto Mono',monospace}
+.psb-cp-row{font-size:8px;font-family:'Roboto Mono',monospace;color:#707068;line-height:1}
+.psb-wake-row{font-size:7px;color:#606058;line-height:1}
+/* Zone cible + débit */
+.psb-chanright{width:44px;flex-shrink:0;background:#d4d4cc;border-left:1px solid #b8b8b0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2px}
+.psb-tgt-box{border:2px solid;border-radius:2px;width:36px;text-align:center;padding:1px 0}
+.psb-tgt-val{font-size:14px;font-weight:500;font-family:'Roboto Mono',monospace;line-height:1}
+.psb-tgt-unit{font-size:6px;line-height:1}
+.psb-debit{font-size:8px;font-family:'Roboto Mono',monospace;color:#505048;margin-top:2px;line-height:1}
+/* Barre progression seringue */
+.psb-progbar{height:3px;background:#c0c0b8}
+.psb-pbar{height:100%}
+/* Barre boutons du bas */
+.psb-btnbar{height:24px;background:#c4c4bc;border-top:1.5px solid #a8a8a0;display:flex;align-items:center;gap:1px;padding:2px 2px;flex-shrink:0}
+.psb-btn{flex:1;height:18px;background:#d4d4cc;border:1px solid #a0a098;border-radius:2px;color:#1a1a18;font-size:6px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;text-align:center}
+.psb-btn:hover{background:#e0e0d8}
+.psb-btn.red{color:#c00;border-color:#c00;background:#f8e8e8}
+.psb-btn.blue{color:#0040a0;border-color:#0040a0;background:#e8ecf8}
+
+/* =========================================================
+   FRESENIUS AGILIA SP — Fidèle à la réalité
+   Fond gris anthracite, écran couleur, 3 canaux
+   ========================================================= */
+.ps-fresenius{background:#2a2a28;border:1.5px solid #1a1a18;display:flex;flex-direction:column}
+/* Barre statut rouge/verte */
+.psf-statusbar{height:13px;background:#1a1a18;display:flex;align-items:center;padding:0 5px;flex-shrink:0}
+.psf-sb-dot{width:5px;height:5px;border-radius:50%}
+.psf-sb-txt{color:#606058;font-size:6px;margin-left:4px;font-family:'Roboto Mono',monospace}
+/* Logo area */
+.psf-logobnd{height:20px;background:#222220;border-bottom:1px solid #333330;display:flex;align-items:center;padding:0 6px;flex-shrink:0}
+.psf-logo{color:#00a8c0;font-size:10px;font-weight:700;letter-spacing:.3px}
+.psf-model{color:#404040;font-size:7px;margin-left:3px}
+.psf-mode-tag{margin-left:auto;background:#003850;border:1px solid #005870;color:#00b8d8;font-size:7px;font-weight:600;border-radius:2px;padding:1px 5px;font-family:'Roboto Mono',monospace}
+/* Corps — 3 canaux */
+.psf-channels{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.psf-chan{flex:1;display:flex;min-height:0;border-bottom:1px solid #333330;background:#282826}
+.psf-chan:last-child{border-bottom:none}
+/* Bandeau couleur gauche */
+.psf-colorband{width:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.psf-colorband-text{font-size:5px;font-weight:700;color:#fff;writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.5px;text-transform:uppercase}
+/* Info canal */
+.psf-chaninfo{flex:1;display:flex;flex-direction:column;justify-content:center;padding:2px 4px;min-width:0}
+.psf-drugname{font-size:9px;font-weight:600;line-height:1}
+.psf-conc{font-size:6px;color:#505048;line-height:1.2}
+.psf-cerow{display:flex;align-items:baseline;gap:3px;margin-top:1px}
+.psf-ce-val{font-size:17px;font-weight:700;font-family:'Roboto Mono',monospace;line-height:1}
+.psf-ce-lbl{font-size:6px;color:#505048}
+.psf-cp-row{font-size:7px;font-family:'Roboto Mono',monospace;color:#505048;line-height:1.2}
+/* Zone droite */
+.psf-chanright{width:42px;flex-shrink:0;background:#202020;border-left:1px solid #333330;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2px}
+.psf-tgt-box{border:1.5px solid;border-radius:2px;width:34px;text-align:center;padding:1px 0}
+.psf-tgt-val{font-size:17px;font-weight:700;font-family:'Roboto Mono',monospace;line-height:1}
+.psf-tgt-unit{font-size:6px;line-height:1}
+.psf-debit{font-size:7px;font-family:'Roboto Mono',monospace;color:#505050;margin-top:2px}
+/* Barre boutons bas */
+.psf-btnbar{height:22px;background:#1c1c1a;border-top:1px solid #333330;display:flex;align-items:center;gap:1px;padding:1px 2px;flex-shrink:0}
+.psf-btn{flex:1;height:16px;background:#282826;border:1px solid #404038;border-radius:2px;color:#808078;font-size:6px;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center}
+.psf-btn:hover{background:#383836;color:#c0c0b8}
+.psf-btn.act{color:#00b8d8;border-color:#005870;background:#1a2a2e}
+
+::-webkit-scrollbar{width:2px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#141416;border-radius:2px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="topbar">
+  <span class="logo">CHARLES</span>
+  <span style="color:#131318;font-size:8px;letter-spacing:.5px">IADE &middot; vigilance perop.</span>
+  <div style="margin-left:auto;display:flex;gap:5px;align-items:center">
+    <span class="dot-ok"></span>
+    <span style="color:#1a4a28;font-size:8px">connect&eacute;</span>
+    <button class="tbtn">salle 4</button>
+    <button class="tbtn">IADE Martin</button>
+    <button class="tbtn">&rarr; MAR</button>
+  </div>
+</div>
+
+<div class="config-bar">
+  <div class="cg">
+    <span class="cg-lbl">Scope</span>
+    <button class="cb on" onclick="sw('scope','drager')" id="scope-drager-btn">Dr&auml;ger C500</button>
+    <button class="cb" onclick="sw('scope','ge')" id="scope-ge-btn">GE B40</button>
+    <button class="cb" onclick="sw('scope','philips')" id="scope-philips-btn">Philips MX800</button>
+  </div>
+  <span class="csep">|</span>
+  <div class="cg">
+    <span class="cg-lbl">Respi</span>
+    <button class="cb on" onclick="sw('vent','drager')" id="vent-drager-btn">Perseus A500</button>
+    <button class="cb" onclick="sw('vent','ge')" id="vent-ge-btn">GE Aisys CS&sup2;</button>
+    <div class="vtoggle">
+      <button class="vtog-btn on-dark" id="vtog-dark" onclick="setVentTheme('dark')">&#127769; Nuit</button>
+      <button class="vtog-btn" id="vtog-light" onclick="setVentTheme('light')">&#9728; Jour</button>
+    </div>
+  </div>
+  <span class="csep">|</span>
+  <div class="cg">
+    <span class="cg-lbl">BIS</span>
+    <button class="cb on" onclick="sw('bis','medtronic')" id="bis-medtronic-btn">Medtronic Vista</button>
+    <button class="cb" onclick="sw('bis','ge')" id="bis-ge-btn">GE Entropy</button>
+  </div>
+  <span class="csep">|</span>
+  <div class="cg">
+    <span class="cg-lbl">PS / TCI</span>
+    <button class="cb on" onclick="sw('ps','braun')" id="ps-braun-btn">B.Braun Space&spades;</button>
+    <button class="cb" onclick="sw('ps','fresenius')" id="ps-fresenius-btn">Fresenius Agilia</button>
+  </div>
+</div>
+
+<div class="patient-bar">
+  <span class="pt-name">MARTIN Jean</span>
+  <span class="ptag ptag-asa">ASA III</span>
+  <span class="ptag ptag-ane">AG &middot; IOT &middot; TCI</span>
+  <span class="ptag ptag-co">HTA &middot; DT2</span>
+  <span style="color:#333;font-size:9px;margin-left:4px">80 kg &middot; 175 cm &middot; 62 ans</span>
+  <span style="color:#1a1a2a;font-size:9px;margin-left:3px">&mdash; Colectomie droite c&oelig;lio</span>
+  <span class="phase-tag">PER-OP &middot; 01h47m &middot; ex&eacute;r&egrave;se</span>
+</div>
+
+<div class="alert-strip">
+  <span class="a-lbl">&#9888; HYPOTENSION</span>
+  <span>PAM 58 mmHg depuis 3 min &mdash; &eacute;ph&eacute;drine 6 mg administr&eacute;e</span>
+  <span class="a-ack">&#10005;</span>
+</div>
+
+<div class="main">
+
+  <!-- ===== COL GAUCHE ===== -->
+  <div class="col-left">
+    <div class="scope-area">
+
+      <!-- SCOPE DRAGER C500 -->
+      <div class="block scope-drager" id="scope-drager-panel" style="position:relative">
+        <div class="scd-hdr">
+          <span class="scd-brand">Dr&auml;ger</span>
+          <span class="scd-model">Infinity C500</span>
+          <span class="scd-alarm">&#9888; PAM BAS</span>
+          <span class="scd-time" id="clock">--:--:--</span>
+        </div>
+        <div class="scd-waves"><canvas id="c-scope-drager"></canvas></div>
+        <div class="scd-labels">
+          <div class="scd-lrow">
+            <span class="scd-ltag" style="color:#00d448">ECG II</span>
+            <span class="scd-lval" style="color:#00d448">74</span>
+            <span class="scd-lsub" style="color:#008030">bpm</span>
+          </div>
+          <div class="scd-lrow">
+            <span class="scd-ltag" style="color:#1e88e5">SpO&#8322;</span>
+            <span class="scd-lval" style="color:#1e88e5">97</span>
+            <span class="scd-lsub" style="color:#0d47a1">%</span>
+          </div>
+          <div class="scd-lrow">
+            <span class="scd-ltag" style="color:#e53935">ART</span>
+            <span class="scd-lval" style="color:#e53935;font-size:13px">106/58</span>
+            <span class="scd-lsub" style="color:#b71c1c">PAM 74</span>
+          </div>
+          <div class="scd-lrow">
+            <span class="scd-ltag" style="color:#fdd835">EtCO&#8322;</span>
+            <span class="scd-lval" style="color:#fdd835">36</span>
+            <span class="scd-lsub" style="color:#f9a825">mmHg</span>
+          </div>
+        </div>
+        <div class="scd-nums">
+          <div class="scd-nrow">
+            <span class="scd-nlbl" style="color:#600">PANI</span>
+            <span class="scd-nval" style="color:#e53935;font-size:11px">122/78</span>
+            <span style="font-size:6px;color:#400">PAM 93</span>
+          </div>
+          <div class="scd-nrow">
+            <span class="scd-nlbl">FR</span>
+            <span class="scd-nval" style="color:#fdd835">14</span>
+            <span class="scd-nunit">/min</span>
+          </div>
+          <div class="scd-nrow">
+            <span class="scd-nlbl">T&deg;C</span>
+            <span class="scd-nval" style="color:#999">36.4</span>
+            <span class="scd-nunit">&deg;C</span>
+          </div>
+          <div class="scd-nrow">
+            <span class="scd-nlbl" style="color:#005020">ST II</span>
+            <span class="scd-nval" style="color:#00d448">+0.1</span>
+            <span class="scd-nunit">mV</span>
+          </div>
+        </div>
+        <div class="scd-keys">
+          <div class="scd-key">Alarmes</div>
+          <div class="scd-key">Tendances</div>
+          <div class="scd-key">Impression</div>
+          <div class="scd-key">Setup</div>
+          <div class="scd-key">Niv.son 3</div>
+        </div>
+      </div>
+
+      <!-- SCOPE GE B40 -->
+      <div class="block scope-ge" id="scope-ge-panel" style="display:none;position:relative">
+        <div class="scg-hdr">
+          <span class="scg-brand">GE</span>
+          <span class="scg-model">CARESCAPE B40</span>
+          <span class="scg-time" id="scg-clk">17:42</span>
+        </div>
+        <div class="scg-waves"><canvas id="c-scope-ge"></canvas></div>
+        <div class="scg-labels">
+          <div class="scg-lrow"><span class="scg-ltag" style="color:#2e7d32">ECG</span><span class="scg-lval" style="color:#43a047">74</span><span class="scg-lsub" style="color:#1b5e20">bpm</span></div>
+          <div class="scg-lrow"><span class="scg-ltag" style="color:#1565c0">SpO&#8322;</span><span class="scg-lval" style="color:#1e88e5">97</span><span class="scg-lsub" style="color:#0d47a1">%</span></div>
+          <div class="scg-lrow"><span class="scg-ltag" style="color:#c62828">ART</span><span class="scg-lval" style="color:#f44336;font-size:13px">106/58</span><span class="scg-lsub" style="color:#b71c1c">PAM 74</span></div>
+          <div class="scg-lrow"><span class="scg-ltag" style="color:#e65100">CO&#8322;</span><span class="scg-lval" style="color:#ff8f00">36</span><span class="scg-lsub" style="color:#e65100">mmHg</span></div>
+        </div>
+        <div class="scg-nums">
+          <div class="scg-nrow"><span class="scg-nlbl" style="color:#600">PANI</span><span class="scg-nval" style="color:#f44336;font-size:11px">122/78</span></div>
+          <div class="scg-nrow"><span class="scg-nlbl">FR</span><span class="scg-nval" style="color:#ff8f00">14</span><span class="scg-nunit">/min</span></div>
+          <div class="scg-nrow"><span class="scg-nlbl">T&deg;</span><span class="scg-nval" style="color:#888">36.4</span></div>
+          <div class="scg-nrow"><span class="scg-nlbl">PVC</span><span class="scg-nval" style="color:#78909c">8</span><span class="scg-nunit">mmH</span></div>
+        </div>
+      </div>
+
+      <!-- SCOPE PHILIPS MX800 -->
+      <div class="block scope-philips" id="scope-philips-panel" style="display:none;position:relative">
+        <div class="scp-hdr">
+          <span class="scp-logo">Philips</span>
+          <span class="scp-model">IntelliVue MX800</span>
+          <span class="scp-time" id="scp-clk">17:42</span>
+        </div>
+        <div class="scp-waves"><canvas id="c-scope-philips"></canvas></div>
+        <div class="scp-labels">
+          <div class="scp-lrow"><span class="scp-ltag" style="color:#00e060">ECG II</span><span class="scp-lval" style="color:#00e060">74</span><span class="scp-lsub" style="color:#008040">bpm</span></div>
+          <div class="scp-lrow"><span class="scp-ltag" style="color:#29b6f6">SpO&#8322;</span><span class="scp-lval" style="color:#29b6f6">97</span><span class="scp-lsub" style="color:#0d47a1">%</span></div>
+          <div class="scp-lrow"><span class="scp-ltag" style="color:#ef5350">ART</span><span class="scp-lval" style="color:#ef5350;font-size:13px">106/58</span><span class="scp-lsub" style="color:#c62828">PAM 74</span></div>
+          <div class="scp-lrow"><span class="scp-ltag" style="color:#fff176">EtCO&#8322;</span><span class="scp-lval" style="color:#fff176">36</span><span class="scp-lsub" style="color:#fdd835">mmHg</span></div>
+        </div>
+        <div class="scp-nums">
+          <div class="scp-nrow"><span class="scp-nlbl" style="color:#600">PANI</span><span class="scp-nval" style="color:#ef5350;font-size:11px">122/78</span></div>
+          <div class="scp-nrow"><span class="scp-nlbl">FR</span><span class="scp-nval" style="color:#fff176">14</span><span class="scp-nunit">/min</span></div>
+          <div class="scp-nrow"><span class="scp-nlbl">T&deg;</span><span class="scp-nval" style="color:#aaa">36.4</span></div>
+          <div class="scp-nrow"><span class="scp-nlbl">PVC</span><span class="scp-nval" style="color:#80cbc4">8</span><span class="scp-nunit">mmH</span></div>
+        </div>
+      </div>
+
+    </div><!-- /scope-area -->
+
+    <div class="respi-area">
+
+      <!-- ========================
+           DRAGER PERSEUS A500
+           ======================== -->
+      <div class="block vpd-dark" id="vent-drager-panel">
+        <div class="vpd-hdr">
+          <span class="vpd-brand" style="color:#00587a">Dr&auml;ger</span>
+          <span class="vpd-model" style="color:#0e1e30">Perseus A500</span>
+          <div class="vpd-modebox" style="background:#001a2c;border:1px solid #005870">
+            <span class="vpd-modelbl" style="color:#004060">Mode</span>
+            <span class="vpd-modeval" style="color:#00d0e8">VCV</span>
+          </div>
+          <span class="vpd-alarm-y" style="color:#e06000;background:#180a00;border:1px solid #3a1800">&#9888; Ppeak &#8593;</span>
+          <span class="vpd-chrono" id="chrono">01:47:23</span>
+        </div>
+        <div class="vpd-body">
+          <div class="vpd-curves">
+            <div class="vpd-lane">
+              <div class="vpd-axis">
+                <span class="vpd-av">40</span><span class="vpd-av">20</span><span class="vpd-az">0</span>
+              </div>
+              <span class="vpd-ltag" style="color:#d8c010">PAW &nbsp;cmH&#8322;O</span>
+              <span class="vpd-lmeas" style="color:#e0d010">18</span>
+              <canvas id="c-paw"></canvas>
+            </div>
+            <div class="vpd-lane">
+              <div class="vpd-axis">
+                <span class="vpd-av">+60</span><span class="vpd-az">0</span><span class="vpd-av">&#8722;60</span>
+              </div>
+              <span class="vpd-ltag" style="color:#20c060">FLOW &nbsp;L/min</span>
+              <span class="vpd-lmeas" style="color:#30d870">+38</span>
+              <canvas id="c-flow"></canvas>
+            </div>
+            <div class="vpd-lane">
+              <div class="vpd-axis">
+                <span class="vpd-av">800</span><span class="vpd-av">400</span><span class="vpd-az">0</span>
+              </div>
+              <span class="vpd-ltag" style="color:#00a8c8">VOL &nbsp;mL</span>
+              <span class="vpd-lmeas" style="color:#00c0e0">508</span>
+              <canvas id="c-vol"></canvas>
+            </div>
+          </div>
+          <div class="vpd-params">
+            <div class="vpd-pgrid">
+              <div class="vpdp"><div class="vpdp-lbl">Vt</div><div class="vpdp-meas ok">508<span class="vpdp-unit">mL</span></div><div class="vpdp-set">&#9657;500</div></div>
+              <div class="vpdp"><div class="vpdp-lbl">RR</div><div class="vpdp-meas ok">14<span class="vpdp-unit">/m</span></div><div class="vpdp-set">&#9657;14</div></div>
+              <div class="vpdp"><div class="vpdp-lbl">Ppeak</div><div class="vpdp-meas warn">18<span class="vpdp-unit">cm</span></div><div class="vpdp-set">&#9657;25</div></div>
+              <div class="vpdp"><div class="vpdp-lbl">Pplat</div><div class="vpdp-meas ok">15<span class="vpdp-unit">cm</span></div><div class="vpdp-set"></div></div>
+              <div class="vpdp"><div class="vpdp-lbl">PEEP</div><div class="vpdp-meas ok">5<span class="vpdp-unit">cm</span></div><div class="vpdp-set">&#9657;5</div></div>
+              <div class="vpdp"><div class="vpdp-lbl">VM</div><div class="vpdp-meas ok">7.1<span class="vpdp-unit">L/m</span></div><div class="vpdp-set"></div></div>
+              <div class="vpdp"><div class="vpdp-lbl">FiO&#8322;</div><div class="vpdp-meas ok">50<span class="vpdp-unit">%</span></div><div class="vpdp-set">&#9657;50</div></div>
+              <div class="vpdp"><div class="vpdp-lbl">I:E</div><div class="vpdp-meas ok" style="font-size:11px">1:2</div><div class="vpdp-set">&#9657;1:2</div></div>
+              <div class="vpdp"><div class="vpdp-lbl">C<sub>dyn</sub></div><div class="vpdp-meas ok">42<span class="vpdp-unit">ml/cm</span></div><div class="vpdp-set"></div></div>
+              <div class="vpdp"><div class="vpdp-lbl">Raw</div><div class="vpdp-meas ok">8<span class="vpdp-unit">cm/l/s</span></div><div class="vpdp-set"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="vpd-gas">
+          <div class="vpd-gi"><div class="vpd-glbl">Sevo Insp</div><div class="vpd-gval gn">2.3<span style="font-size:5px">%</span></div></div>
+          <div class="vpd-gi"><div class="vpd-glbl">Sevo Exp</div><div class="vpd-gval gn">2.1<span style="font-size:5px">%</span></div></div>
+          <div class="vpd-gi"><div class="vpd-glbl">FiO&#8322;</div><div class="vpd-gval yl">50<span style="font-size:5px">%</span></div></div>
+          <div class="vpd-gi"><div class="vpd-glbl">N&#8322;O</div><div class="vpd-gval gn">0<span style="font-size:5px">%</span></div></div>
+          <div class="vpd-gi"><div class="vpd-glbl">MAC</div><div class="vpd-gval yl">1.1</div></div>
+          <div class="vpd-gi"><div class="vpd-glbl">ETCO&#8322;</div><div class="vpd-gval cy">36<span style="font-size:5px">mmHg</span></div></div>
+        </div>
+      </div>
+
+      <!-- GE AISYS CS2 -->
+      <div class="block vga-dark" id="vent-ge-panel" style="display:none">
+        <div class="vga-hdr">
+          <span class="vga-brand" style="color:#1268b0">GE</span>
+          <span class="vga-model" style="color:#0a2040">Aisys CS&#178;</span>
+          <div class="vga-modebox" style="background:#001838;border:1px solid #003572">
+            <span class="vga-modeval" style="color:#50a0d8">VC-CMV</span>
+          </div>
+          <span class="vga-alarm">&#9888; Ppeak &#8593;</span>
+          <span class="vga-chrono" id="vga-chrono">01:47:23</span>
+        </div>
+        <div class="vga-body">
+          <div class="vga-curves">
+            <div class="vga-lane">
+              <div class="vga-axis"><span class="vga-av">40</span><span class="vga-av">20</span><span class="vga-az">0</span></div>
+              <span class="vga-ltag" style="color:#c0c8e0">PAW &nbsp;cmH&#8322;O</span>
+              <span class="vga-lmeas" style="color:#d0d8f0">18</span>
+              <canvas id="c-paw-ge"></canvas>
+            </div>
+            <div class="vga-lane">
+              <div class="vga-axis"><span class="vga-av">+60</span><span class="vga-az">0</span><span class="vga-av">&#8722;60</span></div>
+              <span class="vga-ltag" style="color:#30b860">FLOW &nbsp;L/min</span>
+              <span class="vga-lmeas" style="color:#40d070">+38</span>
+              <canvas id="c-flow-ge"></canvas>
+            </div>
+            <div class="vga-lane">
+              <div class="vga-axis"><span class="vga-av">800</span><span class="vga-av">400</span><span class="vga-az">0</span></div>
+              <span class="vga-ltag" style="color:#2090d0">VOL &nbsp;mL</span>
+              <span class="vga-lmeas" style="color:#3098e0">508</span>
+              <canvas id="c-vol-ge"></canvas>
+            </div>
+          </div>
+          <div class="vga-params">
+            <div class="vga-pgrid">
+              <div class="vgap"><div class="vgap-lbl">Vt</div><div class="vgap-meas ok">508<span class="vgap-unit">mL</span></div><div class="vgap-set">set 500</div></div>
+              <div class="vgap"><div class="vgap-lbl">RR</div><div class="vgap-meas ok">14<span class="vgap-unit">/m</span></div><div class="vgap-set">set 14</div></div>
+              <div class="vgap"><div class="vgap-lbl">Ppeak</div><div class="vgap-meas warn">18<span class="vgap-unit">cm</span></div><div class="vgap-set">lim 25</div></div>
+              <div class="vgap"><div class="vgap-lbl">Pplat</div><div class="vgap-meas ok">15<span class="vgap-unit">cm</span></div><div class="vgap-set"></div></div>
+              <div class="vgap"><div class="vgap-lbl">PEEP</div><div class="vgap-meas ok">5<span class="vgap-unit">cm</span></div><div class="vgap-set">set 5</div></div>
+              <div class="vgap"><div class="vgap-lbl">VM</div><div class="vgap-meas ok">7.1<span class="vgap-unit">L/m</span></div><div class="vgap-set"></div></div>
+              <div class="vgap"><div class="vgap-lbl">FiO&#8322;</div><div class="vgap-meas gn">50<span class="vgap-unit">%</span></div><div class="vgap-set">set 50</div></div>
+              <div class="vgap"><div class="vgap-lbl">I:E</div><div class="vgap-meas ok" style="font-size:11px">1:2</div><div class="vgap-set">set 1:2</div></div>
+              <div class="vgap"><div class="vgap-lbl">C<sub>dyn</sub></div><div class="vgap-meas ok">42<span class="vgap-unit">ml/cm</span></div><div class="vgap-set"></div></div>
+              <div class="vgap"><div class="vgap-lbl">ETCO&#8322;</div><div class="vgap-meas gn">36<span class="vgap-unit">mmHg</span></div><div class="vgap-set"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="vga-tabs">
+          <div class="vga-tab on">Ventil.</div>
+          <div class="vga-tab">Boucles</div>
+          <div class="vga-tab">Gaz/Agent</div>
+          <div class="vga-tab">Alarmes</div>
+          <div class="vga-tab">Config</div>
+        </div>
+      </div>
+
+    </div><!-- /respi-area -->
+  </div><!-- /col-left -->
+
+  <!-- ===== COL MILIEU ===== -->
+  <div class="col-mid">
+    <div class="bis-area">
+      <!-- MEDTRONIC BIS VISTA -->
+      <div class="block bis-medtronic" id="bis-medtronic-panel">
+        <div class="bm-inner">
+          <div class="bm-side">
+            <div class="bm-ico on">&#9776;</div>
+            <div class="bm-ico on" style="font-size:5px;color:#6010a0;font-weight:700">BIS</div>
+            <div class="bm-ico" style="font-size:5px">EEG</div>
+            <div style="margin-top:auto;font-size:5px;color:#0a1428;writing-mode:vertical-rl;padding-bottom:3px;letter-spacing:1px">NIRS</div>
+          </div>
+          <div class="bm-core">
+            <div class="bm-topbar">
+              <span class="bm-tbrand">BIS Hemispheric</span>
+              <span class="bm-tdate">25/03 &middot; 17:42</span>
+            </div>
+            <div class="bm-bigrow">
+              <div class="bm-bisstack">
+                <span class="bm-bislbl">BIS</span>
+                <span class="bm-sqilbl">SQI 98%</span>
+              </div>
+              <span class="bm-num">40</span>
+              <div class="bm-rstack">
+                <span class="bm-dur">04:03</span>
+                <span class="bm-sr">SR 0%</span>
+                <span class="bm-emg">EMG 32dB</span>
+              </div>
+            </div>
+            <div class="bm-dsa">
+              <span class="bm-dsa-lbl">DSA &mdash; Densit&eacute; Spectrale</span>
+              <canvas id="c-spec"></canvas>
+            </div>
+            <div class="bm-eegrow">
+              <span class="bm-eeglbl">EEG1</span>
+              <canvas id="c-eeg"></canvas>
+            </div>
+            <div class="bm-metrics">
+              <div class="bm-m"><div class="bm-mlbl">SEF</div><div class="bm-mval">17<span class="bm-munit">Hz</span></div></div>
+              <div class="bm-m"><div class="bm-mlbl">SR</div><div class="bm-mval">0<span class="bm-munit">%</span></div></div>
+              <div class="bm-m"><div class="bm-mlbl">&Sigma;Pwr</div><div class="bm-mval">52<span class="bm-munit">dB</span></div></div>
+            </div>
+            <div class="bm-foot"><span class="bm-fbrand">Medtronic</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- GE ENTROPY -->
+      <div class="block bis-ge" id="bis-ge-panel" style="display:none">
+        <div class="bge-hdr"><span class="bge-brand">GE</span><span class="bge-model">E-Entropy Module</span></div>
+        <div class="bge-body">
+          <div class="bge-vals">
+            <div class="bge-v"><div class="bge-vlbl">RE</div><div class="bge-vnum">42</div></div>
+            <span class="bge-sep">/</span>
+            <div class="bge-v"><div class="bge-vlbl">SE</div><div class="bge-vnum">38</div></div>
+          </div>
+          <div class="bge-eeg"><canvas id="c-eeg-ge"></canvas></div>
+          <div class="bge-params">
+            <div class="bge-p"><div class="bge-plbl">BSR</div><div class="bge-pval">0%</div></div>
+            <div class="bge-p"><div class="bge-plbl">RQI</div><div class="bge-pval">100%</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tof-area">
+      <div class="block tof-block">
+        <div class="tof-hdr">
+          <span class="tof-brand">Dr&auml;ger</span>
+          <span class="tof-model">TOF-Watch SX</span>
+          <span class="tof-mode">TOF &middot; 15 mA</span>
+        </div>
+        <div class="tof-body">
+          <div class="tof-ratio">
+            <div class="tof-rlbl">TOF Ratio</div>
+            <div class="tof-rval ok">87</div>
+            <div class="tof-pct" style="color:#2a9040">87%</div>
+          </div>
+          <div class="tof-dots">
+            <div class="tof-dot on">T1</div><div class="tof-dot on">T2</div>
+            <div class="tof-dot on">T3</div><div class="tof-dot on">T4</div>
+          </div>
+          <div style="text-align:center">
+            <span class="tof-stim-mode">TOF &middot; 15 mA &middot; 2 Hz</span>
+            <div class="tof-site">Adducteur pouce &#9794;</div>
+          </div>
+          <div class="tof-metrics">
+            <div class="tof-m"><div class="tof-mlbl">T1/T0</div><div class="tof-mval" style="color:#2a8040">92%</div></div>
+            <div class="tof-m"><div class="tof-mlbl">&Delta; curare</div><div class="tof-mval" style="color:#333">38m</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ia-area">
+      <div class="ia-block">
+        <div class="ia-head">
+          <span class="ia-badge">&#129504; CHARLES</span>
+          <span class="ia-conf">&#9679; 78%</span>
+          <span class="ia-time" id="ia-time">17:42:15</span>
+        </div>
+        <div class="ia-sit">Hypotension mod. (PAM 58) &mdash; insufflation laparoscopique + Ce propofol 5 &micro;g/mL / HTA.</div>
+        <div class="ia-risks">
+          <span class="ia-rtag">&#9888; hypoperf. r&eacute;nale</span>
+          <span class="ia-rtag">&#9888; isch&eacute;mie myocard.</span>
+        </div>
+        <div class="ia-recos">
+          <span class="ia-reco">&Eacute;ph&eacute;drine 6 mg IVD si PAM &lt; 65</span>
+          <span class="ia-reco">Cristallo&iuml;des 250 mL si PPV &gt; 13%</span>
+          <span class="ia-reco">Propofol Ce &rarr; 3.5 &micro;g/mL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== COL DROITE ===== -->
+  <div class="col-right">
+
+    <!-- ========================
+         B.BRAUN SPACE+ PERFUSOR
+         Fond gris perle, canaux jaune/violet/rouge
+         Bande couleur verticale gauche + valeurs TCI
+         ======================== -->
+    <div class="block ps-braun" id="ps-braun-panel">
+      <div class="psb-statusbar">
+        <span class="psb-sb-dot"></span>
+        <span class="psb-sb-txt">SPACE / OK</span>
+        <span class="psb-sb-alm">&#9888; PROP bas</span>
+      </div>
+      <div class="psb-logobnd">
+        <span class="psb-logo">B|BRAUN</span>
+        <span class="psb-logo-sub">Space&spades;</span>
+        <span class="psb-tcimode">TCI actif</span>
+      </div>
+      <div class="psb-channels">
+        <!-- Canal 1 : Propofol — bande jaune -->
+        <div class="psb-chan">
+          <div class="psb-chan-top">
+            <div class="psb-colorband" style="background:#e8a000">
+              <span class="psb-colorband-text">PROP</span>
+            </div>
+            <div class="psb-chaninfo">
+              <div class="psb-drugname" style="color:#5a3800">PROPOFOL</div>
+              <div class="psb-drugconc">10 mg/mL &middot; Schnider TCI</div>
+              <div class="psb-cecp">
+                <span class="psb-ce-val" style="color:#0038a0">4.99</span>
+                <span class="psb-ce-lbl">&micro;g/mL Ce</span>
+              </div>
+              <div class="psb-cp-row">Cp 5.00 &micro;g/mL &mdash; 12.4 mL/h</div>
+              <div class="psb-wake-row" style="color:#a05000">R&eacute;v. <b>22min</b></div>
+            </div>
+            <div class="psb-chanright">
+              <div class="psb-tgt-box" style="border-color:#e8a000">
+                <div class="psb-tgt-val" style="color:#c07800">5.0</div>
+                <div class="psb-tgt-unit" style="color:#c07800">&micro;g/mL</div>
+              </div>
+              <div class="psb-debit">12.4mL/h</div>
+            </div>
+          </div>
+          <div class="psb-progbar"><div class="psb-pbar" style="width:82%;background:#e8a000"></div></div>
+        </div>
+        <!-- Canal 2 : Rémifentanil — bande violette -->
+        <div class="psb-chan">
+          <div class="psb-chan-top">
+            <div class="psb-colorband" style="background:#6a109a">
+              <span class="psb-colorband-text">REMI</span>
+            </div>
+            <div class="psb-chaninfo">
+              <div class="psb-drugname" style="color:#3a0060">REMIFENTANIL</div>
+              <div class="psb-drugconc">50 &micro;g/mL &middot; Minto TCI</div>
+              <div class="psb-cecp">
+                <span class="psb-ce-val" style="color:#6a109a">2.50</span>
+                <span class="psb-ce-lbl">ng/mL Ce</span>
+              </div>
+              <div class="psb-cp-row">Cp 2.50 ng/mL &mdash; 5.8 mL/h</div>
+            </div>
+            <div class="psb-chanright">
+              <div class="psb-tgt-box" style="border-color:#6a109a">
+                <div class="psb-tgt-val" style="color:#6a109a">2.5</div>
+                <div class="psb-tgt-unit" style="color:#6a109a">ng/mL</div>
+              </div>
+              <div class="psb-debit">5.8mL/h</div>
+            </div>
+          </div>
+          <div class="psb-progbar"><div class="psb-pbar" style="width:64%;background:#6a109a"></div></div>
+        </div>
+        <!-- Canal 3 : Noradrénaline — bande rouge -->
+        <div class="psb-chan">
+          <div class="psb-chan-top">
+            <div class="psb-colorband" style="background:#b00020">
+              <span class="psb-colorband-text">NOR</span>
+            </div>
+            <div class="psb-chaninfo">
+              <div class="psb-drugname" style="color:#6a0010">NORADR&Eacute;NALINE</div>
+              <div class="psb-drugconc">0.2 mg/mL &middot; continu</div>
+              <div class="psb-cecp">
+                <span class="psb-ce-val" style="color:#b00020">4.8</span>
+                <span class="psb-ce-lbl">mL/h</span>
+              </div>
+              <div class="psb-cp-row">0.10 &micro;g/kg/min</div>
+            </div>
+            <div class="psb-chanright">
+              <div class="psb-tgt-box" style="border-color:#b00020">
+                <div class="psb-tgt-val" style="color:#b00020;font-size:11px">0.10</div>
+                <div class="psb-tgt-unit" style="color:#b00020">&micro;g/kg/min</div>
+              </div>
+              <div class="psb-debit">4.8mL/h</div>
+            </div>
+          </div>
+          <div class="psb-progbar"><div class="psb-pbar" style="width:38%;background:#b00020"></div></div>
+        </div>
+      </div>
+      <!-- Boutons du bas -->
+      <div class="psb-btnbar">
+        <div class="psb-btn red">STOP</div>
+        <div class="psb-btn blue">MODIFIER</div>
+        <div class="psb-btn">BOLUSSE</div>
+        <div class="psb-btn">HISTORIQ.</div>
+      </div>
+    </div>
+
+    <!-- ========================
+         FRESENIUS AGILIA SP
+         Fond anthracite, couleurs canal
+         ======================== -->
+    <div class="block ps-fresenius" id="ps-fresenius-panel" style="display:none">
+      <div class="psf-statusbar">
+        <span class="psf-sb-dot" style="background:#22a830"></span>
+        <span class="psf-sb-txt">AGILIA ORCHESTRA / OK</span>
+      </div>
+      <div class="psf-logobnd">
+        <span class="psf-logo">Fresenius</span>
+        <span class="psf-model">Agilia SP TCI</span>
+        <span class="psf-mode-tag">TCI</span>
+      </div>
+      <div class="psf-channels">
+        <!-- Propofol -->
+        <div class="psf-chan">
+          <div class="psf-colorband" style="background:#d08800">
+            <span class="psf-colorband-text">PROP</span>
+          </div>
+          <div class="psf-chaninfo">
+            <div class="psf-drugname" style="color:#f0a800">PROPOFOL</div>
+            <div class="psf-conc">10 mg/mL &middot; Schnider TCI</div>
+            <div class="psf-cerow">
+              <span class="psf-ce-val" style="color:#f0a800">4.99</span>
+              <span class="psf-ce-lbl">&micro;g/mL Ce</span>
+            </div>
+            <div class="psf-cp-row">Cp 5.00 &mdash; 12.4 mL/h</div>
+          </div>
+          <div class="psf-chanright">
+            <div class="psf-tgt-box" style="border-color:#d08800">
+              <div class="psf-tgt-val" style="color:#f0a800">5.0</div>
+              <div class="psf-tgt-unit" style="color:#f0a800">&micro;g/mL</div>
+            </div>
+            <div class="psf-debit">12.4mL/h</div>
+          </div>
+        </div>
+        <!-- Rémifentanil -->
+        <div class="psf-chan">
+          <div class="psf-colorband" style="background:#7820c0">
+            <span class="psf-colorband-text">REMI</span>
+          </div>
+          <div class="psf-chaninfo">
+            <div class="psf-drugname" style="color:#c080f0">REMIFENTANIL</div>
+            <div class="psf-conc">50 &micro;g/mL &middot; Minto TCI</div>
+            <div class="psf-cerow">
+              <span class="psf-ce-val" style="color:#c080f0">2.50</span>
+              <span class="psf-ce-lbl">ng/mL Ce</span>
+            </div>
+            <div class="psf-cp-row">Cp 2.50 &mdash; 5.8 mL/h</div>
+          </div>
+          <div class="psf-chanright">
+            <div class="psf-tgt-box" style="border-color:#7820c0">
+              <div class="psf-tgt-val" style="color:#c080f0">2.5</div>
+              <div class="psf-tgt-unit" style="color:#c080f0">ng/mL</div>
+            </div>
+            <div class="psf-debit">5.8mL/h</div>
+          </div>
+        </div>
+        <!-- Noradrénaline -->
+        <div class="psf-chan">
+          <div class="psf-colorband" style="background:#c00030">
+            <span class="psf-colorband-text">NOR</span>
+          </div>
+          <div class="psf-chaninfo">
+            <div class="psf-drugname" style="color:#f04060">NORADR&Eacute;NALINE</div>
+            <div class="psf-conc">0.2 mg/mL &middot; continu</div>
+            <div class="psf-cerow">
+              <span class="psf-ce-val" style="color:#f04060">4.8</span>
+              <span class="psf-ce-lbl">mL/h</span>
+            </div>
+            <div class="psf-cp-row">0.10 &micro;g/kg/min</div>
+          </div>
+          <div class="psf-chanright">
+            <div class="psf-tgt-box" style="border-color:#c00030">
+              <div class="psf-tgt-val" style="color:#f04060;font-size:11px">0.10</div>
+              <div class="psf-tgt-unit" style="color:#f04060">&micro;g/kg/min</div>
+            </div>
+            <div class="psf-debit">4.8mL/h</div>
+          </div>
+        </div>
+      </div>
+      <div class="psf-btnbar">
+        <div class="psf-btn act">ON</div>
+        <div class="psf-btn">PAUSE</div>
+        <div class="psf-btn">MODIFIER</div>
+        <div class="psf-btn">BOLUS</div>
+        <div class="psf-btn">HISTORIQ.</div>
+      </div>
+    </div>
+
+  </div><!-- /col-right -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+/* SWITCHER */
+var PANELS = {scope:['drager','ge','philips'],vent:['drager','ge'],bis:['medtronic','ge'],ps:['braun','fresenius']};
+function sw(type,brand) {
+  PANELS[type].forEach(function(b){
+    var el=document.getElementById(type+'-'+b+'-panel');if(el)el.style.display='none';
+    var btn=document.getElementById(type+'-'+b+'-btn');if(btn)btn.classList.remove('on');
+  });
+  var t=document.getElementById(type+'-'+brand+'-panel');if(t)t.style.display='flex';
+  var b2=document.getElementById(type+'-'+brand+'-btn');if(b2)b2.classList.add('on');
+  setTimeout(initAll,80);
+}
+
+/* Toggle thème ventilateur */
+var ventTheme = 'dark';
+function setVentTheme(theme) {
+  ventTheme = theme;
+  // Perseus
+  var pd = document.getElementById('vent-drager-panel');
+  if (pd) { pd.classList.remove('vpd-dark','vpd-light'); pd.classList.add('vpd-'+theme); }
+  // GE Aisys
+  var pg = document.getElementById('vent-ge-panel');
+  if (pg) { pg.classList.remove('vga-dark','vga-light'); pg.classList.add('vga-'+theme); }
+  // Boutons toggle
+  var bd=document.getElementById('vtog-dark'), bl=document.getElementById('vtog-light');
+  if(bd){bd.classList.remove('on','on-dark');if(theme==='dark')bd.classList.add('on-dark');}
+  if(bl){bl.classList.remove('on','on-dark');if(theme==='light')bl.classList.add('on');}
+  setTimeout(initAll,80);
+}
+
+/* FORMES D'ONDE */
+var WF = {};
+function genY(type,t,H) {
+  var y=H*0.5;
+  if(type==='ecg'){
+    var p=t%100;
+    if(p===55||p===56)y=H*0.62;else if(p===57)y=H*0.10;else if(p===58)y=H*0.70;
+    else if(p>=59&&p<63)y=H*0.50;else y=H*0.5+Math.sin(t*0.03)*0.006*H;
+  }else if(type==='spo2'){
+    var p2=(t%80)/80;y=H*0.5-Math.sin(p2*Math.PI*2)*H*(p2<0.5?0.28:0.06);
+  }else if(type==='art'){
+    var p3=t%90;y=p3<14?H*(0.44-Math.sin((p3/14)*Math.PI)*0.27):H*0.47+Math.sin(((p3-14)/76)*Math.PI)*H*0.06;
+  }else if(type==='co2'){
+    var p4=t%100;
+    if(p4<8)y=H*0.80;else if(p4<14)y=H*0.80-((p4-8)/6)*H*0.50;
+    else if(p4<58)y=H*0.30+((p4-14)/44)*H*0.10;else if(p4<65)y=H*0.40+((p4-58)/7)*H*0.40;
+    else y=H*0.80;
+  }else if(type==='paw'){
+    var p5=t%110;
+    if(p5<5)y=H*0.88+(p5/5)*H*0.06;
+    else if(p5<10)y=H*0.94-((p5-5)/5)*H*0.62;
+    else if(p5<14)y=H*0.32-((p5-10)/4)*H*0.05;
+    else if(p5<48)y=H*0.27+Math.sin(((p5-14)/34)*Math.PI*0.3)*H*0.02;
+    else if(p5<54)y=H*0.29+((p5-48)/6)*H*0.59;
+    else if(p5<90)y=H*0.88-((p5-54)/36)*H*0.03;
+    else y=H*0.85;
+  }else if(type==='flow'){
+    var p6=t%110;
+    if(p6<5)y=H*0.50;
+    else if(p6<10)y=H*0.50-((p6-5)/5)*H*0.38;
+    else if(p6<48)y=H*0.12+((p6-10)/38)*H*0.34;
+    else if(p6<54)y=H*0.46+((p6-48)/6)*H*0.40;
+    else if(p6<90)y=H*0.86-((p6-54)/36)*H*0.38;
+    else y=H*0.48+((p6-90)/20)*H*0.02;
+  }else if(type==='vol'){
+    var p7=t%110;
+    if(p7<5)y=H*0.90;else if(p7<48)y=H*0.90-((p7-5)/43)*H*0.78;
+    else if(p7<54)y=H*0.12+((p7-48)/6)*H*0.05;
+    else if(p7<90)y=H*0.17+((p7-54)/36)*H*0.73;
+    else y=H*0.90;
+  }else if(type==='eeg'){
+    y=H/2+(Math.random()-0.5)*H*0.55+Math.sin(t*0.18)*H*0.12;
+  }
+  return y;
+}
+
+function startScopeCanvas(id,tracks) {
+  if(WF[id])cancelAnimationFrame(WF[id].raf);
+  var c=document.getElementById(id);if(!c)return;
+  var ctx=c.getContext('2d'),S={t:0,bufs:null,raf:null};WF[id]=S;
+  function draw(){
+    if(!c.offsetParent){S.raf=requestAnimationFrame(draw);return;}
+    var par=c.parentElement,W=par.clientWidth||400,H=par.clientHeight||300;
+    if(c.width!==W||c.height!==H){c.width=W;c.height=H;S.bufs=null;}
+    if(!S.bufs)S.bufs=tracks.map(function(){var a=new Float32Array(W);a.fill(-1);return a;});
+    var n=tracks.length,lh=H/n,x=S.t%W,gap=8;
+    for(var g=0;g<gap;g++){var gx=(x+g)%W;for(var i=0;i<n;i++)S.bufs[i][gx]=-1;}
+    for(var i=0;i<n;i++){var laneH=lh*0.82,laneY0=i*lh+lh*0.5;S.bufs[i][x]=laneY0+(genY(tracks[i].type,S.t,laneH)-laneH*0.5);}
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='#0e0e0e';ctx.lineWidth=0.5;
+    for(var i=1;i<n;i++){ctx.beginPath();ctx.moveTo(0,i*lh);ctx.lineTo(W,i*lh);ctx.stroke();}
+    ctx.strokeStyle='#080808';ctx.lineWidth=0.5;
+    for(var g=1;g<6;g++){ctx.beginPath();ctx.moveTo(g*W/6,0);ctx.lineTo(g*W/6,H);ctx.stroke();}
+    for(var i=0;i<n;i++){
+      var buf=S.bufs[i];ctx.strokeStyle=tracks[i].color;ctx.lineWidth=1;ctx.lineJoin='round';
+      ctx.beginPath();var pen=false;
+      for(var px=0;px<W;px++){var rx=(x+gap+1+px)%W;if(buf[rx]<0){pen=false;continue;}if(!pen){ctx.moveTo(px,buf[rx]);pen=true;}else ctx.lineTo(px,buf[rx]);}
+      ctx.stroke();
+    }
+    S.t++;S.raf=requestAnimationFrame(draw);
+  }
+  S.raf=requestAnimationFrame(draw);
+}
+
+function startWave(id,type,clr) {
+  if(WF[id])cancelAnimationFrame(WF[id].raf);
+  var c=document.getElementById(id);if(!c)return;
+  var ctx=c.getContext('2d'),S={t:0,buf:null,raf:null};WF[id]=S;
+  function draw(){
+    if(!c.offsetParent){S.raf=requestAnimationFrame(draw);return;}
+    var par=c.parentElement,W=par.clientWidth||200,H=par.clientHeight||60;
+    if(c.width!==W||c.height!==H){c.width=W;c.height=H;S.buf=null;}
+    if(!S.buf||S.buf.length!==W){S.buf=new Float32Array(W);S.buf.fill(-1);}
+    var buf=S.buf,x=S.t%W,gap=6;
+    for(var g=0;g<gap;g++)buf[(x+g)%W]=-1;
+    buf[x]=genY(type,S.t,H);
+    ctx.clearRect(0,0,W,H);
+    if(type==='flow'){
+      ctx.strokeStyle='rgba(100,160,180,0.18)';ctx.lineWidth=0.5;
+      ctx.beginPath();ctx.moveTo(0,H*0.5);ctx.lineTo(W,H*0.5);ctx.stroke();
+    }
+    ctx.strokeStyle='rgba(100,100,120,0.12)';ctx.lineWidth=0.5;
+    for(var g=1;g<5;g++){ctx.beginPath();ctx.moveTo(g*W/5,0);ctx.lineTo(g*W/5,H);ctx.stroke();}
+    ctx.strokeStyle=clr;ctx.lineWidth=1;ctx.lineJoin='round';
+    ctx.beginPath();var pen=false;
+    for(var px=0;px<W;px++){var rx=(x+gap+1+px)%W;if(buf[rx]<0){pen=false;continue;}if(!pen){ctx.moveTo(px,buf[rx]);pen=true;}else ctx.lineTo(px,buf[rx]);}
+    ctx.stroke();
+    S.t++;S.raf=requestAnimationFrame(draw);
+  }
+  S.raf=requestAnimationFrame(draw);
+}
+
+function startSpec(id) {
+  if(WF[id])cancelAnimationFrame(WF[id].raf);
+  var c=document.getElementById(id);if(!c)return;
+  var ctx=c.getContext('2d'),S={t:0,raf:null};WF[id]=S;
+  function draw(){
+    if(!c.offsetParent){S.raf=requestAnimationFrame(draw);return;}
+    var par=c.parentElement,W=par.clientWidth||200,H=par.clientHeight||60;
+    if(c.width!==W||c.height!==H){c.width=W;c.height=H;ctx.fillStyle='#020508';ctx.fillRect(0,0,W,H);}
+    var img=ctx.getImageData(0,0,W-1,H);ctx.putImageData(img,1,0);
+    for(var f=0;f<H;f++){
+      var freq=(1-f/H)*30,p=0,t=S.t;
+      if(freq<=1)p=0.22+Math.random()*0.10;
+      else if(freq<=4)p=0.75+Math.sin(t*0.04)*0.12+Math.random()*0.08;
+      else if(freq<=8)p=0.48+Math.sin(t*0.07)*0.10+Math.random()*0.07;
+      else if(freq<=13)p=0.55+Math.sin(t*0.11)*0.10+Math.random()*0.06;
+      else if(freq<=20)p=0.14+Math.random()*0.08;
+      else p=Math.random()*0.04;
+      p=Math.max(0,Math.min(1,p));
+      var hue=(1-p)*240;
+      ctx.fillStyle='hsla('+hue+',88%,44%,'+(0.18+p*0.82)+')';
+      ctx.fillRect(W-1,f,1,1);
+    }
+    S.t++;S.raf=requestAnimationFrame(draw);
+  }
+  S.raf=requestAnimationFrame(draw);
+}
+
+function initAll() {
+  startScopeCanvas('c-scope-drager',[{type:'ecg',color:'#00d448'},{type:'spo2',color:'#1e88e5'},{type:'art',color:'#e53935'},{type:'co2',color:'#fdd835'}]);
+  startScopeCanvas('c-scope-ge',[{type:'ecg',color:'#43a047'},{type:'spo2',color:'#1976d2'},{type:'art',color:'#f44336'},{type:'co2',color:'#ff8f00'}]);
+  startScopeCanvas('c-scope-philips',[{type:'ecg',color:'#00e060'},{type:'spo2',color:'#29b6f6'},{type:'art',color:'#ef5350'},{type:'co2',color:'#fff176'}]);
+  // Couleurs adaptées au thème ventilateur
+  var isDark = ventTheme === 'dark';
+  startWave('c-paw',  'paw',  isDark ? '#d8c010' : '#7e6a00');
+  startWave('c-flow', 'flow', isDark ? '#20d060' : '#006030');
+  startWave('c-vol',  'vol',  isDark ? '#00b8e0' : '#004870');
+  startWave('c-paw-ge',  'paw',  isDark ? '#c0c8e0' : '#203060');
+  startWave('c-flow-ge', 'flow', isDark ? '#30c870' : '#006030');
+  startWave('c-vol-ge',  'vol',  isDark ? '#2090e0' : '#0040a0');
+  startSpec('c-spec');
+  startWave('c-eeg',    'eeg', '#b040c0');
+  startWave('c-eeg-ge', 'eeg', '#26a69a');
+}
+
+function tick(){
+  var n=new Date(),s=n.toLocaleTimeString('fr-FR');
+  var el=document.getElementById('clock');if(el)el.textContent=s;
+  var el2=document.getElementById('ia-time');if(el2)el2.textContent=s;
+  var hm=n.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  var el3=document.getElementById('scg-clk');if(el3)el3.textContent=hm;
+  var el4=document.getElementById('scp-clk');if(el4)el4.textContent=hm;
+}
+setInterval(tick,1000);tick();
+
+var cs=6443;
+function tickC(){
+  cs++;
+  var h=String(Math.floor(cs/3600)).padStart(2,'0');
+  var m=String(Math.floor((cs%3600)/60)).padStart(2,'0');
+  var s=String(cs%60).padStart(2,'0');
+  var e=document.getElementById('chrono');if(e)e.textContent=h+':'+m+':'+s;
+  var e2=document.getElementById('vga-chrono');if(e2)e2.textContent=h+':'+m+':'+s;
+}
+setInterval(tickC,1000);
+setTimeout(initAll,350);
+</script>
+</body>
+</html>

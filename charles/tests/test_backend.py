@@ -73,6 +73,119 @@ class FakeRedis:
         return 1
 
 
+def _build_learning_fixture(root: Path) -> dict[str, Path]:
+    exports_root = root / "datasets" / "exports"
+    dataset_dir = exports_root / "vitaldb_waveforms_v1"
+    run_dir = dataset_dir / "runs" / "vitaldb_waveforms_v1_chat_meditron_lora_allvariants"
+    evaluation_dir = run_dir / "artifacts" / "evaluation"
+    adapter_dir = run_dir / "artifacts" / "adapter"
+    model_cards_dir = root / "model_cards"
+    mlflow_run_dir = root / "mlruns" / "0" / "run-001"
+
+    adapter_dir.mkdir(parents=True, exist_ok=True)
+    evaluation_dir.mkdir(parents=True, exist_ok=True)
+    model_cards_dir.mkdir(parents=True, exist_ok=True)
+    mlflow_run_dir.mkdir(parents=True, exist_ok=True)
+
+    (exports_root / "vitaldb_waveforms_v1.dvc").write_text(
+        "\n".join(
+            [
+                "outs:",
+                "- md5: abc123.dir",
+                "  size: 4096",
+                "  nfiles: 12",
+                "  hash: md5",
+                "  path: vitaldb_waveforms_v1",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    (dataset_dir / "dataset_summary.json").write_text(
+        json.dumps({"cases_scanned": 80, "cases_with_segments": 37, "segments_written": 111}),
+        encoding="utf-8",
+    )
+    (dataset_dir / "finetune_export_summary.json").write_text(
+        json.dumps({"samples_exported": 333, "export_mode": "allvariants"}),
+        encoding="utf-8",
+    )
+    (run_dir / "run_config.json").write_text(
+        json.dumps(
+            {
+                "run_id": "vitaldb_waveforms_v1_chat_meditron_lora_allvariants",
+                "created_at": "2026-03-30T17:44:27.658152+00:00",
+                "model": {
+                    "base_model_path": str(root / "local_models" / "meditron-7b-transformers"),
+                    "ollama_target_tag": "meditron:7b",
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    (run_dir / "run_summary.json").write_text(
+        json.dumps(
+            {
+                "train_profile": {
+                    "rows": 270,
+                    "input_variant_counts": {"full_wave": 90, "no_wave": 90, "partial_wave": 90},
+                },
+                "eval_profile": {"rows": 63},
+            }
+        ),
+        encoding="utf-8",
+    )
+    (run_dir / "artifacts" / "training_summary.json").write_text(
+        json.dumps(
+            {
+                "trained_at": "2026-03-30T18:29:51.953353+00:00",
+                "train_metrics": {
+                    "train_runtime": 2637.0747,
+                    "train_loss": 0.4750555438153884,
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    (evaluation_dir / "comparison_summary.json").write_text(
+        json.dumps(
+            {
+                "evaluated_at": "2026-03-30T21:16:52.144248+00:00",
+                "samples_evaluated": 12,
+                "adapter": {
+                    "overall_score": 0.9774316678,
+                    "json_parse_ok": 1.0,
+                    "schema_valid": 1.0,
+                    "call_mar_accuracy": 1.0,
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    (model_cards_dir / "vitaldb_waveforms_v1_chat_meditron_lora_allvariants.md").write_text(
+        "\n".join(
+            [
+                "# Model Card: vitaldb_waveforms_v1_chat_meditron_lora_allvariants",
+                "",
+                "## Safety and review",
+                "",
+                "- Status: `validated`",
+                "- Human review status: validated offline",
+                "- Approved for runtime: no",
+                "- Clinical caution: research only",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    (root / "MODEL_REGISTRY.md").write_text("# registry\n", encoding="utf-8")
+    (root / "mlruns" / "0" / "meta.yaml").write_text("artifact_location: file:///tmp\n", encoding="utf-8")
+    (mlflow_run_dir / "meta.yaml").write_text("status: 3\n", encoding="utf-8")
+
+    return {
+        "root": root,
+        "dataset_dir": dataset_dir,
+        "run_dir": run_dir,
+    }
+
+
 # ═══════════════════════════════════════════════════════════════
 # Tests Models
 # ═══════════════════════════════════════════════════════════════
@@ -853,3 +966,284 @@ class TestReplay:
         # Si des fichiers existent, on les trouve
         if Path(cases_dir).exists():
             assert isinstance(cases, list)
+
+
+class TestLearningDashboardBackend:
+    def _client_no_lifespan(self):
+        try:
+            from app.main import app
+        except ModuleNotFoundError as e:
+            pytest.skip(f"DÃ©pendance backend manquante pour test app: {e}")
+
+        @asynccontextmanager
+        async def _noop_lifespan(_app):
+            yield
+
+        app.router.lifespan_context = _noop_lifespan
+        return TestClient(app)
+
+    def test_learning_dashboard_payload_reads_learning_workspace(self, tmp_path):
+        try:
+            from app.learning_dashboard import build_learning_dashboard_payload
+        except ModuleNotFoundError as e:
+            pytest.skip(f"DÃ©pendance backend manquante pour test learning dashboard: {e}")
+
+        fixture = _build_learning_fixture(tmp_path / "learning")
+        payload = build_learning_dashboard_payload(fixture["root"])
+
+        assert payload["available"] is True
+        assert payload["registry"]["adapter_count"] == 1
+        assert payload["registry"]["status_counts"]["validated"] == 1
+        assert payload["dvc"]["snapshot_count"] == 1
+        assert payload["tracking"]["exists"] is True
+        assert payload["tracking"]["run_count"] == 1
+        assert payload["adapters"][0]["run_id"] == "vitaldb_waveforms_v1_chat_meditron_lora_allvariants"
+        assert payload["adapters"][0]["overall_score"] == pytest.approx(0.9774316678)
+        assert payload["adapters"][0]["dataset_snapshot_path"] == "learning/datasets/exports/vitaldb_waveforms_v1.dvc"
+
+    def test_learning_dashboard_endpoint_requires_admin_and_returns_payload(self, monkeypatch):
+        try:
+            from app.auth import authenticate
+            import app.main as main_module
+        except ModuleNotFoundError as e:
+            pytest.skip(f"DÃ©pendance backend manquante pour test endpoint learning: {e}")
+
+        fake_payload = {
+            "available": True,
+            "learning_root": "/data/learning",
+            "generated_at": "2026-04-01T10:00:00+00:00",
+            "registry": {
+                "exists": True,
+                "path": "learning/MODEL_REGISTRY.md",
+                "adapter_count": 1,
+                "status_counts": {"draft": 0, "reviewed": 0, "validated": 1, "runtime-ready": 0},
+                "runtime_ready_count": 0,
+            },
+            "dvc": {"snapshot_count": 1, "snapshots": []},
+            "tracking": {
+                "store_path": "learning/mlruns",
+                "exists": True,
+                "experiment_count": 1,
+                "run_count": 1,
+                "latest_update_at": None,
+            },
+            "adapters": [],
+            "notes": [],
+        }
+        monkeypatch.setattr(main_module, "build_learning_dashboard_payload", lambda: fake_payload)
+
+        admin_token = authenticate("admin", "admin2026")["access_token"]
+        iade_token = authenticate("iade1", "charles2026")["access_token"]
+
+        with self._client_no_lifespan() as client:
+            forbidden = client.get("/admin/learning/status", headers={"Authorization": f"Bearer {iade_token}"})
+            assert forbidden.status_code == 403
+
+            response = client.get("/admin/learning/status", headers={"Authorization": f"Bearer {admin_token}"})
+            assert response.status_code == 200
+            assert response.json()["registry"]["adapter_count"] == 1
+
+
+class TestAlertingDashboardBackend:
+    def _client_no_lifespan(self):
+        try:
+            from app.main import app
+        except ModuleNotFoundError as e:
+            pytest.skip(f"Dependance backend manquante pour test app: {e}")
+
+        @asynccontextmanager
+        async def _noop_lifespan(_app):
+            yield
+
+        app.router.lifespan_context = _noop_lifespan
+        return TestClient(app)
+
+    def test_alert_engine_runtime_config_roundtrip(self, tmp_path):
+        try:
+            from app.alert_engine import AlertEngine
+            from app.kb_loader import KnowledgeBase
+        except ModuleNotFoundError as e:
+            pytest.skip(f"Dependance backend manquante pour test alerting engine: {e}")
+
+        kb = KnowledgeBase(Path(__file__).parent.parent / "kb")
+        kb.load()
+        runtime_path = tmp_path / "alert_rules.json"
+        engine = AlertEngine(kb=kb, runtime_path=runtime_path)
+
+        payload = engine.export_config()
+        assert payload["summary"]["kb_complication_count"] >= 18
+        assert "geriatrique" in payload["population_overrides"]
+        assert "hta" in payload["terrain_overrides"]
+
+        payload["hysteresis_seconds"] = 17
+        payload["thresholds"]["spo2"]["warning_low"] = 91
+        payload["complication_rules"][0]["conditions"][0]["value"] = 88
+        saved = engine.save_runtime_config(payload)
+        assert runtime_path.exists()
+        assert saved["hysteresis_seconds"] == 17
+        assert saved["thresholds"]["spo2"]["warning_low"] == 91
+
+        msg = MonitoringMessage(
+            room_id="salle_1",
+            timestamp=datetime.now(timezone.utc),
+            vitals=VitalsFrame(hr=105, spo2=91, pas=118, pad=70, pam=86, etco2=35, fr=14, temp=36.2),
+            patient_info={"age": 72, "imc": 33, "antecedents": "HTA et BPCO"},
+        )
+        engine.evaluate(msg)
+        exported = engine.export_config()
+        assert exported["room_profiles"]["salle_1"]["populations"] == ["geriatrique", "obese"]
+        assert "bpco" in exported["room_profiles"]["salle_1"]["terrains"]
+
+        reset = engine.reset_runtime_config()
+        assert reset["hysteresis_seconds"] == 30
+
+    def test_alerting_endpoint_requires_admin_and_saves_config(self, tmp_path):
+        try:
+            import app.main as main_module
+            from app.auth import authenticate
+            from app.alert_engine import AlertEngine
+            from app.kb_loader import KnowledgeBase
+        except ModuleNotFoundError as e:
+            pytest.skip(f"Dependance backend manquante pour test endpoint alerting: {e}")
+
+        kb = KnowledgeBase(Path(__file__).parent.parent / "kb")
+        kb.load()
+        main_module.state.alert_engine = AlertEngine(kb=kb, runtime_path=tmp_path / "alert_rules.json")
+
+        admin_token = authenticate("admin", "admin2026")["access_token"]
+        iade_token = authenticate("iade1", "charles2026")["access_token"]
+
+        with self._client_no_lifespan() as client:
+            forbidden = client.get("/admin/alerting/config", headers={"Authorization": f"Bearer {iade_token}"})
+            assert forbidden.status_code == 403
+
+            response = client.get("/admin/alerting/config", headers={"Authorization": f"Bearer {admin_token}"})
+            assert response.status_code == 200
+            payload = response.json()
+            payload["hysteresis_seconds"] = 11
+            payload["thresholds"]["pam"]["warning_low"] = 61
+
+            saved = client.put("/admin/alerting/config", json=payload, headers={"Authorization": f"Bearer {admin_token}"})
+            assert saved.status_code == 200
+            assert saved.json()["hysteresis_seconds"] == 11
+            assert saved.json()["thresholds"]["pam"]["warning_low"] == 61
+
+            reset = client.post("/admin/alerting/config/reset", headers={"Authorization": f"Bearer {admin_token}"})
+            assert reset.status_code == 200
+            assert reset.json()["hysteresis_seconds"] == 30
+
+
+class TestAdminUsersBackend:
+    def _client_no_lifespan(self):
+        try:
+            from app.main import app
+        except ModuleNotFoundError as e:
+            pytest.skip(f"Dependance backend manquante pour test app: {e}")
+
+        @asynccontextmanager
+        async def _noop_lifespan(_app):
+            yield
+
+        app.router.lifespan_context = _noop_lifespan
+        return TestClient(app)
+
+    def test_admin_users_endpoints_require_admin_and_create_user(self, monkeypatch):
+        try:
+            from app.auth import authenticate
+            import app.user_admin_routes as users_module
+        except ModuleNotFoundError as e:
+            pytest.skip(f"Dependance backend manquante pour test users admin: {e}")
+
+        users = [
+            {
+                "username": "admin",
+                "role": "admin",
+                "name": "Admin",
+                "is_active": True,
+                "must_change_password": False,
+                "source": "builtin",
+                "created_by": "bootstrap",
+                "created_at": "2026-04-01T10:00:00+00:00",
+                "updated_at": "2026-04-01T10:00:00+00:00",
+            }
+        ]
+
+        async def fake_list_users():
+            return users
+
+        async def fake_create_user_for_admin(**kwargs):
+            created = {
+                "username": kwargs["username"],
+                "role": kwargs["role"],
+                "name": kwargs["name"],
+                "is_active": True,
+                "must_change_password": kwargs["must_change_password"],
+                "source": "admin",
+                "created_by": kwargs["created_by"],
+                "created_at": "2026-04-23T18:00:00+00:00",
+                "updated_at": "2026-04-23T18:00:00+00:00",
+            }
+            users.append(created)
+            return created
+
+        monkeypatch.setattr(users_module.auth, "list_users_for_admin", fake_list_users)
+        monkeypatch.setattr(users_module.auth, "create_user_for_admin", fake_create_user_for_admin)
+
+        admin_token = authenticate("admin", "admin2026")["access_token"]
+        iade_token = authenticate("iade1", "charles2026")["access_token"]
+
+        with self._client_no_lifespan() as client:
+            forbidden = client.get("/admin/users", headers={"Authorization": f"Bearer {iade_token}"})
+            assert forbidden.status_code == 403
+
+            listing = client.get("/admin/users", headers={"Authorization": f"Bearer {admin_token}"})
+            assert listing.status_code == 200
+            assert listing.json()[0]["username"] == "admin"
+
+            created = client.post(
+                "/admin/users",
+                json={
+                    "username": "iade3",
+                    "name": "IADE 3",
+                    "role": "iade",
+                    "password": "charles2027",
+                    "must_change_password": True,
+                },
+                headers={"Authorization": f"Bearer {admin_token}"},
+            )
+            assert created.status_code == 201
+            assert created.json()["username"] == "iade3"
+            assert created.json()["source"] == "admin"
+
+    def test_admin_users_create_returns_conflict_on_duplicate(self, monkeypatch):
+        try:
+            from app.auth import authenticate
+            import app.user_admin_routes as users_module
+        except ModuleNotFoundError as e:
+            pytest.skip(f"Dependance backend manquante pour test users admin: {e}")
+
+        async def fake_list_users():
+            return []
+
+        async def fake_create_user_for_admin(**kwargs):
+            raise ValueError("Cet utilisateur existe deja")
+
+        monkeypatch.setattr(users_module.auth, "list_users_for_admin", fake_list_users)
+        monkeypatch.setattr(users_module.auth, "create_user_for_admin", fake_create_user_for_admin)
+
+        admin_token = authenticate("admin", "admin2026")["access_token"]
+
+        with self._client_no_lifespan() as client:
+            response = client.post(
+                "/admin/users",
+                json={
+                    "username": "admin",
+                    "name": "Admin bis",
+                    "role": "admin",
+                    "password": "admin2027",
+                    "must_change_password": False,
+                },
+                headers={"Authorization": f"Bearer {admin_token}"},
+            )
+            assert response.status_code == 409
+            assert response.json()["detail"] == "Cet utilisateur existe deja"

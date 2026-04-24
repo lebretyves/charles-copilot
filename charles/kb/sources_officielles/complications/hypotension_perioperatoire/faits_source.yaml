@@ -1,0 +1,110 @@
+topic_id: hypotension_perioperatoire
+faits:
+- fact_id: map_absolute_low_65
+  statut: direct_source
+  force_source: normative
+  fact_type: threshold
+  statement: Une PAM inferieure a 65 mmHg constitue un seuil absolu important a surveiller en perioperatoire adulte.
+  metric: PAM
+  rule_type: absolute_low
+  value_text: 65 mmHg
+  source_ref: sfar_optimisation_hemodynamique_perioperatoire_adulte_dont_obstetrique
+  source_title: SFAR Optimisation hemodynamique perioperatoire - Adulte dont obstetrique
+  source_url: https://sfar.org/optimisation-hemodynamique-perioperatoire-adulte-dont-obstetrique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: map_relative_drop_20pct
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: threshold
+  statement: Une baisse relative d'environ 20 % par rapport a la pression arterielle de reference est un signal cliniquement important.
+  metric: PAM_or_PA
+  rule_type: relative_drop
+  value_text: '>= 20 % vs baseline'
+  source_ref: sofia_controle_perioperatoire_de_la_pression_arterielle
+  source_title: SOFIA Controle perioperatoire de la pression arterielle
+  source_url: https://sofia.medicalistes.fr/spip/IMG/pdf/controle_perioperatoire_de_la_pression_arterielle_pierre-gregoire_guinot_dijon_.pdf
+  source_organisme: SOFIA
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: duration_under_threshold_contributes_to_risk
+  statut: direct_source
+  force_source: normative
+  fact_type: burden
+  statement: La duree d'exposition a l'hypotension participe au risque et ne doit pas etre remplacee par un seul point bas.
+  metric: MAP_burden
+  rule_type: duration_or_burden
+  source_ref: sfar_optimisation_hemodynamique_perioperatoire_adulte_dont_obstetrique
+  source_title: SFAR Optimisation hemodynamique perioperatoire - Adulte dont obstetrique
+  source_url: https://sfar.org/optimisation-hemodynamique-perioperatoire-adulte-dont-obstetrique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: individualized_targets_for_high_risk_profiles
+  statut: direct_source
+  force_source: normative
+  fact_type: terrain_modulator
+  statement: Les objectifs tensionnels doivent etre individualises selon le terrain cardiovasculaire et le contexte perioperatoire.
+  metric: patient_profile
+  rule_type: individualized_target
+  source_ref: sfar_optimisation_hemodynamique_perioperatoire_adulte_dont_obstetrique
+  source_title: SFAR Optimisation hemodynamique perioperatoire - Adulte dont obstetrique
+  source_url: https://sfar.org/optimisation-hemodynamique-perioperatoire-adulte-dont-obstetrique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: systolic_under_90_is_major_risk_marker
+  statut: direct_source
+  force_source: pratique
+  fact_type: threshold
+  statement: "Les grandes etudes observationnelles resum\xE9es par F2AR retiennent qu'une PAS inferieure a 90 mmHg est associee a des evenements indesirables majeurs."
+  metric: PAS
+  rule_type: absolute_low
+  value_text: < 90 mmHg
+  source_ref: f2ar_objectif_pression_per_operatoire_2025
+  source_title: Quel objectif de pression arterielle en per-operatoire ?
+  source_url: https://www.f2ar.org/contenu/quel-objectif-de-pression-arterielle-en-per-operatoire/
+  source_organisme: F2AR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: webpage
+- fact_id: cumulative_duration_and_area_under_curve_are_relevant
+  statut: direct_source
+  force_source: pratique
+  fact_type: burden
+  statement: Les definitions les plus pertinentes de l'hypotension prennent en compte la duree cumulee sous le seuil et l'aire sous la courbe, pas seulement une valeur minimale isolee.
+  metric: hypotension_burden
+  rule_type: cumulative_duration_and_auc
+  source_ref: f2ar_objectif_pression_per_operatoire_2025
+  source_title: Quel objectif de pression arterielle en per-operatoire ?
+  source_url: https://www.f2ar.org/contenu/quel-objectif-de-pression-arterielle-en-per-operatoire/
+  source_organisme: F2AR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: webpage
+- fact_id: target_map_should_be_based_on_recent_sfar_recommendations
+  statut: direct_source
+  force_source: pratique
+  fact_type: target
+  statement: F2AR formule explicitement l'objectif de determiner une PAM cible peroperatoire a partir des donnees recentes et des recommandations SFAR 2024.
+  metric: PAM
+  rule_type: target_individualization
+  source_ref: f2ar_objectif_pression_per_operatoire_2025
+  source_title: Quel objectif de pression arterielle en per-operatoire ?
+  source_url: https://www.f2ar.org/contenu/quel-objectif-de-pression-arterielle-en-per-operatoire/
+  source_organisme: F2AR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: webpage
+- fact_id: hpi_reduces_hypotension_duration_in_single_center_french_thesis
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: monitoring_support
+  statement: Dans un memoire universitaire francais monocentrique, le monitorage HPI est associe a une reduction de la duree totale d'hypotension par patient et du nombre d'episodes hypotensifs.
+  metric: predictive_monitoring
+  rule_type: burden_reduction_support
+  value_text: duree mediane 2,2 min vs 5,5 min ; 1 episode vs 2
+  source_ref: dumas_hpi_hypotension_2023
+  source_title: Interet et efficacite du monitorage predictif de l'hypotension arterielle par la technologie HPI
+  source_url: https://dumas.ccsd.cnrs.fr/dumas-04132838
+  source_organisme: DUMAS / Faculte de medecine AMU
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: webpage

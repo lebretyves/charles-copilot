@@ -1,0 +1,68 @@
+topic_id: anticoagulants_antiagregants
+faits:
+- fact_id: invasive_procedure_bleeding_risk_is_three_level
+  statut: direct_source
+  force_source: normative
+  fact_type: risk_stratification
+  statement: 'Le risque hemorragique de la procedure invasive est divise en trois niveaux: eleve, intermediaire et faible selon qu''elle est realisable sous aucun agent antiplaquettaire, sous aspirine seule ou sous bitherapie antiplaquettaire.'
+  source_ref: sfar_gestion_agents_antiplaquettaires_procedure_invasive_programmee
+  source_title: SFAR Gestion des agents antiplaquettaires pour une procedure invasive programmee
+  source_url: https://sfar.org/gestion-agents-antiplaquettaires-procedure-invasive-programmee/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: elective_aap_interruption_days_are_three_five_five_seven
+  statut: direct_source
+  force_source: normative
+  fact_type: threshold_time
+  statement: Quand une interruption des agents antiplaquettaires est indiquee avant un geste programme, la derniere prise proposee est a J-3 pour l'aspirine, J-5 pour le clopidogrel et le ticagrelor, et J-7 pour le prasugrel.
+  source_ref: sfar_gestion_agents_antiplaquettaires_procedure_invasive_programmee
+  source_title: SFAR Gestion des agents antiplaquettaires pour une procedure invasive programmee
+  source_url: https://sfar.org/gestion-agents-antiplaquettaires-procedure-invasive-programmee/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: urgent_non_neurosurgical_procedure_can_proceed_under_aspirin_or_clopidogrel_monotherapy
+  statut: direct_source
+  force_source: normative
+  fact_type: urgent_management
+  statement: Pour une procedure invasive non programmee non neurochirurgicale, il est propose de debuter le geste sans neutralisation chez les patients traites par aspirine ou clopidogrel en monotherapie.
+  source_ref: sfar_gestion_agents_antiplaquettaires_procedure_invasive_non_programmee_ou_hemorragie
+  source_title: SFAR Gestion des agents antiplaquettaires en cas de procedure invasive non programmee ou d'hemorragie
+  source_url: https://sfar.org/gestion-des-agents-antiplaquettaires-en-cas-de-procedure-invasive-non-programmee-ou-dhemorragie/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: neuraxial_anesthesia_is_not_recommended_under_p2y12
+  statut: direct_source
+  force_source: normative
+  fact_type: anesthesia_constraint
+  statement: Chez les patients traites par inhibiteur de P2Y12 en mono ou bitherapie, il est propose de ne pas realiser de gestes d'anesthesie locoregionale rachidienne.
+  source_ref: sfar_gestion_agents_antiplaquettaires_procedure_invasive_non_programmee_ou_hemorragie
+  source_title: SFAR Gestion des agents antiplaquettaires en cas de procedure invasive non programmee ou d'hemorragie
+  source_url: https://sfar.org/gestion-des-agents-antiplaquettaires-en-cas-de-procedure-invasive-non-programmee-ou-dhemorragie/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: dabigatran_very_high_risk_cutoff_is_thirty_ng_per_ml_for_delayed_procedure
+  statut: direct_source
+  force_source: normative
+  fact_type: threshold_absolute
+  statement: Pour un geste a risque hemorragique tres eleve sous dabigatran, si le geste peut etre retarde de plus de 8 heures, le document SFAR propose d'attendre une concentration inferieure ou egale a 30 ng/mL.
+  source_ref: sfar_gestion_perioperatoire_patients_sous_aod_en_urgence
+  source_title: SFAR Gestion perioperatoire des patients sous AOD en urgence
+  source_url: https://sfar.org/download/gestion-perioperatoire-des-patients-sous-aod-en-urgence/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: dabigatran_high_risk_cutoff_is_fifty_ng_per_ml_or_recent_dose
+  statut: direct_source
+  force_source: normative
+  fact_type: threshold_combination
+  statement: Pour un geste a risque hemorragique eleve, le document SFAR retient un risque notable si la concentration de dabigatran est superieure a 50 ng/mL ou inconnue avec une derniere prise inferieure ou egale a 24 heures ou une clairance de la creatinine inferieure ou egale a 50 mL/min.
+  source_ref: sfar_gestion_perioperatoire_patients_sous_aod_en_urgence
+  source_title: SFAR Gestion perioperatoire des patients sous AOD en urgence
+  source_url: https://sfar.org/download/gestion-perioperatoire-des-patients-sous-aod-en-urgence/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage

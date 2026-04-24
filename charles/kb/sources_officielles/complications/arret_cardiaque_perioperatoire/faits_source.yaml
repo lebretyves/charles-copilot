@@ -1,0 +1,238 @@
+topic_id: arret_cardiaque_perioperatoire
+faits:
+- fact_id: respiratory_arrest_over_10s
+  statut: direct_source
+  force_source: pratique
+  fact_type: threshold
+  statement: La fiche MAPAR place l'inconscience associee a un arret respiratoire de plus de 10 secondes ou un gasp comme critere d'entree.
+  metric: respiratory_arrest
+  rule_type: duration
+  value_text: '> 10 s'
+  source_ref: mapar_arret_cardiaque_adulte
+  source_title: MAPAR Fiche urgence arret cardiaque chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_01_arret_cardiaque_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: compressions_100_120_per_min
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: Le massage cardiaque externe est recommande a 100-120/min.
+  metric: chest_compressions
+  rule_type: rate
+  value_text: 100-120/min
+  source_ref: mapar_arret_cardiaque_adulte
+  source_title: MAPAR Fiche urgence arret cardiaque chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_01_arret_cardiaque_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: adrenaline_1mg_every_3_5_min
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: L'adrenaline est administree a 1 mg IV toutes les 3 a 5 minutes.
+  metric: adrenaline
+  rule_type: treatment_dose
+  value_text: 1 mg IV/3-5 min
+  source_ref: mapar_arret_cardiaque_adulte
+  source_title: MAPAR Fiche urgence arret cardiaque chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_01_arret_cardiaque_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: biphasic_shock_200j
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: En cas de TV/FV, le choc biphasique est de 200 J.
+  metric: defibrillation
+  rule_type: energy
+  value_text: 200 J
+  source_ref: mapar_arret_cardiaque_adulte
+  source_title: MAPAR Fiche urgence arret cardiaque chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_01_arret_cardiaque_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: respiratory_rate_10_per_min_post_iot
+  statut: direct_source
+  force_source: pratique
+  fact_type: ventilation_target
+  statement: Apres intubation, la FR cible est de 10/min.
+  metric: FR
+  rule_type: target
+  value_text: 10/min
+  source_ref: mapar_arret_cardiaque_adulte
+  source_title: MAPAR Fiche urgence arret cardiaque chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_01_arret_cardiaque_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: amiodarone_300mg_after_3_shocks
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: L'amiodarone est indiquee a 300 mg IV apres 3 tentatives de choc.
+  metric: amiodarone
+  rule_type: treatment_dose
+  value_text: 300 mg apres 3 chocs
+  source_ref: mapar_arret_cardiaque_adulte
+  source_title: MAPAR Fiche urgence arret cardiaque chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_01_arret_cardiaque_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: etco2_and_diastolic_pressure_assess_cpr_efficiency
+  statut: direct_source
+  force_source: pratique
+  fact_type: monitoring_priority
+  statement: L'aide cognitive GHRMSA utilise l'EtCO2 et la pression arterielle diastolique comme reperes d'efficacite de la RCP.
+  metric: EtCO2_and_diastolic_pressure
+  rule_type: cpr_efficiency_monitoring
+  value_text: EtCO2 20 mmHg ; PAD > 20-40 mmHg
+  source_ref: ghrmsa_aide_cognitive_asystolie_bloc
+  source_title: ACR sur asystolie au bloc operatoire
+  source_url: https://ghrmsa-anesthesie.fr/IMG/pdf/sfar_2016-aide_cognitive_asystolie.pdf
+  source_organisme: GHRMSA Anesthesie
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: perioperative_asystole_requires_structured_cause_search
+  statut: direct_source
+  force_source: pratique
+  fact_type: etiologic_search
+  statement: L'asystolie au bloc impose une recherche structuree des causes respiratoires, cardiovasculaires, metaboliques, anesthesiques et neurologiques.
+  metric: etiologic_context
+  rule_type: structured_search
+  source_ref: ghrmsa_aide_cognitive_asystolie_bloc
+  source_title: ACR sur asystolie au bloc operatoire
+  source_url: https://ghrmsa-anesthesie.fr/IMG/pdf/sfar_2016-aide_cognitive_asystolie.pdf
+  source_organisme: GHRMSA Anesthesie
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: perioperative_asystole_differential_includes_pe_anaphylaxis_hemorrhage_and_hypothermia
+  statut: direct_source
+  force_source: pratique
+  fact_type: etiologic_search
+  statement: Parmi les causes a rechercher, GHRMSA cite explicitement l'embolie pulmonaire, le choc hypovolemique ou hemorragique, le choc anaphylactique, l'hypothermie et les troubles metaboliques.
+  metric: perioperative_differential
+  rule_type: high_priority_differential
+  source_ref: ghrmsa_aide_cognitive_asystolie_bloc
+  source_title: ACR sur asystolie au bloc operatoire
+  source_url: https://ghrmsa-anesthesie.fr/IMG/pdf/sfar_2016-aide_cognitive_asystolie.pdf
+  source_organisme: GHRMSA Anesthesie
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: cfrc_2025_prioritizes_high_quality_compressions_and_early_defibrillation
+  statut: direct_source
+  force_source: normatif
+  fact_type: algorithm_priority
+  statement: Les recommandations ERC 2025 diffusees par le CFRC priorisent des compressions de haute qualite avec interruptions minimales et une defibrillation precoce lorsque le rythme est choquable.
+  metric: compressions_and_defibrillation
+  rule_type: primary_priority
+  value_text: compressions efficaces + defibrillation precoce
+  source_ref: cfrc_recommandations_2025
+  source_title: Recommandations ERC 2025 - RCP et prise en charge de l'arret cardiaque
+  source_url: https://www.cfrc.fr/recommandations
+  source_organisme: CFRC
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: cfrc_2025_stepwise_airway_management_avoids_long_compression_pauses
+  statut: direct_source
+  force_source: normatif
+  fact_type: airway_strategy
+  statement: Le CFRC resume les recommandations ERC 2025 en privilegiant une gestion des voies aeriennes par paliers, sans prolonger les pauses de compressions pour la mise en place d'une voie aerienne avancee.
+  metric: airway_management
+  rule_type: stepwise_strategy
+  value_text: voies aeriennes avancees selon competence et sans pauses prolongees
+  source_ref: cfrc_recommandations_2025
+  source_title: Recommandations ERC 2025 - RCP et prise en charge de l'arret cardiaque
+  source_url: https://www.cfrc.fr/recommandations
+  source_organisme: CFRC
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: cfrc_adult_acr_recognition_emphasizes_agonal_breathing
+  statut: direct_source
+  force_source: normatif
+  fact_type: recognition_rule
+  statement: La synthese adulte CFRC 2025 insiste sur la reconnaissance precoce de l'arret cardiaque, y compris devant des respirations agonales, un gasp ou un panting.
+  metric: respiratory_pattern
+  rule_type: early_recognition
+  value_text: respirations agonales / gasp / panting compatibles avec ACR
+  source_ref: cfrc_reanimation_adulte_2025
+  source_title: Reanimation adulte et ACR - Protocoles et recommandations
+  source_url: https://www.cfrc.fr/reanimation-adulte
+  source_organisme: CFRC
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: jouffroy_periop_arrest_requires_team_preorganization
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: organizational_context
+  statement: La revue Jouffroy souligne que l'arret cardiaque au bloc est rare et impose une organisation d'equipe prealablement reflechie.
+  metric: team_organization
+  rule_type: crisis_preparedness
+  value_text: organisation d'equipe pre-reflechie
+  source_ref: sfar_jouffroy_arret_cardiaque_bloc_2017
+  source_title: Arret cardiaque au bloc operatoire en chirurgie programmee
+  source_url: https://sfar.org/wp-content/uploads/2017/10/Jouffroy-Arret-cardiaque-au-bloc-operatoire-en-chirurgie-programmee.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: jouffroy_specific_anesthesia_causes_include_anaphylaxis_lasts_and_mh
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: etiologic_search
+  statement: La revue Jouffroy demande d'evoquer systematiquement parmi les causes peranesthesiques l'anaphylaxie, l'intoxication aux anesthesiques locaux et l'hyperthermie maligne.
+  metric: perioperative_specific_causes
+  rule_type: high_priority_specific_causes
+  value_text: anaphylaxie + intox anesthesiques locaux + hyperthermie maligne
+  source_ref: sfar_jouffroy_arret_cardiaque_bloc_2017
+  source_title: Arret cardiaque au bloc operatoire en chirurgie programmee
+  source_url: https://sfar.org/wp-content/uploads/2017/10/Jouffroy-Arret-cardiaque-au-bloc-operatoire-en-chirurgie-programmee.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: jouffroy_diagnosis_relies_on_regulatory_monitoring
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: monitoring_priority
+  statement: Le diagnostic d'arret cardiaque au bloc operatoire repose sur le monitorage reglementaire.
+  metric: perioperative_monitoring
+  rule_type: diagnosis_basis
+  value_text: monitorage reglementaire
+  source_ref: sfar_jouffroy_arret_cardiaque_bloc_2017
+  source_title: Arret cardiaque au bloc operatoire en chirurgie programmee
+  source_url: https://sfar.org/wp-content/uploads/2017/10/Jouffroy-Arret-cardiaque-au-bloc-operatoire-en-chirurgie-programmee.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: jouffroy_adrenaline_1mg_every_two_cpr_cycles
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: treatment_threshold
+  statement: La revue Jouffroy rappelle que l'adrenaline reste la molecule de reference, a 1 mg tous les 2 cycles de RCP, soit environ toutes les 4 minutes.
+  metric: adrenaline
+  rule_type: treatment_dose
+  value_text: 1 mg tous les 2 cycles de RCP
+  source_ref: sfar_jouffroy_arret_cardiaque_bloc_2017
+  source_title: Arret cardiaque au bloc operatoire en chirurgie programmee
+  source_url: https://sfar.org/wp-content/uploads/2017/10/Jouffroy-Arret-cardiaque-au-bloc-operatoire-en-chirurgie-programmee.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: jouffroy_amiodarone_300mg_then_150mg_for_refractory_vf_vt
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: treatment_threshold
+  statement: En cas de FV ou TV refractaire a 3 chocs, Jouffroy rappelle l'administration d'un bolus de 300 mg d'amiodarone, eventuellement suivi de 150 mg supplementaires.
+  metric: amiodarone
+  rule_type: treatment_dose
+  value_text: 300 mg apres 3 chocs, puis 150 mg supplementaires si besoin
+  source_ref: sfar_jouffroy_arret_cardiaque_bloc_2017
+  source_title: Arret cardiaque au bloc operatoire en chirurgie programmee
+  source_url: https://sfar.org/wp-content/uploads/2017/10/Jouffroy-Arret-cardiaque-au-bloc-operatoire-en-chirurgie-programmee.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf

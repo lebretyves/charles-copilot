@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import type { TrendHistoryPoint, VitalsFrame } from "../../types";
 
-type RangeKey = "5m" | "15m" | "30m" | "all";
+type RangeKey = "15m" | "30m" | "1h" | "2h" | "all";
 type AxisKind = "left" | "right";
 
 interface TrendHistoryCardProps {
@@ -27,9 +27,10 @@ interface MetricConfig {
 }
 
 const RANGE_OPTIONS: Array<{ key: RangeKey; label: string; seconds: number }> = [
-  { key: "5m", label: "5 min", seconds: 5 * 60 },
   { key: "15m", label: "15 min", seconds: 15 * 60 },
   { key: "30m", label: "30 min", seconds: 30 * 60 },
+  { key: "1h", label: "1 heure", seconds: 60 * 60 },
+  { key: "2h", label: "2 heures", seconds: 2 * 60 * 60 },
   { key: "all", label: "Tout", seconds: 0 },
 ];
 
@@ -42,9 +43,10 @@ const METRICS: MetricConfig[] = [
   { key: "temp", label: "T°C", color: "#7c3aed", axis: "right", decimals: 1 },
 ];
 
-const GRAPH_WIDTH = 100;
-const GRAPH_TOP = 6;
-const GRAPH_BOTTOM = 48;
+const GRAPH_WIDTH = 800;
+const GRAPH_HEIGHT = 200;
+const GRAPH_TOP = 20;
+const GRAPH_BOTTOM = GRAPH_HEIGHT - 30;
 const LEFT_AXIS_MIN = 0;
 const LEFT_AXIS_MAX = 160;
 const RIGHT_AXIS_MIN = 34;
@@ -150,15 +152,17 @@ export function TrendHistoryCard({ history, currentVitals, elapsedFmt, phaseLabe
       </div>
 
       <div className="trend-card-chart-shell">
-        <div className="trend-card-axis trend-card-axis--left">
-          <span>160</span>
-          <span>120</span>
-          <span>80</span>
-          <span>40</span>
-          <span>0</span>
-        </div>
+        <div className="trend-card-chart-container">
+          <div className="trend-card-axis trend-card-axis--left">
+            <span>160</span>
+            <span>120</span>
+            <span>80</span>
+            <span>40</span>
+            <span>0</span>
+          </div>
 
-        <svg viewBox={`0 0 ${GRAPH_WIDTH} 54`} preserveAspectRatio="none" className="trend-card-chart">
+          <div className="trend-card-chart-scroll">
+            <svg viewBox={`0 0 ${GRAPH_WIDTH} ${GRAPH_HEIGHT}`} preserveAspectRatio="xMidYMid meet" className="trend-card-chart">
           <rect x="0" y="0" width={GRAPH_WIDTH} height="54" fill="#ffffff" />
           {[GRAPH_TOP, 16.5, 27, 37.5, GRAPH_BOTTOM].map((y) => (
             <line key={y} x1="0" y1={y} x2={GRAPH_WIDTH} y2={y} className="trend-card-grid" />
@@ -191,6 +195,7 @@ export function TrendHistoryCard({ history, currentVitals, elapsedFmt, phaseLabe
             </text>
           ))}
         </svg>
+        </div>
 
         <div className="trend-card-axis trend-card-axis--right">
           <span>41</span>
@@ -200,6 +205,7 @@ export function TrendHistoryCard({ history, currentVitals, elapsedFmt, phaseLabe
           <span>34</span>
         </div>
       </div>
+    </div>
 
       {showSlider ? (
         <div className="trend-card-slider">

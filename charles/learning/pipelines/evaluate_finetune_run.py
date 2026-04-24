@@ -14,7 +14,9 @@ from learning.finetune import (
     score_prediction,
 )
 from learning.finetune.config import FineTuneRunConfig
+from learning.finetune.mlflow_tracking import flatten_numeric_metrics, start_tracking_session
 from learning.llm.schemas import ExplanationTarget
+from learning.model_registry import sync_model_registry
 
 
 def _load_config(path: str | Path) -> FineTuneRunConfig:
@@ -214,6 +216,31 @@ def evaluate_finetune_run(
     comparison_path.parent.mkdir(parents=True, exist_ok=True)
     comparison_path.write_text(json.dumps(comparison, indent=2, ensure_ascii=False), encoding="utf-8")
     comparison["comparison_path"] = str(comparison_path)
+    registry_sync = sync_model_registry()
+    comparison["registry_sync"] = registry_sync
+    comparison_path.write_text(json.dumps(comparison, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    tracker = start_tracking_session(
+        config,
+        stage="evaluate",
+        extra_tags={
+            "charles.task": "evaluation",
+            "charles.eval_variants": variants,
+        },
+    )
+    tracker.log_params(
+        {
+            "evaluation.eval_source_path": str(eval_path),
+            "evaluation.max_samples": max_samples,
+            "evaluation.max_new_tokens": max_new_tokens,
+            "evaluation.variants": variants,
+        }
+    )
+    tracker.log_metrics(flatten_numeric_metrics(comparison))
+    tracker.log_json(comparison, "evaluation/comparison_summary.json")
+    tracker.log_json(registry_sync, "evaluation/model_registry_sync.json")
+    tracker.log_artifacts(comparison_path.parent, artifact_path="evaluation")
+    tracker.finish(status="FINISHED")
     return comparison
 
 

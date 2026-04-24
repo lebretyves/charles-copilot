@@ -1,0 +1,25 @@
+topic_id: hyperthermie_maligne
+inferences:
+  - inference_id: hm_triggered_monitoring
+    status: design_proposal
+    kind: weighted_factor
+    proposal: "Utiliser le contexte declencheur halogene/succinylcholine comme multiplicateur fort du score HM."
+    derived_from:
+      - triggers_halogenes_sux
+  - inference_id: hm_early_capno_priority
+    status: design_proposal
+    kind: alert_priority
+    proposal: "Donner la priorite aux modifications precoces de capnographie et de FC avant l'hyperthermie franche."
+    derived_from:
+      - triggers_halogenes_sux
+      - cooling_stop_under_38
+  - inference_id: hm_treatment_reference
+    status: design_proposal
+    kind: escalation_rule
+    proposal: "Conserver les doses de dantrolene, bicarbonate et refroidissement comme references documentaires de gravite et de prise en charge."
+    derived_from:
+      - initial_dantrolene_2_5_mg_per_kg
+      - repeat_dantrolene_1_mg_per_kg
+      - max_dantrolene_10_mg_per_kg
+      - bicarbonate_1_meq_per_kg
+      - saline_cooling_15_ml_per_kg_x3

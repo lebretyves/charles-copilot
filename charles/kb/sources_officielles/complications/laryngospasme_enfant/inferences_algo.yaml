@@ -1,0 +1,16 @@
+topic_id: laryngospasme_enfant
+inferences:
+  - inference_id: laryngospasm_fast_escalation
+    status: design_proposal
+    kind: escalation_rule
+    proposal: "Declencher une escalation rapide si suspicion de laryngospasme avec absence d'air efficace, FiO2 100 %, puis propofol ou succinylcholine selon acces."
+    derived_from:
+      - cpap_fio2_100_first_line
+      - succinylcholine_im_4mg_per_kg
+      - propofol_1_2mg_per_kg
+  - inference_id: recent_uri_child_modulator
+    status: design_proposal
+    kind: terrain_modulator
+    proposal: "Considerer l'IVAS recente comme modulateur de risque respiratoire majorant la vigilance sur le laryngospasme."
+    derived_from:
+      - recent_uri_increases_risk

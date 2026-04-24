@@ -1,0 +1,6 @@
+topic_id: monitorage_profondeur_eeg_bis
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille_partiel
+open_points:
+  - "Le dossier documente bien le BIS/EEG traite comme signal transversal, mais il faudra ajouter une source adulte ou une recommandation plus normative si l'on veut en faire une base officielle universelle."

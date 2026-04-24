@@ -1,0 +1,595 @@
+version: "2026-04-01"
+scope: "Ressources francophones utiles au-dela du noyau normatif deja capture dans les dossiers"
+
+resources:
+  - resource_id: anrea_presentation
+    organisme: "Anesthesie & Reanimation"
+    class_id: professionnelle_pratique_fr
+    title: "Presentation de la revue officielle SFAR"
+    url: "https://www.em-consulte.com/revue/ANREA/presentation/anesthesie-reanimation"
+    source_kind: "journal_presentation"
+    notes: "Revue officielle de FMC/DPC SFAR en francais"
+
+  - resource_id: anrea_thematic_issues
+    organisme: "Anesthesie & Reanimation"
+    class_id: professionnelle_pratique_fr
+    title: "Numeros thematiques"
+    url: "https://www.em-consulte.com/revue/ANREA/numeros-thematiques/anesthesie-reanimation"
+    source_kind: "journal_thematic_index"
+    notes: "Points d'entree utiles: Hemodynamique, Ventilation, Pediatrie"
+
+  - resource_id: anrea_hemodynamique_issue
+    organisme: "Anesthesie & Reanimation"
+    class_id: professionnelle_pratique_fr
+    title: "Numero thematique Hemodynamique"
+    url: "https://www.em-consulte.com/revue/ANREA/8/2/table-des-matieres/"
+    source_kind: "thematic_issue"
+    notes: "Utile pour hypotension, choc, monitorage hemodynamique"
+
+  - resource_id: anrea_bp_target_2022
+    organisme: "Anesthesie & Reanimation / EM-Consulte"
+    class_id: professionnelle_pratique_fr
+    title: "Quelle cible de pression arterielle en anesthesie-reanimation ?"
+    url: "https://www.em-consulte.com/article/1509787/quelle-cible-de-pression-arterielle-en-anesthesie-"
+    source_kind: "article_page"
+    notes: "Utile pour baseline tensionnelle, cibles individualisees et interpretation de l'hypotension"
+
+  - resource_id: f2ar_objectif_pression_per_operatoire_2025
+    organisme: "F2AR"
+    class_id: professionnelle_pratique_fr
+    title: "Quel objectif de pression arterielle en per-operatoire ?"
+    url: "https://www.f2ar.org/contenu/quel-objectif-de-pression-arterielle-en-per-operatoire/"
+    source_kind: "good_practice_page"
+    notes: "Bonne synthese francaise sur MAP < 65, PAS < 90, duree cumulee et individualisation des cibles"
+
+  - resource_id: sfar_controle_perioperatoire_pression_arterielle
+    organisme: "SFAR"
+    class_id: normative_recommandations
+    title: "Controle perioperatoire de la pression arterielle"
+    url: "https://sfar.org/download/contro%CC%82le-perioperatoire-de-la-pression-arterielle/"
+    source_kind: "official_download"
+    notes: "Support SFAR specifique sur la pression arterielle perioperatoire et l'individualisation des objectifs"
+
+  - resource_id: ghrmsa_hypotension_peroperatoire_lefauconnier
+    organisme: "GHRMSA Anesthesie"
+    class_id: pedagogique_enseignement_medecins
+    title: "Hypotension peroperatoire - support de cours"
+    url: "https://ghrmsa-anesthesie.fr/IMG/pdf/lefauconnier-hypotension_peroperatoire.pdf"
+    source_kind: "course_pdf"
+    notes: "Support de cours francais utile pour le raisonnement hemodynamique et les definitions cliniques de l'hypotension"
+
+  - resource_id: bordeaux_hypotension_coriat_2017
+    organisme: "CHU Bordeaux / Reanesth"
+    class_id: pedagogique_enseignement_medecins
+    title: "Hypotension arterielle peroperatoire - P. Coriat"
+    url: "https://reanesth.chu-bordeaux.fr/Congr%C3%A8s-et-s%C3%A9minaires/Cours-europ%C3%A9ens-du-grand-Sud-Ouest/2017/Textes/Hypotension-art%C3%A9rielle-perop%C3%A9ratoire-P-Coriat.pdf/"
+    source_kind: "course_pdf"
+    notes: "Cours hospitalo-universitaire utile pour la profondeur historique et la logique clinique de l'hypotension peroperatoire"
+
+  - resource_id: dumas_hpi_hypotension_2023
+    organisme: "DUMAS / Faculte de medecine AMU"
+    class_id: pedagogique_enseignement_medecins
+    title: "Interet et efficacite du monitorage predictif de l'hypotension arterielle par la technologie HPI"
+    url: "https://dumas.ccsd.cnrs.fr/dumas-04132838"
+    source_kind: "university_thesis"
+    notes: "Memoire universitaire francais utile pour le burden hypotensif et le monitorage predictif HPI"
+
+  - resource_id: anrea_ventilation_issue
+    organisme: "Anesthesie & Reanimation"
+    class_id: professionnelle_pratique_fr
+    title: "Numero thematique Ventilation"
+    url: "https://www.em-consulte.com/revue/ANREA/numeros-thematiques/anesthesie-reanimation"
+    source_kind: "thematic_issue"
+    notes: "Utile pour capnographie, bronchospasme, embolie, ventilation perop"
+
+  - resource_id: anrea_pediatrie_issue
+    organisme: "Anesthesie & Reanimation"
+    class_id: professionnelle_pratique_fr
+    title: "Numero thematique Pediatrie"
+    url: "https://www.em-consulte.com/revue/ANREA/numeros-thematiques/anesthesie-reanimation"
+    source_kind: "thematic_issue"
+    notes: "Utile pour laryngospasme, voies aeriennes pediatriques, ventilation pediatrique"
+
+  - resource_id: anrea_ventilation_pediatrique_article
+    organisme: "Anesthesie & Reanimation"
+    class_id: professionnelle_pratique_fr
+    title: "Ventilation peroperatoire en pediatrie"
+    url: "https://www.em-consulte.com/article/1223524/ventilation-peroperatoire-en-pediatrie"
+    source_kind: "article_page"
+    notes: "Donne des reperes utiles sur Vt 6-8 mL/kg et PEEP >= 5 cmH2O"
+
+  - resource_id: anrea_voies_aeriennes_pediatrie_article
+    organisme: "Anesthesie & Reanimation"
+    class_id: professionnelle_pratique_fr
+    title: "Les voies aeriennes en pediatrie"
+    url: "https://www.em-consulte.com/article/1223523/les-voies-aeriennes-en-pediatrie"
+    source_kind: "article_page"
+    notes: "Utile pour facteurs de risque respiratoire pediatrique et voies aeriennes"
+
+  - resource_id: emc_controle_voies_aeriennes_2022
+    organisme: "EMC Anesthesie-Reanimation / EM-Consulte"
+    class_id: pedagogique_enseignement_medecins
+    title: "Controle des voies aeriennes en anesthesie"
+    url: "https://www.em-consulte.com/article/1533809/controle-des-voies-aeriennes-en-anesthesie"
+    source_kind: "treatise_article"
+    notes: "Chapitre de traite utile pour l'intubation, l'extubation et la gestion globale des voies aeriennes"
+
+  - resource_id: emc_extubation_risk_2008
+    organisme: "EM-Consulte"
+    class_id: pedagogique_enseignement_medecins
+    title: "Extubation difficile : criteres d'extubation et gestion des situations a risque"
+    url: "https://www.em-consulte.com/article/69194/extubation-difficile-criteres-d-extubation-et-gest"
+    source_kind: "article_page"
+    notes: "Utile pour les facteurs de risque d'extubation, le cuff-leak test et les conduites a tenir"
+
+  - resource_id: sfar_rfe_intubation_difficile_v2_pdf
+    organisme: "SFAR"
+    class_id: normative_recommandations
+    title: "RFE 2017 Intubation difficile et extubation en anesthesie chez l'adulte - version PDF"
+    url: "https://sfar.org/wp-content/uploads/2017/09/2_RFE-intubation-difficile-SFAR_V2.pdf"
+    source_kind: "rfe_pdf"
+    notes: "Reference principale gradee sur l'intubation difficile et l'extubation a risque"
+
+  - resource_id: sfar_anrea_intubation_extubation_adulte_pdf
+    organisme: "SFAR / Anesthesie & Reanimation"
+    class_id: normative_recommandations
+    title: "RFE ANREA Intubation difficile et extubation en anesthesie chez l'adulte"
+    url: "https://sfar.org/wp-content/uploads/2017/09/RFE-ANREA-Intubation-difficile-et-extubation-en-anesthesie-chez-l-adulte.pdf"
+    source_kind: "rfe_pdf"
+    notes: "Version avec algorithmes des recommandations adultes"
+
+  - resource_id: sfar_srlf_intubation_extubation_reanimation_2017
+    organisme: "SFAR / SRLF / Anesthesie & Reanimation"
+    class_id: normative_recommandations
+    title: "Intubation et extubation du patient en reanimation"
+    url: "https://sfar.org/wp-content/uploads/2016/09/Intubation-et-extubation-du-patient-en-reanimation-ANREA.pdf"
+    source_kind: "rfe_pdf"
+    notes: "Renfort utile pour l'extubation a risque, l'echec d'extubation et la documentation"
+
+  - resource_id: sfar_texte_court_intubation_difficile
+    organisme: "SFAR"
+    class_id: normative_recommandations
+    title: "Texte court SFAR - Intubation difficile"
+    url: "https://sfar.org/wp-content/uploads/2015/09/2a_SFAR_texte_court_Intubation-difficile.pdf"
+    source_kind: "short_guideline_pdf"
+    notes: "Resume court des recommandations sur definition, limitation des tentatives et organisation"
+
+  - resource_id: apsf_fr_asa_difficult_airway_2022
+    organisme: "APSF France"
+    class_id: professionnelle_pratique_fr
+    title: "Mise au point APSF - recommandations 2022 sur les pratiques de gestion des voies aeriennes difficiles"
+    url: "https://www.apsf.org/fr/article/mise-au-point-de-lanesthesia-patient-safety-foundation-recommandations-2022-sur-les-pratiques-de-gestion-des-voies-aeriennes-difficiles-de-lamerican-society-of-anesthesiologis/"
+    source_kind: "translated_review_page"
+    notes: "Version francaise utile pour documentation, limitation des tentatives et strategie globale des voies aeriennes difficiles"
+
+  - resource_id: anrea_anaphylaxie_prise_en_charge_article
+    organisme: "Anesthesie & Reanimation / EM-Consulte"
+    class_id: professionnelle_pratique_fr
+    title: "Prise en charge de l'anaphylaxie perioperatoire"
+    url: "https://www.em-consulte.com/article/1184232/prise-en-charge-de-l-anaphylaxie-perioperatoire"
+    source_kind: "article_page"
+    notes: "Resume libre avec signes initiaux utiles dont baisse EtCO2, desaturation et difficulte ventilatoire"
+
+  - resource_id: anrea_anaphylaxie_physiopathologie_2025
+    organisme: "Anesthesie & Reanimation / EM-Consulte"
+    class_id: professionnelle_pratique_fr
+    title: "Physiopathologie des reactions anaphylactiques perioperatoires"
+    url: "https://www.em-consulte.com/article/1783730/physiopathologie-des-reactions-anaphylactiques-per"
+    source_kind: "article_page"
+    notes: "Permet de densifier la branche physiopathologique de l'anaphylaxie"
+
+  - resource_id: anrea_anaphylaxie_epidemiologie_2025
+    organisme: "Anesthesie & Reanimation / EM-Consulte"
+    class_id: professionnelle_pratique_fr
+    title: "Epidemiologie des reactions d'hypersensibilite perioperatoire immediate"
+    url: "https://www.em-consulte.com/article/1783995/epidemiologie-des-reactions-d-hypersensibilite-per"
+    source_kind: "article_page"
+    notes: "Utile pour incidence, agents en cause et mise a jour de la surveillance francaise"
+
+  - resource_id: emc_anaphylaxie_generale_2019
+    organisme: "EMC Anesthesie-Reanimation / EM-Consulte"
+    class_id: pedagogique_enseignement_medecins
+    title: "Complications anaphylactiques de l'anesthesie generale"
+    url: "https://www.em-consulte.com/article/1312452/complications-anaphylactiques-de-l-anesthesie-gene"
+    source_kind: "treatise_article"
+    notes: "Traite utile pour agents suspects, chronologie apres administration et place des mediateurs comme la tryptase"
+
+  - resource_id: sfar_prevention_risque_allergique_peranesthesique
+    organisme: "SFAR"
+    class_id: normative_recommandations
+    title: "Prevention du risque allergique peranesthesique"
+    url: "https://sfar.org/prevention-du-risque-allergique-peranesthesique/"
+    source_kind: "official_web_guidance"
+    notes: "Utile pour la classification de gravite, la chronologie des expositions et les prelevements biologiques immediats"
+
+  - resource_id: sfar_ac_anaphylaxie_camr_2018
+    organisme: "SFAR / CAMR"
+    class_id: normative_recommandations
+    title: "Aide cognitive SFAR/CAMR - Anaphylaxie grade III/IV"
+    url: "https://sfar.org/wp-content/uploads/2019/09/AC-anaphylaxie-CAMR-octobre-2018.pdf"
+    source_kind: "cognitive_aid_pdf"
+    notes: "Fiche operationnelle francaise bloc utile pour les priorites immediates, les premiers prelevements et la surveillance post-episode"
+
+  - resource_id: sfar_gerap_2017_2018_survey
+    organisme: "SFAR / GERAP"
+    class_id: professionnelle_pratique_fr
+    title: "Epidemiology of perioperative anaphylaxis in France in 2017-2018: the 11th GERAP survey"
+    url: "https://sfar.org/epidemiology-of-perioperative-anaphylaxis-in-france-in-2017-2018-the-11th-gerap-survey/"
+    source_kind: "sfar_article_of_the_month"
+    notes: "Synthese francaise des principaux allergenes impliques en France, incluant curares, cefazoline, latex et colorants"
+
+  - resource_id: emconsulte_tryptase_anaphylaxie_2019
+    organisme: "EM-Consulte"
+    class_id: pedagogique_enseignement_medecins
+    title: "La mesure de la tryptase: possible critere complementaire pour le diagnostic de l'anaphylaxie peroperatoire"
+    url: "https://www.em-consulte.com/article/1286244/la-mesure-de-la-tryptase-possible-critere-compleme"
+    source_kind: "article_page"
+    notes: "Renfort francais utile pour la place de la tryptase dans le diagnostic perioperatoire"
+
+  - resource_id: anrea_cefazoline_curares_2025
+    organisme: "Anesthesie & Reanimation / EM-Consulte"
+    class_id: professionnelle_pratique_fr
+    title: "Anaphylaxie perioperatoire a la cefazoline et aux curares: comparaison du profil clinique et biologique"
+    url: "https://www.em-consulte.com/article/1731922/anaphylaxie-perioperatoire-a-la-cefazoline-et-aux-"
+    source_kind: "article_page"
+    notes: "Utile pour les delais differents cefazoline/curares et la cinetique biologique de la tryptase"
+
+  - resource_id: monanesthesie_home
+    organisme: "MonAnesthesie"
+    class_id: professionnelle_pratique_fr
+    title: "Mon Anesthesie - page d'accueil et veille"
+    url: "https://www.monanesthesie.com/"
+    source_kind: "professional_watch_site"
+    notes: "Point d'entree de veille clinique, non substitutif aux recommandations"
+
+  - resource_id: monanesthesie_newsletter_zero
+    organisme: "MonAnesthesie"
+    class_id: professionnelle_pratique_fr
+    title: "Newsletter n0"
+    url: "https://www.monanesthesie.com/_downloads/1b2bef7383da66b70238e9e8d8515c44"
+    source_kind: "newsletter"
+    notes: "Montre l'orientation voies aeriennes / guidelines / reporage bibliographique"
+
+  - resource_id: anrea_bis_update_2025
+    organisme: "Anesthesie & Reanimation / EM-Consulte"
+    class_id: professionnelle_pratique_fr
+    title: "Monitorage de la profondeur de l'anesthesie par l'Index Bispectral : le point en 2025"
+    url: "https://www.em-consulte.com/article/1780839/monitorage-de-la-profondeur-de-l-anesthesie-par-l-"
+    source_kind: "article_page"
+    notes: "Utile pour BIS/EEG, surdosage hypnotique, delire postoperatoire et prevention de la memorisation"
+
+  - resource_id: emc_surveillance_profondeur_2022
+    organisme: "EMC Anesthesie-Reanimation / EM-Consulte"
+    class_id: pedagogique_enseignement_medecins
+    title: "Surveillance de la profondeur d'anesthesie generale"
+    url: "https://www.em-consulte.com/article/29139/surveillance-de-la-profondeur-de-l-anesthesie-gene"
+    source_kind: "treatise_article"
+    notes: "Chapitre utile pour l'usage des indices EEG traites et la personnalisation de la profondeur anesthesique"
+
+  - resource_id: cfar_referentiel_metier
+    organisme: "CFAR"
+    class_id: pedagogique_enseignement_medecins
+    title: "Referentiel Metier / Competences en Anesthesie Reanimation"
+    url: "https://cfar.org/sante-au-travail-smart/referentiel-metier/referentiels-metiers/"
+    source_kind: "professional_reference"
+    notes: "Utile pour le cadrage competences/risques/anesthesie pediatrique"
+
+  - resource_id: cfar_referentiel_des
+    organisme: "CFAR"
+    class_id: pedagogique_enseignement_medecins
+    title: "Referentiel D.E.S. en anesthesie reanimation"
+    url: "https://cfar.org/internes-d-e-s/referentiel-d-e-s/"
+    source_kind: "teaching_reference"
+    notes: "Utile comme support d'enseignement et d'organisation clinique"
+
+  - resource_id: cfar_risque_allergique_formation
+    organisme: "CFAR"
+    class_id: pedagogique_enseignement_medecins
+    title: "Le theme de la formation : Risque Allergique en Anesthesie Reanimation"
+    url: "https://cfar.org/le-theme-de-la-formation-risque-allergique-en-anesthesie-reanimation/"
+    source_kind: "training_theme"
+    notes: "Utile pour contextualiser l'anaphylaxie comme risque et cas pedagogiques"
+
+  - resource_id: anrea_transfusion_massive_2020
+    organisme: "Anesthesie & Reanimation / EM-Consulte"
+    class_id: professionnelle_pratique_fr
+    title: "Transfusion massive 2.0"
+    url: "https://www.em-consulte.com/article/1396836/transfusion-massive-2-0"
+    source_kind: "article_page"
+    notes: "Utile pour les packs transfusionnels, la logique d'anticipation et les effets secondaires de la transfusion massive"
+
+  - resource_id: sfar_ac_choc_hemorragique_per_postop
+    organisme: "SFAR"
+    class_id: normative_recommandations
+    title: "Aide cognitive SFAR - Choc hemorragique per et/ou post-operatoire"
+    url: "https://sfar.org/download/choc-hemorragique-per-et-ou-post-operatoire/"
+    source_kind: "cognitive_aid_page"
+    notes: "Aide cognitive operationnelle francaise utile pour standardiser les priorites immediates de prise en charge au bloc"
+
+  - resource_id: emc_choc_hemorragique_2009
+    organisme: "EMC Anesthesie-Reanimation / EM-Consulte"
+    class_id: pedagogique_enseignement_medecins
+    title: "Choc hemorragique"
+    url: "https://www.em-consulte.com/article/655695/choc-hemorragique"
+    source_kind: "treatise_article"
+    notes: "Chapitre utile pour definition clinique, hypotension relative et hypoperfusion"
+
+  - resource_id: emc_transfusion_massive_2009
+    organisme: "EMC Anesthesie-Reanimation / EM-Consulte"
+    class_id: pedagogique_enseignement_medecins
+    title: "Transfusion massive"
+    url: "https://www.em-consulte.com/article/224544/transfusion-massive"
+    source_kind: "treatise_article"
+    notes: "Traite utile pour distinguer coagulopathie de dilution, choc et attrition tissulaire"
+
+  - resource_id: emc_embolie_pulmonaire_perioperatoire_2023
+    organisme: "EMC Anesthesie-Reanimation / EM-Consulte"
+    class_id: pedagogique_enseignement_medecins
+    title: "Embolie pulmonaire perioperatoire"
+    url: "https://www.em-consulte.com/article/1632172/embolie-pulmonaire-perioperatoire"
+    source_kind: "treatise_article"
+    notes: "Utile pour contexte thromboembolique, score de Caprini, signes de defaillance ventriculaire droite et evaluation hemodynamique"
+
+  - resource_id: emc_thrombolyse_ep_2008
+    organisme: "EM-Consulte"
+    class_id: pedagogique_enseignement_medecins
+    title: "Thrombolyse dans l'embolie pulmonaire"
+    url: "https://www.em-consulte.com/article/136035/thrombolyse-dans-l-embolie-pulmonaire"
+    source_kind: "article_page"
+    notes: "Utile pour contextualiser les formes massives, le choc et la place de la thrombolyse"
+
+  - resource_id: urgences_ara_referentiel_ep_2022
+    organisme: "Urgences ARA / ReNAU"
+    class_id: professionnelle_pratique_fr
+    title: "Referentiel cardio 2022 - Embolie pulmonaire diagnostic et traitement"
+    url: "https://www.urgences-ara.fr/app/uploads/2023/02/Referentiel_Cardio_202201_Embolie-pulmonaire_REN.pdf"
+    source_kind: "regional_referential_pdf"
+    notes: "Utile pour definition d'instabilite hemodynamique, criteres de dysfonction VD, stratification sPESI et reperfusion"
+
+  - resource_id: sfar_lapostolle_embolie_pulmonaire_grave
+    organisme: "SFAR"
+    class_id: pedagogique_enseignement_medecins
+    title: "Embolie pulmonaire grave"
+    url: "https://sfar.org/wp-content/uploads/2014/04/10_Lapostolle.pdf"
+    source_kind: "teaching_pdf"
+    notes: "Support SFAR utile pour formes graves, pronostic, VD, troponine, thrombolyse et traitement symptomatique"
+
+  - resource_id: anrea_arret_cardiaque_bloc_2023
+    organisme: "Pratiques en Anesthesie-Reanimation / EM-Consulte"
+    class_id: professionnelle_pratique_fr
+    title: "Arret cardiaque au bloc operatoire : elements de prise en charge"
+    url: "https://www.em-consulte.com/article/1601080/arret-cardiaque-au-bloc-operatoire-elements-de-pri"
+    source_kind: "article_page"
+    notes: "Utile pour circonstances de survenue, causes frequentes et organisation de la reanimation au bloc"
+
+  - resource_id: prat_an_arret_cardiaque_bloc_2019
+    organisme: "Pratiques en Anesthesie-Reanimation / EM-Consulte"
+    class_id: professionnelle_pratique_fr
+    title: "Arret cardiaque au bloc operatoire"
+    url: "https://www.em-consulte.com/article/1332048/arret-cardiaque-au-bloc-operatoire"
+    source_kind: "article_page"
+    notes: "Utile pour relier la chronologie perop et l'etiologie de l'arret cardiaque"
+
+  - resource_id: anrea_laryngospasme_enfant_enrhume_2022
+    organisme: "Anesthesie & Reanimation / EM-Consulte"
+    class_id: professionnelle_pratique_fr
+    title: "Laryngospasme sous masque larynge chez un enfant enrhume"
+    url: "https://www.em-consulte.com/article/1537028/article/laryngospasme-sous-masque-larynge-chez-un-enfant-e"
+    source_kind: "article_page"
+    notes: "Utile pour le contexte IVAS, la phase per-extubation et le risque respiratoire pediatrique"
+
+  - resource_id: sfar_ac_laryngospasme_pediatrie
+    organisme: "SFAR / ADARPEF / CAMR"
+    class_id: normative_recommandations
+    title: "Aide cognitive - Laryngospasme en pediatrie"
+    url: "https://sfar.org/wp-content/uploads/2020/01/ac-laryngospasme-en-pediatrie.pdf"
+    source_kind: "official_cognitive_aid_pdf"
+    notes: "Fiche operationnelle bloc avec conduite immediate et escalade therapeutique"
+
+  - resource_id: sfar_rfe_gestion_vas_enfant
+    organisme: "SFAR / ADARPEF"
+    class_id: normative_recommandations
+    title: "RFE Gestion des voies aeriennes superieures de l'enfant"
+    url: "https://sfar.org/wp-content/uploads/2018/09/2_RFE-Gestion-des-VAS-de-lEnfant-postCA.pdf"
+    source_kind: "rfe_pdf"
+    notes: "Reference de fond gradee pour evaluation et prise en charge des VAS de l'enfant"
+
+  - resource_id: sfar_enfants_asthmatiques_preop_2017
+    organisme: "SFAR"
+    class_id: pedagogique_enseignement_medecins
+    title: "Variabilite de l'approche des anesthesistes dans la prise en charge pre operatoire des enfants asthmatiques"
+    url: "https://sfar.org/variability-in-anesthesiologists-approach-to-the-preoperative-management-of-asthmatic-children/"
+    source_kind: "article_du_mois"
+    notes: "Renfort utile pour le terrain asthmatique pediatrique, les facteurs de risque respiratoire et l'optimisation preoperatoire"
+
+  - resource_id: adarpef_rfe_gestion_vas_enfant
+    organisme: "ADARPEF"
+    class_id: normative_recommandations
+    title: "RFE Gestion des VAS de l'enfant - version ADARPEF"
+    url: "https://e-adarpef.fr/wp-content/uploads/2018/10/RFE-Gestion-des-VAS-de-l-enfant-Acceptation-CA-SFAR.pdf"
+    source_kind: "rfe_pdf"
+    notes: "Version miroir ADARPEF utile pour acces et verification des recommandations gradees"
+
+  - resource_id: sofia_laryngospasme_pediatrie_2009
+    organisme: "SOFIA"
+    class_id: pedagogique_enseignement_medecins
+    title: "Laryngospasme en pediatrie"
+    url: "https://sofia.medicalistes.fr/spip/IMG/pdf/laryngospasme_en_pediatrie.pdf"
+    source_kind: "teaching_pdf"
+    notes: "Revue SFAR 2009 utile pour epidemiologie, facteurs de risque et moments de survenue"
+
+  - resource_id: anrea_laryngospasme_mythe_ou_realite_2015
+    organisme: "Anesthesie & Reanimation / ScienceDirect"
+    class_id: professionnelle_pratique_fr
+    title: "Laryngospasme en anesthesie pediatrique - mythe ou realite ?"
+    url: "https://www.sciencedirect.com/science/article/pii/S1279796015001254"
+    source_kind: "article_page"
+    notes: "Revue specialisee utile pour l'algorithme pratique, la prevention et la discussion des facteurs de risque"
+
+  - resource_id: prat_an_enfant_enrhume_2019
+    organisme: "Pratiques en Anesthesie-Reanimation / EM-Consulte"
+    class_id: professionnelle_pratique_fr
+    title: "Anesthesie et enfant enrhume"
+    url: "https://www.em-consulte.com/article/1335478/anesthesie-et-enfant-enrhume"
+    source_kind: "article_page"
+    notes: "Utile pour IVAS recente, majoration du risque respiratoire et triage des situations a risque"
+
+  - resource_id: anrea_enfant_enrhume_2025
+    organisme: "Anesthesie & Reanimation / EM-Consulte"
+    class_id: professionnelle_pratique_fr
+    title: "Enfant enrhume avant une anesthesie : eternel probleme ?"
+    url: "https://www.em-consulte.com/article/1769968/enfant-enrhume-avant-une-anesthesie-eternel-proble"
+    source_kind: "article_page"
+    notes: "Utile pour la decision maintien/report et l'evaluation recente du surrisque respiratoire en contexte d'IVAS"
+
+  - resource_id: has_anesthesie_reanimation_quality
+    organisme: "HAS"
+    class_id: normative_recommandations
+    title: "HAS Anesthesie - Reanimation"
+    url: "https://www.has-sante.fr/jcms/c_438372/fr/anesthesie-reanimation"
+    source_kind: "quality_governance_index"
+    notes: "Plus utile pour EPP, RMM, qualite et securite des soins que pour des seuils temps reel"
+
+  - resource_id: sfar_aides_cognitives
+    organisme: "SFAR"
+    class_id: normative_recommandations
+    title: "Aides cognitives en anesthesie reanimation"
+    url: "https://sfar.org/espace-professionel-anesthesiste-reanimateur/outils-professionnels/boite-a-outils/aides-cognitives-en-anesthesie-reanimation/"
+    source_kind: "official_toolbox"
+    notes: "Tres utile pour operationaliser les algorithmes de crise"
+
+  - resource_id: sfar_monitorage_profondeur_article
+    organisme: "SFAR"
+    class_id: pedagogique_enseignement_medecins
+    title: "Le monitorage de la profondeur de l'anesthesie chez l'enfant"
+    url: "https://sfar.org/wp-content/uploads/2016/12/monitorage-de-la-profondeur-danesthesie-en-pediatrie-16-constant-1473331839.pdf"
+    source_kind: "teaching_article"
+    notes: "Support pedagogique utile pour BIS/EEG, sur- et sous-dosage"
+
+  - resource_id: ghrmsa_aide_cognitive_acr_adulte_enfant
+    organisme: "GHRMSA Anesthesie"
+    class_id: professionnelle_pratique_fr
+    title: "Aide cognitive : prise en charge de l'arret cardio-respiratoire"
+    url: "https://ghrmsa-anesthesie.fr/IMG/pdf/aide_cognitive_acr_em3.pdf"
+    source_kind: "cognitive_aid_pdf"
+    notes: "Utile pour capnographie, ventilation, recherche etio et ECMO en contexte d'ACR"
+
+  - resource_id: ghrmsa_aide_cognitive_asystolie_bloc
+    organisme: "GHRMSA Anesthesie"
+    class_id: professionnelle_pratique_fr
+    title: "ACR sur asystolie au bloc operatoire"
+    url: "https://ghrmsa-anesthesie.fr/IMG/pdf/sfar_2016-aide_cognitive_asystolie.pdf"
+    source_kind: "cognitive_aid_pdf"
+    notes: "Utile pour ETCO2, FiO2, causes a rechercher, prelevements anaphylaxie et causes perioperatoires d'asystolie"
+
+  - resource_id: ghrmsa_choc_anaphylactique_cognitive_aid
+    organisme: "GHRMSA Anesthesie"
+    class_id: professionnelle_pratique_fr
+    title: "Presentation d'une aide cognitive pour la prise en charge du choc anaphylactique"
+    url: "https://ghrmsa-anesthesie.fr/IMG/pdf/22.10.18_bolvy-choc_anaphylactique.pdf"
+    source_kind: "teaching_pdf"
+    notes: "Utile pour severite, signes cliniques au bloc, agents frequemment en cause et post-incident allergologique"
+
+  - resource_id: cfrc_recommandations_2025
+    organisme: "CFRC"
+    class_id: normative_recommandations
+    title: "Recommandations ERC 2025 - RCP et prise en charge de l'arret cardiaque"
+    url: "https://www.cfrc.fr/recommandations"
+    source_kind: "guideline_index_page"
+    notes: "Point d'entree francais vers les recommandations ERC 2025 avec synthese adulte, enfant, nouveau-ne et philosophie de chaine de survie"
+
+  - resource_id: cfrc_reanimation_adulte_2025
+    organisme: "CFRC"
+    class_id: normative_recommandations
+    title: "Reanimation adulte et ACR - Protocoles et recommandations"
+    url: "https://www.cfrc.fr/reanimation-adulte"
+    source_kind: "guideline_summary_page"
+    notes: "Synthese francaise des recommandations ERC 2025 adulte, utile pour reconnaissance precoce, compressions, defibrillation et voies aeriennes"
+
+  - resource_id: sfar_acr_rythme_choquable_bloc
+    organisme: "SFAR"
+    class_id: normative_recommandations
+    title: "ACR rythme choquable au bloc operatoire"
+    url: "https://sfar.org/wp-content/uploads/2019/09/ACR-Rythme-choquable-au-bloc-operatoire-V2.pdf"
+    source_kind: "official_cognitive_aid_pdf"
+    notes: "Aide cognitive SFAR adulte pour TV/FV au bloc operatoire"
+
+  - resource_id: sfar_acr_asystolie_bloc
+    organisme: "SFAR"
+    class_id: normative_recommandations
+    title: "ACR asystolie au bloc operatoire"
+    url: "https://sfar.org/download/acr-asystolie-au-bloc-operatoire/"
+    source_kind: "official_cognitive_aid_page"
+    notes: "Aide cognitive SFAR adulte pour asystolie au bloc operatoire"
+
+  - resource_id: sfar_jouffroy_arret_cardiaque_bloc_2017
+    organisme: "SFAR"
+    class_id: pedagogique_enseignement_medecins
+    title: "Arret cardiaque au bloc operatoire en chirurgie programmee"
+    url: "https://sfar.org/wp-content/uploads/2017/10/Jouffroy-Arret-cardiaque-au-bloc-operatoire-en-chirurgie-programmee.pdf"
+    source_kind: "teaching_pdf"
+    notes: "Revue SFAR utile pour les etiologies specifiques a l'anesthesie, l'organisation d'equipe, le monitorage et la prise en charge symptomatique"
+
+  - resource_id: hfb_aides_cognitives_adultes_sfar_index
+    organisme: "Hopital Franco-Britannique"
+    class_id: professionnelle_pratique_fr
+    title: "Aides cognitives adultes SFAR"
+    url: "https://www.hopitalfrancobritannique.org/professionnels/aides-cognitives-adultes-sfar/"
+    source_kind: "resource_index_page"
+    notes: "Index pratique regroupant plusieurs aides cognitives SFAR adultes utiles au bloc operatoire"
+
+  - resource_id: reamondor_aphp_intubation
+    organisme: "AP-HP / ReaMondor"
+    class_id: pedagogique_enseignement_medecins
+    title: "ReaMondor AP-HP - Intubation"
+    url: "https://reamondor.aphp.fr/familles/les-techniques-de-reanimation/intubation/"
+    source_kind: "teaching_technique_page"
+    notes: "Support AP-HP utile pour la prise de voie aerienne, l'organisation technique et le contexte de reanimation"
+
+  - resource_id: reamondor_aphp_ventilation_artificielle
+    organisme: "AP-HP / ReaMondor"
+    class_id: pedagogique_enseignement_medecins
+    title: "ReaMondor AP-HP - Ventilation artificielle"
+    url: "https://reamondor.aphp.fr/familles/les-techniques-de-reanimation/ventilation-artificielle/"
+    source_kind: "teaching_technique_page"
+    notes: "Support AP-HP utile pour ventilation, contexte respiratoire critique et techniques de reanimation"
+
+  - resource_id: reamondor_aphp_tracheotomie
+    organisme: "AP-HP / ReaMondor"
+    class_id: pedagogique_enseignement_medecins
+    title: "ReaMondor AP-HP - Tracheotomie"
+    url: "https://reamondor.aphp.fr/familles/les-techniques-de-reanimation/tracheotomie/"
+    source_kind: "teaching_technique_page"
+    notes: "Support AP-HP utile pour le contexte de sevrage ventilatoire et les situations de voie aerienne prolongee"
+
+  - resource_id: aphp_bichat_anesthesie_reanimation
+    organisme: "AP-HP Bichat"
+    class_id: pedagogique_enseignement_medecins
+    title: "AP-HP Bichat - Service d'anesthesie-reanimation"
+    url: "https://www.aphp.fr/service/service-01-011"
+    source_kind: "hospital_service_page"
+    notes: "Contexte utile pour terrains complexes : obesite morbide, obstetrique avec cardiopathie, insuffisances respiratoire/cardiaque/renale, thrombose arterielle, TAVI, assistance circulatoire"
+
+  - resource_id: aphp_bicetre_anesthesie_reanimation_periop
+    organisme: "AP-HP Bicetre"
+    class_id: pedagogique_enseignement_medecins
+    title: "AP-HP Bicetre - Service d'anesthesie-reanimation medecine peri-operatoire"
+    url: "https://www.aphp.fr/bicetre/service-d-anesthesie-reanimation-medecine-peri-operatoire"
+    source_kind: "hospital_service_page"
+    notes: "Contexte utile pour medecine peri-operatoire, terrains lourds et structuration du parcours perioperatoire"
+
+  - resource_id: aphp_avicenne_anesthesie_reanimation
+    organisme: "AP-HP Avicenne"
+    class_id: pedagogique_enseignement_medecins
+    title: "AP-HP Avicenne - Service d'anesthesie-reanimation"
+    url: "https://www.aphp.fr/avicenne/service-d-anesthesie-reanimation"
+    source_kind: "hospital_service_page"
+    notes: "Contexte utile pour BPCO, insuffisance cardiaque, diabete, maladie renale, allergie respiratoire et obstetrique"
+
+  - resource_id: aphp_pitie_salpetriere_anesthesie_reanimation
+    organisme: "AP-HP Pitie-Salpetriere"
+    class_id: pedagogique_enseignement_medecins
+    title: "AP-HP Pitie-Salpetriere - Departement d'anesthesie-reanimation"
+    url: "https://pitiesalpetriere.aphp.fr/anesthesie-reanimation/"
+    source_kind: "hospital_service_page"
+    notes: "Contexte utile pour defaillances circulatoire/respiratoire/renale, syndrome hemorragique, hemorragies du post-partum, polytrauma et assistance circulatoire"

@@ -1,0 +1,89 @@
+.alerting-dashboard {
+  gap: 1.25rem;
+}
+
+.alerting-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.alerting-inline-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.8rem;
+}
+
+.alerting-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: rgba(225, 239, 255, 0.84);
+  font-size: 0.82rem;
+}
+
+.alerting-field input,
+.alerting-field select,
+.alerting-field textarea,
+.alerting-condition-row input,
+.alerting-condition-row select,
+.alerting-input {
+  border: 1px solid rgba(142, 188, 255, 0.18);
+  border-radius: 12px;
+  background: rgba(11, 18, 32, 0.92);
+  color: #f5f9ff;
+  padding: 0.62rem 0.72rem;
+  font: inherit;
+}
+
+.alerting-field textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.alerting-table input,
+.alerting-table select {
+  width: 100%;
+}
+
+.alerting-rule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 0.95rem;
+}
+
+.alerting-rule-card,
+.alerting-profile-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 0.95rem;
+  border-radius: 16px;
+  border: 1px solid rgba(144, 188, 255, 0.14);
+  background: rgba(12, 18, 33, 0.88);
+}
+
+.alerting-rule-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+
+.alerting-condition-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.alerting-condition-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) 110px 90px;
+  gap: 0.55rem;
+}
+
+@media (max-width: 760px) {
+  .alerting-condition-row {
+    grid-template-columns: 1fr;
+  }
+}

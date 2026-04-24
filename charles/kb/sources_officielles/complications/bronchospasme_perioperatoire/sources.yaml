@@ -1,0 +1,42 @@
+topic_id: bronchospasme_perioperatoire
+topic_type: complication
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_bronchospasme
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Bronchospasme
+  url: https://sfar.org/download/bronchospasme/
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: mapar_bronchospasme_chez_l_adulte
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Fiche urgence bronchospasme chez l'adulte
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+documentary_layers:
+  normative_recommandations:
+  - sfar_bronchospasme
+  - sfar_aides_cognitives
+  professionnelle_pratique_fr:
+  - mapar_bronchospasme_chez_l_adulte
+  - anrea_ventilation_issue
+  - anrea_presentation
+  - monanesthesie_home
+  pedagogique_enseignement_medecins:
+  - cfar_referentiel_des
+  - cfar_referentiel_metier
+  - reamondor_aphp_ventilation_artificielle
+documentary_notes:
+- La capnographie et la pression des voies aeriennes sont des pivots plus riches que la seule SpO2.
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id
+  resource_catalog_ref: kb/sources_officielles/source_resource_catalog.yaml
+  landscape_ref: kb/sources_officielles/complication_source_landscape.yaml

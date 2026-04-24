@@ -1,0 +1,51 @@
+topic_id: monitorage_profondeur_eeg_bis
+faits:
+- fact_id: processed_eeg_monitoring_reduces_over_and_under_dose_risk
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: care_priority
+  statement: Le monitorage de profondeur d'anesthesie vise a reduire la morbidite liee au surdosage et au sous-dosage anesthesique.
+  source_ref: sfar_monitorage_profondeur_anesthesie_enfant
+  source_title: SFAR Le monitorage de la profondeur de l'anesthesie chez l'enfant
+  source_url: https://sfar.org/wp-content/uploads/2016/12/monitorage-de-la-profondeur-danesthesie-en-pediatrie-16-constant-1473331839.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: bis_scale_zero_to_hundred
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: definition
+  statement: Le BIS est presente comme un moniteur derive de l'EEG fournissant un index numerique de 0 a 100, de l'anesthesie tres profonde a l'eveil.
+  metric: BIS
+  rule_type: indexed_scale
+  value_text: 0 a 100
+  source_ref: sfar_monitorage_profondeur_anesthesie_enfant
+  source_title: SFAR Le monitorage de la profondeur de l'anesthesie chez l'enfant
+  source_url: https://sfar.org/wp-content/uploads/2016/12/monitorage-de-la-profondeur-danesthesie-en-pediatrie-16-constant-1473331839.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: processed_eeg_tracks_slowing_and_regularization
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: signal_principle
+  statement: Les moniteurs derives de l'EEG quantifient surtout le ralentissement et la regularisation du signal comme marqueurs d'endormissement.
+  metric: processed_EEG
+  rule_type: signal_interpretation
+  source_ref: sfar_monitorage_profondeur_anesthesie_enfant
+  source_title: SFAR Le monitorage de la profondeur de l'anesthesie chez l'enfant
+  source_url: https://sfar.org/wp-content/uploads/2016/12/monitorage-de-la-profondeur-danesthesie-en-pediatrie-16-constant-1473331839.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: processed_eeg_limited_with_ketamine_or_n2o
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: limitation
+  statement: Les moniteurs de profondeur derives de l'EEG sont peu sensibles ou non adaptes aux produits n'induisant pas ou peu de ralentissement EEG, comme la ketamine ou le protoxyde d'azote.
+  source_ref: sfar_monitorage_profondeur_anesthesie_enfant
+  source_title: SFAR Le monitorage de la profondeur de l'anesthesie chez l'enfant
+  source_url: https://sfar.org/wp-content/uploads/2016/12/monitorage-de-la-profondeur-danesthesie-en-pediatrie-16-constant-1473331839.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf

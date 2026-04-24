@@ -164,26 +164,6 @@ export function ScenarioPanel({ onClose, hideClose = false, mode = "all" }: Scen
     setTimeout(() => setLaunching(null), 1500);
   };
 
-  // Lancer un scénario synthétique
-  const launchSynthetic = async (scenario: string) => {
-    setLaunching(scenario);
-    try {
-      await fetch(`${API_URL}/simulator/control`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...authHeaders() },
-        body: JSON.stringify({
-          action: "start_synthetic",
-          room_id: targetRoom,
-          scenario,
-          speed: 1.0,
-        }),
-      });
-    } catch {
-      /* ignore */
-    }
-    setTimeout(() => setLaunching(null), 1500);
-  };
-
   const setFilter = (key: string, value: unknown) => {
     setFilters((prev) => {
       const next = { ...prev };
@@ -288,25 +268,7 @@ export function ScenarioPanel({ onClose, hideClose = false, mode = "all" }: Scen
                   <div key={subKey} className="scenario-subcategory">
                     <div className="scenario-sub-label">{sub.label}</div>
 
-                    {/* Scénarios synthétiques */}
-                    {catKey === "scenarios_synthetiques" && sub.options ? (
-                      <div className="scenario-synthetic-list">
-                        {sub.options.map((opt) => (
-                          <button
-                            key={opt.value}
-                            data-testid={`launch-synthetic-${opt.value}`}
-                            className={`scenario-synthetic-btn ${launching === opt.value ? "scenario-synthetic-btn--launching" : ""}`}
-                            onClick={() => launchSynthetic(opt.value)}
-                            disabled={launching !== null}
-                          >
-                            <span className="scenario-opt-label">{opt.label}</span>
-                            <span className="scenario-launch-icon">
-                              {launching === opt.value ? "⏳" : "▶"}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    ) : sub.type === "toggle" ? (
+                    {/* Filtres par sous-catégorie */}
                       /* Toggle (checkbox) */
                       <label className="scenario-toggle">
                         <input
@@ -394,7 +356,7 @@ export function ScenarioPanel({ onClose, hideClose = false, mode = "all" }: Scen
                         >
                           Tous
                         </button>
-                        {sub.options.map((opt) => (
+                        {sub.options?.map((opt) => (
                           <button
                             key={opt.value}
                             className={`scenario-option ${filters[subKey] === opt.value ? "scenario-option--active" : ""}`}
@@ -407,7 +369,6 @@ export function ScenarioPanel({ onClose, hideClose = false, mode = "all" }: Scen
                           </button>
                         ))}
                       </div>
-                    ) : null}
                   </div>
                 ))}
               </div>

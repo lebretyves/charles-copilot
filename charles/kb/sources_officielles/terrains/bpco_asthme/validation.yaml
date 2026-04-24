@@ -1,0 +1,7 @@
+topic_id: bpco_asthme
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille_partiel
+open_points:
+  - "Distinguer dans un second passage le terrain BPCO stable, l'asthme mal controle et l'exacerbation recente."
+  - "Eviter de confondre les marqueurs de complication aigue et les caracteristiques de terrain dans le score final."

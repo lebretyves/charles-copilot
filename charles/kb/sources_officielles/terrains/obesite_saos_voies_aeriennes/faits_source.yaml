@@ -1,0 +1,57 @@
+topic_id: obesite_saos_voies_aeriennes
+faits:
+- fact_id: obesity_increases_difficult_airway_and_postextubation_risk
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: terrain_risk_factor
+  statement: Le patient obese est a risque de complications perioperatoires comprenant l'acces difficile aux voies aeriennes et les detresses respiratoires post-extubation par atelectasie ou obstruction.
+  source_ref: sfar_anesthesie_reanimation_du_grand_obese
+  source_title: SFAR Anesthesie-reanimation du grand obese
+  source_url: https://sfar.org/wp-content/uploads/2018/10/10-Anesthesie-reanimation-du-grand-obese.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: obesity_plus_sleep_apnea_is_high_risk
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: terrain_risk_factor
+  statement: L'association d'un syndrome d'apnees du sommeil a l'obesite est frequente et entraine un risque eleve de complications per et postoperatoires.
+  source_ref: sfar_anesthesie_reanimation_du_grand_obese
+  source_title: SFAR Anesthesie-reanimation du grand obese
+  source_url: https://sfar.org/wp-content/uploads/2018/10/10-Anesthesie-reanimation-du-grand-obese.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: perioperative_cpaps_is_recommended_when_saos_is_present
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: care_recommendation
+  statement: Le depistage preoperatoire du syndrome d'apnees du sommeil est crucial chez le patient obese, avec recours recommande a une pression positive continue en pre, per et postoperatoire.
+  source_ref: sfar_anesthesie_reanimation_du_grand_obese
+  source_title: SFAR Anesthesie-reanimation du grand obese
+  source_url: https://sfar.org/wp-content/uploads/2018/10/10-Anesthesie-reanimation-du-grand-obese.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: obese_patients_need_difficult_airway_protocols_and_opioid_sparing
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: care_recommendation
+  statement: Pour tout patient obese, des protocoles de ventilation au masque et d'intubation difficile, une ventilation protectrice, une epargne morphinique, un positionnement semi-assis et un monitorage postoperatoire rapproche sont recommandes.
+  source_ref: sfar_anesthesie_reanimation_du_grand_obese
+  source_title: SFAR Anesthesie-reanimation du grand obese
+  source_url: https://sfar.org/wp-content/uploads/2018/10/10-Anesthesie-reanimation-du-grand-obese.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: intubation_and_extubation_are_inseparable_airway_steps
+  statut: direct_source
+  force_source: normative
+  fact_type: airway_recommendation
+  statement: L'intubation et l'extubation tracheales sont indissociables et leurs difficultes restent une cause importante de morbi-mortalite en anesthesie-reanimation.
+  source_ref: sfar_intubation_difficile_et_extubation_en_anesthesie_chez_l_adulte
+  source_title: SFAR Intubation difficile et extubation en anesthesie chez l'adulte
+  source_url: https://sfar.org/actualisation-de-recommandations-intubation-difficile-et-extubation-en-anesthesie-chez-ladulte/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage

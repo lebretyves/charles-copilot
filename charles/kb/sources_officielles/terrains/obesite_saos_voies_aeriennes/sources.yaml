@@ -1,0 +1,46 @@
+topic_id: obesite_saos_voies_aeriennes
+topic_type: terrain
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_anesthesie_reanimation_du_grand_obese
+  organisme: SFAR
+  niveau_source: pedagogique
+  title: SFAR Anesthesie-reanimation du grand obese
+  url: https://sfar.org/wp-content/uploads/2018/10/10-Anesthesie-reanimation-du-grand-obese.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: sfar_intubation_difficile_et_extubation_en_anesthesie_chez_l_adulte
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Intubation difficile et extubation en anesthesie chez l'adulte
+  url: https://sfar.org/actualisation-de-recommandations-intubation-difficile-et-extubation-en-anesthesie-chez-ladulte/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sofia_intubation_difficile_support_sfar
+  organisme: SOFIA
+  niveau_source: pedagogique
+  title: SOFIA Intubation difficile - support SFAR
+  url: https://sofia.medicalistes.fr/spip/IMG/pdf/l_intubation_difficile_SFAR_.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: aphp_bichat_anesthesie_reanimation
+  organisme: AP-HP Bichat
+  niveau_source: pedagogique
+  title: AP-HP Bichat - Service d'anesthesie-reanimation
+  url: https://www.aphp.fr/service/service-01-011
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: reamondor_aphp_intubation
+  organisme: AP-HP / ReaMondor
+  niveau_source: pedagogique
+  title: ReaMondor AP-HP - Intubation
+  url: https://reamondor.aphp.fr/familles/les-techniques-de-reanimation/intubation/
+  support_type: webpage
+  date_consultation: 2026-04-02
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id

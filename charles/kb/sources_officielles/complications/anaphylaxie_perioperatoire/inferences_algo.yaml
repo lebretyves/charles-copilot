@@ -1,0 +1,17 @@
+topic_id: anaphylaxie_perioperatoire
+inferences:
+  - inference_id: anaphylaxis_hemodynamic_priority
+    status: design_proposal
+    kind: weighted_factor
+    proposal: "Utiliser la baisse hemodynamique brutale avec cible de PAM > 60 comme repere central de gravite documentaire."
+    derived_from:
+      - adrenaline_titration_target_map_over_60
+      - grade_ii_and_iii_bolus_ranges
+  - inference_id: anaphylaxis_bronchospasm_branch
+    status: design_proposal
+    kind: branch_rule
+    proposal: "Ajouter une branche respiratoire specifique si bronchospasme persistant avec recours au salbutamol et escalation hemodynamique."
+    derived_from:
+      - salbutamol_5_to_15_puffs_in_anaphylaxis
+      - salbutamol_iv_100_to_200_ug_then_0_3_to_1_5_mg_h
+      - adrenaline_infusion_0_3_to_1_2_mg_h

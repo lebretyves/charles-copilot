@@ -1,0 +1,90 @@
+topic_id: laryngospasme_enfant
+topic_type: complication
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_laryngospasme_en_pediatrie
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Laryngospasme en pediatrie
+  url: https://sfar.org/download/laryngospasme-en-pediatrie/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_ac_laryngospasme_pediatrie
+  organisme: SFAR / ADARPEF / CAMR
+  niveau_source: normatif
+  title: Aide cognitive - Laryngospasme en pediatrie
+  url: https://sfar.org/wp-content/uploads/2020/01/ac-laryngospasme-en-pediatrie.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+- source_id: sfar_rfe_gestion_vas_enfant
+  organisme: SFAR / ADARPEF
+  niveau_source: normatif
+  title: RFE Gestion des voies aeriennes superieures de l'enfant
+  url: https://sfar.org/wp-content/uploads/2018/09/2_RFE-Gestion-des-VAS-de-lEnfant-postCA.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+- source_id: adarpef_rfe_gestion_vas_enfant
+  organisme: ADARPEF
+  niveau_source: normatif
+  title: RFE Gestion des VAS de l'enfant - version ADARPEF
+  url: https://e-adarpef.fr/wp-content/uploads/2018/10/RFE-Gestion-des-VAS-de-l-enfant-Acceptation-CA-SFAR.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+- source_id: mapar_laryngospasme_enfant
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Fiche urgence laryngospasme chez l'enfant
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_10_laryngospasme_enfant.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: anrea_laryngospasme_mythe_ou_realite_2015
+  organisme: Anesthesie & Reanimation / ScienceDirect
+  niveau_source: pratique
+  title: Laryngospasme en anesthesie pediatrique - mythe ou realite ?
+  url: https://www.sciencedirect.com/science/article/pii/S1279796015001254
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: mapar_anesthesie_de_l_enfant_enrhume
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR L'anesthesie de l'enfant enrhume depuis 30 ans
+  url: https://www.mapar.org/article/1/Communication%20MAPAR/luz7el2p/L%E2%80%99anesth%C3%A9sie%20de%20l%E2%80%99enfant%20enrhum%C3%A9%20depuis%2030%20ans.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: sofia_laryngospasme_pediatrie_2009
+  organisme: SOFIA
+  niveau_source: pedagogique
+  title: Laryngospasme en pediatrie
+  url: https://sofia.medicalistes.fr/spip/IMG/pdf/laryngospasme_en_pediatrie.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+documentary_layers:
+  normative_recommandations:
+  - sfar_laryngospasme_en_pediatrie
+  - sfar_ac_laryngospasme_pediatrie
+  - sfar_rfe_gestion_vas_enfant
+  - adarpef_rfe_gestion_vas_enfant
+  professionnelle_pratique_fr:
+  - mapar_laryngospasme_enfant
+  - anrea_pediatrie_issue
+  - anrea_ventilation_pediatrique_article
+  - anrea_voies_aeriennes_pediatrie_article
+  - anrea_laryngospasme_enfant_enrhume_2022
+  - anrea_laryngospasme_mythe_ou_realite_2015
+  - prat_an_enfant_enrhume_2019
+  - anrea_enfant_enrhume_2025
+  pedagogique_enseignement_medecins:
+  - mapar_anesthesie_de_l_enfant_enrhume
+  - cfar_referentiel_metier
+  - sofia_laryngospasme_pediatrie_2009
+documentary_notes:
+- Le noyau normatif devient solide sur le laryngospasme pediatrique ; les principaux manques restants concernent surtout le contexte de survenue et la capture runtime.
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id
+  resource_catalog_ref: kb/sources_officielles/source_resource_catalog.yaml
+  landscape_ref: kb/sources_officielles/complication_source_landscape.yaml

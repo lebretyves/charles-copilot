@@ -7,7 +7,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from learning.finetune.config import FineTuneRunConfig
+from learning.finetune.mlflow_tracking import (
+    collect_run_params,
+    flatten_numeric_metrics,
+    start_tracking_session,
+)
 from learning.finetune.runtime import inspect_run_environment
+from learning.model_registry import sync_model_registry
 
 
 def _load_config(path: str | Path) -> FineTuneRunConfig:
@@ -57,12 +63,23 @@ def validate_run(config_path: str | Path) -> dict:
 
 def train_run(config_path: str | Path) -> dict:
     config = _load_config(config_path)
+    tracker = start_tracking_session(
+        config,
+        stage="train",
+        extra_tags={"charles.task": "fine_tuning"},
+    )
     _trace(config, "train_run_started", config_path=str(Path(config_path)))
+    _trace(config, "mlflow_session_started", **tracker.status_payload())
+
     report = inspect_run_environment(config)
     report["validated_at"] = datetime.now(timezone.utc).isoformat()
     _write_json(config.artifacts.environment_report_path, report)
+    tracker.log_params(collect_run_params(config))
+    tracker.log_json(report, "reports/environment_report.json")
+    tracker.log_artifact(config_path, artifact_path="reports")
     _trace(config, "environment_validated", launch_ready=report["launch_ready"], blocking_issues=report["blocking_issues"])
     if not report["launch_ready"]:
+        tracker.finish(status="FAILED")
         raise RuntimeError("Training environment is not ready. Inspect environment_report.json before retrying.")
 
     try:
@@ -71,8 +88,11 @@ def train_run(config_path: str | Path) -> dict:
         from peft import LoraConfig, prepare_model_for_kbit_training  # type: ignore
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, TrainerCallback  # type: ignore
         from trl import SFTConfig, SFTTrainer  # type: ignore
+
         _trace(config, "import_training_stack_completed")
     except ImportError as exc:  # pragma: no cover - depends on local training env
+        tracker.log_text(str(exc), "reports/training_import_error.txt")
+        tracker.finish(status="FAILED")
         raise RuntimeError(
             "Local fine-tuning dependencies are not fully installed. "
             "Install torch, transformers, trl, peft, accelerate, datasets and bitsandbytes."
@@ -86,6 +106,8 @@ def train_run(config_path: str | Path) -> dict:
         try:
             import torch  # type: ignore
         except ImportError as exc:  # pragma: no cover - guarded above
+            tracker.log_text(str(exc), "reports/training_torch_import_error.txt")
+            tracker.finish(status="FAILED")
             raise RuntimeError("Torch is required for local training.") from exc
 
         model_kwargs["quantization_config"] = BitsAndBytesConfig(
@@ -136,6 +158,12 @@ def train_run(config_path: str | Path) -> dict:
     _trace(config, "dataset_rows_read_started", dataset_files=dataset_files)
     train_rows = _read_jsonl_rows(config.dataset.prepared_train_path)
     eval_rows = _read_jsonl_rows(config.dataset.prepared_eval_path) if config.dataset.prepared_eval_path else []
+    tracker.log_metrics(
+        {
+            "dataset_train_rows": float(len(train_rows)),
+            "dataset_eval_rows": float(len(eval_rows)),
+        }
+    )
     _trace(
         config,
         "dataset_rows_read_completed",
@@ -227,25 +255,44 @@ def train_run(config_path: str | Path) -> dict:
     trainer.add_callback(TraceCallback)
     _trace(config, "trainer_init_completed")
 
-    _trace(config, "trainer_train_started")
-    train_result = trainer.train()
-    _trace(config, "trainer_train_completed", metrics=dict(train_result.metrics))
-    _trace(config, "save_model_started", adapter_output_dir=config.artifacts.adapter_output_dir)
-    trainer.save_model(config.artifacts.adapter_output_dir)
-    _trace(config, "save_model_completed", adapter_output_dir=config.artifacts.adapter_output_dir)
-    _trace(config, "save_tokenizer_started", adapter_output_dir=config.artifacts.adapter_output_dir)
-    tokenizer.save_pretrained(config.artifacts.adapter_output_dir)
-    _trace(config, "save_tokenizer_completed", adapter_output_dir=config.artifacts.adapter_output_dir)
+    try:
+        _trace(config, "trainer_train_started")
+        train_result = trainer.train()
+        train_metrics = dict(train_result.metrics)
+        tracker.log_metrics(flatten_numeric_metrics({"train": train_metrics}))
+        _trace(config, "trainer_train_completed", metrics=train_metrics)
+        _trace(config, "save_model_started", adapter_output_dir=config.artifacts.adapter_output_dir)
+        trainer.save_model(config.artifacts.adapter_output_dir)
+        _trace(config, "save_model_completed", adapter_output_dir=config.artifacts.adapter_output_dir)
+        _trace(config, "save_tokenizer_started", adapter_output_dir=config.artifacts.adapter_output_dir)
+        tokenizer.save_pretrained(config.artifacts.adapter_output_dir)
+        _trace(config, "save_tokenizer_completed", adapter_output_dir=config.artifacts.adapter_output_dir)
 
-    summary = {
-        "run_id": config.run_id,
-        "trained_at": datetime.now(timezone.utc).isoformat(),
-        "train_metrics": dict(train_result.metrics),
-        "adapter_output_dir": config.artifacts.adapter_output_dir,
-    }
-    _write_json(config.artifacts.training_summary_path, summary)
-    _trace(config, "training_summary_written", training_summary_path=config.artifacts.training_summary_path)
-    return summary
+        summary = {
+            "run_id": config.run_id,
+            "trained_at": datetime.now(timezone.utc).isoformat(),
+            "train_metrics": train_metrics,
+            "adapter_output_dir": config.artifacts.adapter_output_dir,
+            "tracking": tracker.status_payload(),
+        }
+        _write_json(config.artifacts.training_summary_path, summary)
+        registry_sync = sync_model_registry()
+        summary["registry_sync"] = registry_sync
+        _write_json(config.artifacts.training_summary_path, summary)
+        tracker.log_json(summary, "reports/training_summary.json")
+        tracker.log_artifact(config.artifacts.training_summary_path, artifact_path="reports")
+        tracker.log_artifact(_trace_path(config), artifact_path="reports")
+        tracker.log_artifacts(config.artifacts.adapter_output_dir, artifact_path="adapter")
+        tracker.log_json(registry_sync, "reports/model_registry_sync.json")
+        _trace(config, "training_summary_written", training_summary_path=config.artifacts.training_summary_path)
+        tracker.finish(status="FINISHED")
+        return summary
+    except Exception as exc:
+        tracker.log_text(str(exc), "reports/training_failure.txt")
+        tracker.log_artifact(_trace_path(config), artifact_path="reports")
+        tracker.finish(status="FAILED")
+        _trace(config, "trainer_train_failed", error=str(exc))
+        raise
 
 
 def main() -> None:

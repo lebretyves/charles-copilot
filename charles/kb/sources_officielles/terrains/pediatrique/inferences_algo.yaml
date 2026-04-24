@@ -1,0 +1,32 @@
+﻿topic_id: pediatrique
+inferences:
+  - inference_id: inf_01
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`entrees`: age en mois/annees, poids, PAM, FC, SpO2, EtCO2, temperature, duree d'apnee, type de voie aerienne"
+    derived_from:
+      - fact_01
+  - inference_id: inf_02
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`modulateurs`: nourrisson, enfant enrhumÃ©, chirurgie ORL, risque de desaturation rapide, faible reserve thermique"
+    derived_from:
+      - fact_01
+  - inference_id: inf_03
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`sorties`: tables de seuils par classes d'age, score de desaturation rapide, vigilance laryngospasme, escalade plus precoce sur bradycardie"
+    derived_from:
+      - fact_01
+  - inference_id: inf_04
+    status: design_proposal
+    kind: kb_extension
+    proposal: "etendre `populations.yaml` avec bandes d'age operatoires"
+    derived_from:
+      - fact_01
+  - inference_id: inf_05
+    status: design_proposal
+    kind: kb_extension
+    proposal: "rendre les seuils `HR`, `PAM`, `FR`, `SpO2`, `Temp` dependants de l'age"
+    derived_from:
+      - fact_01

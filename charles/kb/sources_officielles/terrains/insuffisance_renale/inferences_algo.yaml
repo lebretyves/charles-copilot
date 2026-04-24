@@ -1,0 +1,32 @@
+﻿topic_id: insuffisance_renale
+inferences:
+  - inference_id: inf_01
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`entrees`: creatinine, diurese, PAM, duree hypotension, K+, acidose, dose cumulee curares, TOF si disponible"
+    derived_from:
+      - fact_01
+  - inference_id: inf_02
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`modulateurs`: IRC connue, chirurgie a risque, sepsis, saignement, nephrotoxiques, terrain diabetique"
+    derived_from:
+      - fact_01
+  - inference_id: inf_03
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`sorties`: score de risque IRA, surpoids de l'hypotension prolongee, alerte hyperkaliemie, alerte decurarisation retardee"
+    derived_from:
+      - fact_01
+  - inference_id: inf_04
+    status: design_proposal
+    kind: kb_extension
+    proposal: "introduire un facteur `charge_hypotension_renale`"
+    derived_from:
+      - fact_01
+  - inference_id: inf_05
+    status: design_proposal
+    kind: kb_extension
+    proposal: "coupler terrain renal avec seuils plus stricts sur K+, acidose et duree d'hypotension"
+    derived_from:
+      - fact_01

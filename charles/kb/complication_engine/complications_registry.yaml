@@ -1,0 +1,174 @@
+version: "2026-04-01"
+modeling_rule: "complication_first"
+
+complications:
+  - complication_id: hypotension_perioperatoire
+    priority: p1
+    family: hemodynamique
+    official_topic_path: "kb/sources_officielles/complications/hypotension_perioperatoire"
+    terrain_modulation_expected: true
+    no_wave_ready: true
+    wave_ready: true
+    central_metrics:
+      - PAM
+      - PAS
+      - FC
+      - EtCO2
+      - vasopressor_use
+    key_terrains:
+      - cardiovasculaire_haut_risque
+      - obstetrique
+      - sujet_age_fragile
+      - insuffisance_renale
+
+  - complication_id: choc_hemorragique_transfusion_massive
+    priority: p1
+    family: hemodynamique
+    official_topic_path: "kb/sources_officielles/complications/choc_hemorragique_transfusion_massive"
+    terrain_modulation_expected: true
+    no_wave_ready: true
+    wave_ready: true
+    central_metrics:
+      - PAM
+      - PAS
+      - FC
+      - shock_index
+      - hemoglobin
+      - fibrinogen
+      - calcium_ionized
+      - coagulation
+    key_terrains:
+      - anticoagulants_antiagregants
+      - cardiovasculaire_haut_risque
+      - obstetrique
+
+  - complication_id: anaphylaxie_perioperatoire
+    priority: p1
+    family: hemodynamique_respiratoire
+    official_topic_path: "kb/sources_officielles/complications/anaphylaxie_perioperatoire"
+    terrain_modulation_expected: true
+    no_wave_ready: true
+    wave_ready: true
+    central_metrics:
+      - PAM
+      - PAS
+      - FC
+      - SpO2
+      - EtCO2
+      - Ppeak
+    key_terrains:
+      - bpco_asthme
+      - obstetrique
+      - sujet_age_fragile
+
+  - complication_id: bronchospasme_perioperatoire
+    priority: p1
+    family: respiratoire
+    official_topic_path: "kb/sources_officielles/complications/bronchospasme_perioperatoire"
+    terrain_modulation_expected: true
+    no_wave_ready: true
+    wave_ready: true
+    central_metrics:
+      - SpO2
+      - EtCO2
+      - Ppeak
+      - Vt
+      - capnography_shape
+    key_terrains:
+      - bpco_asthme
+      - obesite_saos_voies_aeriennes
+      - pediatrique
+
+  - complication_id: intubation_extubation_difficiles
+    priority: p1
+    family: voies_aeriennes
+    official_topic_path: "kb/sources_officielles/complications/intubation_extubation_difficiles"
+    terrain_modulation_expected: true
+    no_wave_ready: true
+    wave_ready: false
+    central_metrics:
+      - SpO2
+      - EtCO2
+      - attempted_duration
+      - capnography_presence
+      - airway_context
+    key_terrains:
+      - obesite_saos_voies_aeriennes
+      - obstetrique
+      - pediatrique
+
+  - complication_id: hypothermie_perioperatoire
+    priority: p1
+    family: thermique
+    official_topic_path: "kb/sources_officielles/complications/hypothermie_perioperatoire"
+    terrain_modulation_expected: true
+    no_wave_ready: true
+    wave_ready: false
+    central_metrics:
+      - temperature
+      - duration
+      - bleeding_context
+    key_terrains:
+      - sujet_age_fragile
+      - pediatrique
+
+  - complication_id: hyperthermie_maligne
+    priority: p1
+    family: metabolique_thermique
+    official_topic_path: "kb/sources_officielles/complications/hyperthermie_maligne"
+    terrain_modulation_expected: false
+    no_wave_ready: true
+    wave_ready: true
+    central_metrics:
+      - temperature
+      - EtCO2
+      - FC
+      - rigidity_context
+      - potassium
+      - acid_base
+    key_terrains: []
+
+  - complication_id: arret_cardiaque_perioperatoire
+    priority: p1
+    family: critique
+    official_topic_path: "kb/sources_officielles/complications/arret_cardiaque_perioperatoire"
+    terrain_modulation_expected: false
+    no_wave_ready: true
+    wave_ready: true
+    central_metrics:
+      - HR
+      - EtCO2
+      - arterial_pulse
+      - rhythm_context
+    key_terrains: []
+
+  - complication_id: embolie_pulmonaire_etat_de_choc
+    priority: p2
+    family: respiratoire_hemodynamique
+    official_topic_path: "kb/sources_officielles/complications/embolie_pulmonaire_etat_de_choc"
+    terrain_modulation_expected: true
+    no_wave_ready: true
+    wave_ready: true
+    central_metrics:
+      - SpO2
+      - EtCO2
+      - PAM
+      - FC
+    key_terrains:
+      - anticoagulants_antiagregants
+      - htp
+
+  - complication_id: laryngospasme_enfant
+    priority: p2
+    family: respiratoire
+    official_topic_path: "kb/sources_officielles/complications/laryngospasme_enfant"
+    terrain_modulation_expected: true
+    no_wave_ready: true
+    wave_ready: true
+    central_metrics:
+      - SpO2
+      - EtCO2
+      - capnography_presence
+      - airway_context
+    key_terrains:
+      - pediatrique

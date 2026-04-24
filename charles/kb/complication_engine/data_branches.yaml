@@ -1,0 +1,58 @@
+version: "2026-04-01"
+branches:
+  official_sources:
+    label_fr: "Referentiel officiel"
+    role: "cadre clinique normatif"
+    provides:
+      - seuils absolus
+      - seuils relatifs
+      - durees pertinentes
+      - cibles therapeutiques
+      - contre-indications ou contraintes
+      - modulateurs terrain explicites
+    strengths:
+      - explicabilite
+      - stabilite clinique
+      - alignement SFAR_MAPAR_SOFIA
+    weaknesses:
+      - moins riche sur la dynamique patient en temps reel
+      - toutes les complications ne sont pas quantifiees pareil
+
+  vitaldb_no_wave:
+    label_fr: "Observation VitalDB sans waveforms"
+    role: "detection clinique a partir des constantes, contextes et tendances"
+    provides:
+      - valeurs instantanees
+      - deltas et pentes
+      - contextes de cas
+      - donnees biologiques et tags de complication derives
+    strengths:
+      - robuste quand les waveforms sont absentes
+      - plus simple a generaliser
+      - bon support pour un premier moteur clinique
+    weaknesses:
+      - moins fin sur la morphologie du signal
+      - moins discriminant sur certains diagnostics respiratoires ou hemodynamiques
+
+  vitaldb_wave:
+    label_fr: "Observation VitalDB avec waveforms"
+    role: "raffinement signal et detection des patterns morphologiques"
+    provides:
+      - features waveform
+      - evenements segmentes
+      - morphologie et qualite de signal
+      - chronologie courte plus fine
+    strengths:
+      - meilleur pouvoir discriminant sur les patterns physiologiques
+      - meilleure detection precoce de certaines complications
+    weaknesses:
+      - depend de la qualite du signal
+      - plus couteux a traiter
+      - plus complexe a expliquer sans couche referentielle
+
+design_rule:
+  statement: "Aucune branche seule ne doit etre consideree comme verite suffisante."
+  implication:
+    - "official_sources pose le cadre"
+    - "vitaldb_no_wave apporte la robustesse clinique"
+    - "vitaldb_wave apporte la finesse morphologique"

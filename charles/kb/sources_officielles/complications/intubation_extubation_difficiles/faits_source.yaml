@@ -1,0 +1,97 @@
+topic_id: intubation_extubation_difficiles
+faits:
+- fact_id: difficult_intubation_definition_mapar
+  statut: direct_source
+  force_source: pratique
+  fact_type: definition
+  statement: La fiche MAPAR definit l'intubation difficile comme necessitant plus de 2 laryngoscopies et/ou plus de 10 minutes de procedure et/ou le recours a une technique alternative.
+  metric: intubation_difficulty
+  rule_type: composite_definition
+  value_text: '> 2 laryngoscopies and/or > 10 min and/or alternative technique'
+  source_ref: mapar_intubation
+  source_title: MAPAR Intubation
+  source_url: https://www.mapar.org/article/pdf/739/Intubation
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: difficult_intubation_definition_sofia
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: definition
+  statement: Le support SOFIA reprend la definition d'une intubation difficile au-dela de 10 minutes et/ou plus de deux laryngoscopies.
+  metric: intubation_difficulty
+  rule_type: composite_definition
+  value_text: '> 10 min and/or > 2 laryngoscopies'
+  source_ref: sofia_intubation_difficile_support_sfar
+  source_title: SOFIA Intubation difficile - support SFAR
+  source_url: https://sofia.medicalistes.fr/spip/IMG/pdf/l_intubation_difficile_SFAR_.pdf
+  source_organisme: SOFIA
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: oxygenation_priority_in_unexpected_failure
+  statut: direct_source
+  force_source: normatif
+  fact_type: care_priority
+  statement: Les algorithmes SFAR rappellent que la priorite reste l'oxygenation en cas d'intubation difficile ou impossible non prevue.
+  source_ref: sfar_intubation_difficile_et_extubation_en_anesthesie_chez_l_adulte
+  source_title: SFAR Intubation difficile et extubation en anesthesie chez l'adulte
+  source_url: https://sfar.org/actualisation-de-recommandations-intubation-difficile-et-extubation-en-anesthesie-chez-ladulte/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: difficult_intubation_is_more_than_two_laryngoscopies_or_alternative_technique
+  statut: direct_source
+  force_source: normatif
+  fact_type: definition
+  statement: Les recommandations SFAR definissent l'intubation difficile par plus de deux laryngoscopies et/ou le recours a une technique alternative apres optimisation de la position et eventuelle manipulation laryngee.
+  metric: intubation_difficulty
+  rule_type: composite_definition
+  value_text: "> 2 laryngoscopies and/or technique alternative"
+  source_ref: sfar_rfe_intubation_difficile_v2_pdf
+  source_title: RFE 2017 Intubation difficile et extubation en anesthesie chez l'adulte - version PDF
+  source_url: https://sfar.org/wp-content/uploads/2017/09/2_RFE-intubation-difficile-SFAR_V2.pdf
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: pdf
+- fact_id: failed_intubation_should_be_accepted_after_two_attempts_and_call_for_help
+  statut: direct_source
+  force_source: normatif
+  fact_type: escalation_rule
+  statement: Devant une situation imprevue, accepter a temps l'echec d'une intubation en se limitant a 2 tentatives et appeler un renfort technique et/ou un anesthesiste senior doivent etre la regle.
+  metric: attempt_count
+  rule_type: escalation_after_attempt_limit
+  value_text: 2 tentatives puis appel a l'aide
+  source_ref: sfar_texte_court_intubation_difficile
+  source_title: Texte court SFAR - Intubation difficile
+  source_url: https://sfar.org/wp-content/uploads/2015/09/2a_SFAR_texte_court_Intubation-difficile.pdf
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: pdf
+- fact_id: extubation_requires_documentation_and_strategy
+  statut: direct_source
+  force_source: pratique
+  fact_type: extubation_guardrail
+  statement: La mise au point APSF insiste sur une strategie d'extubation explicite et sur la documentation de l'evenement de voie aerienne difficile.
+  metric: extubation_strategy
+  rule_type: documentation_and_planning
+  value_text: strategie d'extubation + documentation
+  source_ref: apsf_fr_asa_difficult_airway_2022
+  source_title: Mise au point APSF - recommandations 2022 sur les pratiques de gestion des voies aeriennes difficiles
+  source_url: https://www.apsf.org/fr/article/mise-au-point-de-lanesthesia-patient-safety-foundation-recommandations-2022-sur-les-pratiques-de-gestion-des-voies-aeriennes-difficiles-de-lamerican-society-of-anesthesiologis/
+  source_organisme: APSF France
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: webpage
+- fact_id: reanimation_extubation_high_risk_requires_predefined_plan
+  statut: direct_source
+  force_source: normatif
+  fact_type: extubation_guardrail
+  statement: Les recommandations SFAR/SRLF sur le patient de reanimation renforcent l'idee qu'une extubation a risque doit etre precedee d'une strategie formalisee et d'une anticipation de la reintubation.
+  metric: extubation_risk
+  rule_type: predefined_plan
+  value_text: extubation a risque = plan formalise
+  source_ref: sfar_srlf_intubation_extubation_reanimation_2017
+  source_title: Intubation et extubation du patient en reanimation
+  source_url: https://sfar.org/wp-content/uploads/2016/09/Intubation-et-extubation-du-patient-en-reanimation-ANREA.pdf
+  source_organisme: SFAR / SRLF / Anesthesie & Reanimation
+  source_class_id: normative_recommandations
+  source_support_type: pdf

@@ -1,0 +1,68 @@
+topic_id: obstetrique
+faits:
+- fact_id: obstetric_hemodynamics_need_specific_management
+  statut: direct_source
+  force_source: normative
+  fact_type: terrain_modulator
+  statement: Les recommandations SFAR d'optimisation hemodynamique distinguent explicitement le champ obstetrique du reste de l'adulte.
+  source_ref: sfar_optimisation_hemodynamique_perioperatoire_adulte_dont_obstetrique
+  source_title: SFAR Optimisation hemodynamique perioperatoire - Adulte dont obstetrique
+  source_url: https://sfar.org/optimisation-hemodynamique-perioperatoire-adulte-dont-obstetrique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: severe_preeclampsia_prevalence_is_one_to_two_percent
+  statut: direct_source
+  force_source: normative
+  fact_type: epidemiology
+  statement: La pre-eclampsie est estimee entre 1 et 2 % des femmes enceintes et, dans ses formes graves, peut mettre en jeu le pronostic vital maternel et fetal.
+  source_ref: sfar_reanimation_des_formes_graves_de_preeclampsie
+  source_title: SFAR Reanimation des formes graves de preeclampsie
+  source_url: https://sfar.org/reanimation-des-formes-graves-de-preeclampsie/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: planned_cesarean_spinal_hypotension_is_very_common
+  statut: direct_source
+  force_source: pratique
+  fact_type: threshold_context
+  statement: Sous rachianesthesie pour cesarienne, l'hypotension arterielle survient dans 55 % a 90 % des cas malgre le decubitus lateral gauche partiel.
+  source_ref: mapar_hypotension_rachianesthesie_pour_cesarienne
+  source_title: MAPAR Hypotension et rachianesthesie pour cesarienne
+  source_url: https://www.mapar.org/article/1/Communication%20MAPAR/i9pozpbz/Hypotension%20et%20rachianesth%C3%A9sie%20pour%20c%C3%A9sarienne%C2%A0%3A%20vasopresseurs%2C%20amidons%20et%20cristallo%C3%AFdes.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: crystalloid_preload_is_poorly_effective_in_cesarean_spinal
+  statut: direct_source
+  force_source: pratique
+  fact_type: hemodynamic_management
+  statement: Le pre-remplissage par cristalloides a 10 a 20 mL/kg de Ringer lactate a ete longtemps recommande pour prevenir l'hypotension sous rachianesthesie obstetricale, mais il est rapporte comme tres peu efficace voire inefficace.
+  source_ref: mapar_hypotension_rachianesthesie_pour_cesarienne
+  source_title: MAPAR Hypotension et rachianesthesie pour cesarienne
+  source_url: https://www.mapar.org/article/1/Communication%20MAPAR/i9pozpbz/Hypotension%20et%20rachianesth%C3%A9sie%20pour%20c%C3%A9sarienne%C2%A0%3A%20vasopresseurs%2C%20amidons%20et%20cristallo%C3%AFdes.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: maternal_hypotension_after_spinal_can_be_defined_under_100_sbp
+  statut: direct_source
+  force_source: pratique
+  fact_type: threshold_absolute
+  statement: Dans le protocole MAPAR sur la cesarienne urgente, l'hypotension apres rachianesthesie est definie par une pression arterielle systolique inferieure a 100 mmHg.
+  source_ref: mapar_extension_analgesie_peridurale_cesarienne_urgente
+  source_title: MAPAR Extension d'une analgesie peridurale pour cesarienne urgente
+  source_url: https://www.mapar.org/article/1/Communication%20MAPAR/j1px1sa3/Extension%20d%E2%80%99une%20analg%C3%A9sie%20p%C3%A9ridurale%20pour%20c%C3%A9sarienne%20urgente.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: urgent_cesarean_epidural_extension_has_lower_hypotension_rate
+  statut: direct_source
+  force_source: pratique
+  fact_type: comparative_risk
+  statement: Lors d'une cesarienne urgente par extension d'analgesie peridurale, l'incidence de l'hypotension arterielle rapportee est d'environ 30 %, plus faible que lors d'une rachianesthesie de cesarienne reglee.
+  source_ref: mapar_extension_analgesie_peridurale_cesarienne_urgente
+  source_title: MAPAR Extension d'une analgesie peridurale pour cesarienne urgente
+  source_url: https://www.mapar.org/article/1/Communication%20MAPAR/j1px1sa3/Extension%20d%E2%80%99une%20analg%C3%A9sie%20p%C3%A9ridurale%20pour%20c%C3%A9sarienne%20urgente.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf

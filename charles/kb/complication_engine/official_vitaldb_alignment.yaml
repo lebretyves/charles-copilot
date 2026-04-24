@@ -1,0 +1,362 @@
+version: "2026-04-01"
+goal: "aligner les complications officielles et VitalDB sur un meme objet canonique"
+
+current_vitaldb_assets:
+  problem_ids:
+    - hemodynamic_instability
+    - respiratory_instability
+    - airway_mechanics_issue
+    - depth_excess
+    - light_anesthesia_possible
+    - hemorrhage_context
+    - vasopressor_dependence_context
+    - adverse_outcome_context
+    - difficult_airway_context
+    - metabolic_derangement_context
+    - signal_quality_issue
+    - stable_segment
+  case_complication_tags:
+    - emergency_case
+    - postop_icu_admission
+    - in_hospital_mortality
+    - major_blood_loss
+    - massive_blood_loss
+    - rbc_transfusion
+    - plasma_transfusion
+    - vasopressor_support
+    - ephedrine_support
+    - phenylephrine_support
+    - epinephrine_support
+    - difficult_airway_proxy
+    - intraop_anemia_lab
+    - intraop_acidemia_lab
+    - severe_intraop_acidemia_lab
+    - intraop_hypercapnia_lab
+    - intraop_hyperglycemia_lab
+    - intraop_hyperkalemia_lab
+    - intraop_hypokalemia_lab
+    - renal_dysfunction_lab
+
+complication_alignment:
+  - complication_id: hypotension_perioperatoire
+    official_topic_path: "kb/sources_officielles/complications/hypotension_perioperatoire"
+    no_wave_alignment:
+      status: aligned_partial
+      primary_problem_ids:
+        - hemodynamic_instability
+      supporting_case_tags:
+        - vasopressor_support
+        - ephedrine_support
+        - phenylephrine_support
+      supporting_metrics:
+        - PAM
+        - PAS
+        - FC
+        - pam_delta
+      already_covered:
+        - "PAM basse"
+        - "PAS basse"
+        - "tachycardie associee"
+        - "tendance PAM descendante"
+      missing_for_strong_parity:
+        - "baseline tensionnelle patient pour vraie baisse relative"
+        - "burden hypotensif cumule"
+        - "duree sous seuil explicite par segment"
+    wave_alignment:
+      status: aligned_light
+      supporting_signals:
+        - art
+        - pleth
+        - co2
+      supporting_wave_features:
+        - "perfusion signal stability"
+        - "pleth amplitude drop"
+      missing_for_strong_parity:
+        - "vraie integration waveform dans le score officiel d'hypotension"
+
+  - complication_id: choc_hemorragique_transfusion_massive
+    official_topic_path: "kb/sources_officielles/complications/choc_hemorragique_transfusion_massive"
+    no_wave_alignment:
+      status: aligned_partial
+      primary_problem_ids:
+        - hemorrhage_context
+        - hemodynamic_instability
+        - vasopressor_dependence_context
+      supporting_case_tags:
+        - major_blood_loss
+        - massive_blood_loss
+        - rbc_transfusion
+        - plasma_transfusion
+        - intraop_anemia_lab
+      supporting_metrics:
+        - PAM
+        - PAS
+        - FC
+        - shock_index
+        - hemoglobin
+        - fibrinogen
+        - calcium_ionized
+        - coagulation
+      already_covered:
+        - "saignement metadata"
+        - "transfusion metadata"
+        - "instabilite hemodynamique"
+        - "anemie biologique"
+      missing_for_strong_parity:
+        - "fibrinogene reel si absent du case"
+        - "TP/TCA reel structure dans tous les cas"
+        - "calcémie ionisee partout"
+        - "quantification temporelle de l'aggravation"
+    wave_alignment:
+      status: aligned_light
+      supporting_signals:
+        - art
+        - pleth
+      supporting_wave_features:
+        - "waveform amplitude collapse"
+      missing_for_strong_parity:
+        - "integration waveform robuste du choc hemorragique"
+
+  - complication_id: anaphylaxie_perioperatoire
+    official_topic_path: "kb/sources_officielles/complications/anaphylaxie_perioperatoire"
+    no_wave_alignment:
+      status: aligned_partial
+      primary_problem_ids:
+        - hemodynamic_instability
+        - respiratory_instability
+        - airway_mechanics_issue
+        - vasopressor_dependence_context
+      supporting_case_tags:
+        - epinephrine_support
+      supporting_metrics:
+        - PAM
+        - PAS
+        - FC
+        - SpO2
+        - EtCO2
+        - Ppeak
+      already_covered:
+        - "collapsus hemodynamique"
+        - "instabilite respiratoire"
+        - "pression aerienne elevee"
+        - "usage adrenaline comme contexte"
+      missing_for_strong_parity:
+        - "lien temporel avec injection agent suspect"
+        - "manifestations cutanees"
+        - "grade clinique d'anaphylaxie"
+    wave_alignment:
+      status: aligned_partial
+      supporting_signals:
+        - co2
+        - awp
+        - pleth
+      supporting_wave_features:
+        - "capno deterioration"
+        - "airway pressure rise"
+      missing_for_strong_parity:
+        - "signature waveform specifique non confondue avec bronchospasme pur"
+
+  - complication_id: bronchospasme_perioperatoire
+    official_topic_path: "kb/sources_officielles/complications/bronchospasme_perioperatoire"
+    no_wave_alignment:
+      status: aligned_good
+      primary_problem_ids:
+        - respiratory_instability
+        - airway_mechanics_issue
+      supporting_case_tags:
+        - intraop_hypercapnia_lab
+      supporting_metrics:
+        - SpO2
+        - EtCO2
+        - Ppeak
+        - Vt
+      already_covered:
+        - "desaturation"
+        - "hypercapnie ou hypocapnie"
+        - "haute pression des voies aeriennes"
+      missing_for_strong_parity:
+        - "wheezing ou auscultation"
+        - "discrimination mecanique vs bronchospasme pur plus fine"
+    wave_alignment:
+      status: aligned_good
+      supporting_signals:
+        - co2
+        - awp
+      supporting_wave_features:
+        - "capnography_shape"
+        - "awp max"
+        - "awp amplitude"
+      missing_for_strong_parity:
+        - "score waveform formel type capno en requin"
+
+  - complication_id: intubation_extubation_difficiles
+    official_topic_path: "kb/sources_officielles/complications/intubation_extubation_difficiles"
+    no_wave_alignment:
+      status: aligned_partial
+      primary_problem_ids:
+        - difficult_airway_context
+        - respiratory_instability
+      supporting_case_tags:
+        - difficult_airway_proxy
+      supporting_metrics:
+        - SpO2
+        - attempted_duration
+        - capnography_presence
+      already_covered:
+        - "proxy difficult airway"
+        - "desaturation pendant echec"
+      missing_for_strong_parity:
+        - "nombre de tentatives"
+        - "Cormack structure par episode"
+        - "temps de tentative finement trace"
+        - "vrai volet extubation difficile"
+    wave_alignment:
+      status: weak
+      supporting_signals:
+        - co2
+      supporting_wave_features:
+        - "absence capno"
+      missing_for_strong_parity:
+        - "pas de vraie lecture waveform specifique"
+
+  - complication_id: hypothermie_perioperatoire
+    official_topic_path: "kb/sources_officielles/complications/hypothermie_perioperatoire"
+    no_wave_alignment:
+      status: aligned_good
+      primary_problem_ids: []
+      supporting_case_tags: []
+      supporting_metrics:
+        - temperature
+        - duration
+      already_covered:
+        - "temperature centrale"
+      missing_for_strong_parity:
+        - "duree cumulee sous 36 C par segment"
+        - "contexte rechauffement actif"
+    wave_alignment:
+      status: not_needed_primary
+      supporting_signals: []
+      supporting_wave_features: []
+      missing_for_strong_parity: []
+
+  - complication_id: hyperthermie_maligne
+    official_topic_path: "kb/sources_officielles/complications/hyperthermie_maligne"
+    no_wave_alignment:
+      status: aligned_partial
+      primary_problem_ids:
+        - metabolic_derangement_context
+        - hemodynamic_instability
+        - respiratory_instability
+      supporting_case_tags:
+        - intraop_hyperkalemia_lab
+        - severe_intraop_acidemia_lab
+      supporting_metrics:
+        - temperature
+        - EtCO2
+        - FC
+        - potassium
+        - acid_base
+      already_covered:
+        - "hypercapnie"
+        - "tachycardie"
+        - "hyperkaliemie"
+        - "acidose"
+      missing_for_strong_parity:
+        - "agent declencheur en cours"
+        - "rigidite musculaire"
+        - "cinetique rapide temperature + EtCO2"
+    wave_alignment:
+      status: aligned_partial
+      supporting_signals:
+        - co2
+      supporting_wave_features:
+        - "rapid etco2 rise"
+      missing_for_strong_parity:
+        - "pas de score waveform specifique dedie"
+
+  - complication_id: arret_cardiaque_perioperatoire
+    official_topic_path: "kb/sources_officielles/complications/arret_cardiaque_perioperatoire"
+    no_wave_alignment:
+      status: aligned_good
+      primary_problem_ids:
+        - hemodynamic_instability
+        - respiratory_instability
+      supporting_case_tags:
+        - in_hospital_mortality
+      supporting_metrics:
+        - HR
+        - EtCO2
+        - arterial_pulse
+      already_covered:
+        - "disparition hemodynamique"
+        - "effondrement EtCO2"
+      missing_for_strong_parity:
+        - "rythme choquable/non choquable structure"
+        - "chronologie ACLS per-op"
+    wave_alignment:
+      status: aligned_good
+      supporting_signals:
+        - art
+        - co2
+      supporting_wave_features:
+        - "loss of arterial pulsatility"
+        - "etco2 collapse"
+      missing_for_strong_parity: []
+
+  - complication_id: embolie_pulmonaire_etat_de_choc
+    official_topic_path: "kb/sources_officielles/complications/embolie_pulmonaire_etat_de_choc"
+    no_wave_alignment:
+      status: aligned_light
+      primary_problem_ids:
+        - respiratory_instability
+        - hemodynamic_instability
+      supporting_case_tags: []
+      supporting_metrics:
+        - SpO2
+        - EtCO2
+        - PAM
+        - FC
+      already_covered:
+        - "instabilite respi + hemo"
+      missing_for_strong_parity:
+        - "contexte thromboembolique direct"
+        - "donnees echo VD"
+        - "difference avec anaphylaxie, pneumothorax ou choc hemorragique"
+    wave_alignment:
+      status: aligned_light
+      supporting_signals:
+        - co2
+        - art
+      supporting_wave_features:
+        - "etco2 drop"
+      missing_for_strong_parity:
+        - "signature waveform specifique insuffisante seule"
+
+  - complication_id: laryngospasme_enfant
+    official_topic_path: "kb/sources_officielles/complications/laryngospasme_enfant"
+    no_wave_alignment:
+      status: aligned_partial
+      primary_problem_ids:
+        - respiratory_instability
+        - difficult_airway_context
+      supporting_case_tags:
+        - difficult_airway_proxy
+      supporting_metrics:
+        - SpO2
+        - capnography_presence
+        - airway_context
+      already_covered:
+        - "desaturation rapide"
+        - "probleme de voie aerienne"
+      missing_for_strong_parity:
+        - "contexte pediatrique oblige"
+        - "absence de ventilation/stridor structuree"
+        - "episode per-extubation ou stimulation laryngee"
+    wave_alignment:
+      status: aligned_light
+      supporting_signals:
+        - co2
+      supporting_wave_features:
+        - "capno loss"
+      missing_for_strong_parity:
+        - "waveform respiratoire pediatrique plus specifique"

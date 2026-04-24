@@ -1,0 +1,7 @@
+topic_id: obesite_saos_voies_aeriennes
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille_partiel
+open_points:
+  - "Ajouter dans un second passage les outils de depistage type STOP-BANG seulement s'ils sont explicitement repris par une source francaise retenue."
+  - "Conserver separement le risque morphologique, le risque SAOS et le risque d'extubation pour l'algorithme final."

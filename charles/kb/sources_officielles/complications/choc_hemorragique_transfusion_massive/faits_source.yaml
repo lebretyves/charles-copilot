@@ -1,0 +1,168 @@
+topic_id: choc_hemorragique_transfusion_massive
+faits:
+- fact_id: hemorrhagic_shock_requires_early_recognition
+  statut: direct_source
+  force_source: normative
+  fact_type: care_priority
+  statement: Le choc hemorragique doit etre reconnu precocement pour engager rapidement la strategie de reanimation et de controle du saignement.
+  source_ref: sfar_reanimation_du_choc_hemorragique
+  source_title: SFAR Reanimation du choc hemorragique
+  source_url: https://sfar.org/recommandations-sur-la-reanimation-du-choc-hemorragique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: hemorrhage_assessment_is_multidimensional
+  statut: direct_source
+  force_source: normative
+  fact_type: combined_assessment
+  statement: L'evaluation utile associe donnees cliniques, hemodynamiques, biologiques et contexte chirurgical.
+  source_ref: sfar_reanimation_du_choc_hemorragique
+  source_title: SFAR Reanimation du choc hemorragique
+  source_url: https://sfar.org/recommandations-sur-la-reanimation-du-choc-hemorragique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: transfusion_massive_risk_requires_anticipation
+  statut: direct_source
+  force_source: normative
+  fact_type: escalation_context
+  statement: Le risque de transfusion massive impose une anticipation des produits et des protocoles de reanimation.
+  source_ref: sfar_plyo_en_choc_hemorragique_risque_de_transfusion_massive
+  source_title: SFAR PLYO en choc hemorragique / risque de transfusion massive
+  source_url: https://sfar.org/indications-de-transfusion-de-plasmas-lyophilises-plyo-chez-un-patient-en-choc-hemorragique-ou-a-risque-de-transfusion-massive-en-milieu-civil/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: protocolized_operational_response_is_recommended
+  statut: direct_source
+  force_source: pratique
+  fact_type: care_pathway
+  statement: Les fiches d'urgence MAPAR confirment l'interet d'une reponse protocolisee et rapide face au choc hemorragique.
+  source_ref: mapar_fiche_urgence_choc_hemorragique
+  source_title: MAPAR Fiche urgence choc hemorragique
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_05_choc_hemorragique.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: lethal_diamond_includes_hypocalcemia
+  statut: direct_source
+  force_source: normative
+  fact_type: pathophysiology
+  statement: La prise en charge du choc hemorragique doit lutter contre le diamant letal associant coagulopathie, acidose, hypothermie et hypocalcemie.
+  source_ref: sfar_reanimation_du_choc_hemorragique
+  source_title: SFAR Reanimation du choc hemorragique
+  source_url: https://sfar.org/recommandations-sur-la-reanimation-du-choc-hemorragique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: fibrinogen_target_is_at_least_one_point_five
+  statut: direct_source
+  force_source: normative
+  fact_type: threshold_absolute
+  statement: Le fibrinogene est un marqueur cle ; un seuil inferieur a 1,5 g/L doit faire envisager une correction specifique dans la prise en charge du choc hemorragique.
+  source_ref: sfar_reanimation_du_choc_hemorragique
+  source_title: SFAR Reanimation du choc hemorragique
+  source_url: https://sfar.org/recommandations-sur-la-reanimation-du-choc-hemorragique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: coagulation_disorder_can_be_flagged_by_tp_or_tca
+  statut: direct_source
+  force_source: normative
+  fact_type: threshold_combination
+  statement: Une coagulopathie significative peut etre retenue devant un TP inferieur a 40 % ou un allongement du TP ou du TCA superieur a 1,5 fois la normale.
+  source_ref: sfar_reanimation_du_choc_hemorragique
+  source_title: SFAR Reanimation du choc hemorragique
+  source_url: https://sfar.org/recommandations-sur-la-reanimation-du-choc-hemorragique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: ionized_calcium_should_be_maintained_in_normal_range
+  statut: direct_source
+  force_source: normative
+  fact_type: threshold_target
+  statement: L'hypocalcemie doit etre corrigee en visant une calcemie ionisee dans la plage 1,1 a 1,3 mmol/L.
+  source_ref: sfar_reanimation_du_choc_hemorragique
+  source_title: SFAR Reanimation du choc hemorragique
+  source_url: https://sfar.org/recommandations-sur-la-reanimation-du-choc-hemorragique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: hemoglobin_target_depends_on_cardiovascular_context
+  statut: direct_source
+  force_source: normative
+  fact_type: terrain_modulated_threshold
+  statement: La cible d'hemoglobine est classiquement superieure a 7 g/dL, mais une cible superieure a 9 g/dL peut etre retenue en cas de coronaropathie.
+  source_ref: sfar_reanimation_du_choc_hemorragique
+  source_title: SFAR Reanimation du choc hemorragique
+  source_url: https://sfar.org/recommandations-sur-la-reanimation-du-choc-hemorragique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: massive_transfusion_definition_short_windows
+  statut: direct_source
+  force_source: normative
+  fact_type: definition
+  statement: La QFP SFAR retient comme definitions operationnelles de la transfusion massive plus de 5 CGR en 3 heures ou plus de 8 CGR en 6 heures.
+  metric: CGR
+  rule_type: volume_time_window
+  value_text: '> 5 CGR/3 h ou > 8 CGR/6 h'
+  source_ref: sfar_qfp_transfusion_massive
+  source_title: SFAR QFP Transfusion Massive
+  source_url: https://sfar.org/qfp-transfusion-massive/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: plasma_rbc_ratio_1_2_to_1_1
+  statut: direct_source
+  force_source: normative
+  fact_type: threshold_combination
+  statement: La HAS et la QFP SFAR recommandent en transfusion massive un ratio PFC:CGR compris entre 1:2 et 1:1.
+  metric: ratio_PFC_CGR
+  rule_type: target_range
+  value_text: 1:2 a 1:1
+  source_ref: has_transfusion_plasma_therapeutique
+  source_title: 'HAS Transfusion de plasma therapeutique : produits, indications'
+  source_url: https://www.has-sante.fr/jcms/c_1264081/fr/transfusion-de-plasma-therapeutique-produits-indications
+  source_organisme: HAS
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: plasma_should_start_early_with_rbc
+  statut: direct_source
+  force_source: normative
+  fact_type: care_pathway
+  statement: La transfusion de plasma doit debuter au plus vite, idealement en meme temps que les concentres de globules rouges.
+  source_ref: has_transfusion_plasma_therapeutique
+  source_title: 'HAS Transfusion de plasma therapeutique : produits, indications'
+  source_url: https://www.has-sante.fr/jcms/c_1264081/fr/transfusion-de-plasma-therapeutique-produits-indications
+  source_organisme: HAS
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: fibrinogen_target_1_5_to_2_g_per_l
+  statut: direct_source
+  force_source: normative
+  fact_type: threshold_target
+  statement: La concentration de fibrinogene doit etre surveillee et maintenue entre 1,5 et 2 g/L au cours de la transfusion massive.
+  metric: fibrinogen
+  rule_type: target_range
+  value_text: 1,5 a 2 g/L
+  source_ref: has_transfusion_plasma_therapeutique
+  source_title: 'HAS Transfusion de plasma therapeutique : produits, indications'
+  source_url: https://www.has-sante.fr/jcms/c_1264081/fr/transfusion-de-plasma-therapeutique-produits-indications
+  source_organisme: HAS
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: tranexamic_acid_1g_then_1g_8h
+  statut: direct_source
+  force_source: normative
+  fact_type: treatment_threshold
+  statement: La QFP SFAR propose d'associer l'acide tranexamique selon un schema de 1 g en bolus puis 1 g en 8 heures.
+  metric: tranexamic_acid
+  rule_type: treatment_dose
+  value_text: 1 g puis 1 g sur 8 h
+  source_ref: sfar_qfp_transfusion_massive
+  source_title: SFAR QFP Transfusion Massive
+  source_url: https://sfar.org/qfp-transfusion-massive/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage

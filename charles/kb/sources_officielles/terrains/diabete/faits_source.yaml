@@ -1,0 +1,55 @@
+topic_id: diabete
+faits:
+- fact_id: strict_cardiac_surgery_target_100_150_mg_dl
+  statut: direct_source
+  force_source: pratique
+  fact_type: target
+  statement: En chirurgie cardiaque, plusieurs etudes citees dans MAPAR rapportent un benefice d'un controle glycemique relativement strict entre 100 et 150 mg/dl.
+  metric: glycemie
+  rule_type: target_range
+  value_text: 100-150 mg/dl
+  source_ref: mapar_controle_glycemique_peri_operatoire
+  source_title: MAPAR Le controle glycemique en peri-operatoire
+  source_url: https://www.mapar.org/article/1/Communication%20MAPAR/chix7fxo/Le%20contr%C3%B4le%20glyc%C3%A9mique%20en%20p%C3%A9ri-op%C3%A9ratoire.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: nice_sugar_strict_range_4_5_to_6_0_mmol_l
+  statut: direct_source
+  force_source: pratique
+  fact_type: target
+  statement: L'etude NICE-SUGAR compare un controle strict entre 4,5 et 6,0 mmol/l a un controle plus liberal <= 10 mmol/l.
+  metric: glycemie
+  rule_type: compared_ranges
+  value_text: 4,5-6,0 mmol/l vs <= 10 mmol/l
+  source_ref: mapar_controle_glycemique_peri_operatoire
+  source_title: MAPAR Le controle glycemique en peri-operatoire
+  source_url: https://www.mapar.org/article/1/Communication%20MAPAR/chix7fxo/Le%20contr%C3%B4le%20glyc%C3%A9mique%20en%20p%C3%A9ri-op%C3%A9ratoire.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: severe_hypoglycemia_under_2_2_mmol_l
+  statut: direct_source
+  force_source: pratique
+  fact_type: threshold
+  statement: L'hypoglycemie severe est definie dans l'article MAPAR par une glycemie inferieure ou egale a 2,2 mmol/l.
+  metric: glycemie
+  rule_type: absolute_low
+  value_text: <= 2,2 mmol/l
+  source_ref: mapar_controle_glycemique_peri_operatoire
+  source_title: MAPAR Le controle glycemique en peri-operatoire
+  source_url: https://www.mapar.org/article/1/Communication%20MAPAR/chix7fxo/Le%20contr%C3%B4le%20glyc%C3%A9mique%20en%20p%C3%A9ri-op%C3%A9ratoire.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: periop_diabetes_management_depends_on_context
+  statut: direct_source
+  force_source: normative
+  fact_type: care_pathway
+  statement: La strategie perioperatoire depend du type de diabete, du traitement et du type de chirurgie.
+  source_ref: sfar_prise_en_charge_du_patient_diabetique_en_peri_operatoire
+  source_title: SFAR Prise en charge du patient diabetique en peri-operatoire
+  source_url: https://sfar.org/download/prise-en-charge-du-patient-diabetique-en-peri-operatoire/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage

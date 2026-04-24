@@ -1,0 +1,7 @@
+topic_id: insuffisance_renale
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille_partiel
+open_points:
+  - "Ajouter dans un second passage les definitions KDIGO ligne a ligne si elles sont reprises explicitement dans les documents SFAR utilises."
+  - "Distinguer les regles de surveillance d'un terrain renal chronique des regles d'IRA perioperatoire de novo."

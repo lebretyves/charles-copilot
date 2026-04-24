@@ -1,0 +1,27 @@
+# Hypotension V2 - ASA 1 Summary
+
+- Cases processed: `1241`
+- With waveforms: `13`
+- Without waveforms: `1228`
+- Runtime: `616.449 s`
+
+## Overall
+- early: `{'available': 1241, 'detected_before_onset': 739, 'mean_s': 892.409, 'median_s': 128.0}`
+- probable: `{'available': 1241, 'detected_before_onset': 550, 'mean_s': 724.994, 'median_s': 0.0}`
+- confirmed: `{'available': 1241, 'detected_before_onset': 327, 'mean_s': 518.082, 'median_s': -58.0}`
+- mean_peak_risk: `0.6943`
+- mean_peak_confidence: `0.7821`
+
+## Waveforms Enabled
+- early: `{'available': 13, 'detected_before_onset': 13, 'mean_s': 877.231, 'median_s': 594.0}`
+- probable: `{'available': 13, 'detected_before_onset': 10, 'mean_s': 610.308, 'median_s': 500.0}`
+- confirmed: `{'available': 13, 'detected_before_onset': 4, 'mean_s': 198.615, 'median_s': -58.0}`
+- mean_peak_risk: `0.8418`
+- mean_peak_confidence: `0.9998`
+
+## Numeric Only
+- early: `{'available': 1228, 'detected_before_onset': 726, 'mean_s': 892.57, 'median_s': 123.0}`
+- probable: `{'available': 1228, 'detected_before_onset': 540, 'mean_s': 726.208, 'median_s': 0.0}`
+- confirmed: `{'available': 1228, 'detected_before_onset': 323, 'mean_s': 521.464, 'median_s': -58.0}`
+- mean_peak_risk: `0.6927`
+- mean_peak_confidence: `0.7798`

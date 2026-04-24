@@ -1,0 +1,53 @@
+topic_id: obstetrique
+topic_type: terrain
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_optimisation_hemodynamique_perioperatoire_adulte_dont_obstetrique
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Optimisation hemodynamique perioperatoire - Adulte dont obstetrique
+  url: https://sfar.org/optimisation-hemodynamique-perioperatoire-adulte-dont-obstetrique/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_reanimation_des_formes_graves_de_preeclampsie
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Reanimation des formes graves de preeclampsie
+  url: https://sfar.org/reanimation-des-formes-graves-de-preeclampsie/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: mapar_hypotension_rachianesthesie_pour_cesarienne
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Hypotension et rachianesthesie pour cesarienne
+  url: https://www.mapar.org/article/1/Communication%20MAPAR/i9pozpbz/Hypotension%20et%20rachianesth%C3%A9sie%20pour%20c%C3%A9sarienne%C2%A0%3A%20vasopresseurs%2C%20amidons%20et%20cristallo%C3%AFdes.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: mapar_extension_analgesie_peridurale_cesarienne_urgente
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Extension d'une analgesie peridurale pour cesarienne urgente
+  url: https://www.mapar.org/article/1/Communication%20MAPAR/j1px1sa3/Extension%20d%E2%80%99une%20analg%C3%A9sie%20p%C3%A9ridurale%20pour%20c%C3%A9sarienne%20urgente.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: aphp_bichat_anesthesie_reanimation
+  organisme: AP-HP Bichat
+  niveau_source: pedagogique
+  title: AP-HP Bichat - Service d'anesthesie-reanimation
+  url: https://www.aphp.fr/service/service-01-011
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: aphp_pitie_salpetriere_anesthesie_reanimation
+  organisme: AP-HP Pitie-Salpetriere
+  niveau_source: pedagogique
+  title: AP-HP Pitie-Salpetriere - Departement d'anesthesie-reanimation
+  url: https://pitiesalpetriere.aphp.fr/anesthesie-reanimation/
+  support_type: webpage
+  date_consultation: 2026-04-02
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id

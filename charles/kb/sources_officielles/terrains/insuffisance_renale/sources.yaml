@@ -1,0 +1,46 @@
+topic_id: insuffisance_renale
+topic_type: terrain
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_insuffisance_renale_aigue_en_perioperatoire_et_en_reanimation
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Insuffisance renale aigue en perioperatoire et en reanimation
+  url: https://sfar.org/insuffisance-renale-aigue/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_la_protection_renale_perioperatoire
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR La protection renale perioperatoire
+  url: https://sfar.org/wp-content/uploads/2015/10/2b_AFAR_Texte-Long_La-protection-renale-perioperatoire.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: sfar_curarisation_et_decurarisation_en_anesthesie
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Curarisation et decurarisation en anesthesie
+  url: https://sfar.org/curarisation-et-decurarisation-en-anesthesie/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: aphp_pitie_salpetriere_anesthesie_reanimation
+  organisme: AP-HP Pitie-Salpetriere
+  niveau_source: pedagogique
+  title: AP-HP Pitie-Salpetriere - Departement d'anesthesie-reanimation
+  url: https://pitiesalpetriere.aphp.fr/anesthesie-reanimation/
+  support_type: webpage
+  date_consultation: 2026-04-02
+- source_id: aphp_avicenne_anesthesie_reanimation
+  organisme: AP-HP Avicenne
+  niveau_source: pedagogique
+  title: AP-HP Avicenne - Service d'anesthesie-reanimation
+  url: https://www.aphp.fr/avicenne/service-d-anesthesie-reanimation
+  support_type: webpage
+  date_consultation: 2026-04-02
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id

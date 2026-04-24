@@ -15,7 +15,17 @@ interface ScopeBaseProps {
   bis?: number;
 }
 
-export function ScopeDrager({ v, waveRef, roomId, hasWaveData, timestamp, alerts, ventBrand, vent, bis }: ScopeBaseProps) {
+export function ScopeDrager({
+  v,
+  waveRef,
+  roomId,
+  hasWaveData,
+  timestamp,
+  alerts,
+  ventBrand,
+  vent,
+  bis,
+}: ScopeBaseProps) {
   const hasCritical = alerts.some((alert) => alert.level === "critical");
   const alarmAlert = alerts.find((alert) => alert.level === "critical") ?? alerts.find((alert) => alert.level === "warning");
 
@@ -133,7 +143,18 @@ interface ScopeGenericProps extends ScopeBaseProps {
   theme: "ge" | "philips";
 }
 
-export function ScopeGeneric({ v, waveRef, roomId, hasWaveData, timestamp, alerts, theme, ventBrand, vent, bis }: ScopeGenericProps) {
+export function ScopeGeneric({
+  v,
+  waveRef,
+  roomId,
+  hasWaveData,
+  timestamp,
+  alerts,
+  theme,
+  ventBrand,
+  vent,
+  bis,
+}: ScopeGenericProps) {
   const hasCritical = alerts.some((alert) => alert.level === "critical");
   const alarmAlert = alerts.find((alert) => alert.level === "critical") ?? alerts.find((alert) => alert.level === "warning");
   const isGE = theme === "ge";

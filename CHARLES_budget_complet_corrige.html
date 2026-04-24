@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHARLES — Budget complet & Subventions</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&family=DM+Mono:wght@400;500&display=swap');
+:root{
+  --navy:#04091e;--navy2:#0a1435;--navy3:#111d4a;
+  --blue:#1546e0;--blue2:#2d5ff5;--cyan:#00d4ff;--cyan2:#7ef4ff;
+  --green:#00e5a0;--green2:#00b87d;--orange:#ff7b2c;--red:#ff3b5c;
+  --yellow:#ffd24d;--white:#f0f4ff;--gray:#8892b0;--gray2:#4a5578;
+  --border:rgba(255,255,255,0.07);--card:rgba(255,255,255,0.04);
+  --card2:rgba(21,70,224,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);font-size:13px;line-height:1.7;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px;}
+
+.tabbar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--navy2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;height:54px;gap:0;overflow-x:auto;}
+.tabbar-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:var(--white);letter-spacing:-0.5px;margin-right:28px;flex-shrink:0;}
+.tabbar-logo span{color:var(--cyan);}
+.tab{display:flex;align-items:center;gap:7px;padding:0 16px;height:54px;border-bottom:2px solid transparent;font-size:11.5px;font-weight:500;color:var(--gray);cursor:pointer;transition:all 0.2s;flex-shrink:0;white-space:nowrap;}
+.tab:hover{color:var(--white);}
+.tab.active{color:var(--cyan);border-bottom-color:var(--cyan);}
+.tab-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+.page{display:none;padding:70px 0 60px;min-height:100vh;}
+.page.active{display:block;}
+.container{max-width:1040px;margin:0 auto;padding:0 36px;}
+.page-header{padding:40px 36px 32px;max-width:1040px;margin:0 auto;border-bottom:1px solid var(--border);margin-bottom:36px;}
+.page-eyebrow{font-size:9px;font-weight:500;color:var(--cyan);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.page-eyebrow::before{content:'';width:20px;height:1px;background:var(--cyan);}
+.page-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px;}
+.page-sub{font-size:13px;color:var(--gray);max-width:700px;font-weight:300;line-height:1.7;}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;}
+.card-green{background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:12px;padding:20px 22px;}
+.card-blue{background:var(--card2);border:1px solid rgba(21,70,224,0.25);border-radius:12px;padding:20px 22px;}
+.card-orange{background:rgba(255,123,44,0.07);border:1px solid rgba(255,123,44,0.25);border-radius:12px;padding:20px 22px;}
+.card-red{background:rgba(255,59,92,0.07);border:1px solid rgba(255,59,92,0.2);border-radius:12px;padding:20px 22px;}
+.card-yellow{background:rgba(255,210,77,0.07);border:1px solid rgba(255,210,77,0.2);border-radius:12px;padding:20px 22px;}
+.card-purple{background:rgba(157,78,221,0.08);border:1px solid rgba(157,78,221,0.25);border-radius:12px;padding:20px 22px;}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0;}
+
+.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px;}
+.tbl thead tr{background:rgba(21,70,224,0.3);}
+.tbl thead th{padding:9px 12px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--cyan2);}
+.tbl tbody td{padding:8px 12px;border-bottom:1px solid var(--border);font-size:12px;color:var(--white);vertical-align:top;}
+.tbl tbody tr:hover td{background:var(--card);}
+.tbl tfoot td{padding:10px 12px;border-top:2px solid rgba(255,255,255,0.15);font-size:13px;font-weight:700;}
+
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:0.3px;}
+.tag-green{background:rgba(0,229,160,0.12);color:var(--green);border:1px solid rgba(0,229,160,0.25);}
+.tag-cyan{background:rgba(0,212,255,0.12);color:var(--cyan);border:1px solid rgba(0,212,255,0.3);}
+.tag-orange{background:rgba(255,123,44,0.12);color:var(--orange);border:1px solid rgba(255,123,44,0.25);}
+.tag-red{background:rgba(255,59,92,0.12);color:var(--red);border:1px solid rgba(255,59,92,0.25);}
+.tag-yellow{background:rgba(255,210,77,0.12);color:var(--yellow);border:1px solid rgba(255,210,77,0.25);}
+.tag-purple{background:rgba(157,78,221,0.12);color:#d4a0ff;border:1px solid rgba(157,78,221,0.25);}
+
+.callout{border-radius:10px;padding:14px 18px;display:flex;gap:12px;align-items:flex-start;margin:14px 0;}
+.ci{font-size:16px;flex-shrink:0;margin-top:1px;}
+.callout-blue{background:rgba(21,70,224,0.12);border:1px solid rgba(21,70,224,0.25);}
+.callout-green{background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);}
+.callout-orange{background:rgba(255,123,44,0.08);border:1px solid rgba(255,123,44,0.2);}
+.callout-red{background:rgba(255,59,92,0.08);border:1px solid rgba(255,59,92,0.2);}
+.callout-yellow{background:rgba(255,210,77,0.08);border:1px solid rgba(255,210,77,0.2);}
+
+h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:12px;color:var(--white);}
+h4{font-size:12px;font-weight:600;color:var(--white);margin-bottom:8px;}
+p{font-size:12.5px;color:var(--gray);line-height:1.75;margin-bottom:8px;}
+strong{color:var(--white);font-weight:500;}
+.divider{height:1px;background:var(--border);margin:22px 0;}
+code{font-family:'DM Mono',monospace;font-size:11px;background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;color:var(--cyan2);}
+.money-green{color:var(--green);font-weight:600;font-family:'Syne',sans-serif;}
+.money-red{color:var(--red);font-weight:600;font-family:'Syne',sans-serif;}
+.money-orange{color:var(--orange);font-weight:600;font-family:'Syne',sans-serif;}
+.check-list{list-style:none;padding:0;}
+.check-list li{padding:4px 0 4px 18px;position:relative;font-size:12px;color:var(--gray);line-height:1.6;border-bottom:1px solid rgba(255,255,255,0.03);}
+.check-list li:last-child{border-bottom:none;}
+.check-list li::before{content:'→';position:absolute;left:0;color:var(--cyan);font-size:11px;}
+.check-list li strong{color:var(--white);}
+
+/* BUDGET BARS */
+.budget-row{display:flex;align-items:center;gap:12px;margin:6px 0;padding:8px 14px;background:rgba(0,0,0,0.2);border-radius:6px;}
+.budget-label{flex:1;font-size:12px;color:var(--gray);}
+.budget-bar-wrap{width:200px;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;}
+.budget-bar{height:100%;border-radius:3px;}
+.budget-val{width:100px;text-align:right;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;}
+.budget-sub{width:90px;text-align:right;font-size:10px;color:var(--gray2);font-family:'DM Mono',monospace;}
+
+/* PHASE HEADER */
+.phase-header{border-radius:12px;padding:20px 24px;margin-bottom:20px;position:relative;overflow:hidden;}
+.phase-h1{background:linear-gradient(135deg,#0d2a6e,#1546e0);}
+.phase-h2{background:linear-gradient(135deg,#0a4028,#00b87d);}
+.phase-h3{background:linear-gradient(135deg,#5a2a00,#ff7b2c);}
+.phase-h4{background:linear-gradient(135deg,#3a0050,#9d4edd);}
+.phase-h-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px;}
+.phase-h-sub{font-size:12px;opacity:0.75;margin-bottom:14px;}
+.phase-h-numbers{display:flex;gap:28px;}
+.phase-h-num{text-align:center;}
+.phase-h-num-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;display:block;line-height:1;}
+.phase-h-num-label{font-size:9px;opacity:0.7;text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
+
+/* SUBVENTION CARD */
+.subv-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:8px 0;}
+.subv-name{font-weight:600;font-size:13px;color:var(--white);margin-bottom:4px;}
+.subv-amount{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--green);margin-bottom:6px;}
+.subv-meta{font-size:11px;color:var(--gray);line-height:1.6;}
+.subv-conditions{font-size:11px;color:var(--cyan2);margin-top:6px;font-style:italic;}
+.subv-deadline{display:inline-block;padding:2px 8px;border-radius:10px;font-size:9.5px;font-weight:600;margin-top:6px;}
+
+/* NET COST */
+.net-cost{background:rgba(0,0,0,0.3);border:1px solid rgba(0,229,160,0.3);border-radius:10px;padding:16px 20px;text-align:center;margin:16px 0;}
+.net-cost-label{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.net-cost-val{font-family:'Syne',sans-serif;font-size:32px;font-weight:700;color:var(--green);}
+.net-cost-sub{font-size:11px;color:var(--gray2);margin-top:4px;}
+</style>
+</head>
+<body>
+
+<div class="tabbar">
+  <div class="tabbar-logo">CHA<span>RLES</span></div>
+  <div class="tab active" onclick="show('p0')"><div class="tab-dot" style="background:var(--cyan)"></div>Vue globale</div>
+  <div class="tab" onclick="show('p1')"><div class="tab-dot" style="background:#1546e0"></div>Phase 1 — Recherche</div>
+  <div class="tab" onclick="show('p2')"><div class="tab-dot" style="background:var(--green)"></div>Phase 2 — Produit</div>
+  <div class="tab" onclick="show('p3')"><div class="tab-dot" style="background:var(--orange)"></div>Phase 3 — Scale</div>
+  <div class="tab" onclick="show('p4')"><div class="tab-dot" style="background:#9d4edd"></div>Subventions détaillées</div>
+  <div class="tab" onclick="show('p5')"><div class="tab-dot" style="background:var(--yellow)"></div>CIFRE — Calcul exact</div>
+  <div class="tab" onclick="show('p6')"><div class="tab-dot" style="background:var(--red)"></div>MDR / CE IIa — Coûts</div>
+</div>
+
+<!-- ════════ PAGE 0 — VUE GLOBALE ════════ -->
+<div class="page active" id="p0">
+  <div class="page-header">
+    <div class="page-eyebrow">Budget consolidé — Mars 2026</div>
+    <h2 class="page-title">Coûts & Subventions — Vue globale</h2>
+    <p class="page-sub">Ordres de grandeur mis à jour en mars 2026. Le document combine des sources officielles (ANRT, Service-Public, Bpifrance, Commission européenne) et des estimations sectorielles pour les postes non publiés officiellement. Tous les montants sont indicatifs et exprimés hors taxes quand applicable.</p>
+  </div>
+  <div class="container">
+<div class="callout callout-yellow">
+      <div class="ci">📝</div>
+      <div><strong>Lecture recommandée :</strong> ce dashboard mélange des <strong>montants officiels</strong> (ex. CIFRE, i-Lab, formalités) et des <strong>hypothèses de plan de financement</strong> (ex. DRCI, seed, coûts CE IIa). Il faut donc lire les chiffres comme des <strong>scénarios de pilotage</strong>, pas comme des droits acquis ou des devis fermes.</div>
+    </div>
+
+
+    <div class="g3">
+      <div class="phase-header phase-h1" style="margin-bottom:0">
+        <div class="phase-h-title">Phase 1</div>
+        <div class="phase-h-sub">Recherche & PoC · 18-24 mois</div>
+        <div class="phase-h-numbers">
+          <div class="phase-h-num">
+            <span class="phase-h-num-val">~230k€</span>
+            <div class="phase-h-num-label">Coût brut</div>
+          </div>
+          <div class="phase-h-num">
+            <span class="phase-h-num-val" style="color:var(--cyan)">~185k€</span>
+            <div class="phase-h-num-label">Subventions</div>
+          </div>
+          <div class="phase-h-num">
+            <span class="phase-h-num-val" style="color:var(--green)">~45k€</span>
+            <div class="phase-h-num-label">À financer</div>
+          </div>
+        </div>
+      </div>
+      <div class="phase-header phase-h2" style="margin-bottom:0">
+        <div class="phase-h-title">Phase 2</div>
+        <div class="phase-h-sub">Produit & CE IIa · 18-30 mois</div>
+        <div class="phase-h-numbers">
+          <div class="phase-h-num">
+            <span class="phase-h-num-val">~650k€</span>
+            <div class="phase-h-num-label">Coût brut</div>
+          </div>
+          <div class="phase-h-num">
+            <span class="phase-h-num-val" style="color:var(--cyan)">~400k€</span>
+            <div class="phase-h-num-label">Subventions</div>
+          </div>
+          <div class="phase-h-num">
+            <span class="phase-h-num-val" style="color:var(--green)">~250k€</span>
+            <div class="phase-h-num-label">Levée seed</div>
+          </div>
+        </div>
+      </div>
+      <div class="phase-header phase-h3" style="margin-bottom:0">
+        <div class="phase-h-title">Phase 3</div>
+        <div class="phase-h-sub">Scale · 24-36 mois</div>
+        <div class="phase-h-numbers">
+          <div class="phase-h-num">
+            <span class="phase-h-num-val">~1,4M€</span>
+            <div class="phase-h-num-label">Coût brut</div>
+          </div>
+          <div class="phase-h-num">
+            <span class="phase-h-num-val" style="color:var(--cyan)">~800k€</span>
+            <div class="phase-h-num-label">Subventions</div>
+          </div>
+          <div class="phase-h-num">
+            <span class="phase-h-num-val" style="color:var(--green)">Série A</span>
+            <div class="phase-h-num-label">Financement</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3>Résumé consolidé toutes phases</h3>
+    <table class="tbl">
+      <thead><tr><th>Phase</th><th>Durée</th><th>Coût brut total</th><th>Subventions publiques</th><th>Coût net réel</th><th>Source financement</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Phase 1</strong> — Recherche</td>
+          <td>18-24 mois</td>
+          <td><span class="money-red">~230 000€</span></td>
+          <td><span class="money-green">~185 000€</span></td>
+          <td><span class="money-orange">~45 000€</span></td>
+          <td>DRCI + CIFRE + CIR</td>
+        </tr>
+        <tr>
+          <td><strong>Phase 2</strong> — Produit CE IIa</td>
+          <td>18-30 mois</td>
+          <td><span class="money-red">~650 000€</span></td>
+          <td><span class="money-green">~400 000€</span></td>
+          <td><span class="money-orange">~250 000€</span></td>
+          <td>i-Lab + ANS + PHRC + BA</td>
+        </tr>
+        <tr>
+          <td><strong>Phase 3</strong> — Scale</td>
+          <td>24-36 mois</td>
+          <td><span class="money-red">~1 400 000€</span></td>
+          <td><span class="money-green">~800 000€</span></td>
+          <td><span class="money-orange">Série A</span></td>
+          <td>ANR + EIC + VC</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td><strong>TOTAL projet complet</strong></td>
+          <td>5-7 ans</td>
+          <td><span class="money-red">~2 280 000€</span></td>
+          <td><span class="money-green">~1 385 000€</span></td>
+          <td><span class="money-green">~895 000€ couvert</span></td>
+          <td>60% couvert public</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="callout callout-green">
+      <div class="ci">💡</div>
+      <div><strong>Lecture prudente :</strong> l'ordre de grandeur de Phase 1 reste compatible avec un financement mixte (activité IADE + DRCI + CIFRE + CIR), mais il ne faut pas présenter ces montants comme garantis. Les phases 2 et 3 supposent soit des subventions substantielles, soit une levée de fonds, soit des revenus pilotes. <strong>Le risque personnel peut rester modéré, mais seulement si les jalons sont franchis dans le bon ordre.</strong></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3>Subventions potentielles — Tableau de synthèse (montants indicatifs)</h3>
+    <table class="tbl">
+      <thead><tr><th>Source</th><th>Montant</th><th>Phase</th><th>Statut 2026</th></tr></thead>
+      <tbody>
+        <tr><td><strong>DRCI CHU</strong></td><td><span class="money-green">30 000 – 150 000€</span></td><td>Phase 1</td><td><span class="tag tag-green">Ouvert — via MAR</span></td></tr>
+        <tr><td><strong>CIFRE ANRT</strong> (subvention entreprise)</td><td><span class="money-green">14 000€/an × 3 = 42 000€</span></td><td>Phase 1-2</td><td><span class="tag tag-green">Ouvert au fil de l'eau</span></td></tr>
+        <tr><td><strong>CIR</strong> (Crédit Impôt Recherche)</td><td><span class="money-green">30% masse salariale R&D</span></td><td>Phase 1-3</td><td><span class="tag tag-green">Automatique annuel</span></td></tr>
+        <tr><td><strong>ANS Santé Numérique</strong></td><td><span class="money-green">50 000 – 200 000€</span></td><td>Phase 1-2</td><td><span class="tag tag-cyan">2 appels/an</span></td></tr>
+        <tr><td><strong>PHRC / PREPS</strong></td><td><span class="money-green">100 000 – 500 000€</span></td><td>Phase 1-2</td><td><span class="tag tag-cyan">Via MAR PH</span></td></tr>
+        <tr><td><strong>ANR PRCE</strong></td><td><span class="money-green">200 000 – 500 000€</span></td><td>Phase 2</td><td><span class="tag tag-cyan">Porteur académique requis</span></td></tr>
+        <tr><td><strong>Bpifrance i-Lab</strong></td><td><span class="money-green">300 000 – 600 000€</span></td><td>Phase 2</td><td><span class="tag tag-red">2026 FERMÉ → 2027</span></td></tr>
+        <tr><td><strong>EIC Accelerator</strong></td><td><span class="money-green">Jusqu'à 2 500 000€ + 15M€</span></td><td>Phase 3</td><td><span class="tag tag-orange">Très sélectif 5%</span></td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td><strong>Total public potentiel</strong></td><td><span class="money-green">1 750 000 – 4 100 000€</span></td><td>Sur 6 ans</td><td>Selon dossiers</td></tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<!-- ════════ PAGE 1 — PHASE 1 ════════ -->
+<div class="page" id="p1">
+  <div class="page-header">
+    <div class="page-eyebrow">Phase 1 · 18-24 mois · An 1-2</div>
+    <h2 class="page-title">Recherche & PoC — Budget détaillé</h2>
+    <p class="page-sub">Équipe de 4 personnes. Simulateur → VitalDB → Protocole CHU → Shadow. Quasi intégralement finançable sur fonds publics si bien structuré.</p>
+  </div>
+  <div class="container">
+
+    <div class="phase-header phase-h1">
+      <div class="phase-h-title">Phase 1 — Recherche & PoC</div>
+      <div class="phase-h-sub">Équipe 4 personnes · 18-24 mois · Simulateur → VitalDB → Shadow CHU</div>
+      <div class="phase-h-numbers">
+        <div class="phase-h-num"><span class="phase-h-num-val">~230k€</span><div class="phase-h-num-label">Coût brut</div></div>
+        <div class="phase-h-num"><span class="phase-h-num-val" style="color:var(--cyan)">~185k€</span><div class="phase-h-num-label">Subventions</div></div>
+        <div class="phase-h-num"><span class="phase-h-num-val" style="color:var(--green)">~45k€</span><div class="phase-h-num-label">À financer</div></div>
+        <div class="phase-h-num"><span class="phase-h-num-val" style="color:var(--yellow)">1 900€</span><div class="phase-h-num-label">par mois toi</div></div>
+      </div>
+    </div>
+
+    <h3>Détail des coûts</h3>
+    <table class="tbl">
+      <thead><tr><th>Poste</th><th>Détail</th><th>Coût mini</th><th>Coût maxi</th><th>Financement</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Toi — CEO / IADE</strong></td>
+          <td>Salaire minimal via SAS · tu maintiens tes vacations IADE en parallèle</td>
+          <td>0€</td>
+          <td>24 000€/an</td>
+          <td>Subventions ou auto</td>
+        </tr>
+        <tr>
+          <td><strong>Doctorant CIFRE</strong></td>
+          <td>27 600€ brut/an min (2026) · 100% R&D · CDI ou CDD 3 ans</td>
+          <td>27 600€/an</td>
+          <td>32 000€/an</td>
+          <td>CIFRE 14 000€ + CIR ~10 000€ = <span class="money-green">net ~8 000€/an pour toi</span></td>
+        </tr>
+        <tr>
+          <td><strong>MAR co-fondateur</strong></td>
+          <td>1-2 jours/semaine · rémunération progressive ou parts avec vesting</td>
+          <td>0€</td>
+          <td>12 000€/an</td>
+          <td>Subventions phase 1b</td>
+        </tr>
+        <tr>
+          <td><strong>Dev senior freelance</strong></td>
+          <td>Audit sécurité + tests pytest + MLflow · 4-6 jours ponctuels</td>
+          <td>2 000€</td>
+          <td>4 000€</td>
+          <td>Auto</td>
+        </tr>
+        <tr>
+          <td><strong>Infrastructure cloud (dev)</strong></td>
+          <td>Docker local + GitHub + Google Colab · pas de HDS encore</td>
+          <td>500€/an</td>
+          <td>2 000€/an</td>
+          <td>Auto</td>
+        </tr>
+        <tr>
+          <td><strong>Données & annotations</strong></td>
+          <td>VitalDB gratuit · MIMIC gratuit · annotations manuelles cliniciens</td>
+          <td>2 000€</td>
+          <td>10 000€</td>
+          <td>DRCI ou auto</td>
+        </tr>
+        <tr>
+          <td><strong>Juridique & statuts</strong></td>
+          <td>Création SAS + avocat convention tripartite + marque INPI</td>
+          <td>3 000€</td>
+          <td>6 000€</td>
+          <td>Auto</td>
+        </tr>
+        <tr>
+          <td><strong>Protocole recherche / CPP</strong></td>
+          <td>CPP gratuit · frais ARC partiel · déplacements</td>
+          <td>3 000€</td>
+          <td>10 000€</td>
+          <td>DRCI CHU</td>
+        </tr>
+        <tr>
+          <td><strong>Congrès & publications</strong></td>
+          <td>SFAR inscription + poster + frais publication</td>
+          <td>1 000€</td>
+          <td>3 000€</td>
+          <td>DRCI ou auto</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr style="background:rgba(21,70,224,0.15)">
+          <td><strong>TOTAL Phase 1</strong></td>
+          <td></td>
+          <td><span class="money-orange">~39 000€</span></td>
+          <td><span class="money-red">~103 000€/an</span></td>
+          <td>~80% financé public</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="divider"></div>
+    <h3>Plan de financement Phase 1 — Dans l'ordre</h3>
+    <div class="g2">
+      <div>
+        <div class="subv-card">
+          <div class="subv-name">1. DRCI CHU partenaire</div>
+          <div class="subv-amount">30 000 – 150 000€</div>
+          <div class="subv-meta">Convention industrielle · le CHU est promoteur · financement le plus rapide</div>
+          <div class="subv-conditions">Condition : MAR référent PH dans le CHU · protocole validé</div>
+          <span class="subv-deadline" style="background:rgba(0,229,160,0.15);color:var(--green)">Délai : 1 à 3 mois</span>
+        </div>
+        <div class="subv-card">
+          <div class="subv-name">2. CIFRE ANRT</div>
+          <div class="subv-amount">14 000€/an × 3 ans</div>
+          <div class="subv-meta">Subvention versée à ta SAS pour financer le salaire doctorant · non assujettie TVA · + CIR sur la part non subventionnée</div>
+          <div class="subv-conditions">Condition : SAS créée · directeur de thèse labo public · sujet validé ANRT · candidat niveau Master</div>
+          <span class="subv-deadline" style="background:rgba(0,212,255,0.12);color:var(--cyan)">Délai : 6 à 9 mois · au fil de l'eau</span>
+        </div>
+      </div>
+      <div>
+        <div class="subv-card">
+          <div class="subv-name">3. CIR (automatique)</div>
+          <div class="subv-amount">30% dépenses R&D</div>
+          <div class="subv-meta">Applicable sur les salaires R&D, prestations, équipements. Remboursement immédiat si &lt; 5 ans d'existence. Doctorant CIFRE éligible au CIR sur la part non subventionnée par l'ANRT.</div>
+          <div class="subv-conditions">Condition : SAS créée · déclaration fiscale annuelle</div>
+          <span class="subv-deadline" style="background:rgba(0,229,160,0.15);color:var(--green)">Délai : déclaration annuelle · automatique</span>
+        </div>
+        <div class="subv-card">
+          <div class="subv-name">4. ANS Santé Numérique</div>
+          <div class="subv-amount">50 000 – 200 000€</div>
+          <div class="subv-meta">Appels à projets santé numérique · 2 fois par an · favorable IA + bloc opératoire + non prescriptif</div>
+          <div class="subv-conditions">Condition : entreprise française · projet aligné feuille route numérique santé</div>
+          <span class="subv-deadline" style="background:rgba(255,123,44,0.12);color:var(--orange)">Délai : 3 à 6 mois</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="net-cost">
+      <div class="net-cost-label">Coût net Phase 1 pour toi personnellement</div>
+      <div class="net-cost-val">~45 000€ sur 24 mois</div>
+      <div class="net-cost-sub">soit environ 1 900€/mois · couvert par tes vacations IADE en intérim</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ PAGE 2 — PHASE 2 ════════ -->
+<div class="page" id="p2">
+  <div class="page-header">
+    <div class="page-eyebrow">Phase 2 · 18-30 mois · An 3-4</div>
+    <h2 class="page-title">Produit & Marquage CE IIa — Budget détaillé</h2>
+    <p class="page-sub">Équipe de 8 à 10 personnes. Dossier CE IIa + ISO 13485 + infrastructure HDS. La phase la plus capitalistique — nécessite levée seed ou subventions importantes.</p>
+  </div>
+  <div class="container">
+
+    <div class="phase-header phase-h2">
+      <div class="phase-h-title">Phase 2 — Produit & CE IIa</div>
+      <div class="phase-h-sub">Équipe 8-10 personnes · 18-30 mois · CE IIa + ISO 13485 + HDS + premiers clients</div>
+      <div class="phase-h-numbers">
+        <div class="phase-h-num"><span class="phase-h-num-val">~650k€</span><div class="phase-h-num-label">Coût brut</div></div>
+        <div class="phase-h-num"><span class="phase-h-num-val" style="color:var(--cyan)">~400k€</span><div class="phase-h-num-label">Subventions</div></div>
+        <div class="phase-h-num"><span class="phase-h-num-val" style="color:var(--green)">~250k€</span><div class="phase-h-num-label">Levée seed</div></div>
+      </div>
+    </div>
+
+    <div class="callout callout-orange">
+      <div class="ci">⚠️</div>
+      <div><strong>Point critique Phase 2 :</strong> Le coût total de mise en conformité CE IIa pour un logiciel dispositif médical IA est estimé en moyenne à 500 000€ selon MedTech Europe Survey 2024 — mais pour une startup TPE focalisée SaMD class IIa, le scénario réaliste est 80 000 à 150 000€ d'honoraires ON + consultant RA si on démarre proprement dès la Phase 1.</div>
+    </div>
+
+    <h3>Détail des coûts</h3>
+    <table class="tbl">
+      <thead><tr><th>Poste</th><th>Détail</th><th>Mini</th><th>Maxi</th><th>Financement</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Équipe tech (4-5 pers.)</strong></td><td>CTO + ML engineers × 2 + ingénieur intégration</td><td>200 000€/an</td><td>350 000€/an</td><td>Levée seed + CIR</td></tr>
+        <tr><td><strong>Responsable RA (Affaires Réglementaires)</strong></td><td>Expert MDR ISO 13485 · poste critique · mois 15</td><td>55 000€/an</td><td>75 000€/an</td><td>Levée seed</td></tr>
+        <tr><td><strong>UX Designer médical</strong></td><td>Interface clinique bloc opératoire</td><td>45 000€/an</td><td>60 000€/an</td><td>Levée seed</td></tr>
+        <tr><td><strong>ARC (Attaché Recherche Clinique)</strong></td><td>Suivi protocoles, données, publications</td><td>35 000€/an</td><td>45 000€/an</td><td>PHRC ou levée</td></tr>
+        <tr>
+          <td><strong>ISO 13485 + CE IIa organisme notifié</strong></td>
+          <td>Audit initial ISO 13485 (6 jours) + évaluation dossier technique DM + frais ON. Sources : forum DM qualitiso.com — TPE class IIa : 45-50k€ première année</td>
+          <td>45 000€</td>
+          <td>80 000€</td>
+          <td>Subventions</td>
+        </tr>
+        <tr>
+          <td><strong>Consultant RA (préparation dossier)</strong></td>
+          <td>Accompagnement SMQ, évaluation clinique, plan de surveillance post-marché · 9 à 18 mois de préparation</td>
+          <td>20 000€</td>
+          <td>50 000€</td>
+          <td>i-Lab ou levée</td>
+        </tr>
+        <tr><td><strong>Infrastructure HDS</strong></td><td>Azure Healthcare APIs ou OVH HDS certifié · HDS V2.0 obligatoire mai 2026+</td><td>6 000€/an</td><td>18 000€/an</td><td>CA clients</td></tr>
+        <tr><td><strong>Étude clinique validation</strong></td><td>Prospectif multi-centrique · 300-500 patients · ARC + assurance</td><td>40 000€</td><td>100 000€</td><td>PHRC ou ANR</td></tr>
+        <tr><td><strong>Cybersécurité & tests</strong></td><td>Pentest + audit sécurité + conformité RGPD DM</td><td>10 000€</td><td>25 000€</td><td>Levée seed</td></tr>
+        <tr><td><strong>Commercial & marketing</strong></td><td>Congrès SFAR + matériel commercial + déplacements</td><td>20 000€</td><td>50 000€</td><td>Levée seed</td></tr>
+        <tr><td><strong>Juridique & IP</strong></td><td>Brevets + contrats clients + CGU + mise à jour statuts</td><td>15 000€</td><td>40 000€</td><td>Levée seed</td></tr>
+      </tbody>
+      <tfoot>
+        <tr style="background:rgba(0,184,125,0.1)">
+          <td><strong>TOTAL Phase 2</strong></td><td></td>
+          <td><span class="money-orange">~491 000€</span></td>
+          <td><span class="money-red">~893 000€</span></td>
+          <td>Moyenne : ~650 000€</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="divider"></div>
+    <h3>Financement Phase 2</h3>
+    <div class="g2">
+      <div>
+        <div class="subv-card">
+          <div class="subv-name">PHRC / PREPS (Ministère Santé)</div>
+          <div class="subv-amount">100 000 – 500 000€</div>
+          <div class="subv-meta">Porté par le MAR PH dans le CHU · couvre personnel + infra + données</div>
+          <div class="subv-conditions">Condition : CHU promoteur · MAR investigateur principal · résultats Phase 1</div>
+          <span class="subv-deadline" style="background:rgba(255,123,44,0.12);color:var(--orange)">Délai : 12-18 mois</span>
+        </div>
+        <div class="subv-card">
+          <div class="subv-name">Bpifrance i-Lab 2027</div>
+          <div class="subv-amount">300 000 – 600 000€</div>
+          <div class="subv-meta">Concours national deeptech annuel · catégorie santé numérique · le label Bpifrance ouvre toutes les portes suivantes</div>
+          <div class="subv-conditions">Condition : projet deeptech · équipe crédible · résultats Phase 1 présentés · i-Lab 2026 FERMÉ</div>
+          <span class="subv-deadline" style="background:rgba(255,59,92,0.12);color:var(--red)">i-Lab 2026 FERMÉ → Viser 2027</span>
+        </div>
+      </div>
+      <div>
+        <div class="subv-card">
+          <div class="subv-name">ANR PRCE</div>
+          <div class="subv-amount">200 000 – 500 000€</div>
+          <div class="subv-meta">Partenariat public-privé · le CHU/labo académique porte la partie publique · toi la partie privée</div>
+          <div class="subv-conditions">Condition : porteur académique obligatoire · délai 12-18 mois pour réponse</div>
+          <span class="subv-deadline" style="background:rgba(255,123,44,0.12);color:var(--orange)">Délai : 12-18 mois</span>
+        </div>
+        <div class="subv-card">
+          <div class="subv-name">Business Angels santé</div>
+          <div class="subv-amount">200 000 – 600 000€</div>
+          <div class="subv-meta">Réseaux : France Angels, Auriga, Karista · tickets 50-200k€ par BA · syndication 3-5 BA</div>
+          <div class="subv-conditions">Condition : données cliniques Phase 1 · CE IIa en cours · prototype validé terrain</div>
+          <span class="subv-deadline" style="background:rgba(255,210,77,0.12);color:var(--yellow)">Délai : 3-6 mois après Phase 1</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ PAGE 3 — PHASE 3 ════════ -->
+<div class="page" id="p3">
+  <div class="page-header">
+    <div class="page-eyebrow">Phase 3 · 24-36 mois · An 5-7</div>
+    <h2 class="page-title">Scale — Budget détaillé</h2>
+    <p class="page-sub">15 à 20 personnes. Expansion multi-sites France puis Europe. EIC Accelerator + Série A. CE IIb si décisionnel étendu.</p>
+  </div>
+  <div class="container">
+
+    <div class="phase-header phase-h3">
+      <div class="phase-h-title">Phase 3 — Scale & Expansion</div>
+      <div class="phase-h-sub">Équipe 15-20 personnes · 24-36 mois · multi-sites France + expansion Europe</div>
+      <div class="phase-h-numbers">
+        <div class="phase-h-num"><span class="phase-h-num-val">~1,4M€</span><div class="phase-h-num-label">Coût brut</div></div>
+        <div class="phase-h-num"><span class="phase-h-num-val" style="color:var(--cyan)">~800k€</span><div class="phase-h-num-label">Subventions</div></div>
+        <div class="phase-h-num"><span class="phase-h-num-val" style="color:var(--green)">Série A</span><div class="phase-h-num-label">3-8M€</div></div>
+      </div>
+    </div>
+
+    <h3>Postes principaux Phase 3</h3>
+    <table class="tbl">
+      <thead><tr><th>Poste</th><th>Effectif</th><th>Coût annuel</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Équipe produit & tech</strong></td><td>CTO + 4-5 devs + ML</td><td>400-600k€/an</td><td>Série A</td></tr>
+        <tr><td><strong>Équipe commerciale</strong></td><td>Dir. commercial + 2 account managers</td><td>150-250k€/an</td><td>Série A + CA</td></tr>
+        <tr><td><strong>Équipe déploiement</strong></td><td>2 ingénieurs déploiement + support</td><td>100-160k€/an</td><td>CA</td></tr>
+        <tr><td><strong>CE IIb (si décisionnel)</strong></td><td>Responsable RA + ON + étude prospective</td><td>200-500k€ total</td><td>EIC + ANR</td></tr>
+        <tr><td><strong>Infrastructure HDS multi-sites</strong></td><td>Scale HDS · MLOps · monitoring</td><td>30-80k€/an</td><td>CA</td></tr>
+        <tr><td><strong>Marketing & notoriété</strong></td><td>SFAR + publications + relations presse</td><td>50-100k€/an</td><td>CA</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td><strong>TOTAL Phase 3</strong></td><td></td><td><span class="money-red">~1 400 000€</span></td><td>Série A + CA + EIC</td></tr>
+      </tfoot>
+    </table>
+
+    <div class="divider"></div>
+    <h3>Financement Phase 3 — Les grands tickets</h3>
+    <div class="g2">
+      <div class="subv-card">
+        <div class="subv-name">EIC Accelerator (Horizon Europe)</div>
+        <div class="subv-amount">Jusqu'à 2 500 000€ grant + 15 000 000€ equity</div>
+        <div class="subv-meta">Le plus gros ticket public européen. Innovation de rupture. Très sélectif : taux de succès ~5%. Ton profil clinicien + tech + données est exactement ce qu'ils cherchent.</div>
+        <div class="subv-conditions">Conditions : marché >1Md€ démontré · équipe solide · résultats Phase 1+2 · CE IIa en cours ou obtenu</div>
+        <span class="subv-deadline" style="background:rgba(255,210,77,0.12);color:var(--yellow)">Délai : 6-12 mois · plusieurs sessions/an</span>
+      </div>
+      <div class="subv-card">
+        <div class="subv-name">Série A — VC Medtech</div>
+        <div class="subv-amount">3 000 000 – 8 000 000€</div>
+        <div class="subv-meta">Fonds spécialisés : Elaia Partners, Karista, Sofinnova, Bpifrance Large Venture. Nécessite ARR visible + CE IIa obtenu + premiers clients payants.</div>
+        <div class="subv-conditions">Conditions : CE IIa · ARR 200-500k€ · équipe complète · données cliniques validées</div>
+        <span class="subv-deadline" style="background:rgba(157,78,221,0.12);color:#d4a0ff">Délai : 6-12 mois de processus</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ PAGE 4 — SUBVENTIONS DÉTAILLÉES ════════ -->
+<div class="page" id="p4">
+  <div class="page-header">
+    <div class="page-eyebrow">Subventions — Toutes sources vérifiées</div>
+    <h2 class="page-title">Guide complet des subventions</h2>
+    <p class="page-sub">Montants et délais mis à jour en mars 2026. Les montants publics officiels sont distingués des hypothèses de montage financier, qui restent indicatives.</p>
+  </div>
+  <div class="container">
+
+    <h3>À demander dès la création de la SAS</h3>
+    <div class="g2">
+      <div class="subv-card">
+        <div class="subv-name">Acre — exonération partielle de cotisations</div>
+        <div class="subv-amount">Taux minoré pendant la 1re année</div>
+        <div class="subv-meta">L’Acre n’est <strong>pas automatique</strong> et n’est <strong>pas ouverte à tout créateur</strong>. L’éligibilité dépend d’une situation personnelle précise (ex. demandeur d’emploi indemnisé ou non, jeune de 18 à 25 ans, bénéficiaire RSA/ASS/PreParE, QPV, etc.). Pour une SAS/SASU, l’intérêt réel dépend aussi de la rémunération effective du dirigeant.</div>
+        <div class="subv-conditions">Conditions : respecter un critère d’éligibilité + déposer la demande dans les <strong>60 jours</strong> suivant l’ouverture d’activité (règle affichée sur Service-Public pour 2026)</div>
+        <span class="subv-deadline" style="background:rgba(0,229,160,0.15);color:var(--green)">Source : Service-Public / Urssaf · à vérifier avant dépôt</span>
+      </div>
+      <div class="subv-card">
+        <div class="subv-name">CIR — Crédit Impôt Recherche</div>
+        <div class="subv-amount">30% des dépenses R&D</div>
+        <div class="subv-meta">Crédit d'impôt annuel. Assiette : salaires chercheurs (dont doctorant CIFRE sur part non subventionnée), prestations R&D, équipements. Remboursé immédiatement pour les entreprises &lt;5 ans d'existence (trésorerie améliorée). Cumulable avec CIFRE.</div>
+        <div class="subv-conditions">Conditions : SAS créée · déclaration 2069-A-SD avec la liasse fiscale annuelle</div>
+        <span class="subv-deadline" style="background:rgba(0,229,160,0.15);color:var(--green)">Automatique · Déclaration fiscale annuelle</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Subventions Phase 1 — Détail procédures</h3>
+
+    <div class="subv-card" style="margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+        <div style="flex:1">
+          <div class="subv-name">DRCI — Délégation Recherche Clinique et Innovation</div>
+          <div class="subv-amount">30 000 – 150 000€</div>
+          <div class="subv-meta">Source la plus rapide. Chaque CHU dispose d'une enveloppe dédiée aux partenariats industriels. La DRCI instruit le dossier, valide le protocole, gère la convention tripartite. Le MAR PH est le contact interne qui porte la demande.</div>
+          <div class="subv-conditions">Conditions exactes : MAR PH dans le CHU · protocole de recherche rédigé · convention signée · pas de données CHU avant la signature</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <span class="subv-deadline" style="background:rgba(0,229,160,0.15);color:var(--green);display:block;margin-bottom:6px">Délai : 1 à 3 mois</span>
+          <span class="subv-deadline" style="background:rgba(0,212,255,0.12);color:var(--cyan);display:block">Via le MAR</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subv-card" style="margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+        <div style="flex:1">
+          <div class="subv-name">CIFRE ANRT — Convention Industrielle Formation par la Recherche</div>
+          <div class="subv-amount">14 000€/an × 3 = 42 000€ de subvention + ~30 000€ CIR</div>
+          <div class="subv-meta">Subvention versée à ta SAS pour financer un doctorant. Non assujettie à la TVA. En 2026 le salaire minimum est de 27 600€ brut/an. Avec la subvention ANRT (14 000€) et le CIR (~10 000€), le coût réel pour la SAS est d'environ 8 000 à 12 000€/an. Le doctorant fait 100% R&D, partagé entre SAS et labo. Au fil de l'eau — pas de session unique.</div>
+          <div class="subv-conditions">Conditions : SAS de droit français · candidat niveau Master · directeur de thèse labo accrédité école doctorale · sujet R&D clairement défini · pas de restriction de nationalité</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <span class="subv-deadline" style="background:rgba(0,212,255,0.12);color:var(--cyan);display:block;margin-bottom:6px">URL : anrt.asso.fr</span>
+          <span class="subv-deadline" style="background:rgba(0,212,255,0.12);color:var(--cyan);display:block;margin-bottom:6px">Au fil de l'eau</span>
+          <span class="subv-deadline" style="background:rgba(255,123,44,0.12);color:var(--orange);display:block">Délai : 6-9 mois</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subv-card" style="margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+        <div style="flex:1">
+          <div class="subv-name">ANS — Agence du Numérique en Santé</div>
+          <div class="subv-amount">50 000 – 200 000€</div>
+          <div class="subv-meta">Appels à projets dédiés santé numérique et IA médicale. Très favorable aux projets de vigilance périopératoire, non prescriptifs, interopérables. 2 sessions par an (printemps et automne). Critères : entreprise française, alignement feuille de route numérique santé, partenariat CHU valorisé.</div>
+          <div class="subv-conditions">Conditions : entreprise française créée · projet aligné DNS · partenariat institutionnel démontré</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <span class="subv-deadline" style="background:rgba(0,212,255,0.12);color:var(--cyan);display:block;margin-bottom:6px">URL : esante.gouv.fr</span>
+          <span class="subv-deadline" style="background:rgba(255,123,44,0.12);color:var(--orange);display:block">Délai : 3-6 mois</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subv-card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+        <div style="flex:1">
+          <div class="subv-name">PHRC — Programme Hospitalier de Recherche Clinique</div>
+          <div class="subv-amount">100 000 – 500 000€</div>
+          <div class="subv-meta">Financé par le Ministère de la Santé (DGOS). Le CHU est le promoteur officiel. Ton MAR PH dépose le dossier — toi tu es le partenaire industriel. Couvre : personnel ARC, équipements, infrastructure, données, publications. Très crédible pour le dossier CE IIa ensuite.</div>
+          <div class="subv-conditions">Conditions : CHU promoteur · MAR PH investigateur principal · protocole CPP favorable · résultats phase observationnelle disponibles</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <span class="subv-deadline" style="background:rgba(255,123,44,0.12);color:var(--orange);display:block;margin-bottom:6px">Via le MAR PH</span>
+          <span class="subv-deadline" style="background:rgba(255,123,44,0.12);color:var(--orange);display:block">Délai : 12-18 mois</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ PAGE 5 — CIFRE CALCUL ════════ -->
+<div class="page" id="p5">
+  <div class="page-header">
+    <div class="page-eyebrow">CIFRE — Calcul détaillé 2026</div>
+    <h2 class="page-title">Le calcul exact CIFRE + CIR</h2>
+    <p class="page-sub">Chiffres officiels ANRT 2026. Le dispositif le plus avantageux pour une startup medtech en phase 1. Coût réel doctorant : ~8 000€/an pour ta SAS.</p>
+  </div>
+  <div class="container">
+
+    <div class="callout callout-green">
+      <div class="ci">🎯</div>
+      <div><strong>En résumé :</strong> pour un doctorant au salaire minimum CIFRE 2026 (27 600€ brut/an), la subvention ANRT est bien de <strong>14 000€/an</strong>. Le coût net pour la SAS après ANRT, puis éventuellement CIR, reste un <strong>calcul illustratif</strong> : il est souvent présenté comme très attractif, mais doit être revu avec le cabinet comptable avant d'être intégré dans un business plan.</div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Grille salariale CIFRE — Évolution officielle</h3>
+    <table class="tbl">
+      <thead><tr><th>Année</th><th>Salaire brut min/mois</th><th>Salaire brut min/an</th><th>Coût chargé entreprise/an (~140%)</th><th>Subvention ANRT</th><th>CIR estimé</th><th>Coût net SAS/an</th></tr></thead>
+      <tbody>
+        <tr><td>2023</td><td>2 044€</td><td>24 529€</td><td>~34 341€</td><td>14 000€</td><td>~6 102€</td><td><span class="money-green">~14 239€</span></td></tr>
+        <tr><td>2024</td><td>2 100€</td><td>25 200€</td><td>~35 280€</td><td>14 000€</td><td>~6 384€</td><td><span class="money-green">~14 896€</span></td></tr>
+        <tr><td>2025</td><td>2 200€</td><td>26 400€</td><td>~36 960€</td><td>14 000€</td><td>~6 888€</td><td><span class="money-green">~16 072€</span></td></tr>
+        <tr style="background:rgba(21,70,224,0.15)"><td><strong>2026 (toi)</strong></td><td><strong>2 300€</strong></td><td><strong>27 600€</strong></td><td><strong>~38 640€</strong></td><td><strong>14 000€</strong></td><td><strong>~10 000€*</strong></td><td><span class="money-green"><strong>~14 640€/an</strong></span></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:var(--gray2)">* CIR estimé sur base formule : (salaire brut × 1,4 × 1,43 − subvention ANRT) × 30%. Calcul indicatif — vérifier avec ton comptable. Source formule : finalli.com janvier 2026.</p>
+
+    <div class="divider"></div>
+    <h3>Ce que ça donne concrètement sur 3 ans</h3>
+    <table class="tbl">
+      <thead><tr><th></th><th>An 1</th><th>An 2</th><th>An 3</th><th>Total 3 ans</th></tr></thead>
+      <tbody>
+        <tr><td>Salaire brut minimum versé</td><td>27 600€</td><td>27 600€</td><td>27 600€</td><td><span class="money-orange">82 800€</span></td></tr>
+        <tr><td>Coût chargé SAS (~140%)</td><td>38 640€</td><td>38 640€</td><td>38 640€</td><td><span class="money-red">115 920€</span></td></tr>
+        <tr><td>Subvention ANRT reçue</td><td>−14 000€</td><td>−14 000€</td><td>−14 000€</td><td><span class="money-green">−42 000€</span></td></tr>
+        <tr><td>CIR récupéré</td><td>−10 000€</td><td>−10 000€</td><td>−10 000€</td><td><span class="money-green">−30 000€</span></td></tr>
+        <tr style="background:rgba(0,229,160,0.08)"><td><strong>Coût net SAS</strong></td><td><strong>14 640€</strong></td><td><strong>14 640€</strong></td><td><strong>14 640€</strong></td><td><span class="money-green"><strong>43 920€</strong></span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="net-cost">
+      <div class="net-cost-label">Ordre de grandeur du coût net d'un chercheur CIFRE à temps plein</div>
+      <div class="net-cost-val">~43 920€ sur 3 ans</div>
+      <div class="net-cost-sub">soit ~1 220€/mois · vs un dev senior à 70 000€/an sans subvention</div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Comment monter le dossier CIFRE — Étapes exactes</h3>
+    <table class="tbl">
+      <thead><tr><th>Étape</th><th>Qui fait quoi</th><th>Délai</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1. Trouver le directeur de thèse</strong></td><td>Via ton MAR — labo affilié à une école doctorale · Gayat ou Botrel peuvent faciliter</td><td>2-4 semaines</td></tr>
+        <tr><td><strong>2. Trouver le candidat doctorant</strong></td><td>Master IA Santé (Paris Cité, Sorbonne) ou M2 data · ANRT a une bourse d'offres</td><td>1-3 mois</td></tr>
+        <tr><td><strong>3. Rédiger le projet de recherche</strong></td><td>Toi + directeur thèse · suivre les recommandations ANRT · sujet CHARLES précis</td><td>3-4 semaines</td></tr>
+        <tr><td><strong>4. Déposer le dossier sur anrt.asso.fr</strong></td><td>Formulaire en ligne · pièces : lettres engagement entreprise + labo + école doctorale + CV candidat</td><td>1 semaine</td></tr>
+        <tr><td><strong>5. Instruction ANRT</strong></td><td>ANRT vérifie éligibilité · accusé réception · expertises externes</td><td>2-4 mois</td></tr>
+        <tr><td><strong>6. Convention CIFRE signée</strong></td><td>ANRT envoie la convention · tu signes · premier versement</td><td>+2 semaines</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════ PAGE 6 — MDR / CE IIa ════════ -->
+<div class="page" id="p6">
+  <div class="page-header">
+    <div class="page-eyebrow">MDR / CE IIa — Coûts réels 2025-2026</div>
+    <h2 class="page-title">Marquage CE IIa — Ce que ça coûte vraiment</h2>
+    <p class="page-sub">Sources mixtes : guidance officielle Commission européenne + éléments sectoriels/retours marché pour les coûts. Les montants CE IIa ci-dessous sont des fourchettes indicatives, pas des barèmes officiels.</p>
+  </div>
+  <div class="container">
+
+    <div class="callout callout-orange">
+      <div class="ci">⚠️</div>
+      <div><strong>Avertissement important :</strong> l’AI Act est entré en vigueur en août 2024, mais pour les logiciels IA qui sont <strong>des dispositifs médicaux</strong> ou font partie d’un dispositif médical, le guide MDCG 2025-6 précise que les obligations des <strong>Annex I high-risk AI systems</strong> s’appliquent en pratique à partir du <strong>2 août 2027</strong>, pas 2026. Cela ne change pas le besoin de construire proprement dès Phase 1, mais la date du jalon réglementaire principal devait être corrigée.</div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Coûts CE IIa — Deux scénarios réalistes pour CHARLES</h3>
+
+    <div class="g2">
+      <div class="card-blue">
+        <h4 style="color:var(--cyan)">Scénario A — TPE bien préparée dès Phase 1</h4>
+        <p style="font-size:11.5px">Si tu construis proprement l'IEC 62304, les tests, le CHANGELOG, le SOUP.md dès le premier jour de code → le dossier technique est presque prêt quand tu arrives en Phase 2.</p>
+        <table class="tbl" style="margin:10px 0">
+          <thead><tr><th>Poste</th><th>Coût</th></tr></thead>
+          <tbody>
+            <tr><td>Consultant RA (préparation SMQ 12 mois)</td><td>20 000 – 35 000€</td></tr>
+            <tr><td>ON audit initial ISO 13485 (6 jours)</td><td>15 000 – 25 000€</td></tr>
+            <tr><td>ON évaluation dossier technique DM IIa</td><td>15 000 – 25 000€</td></tr>
+            <tr><td>Évaluation clinique (littérature + données Phase 1)</td><td>8 000 – 15 000€</td></tr>
+            <tr><td>EUDAMED + frais divers</td><td>2 000 – 5 000€</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td><strong>Total scénario A</strong></td><td><span class="money-green">60 000 – 105 000€</span></td></tr>
+          </tfoot>
+        </table>
+        <p style="font-size:11px;color:var(--gray2)">Source : forum qualitiso.com — TPE DM IIa software-only bien préparée : 45-50k€ première année (chiffre 2020, revu à la hausse en 2025)</p>
+      </div>
+
+      <div class="card-orange">
+        <h4 style="color:var(--orange)">Scénario B — Startup qui arrive sans préparation</h4>
+        <p style="font-size:11.5px">Si tu n'as pas structuré l'IEC 62304 en Phase 1 → le consultant doit tout reconstruire. Délais plus longs, coûts plus élevés.</p>
+        <table class="tbl" style="margin:10px 0">
+          <thead><tr><th>Poste</th><th>Coût</th></tr></thead>
+          <tbody>
+            <tr><td>Consultant RA (reconstruction SMQ 18 mois)</td><td>40 000 – 70 000€</td></tr>
+            <tr><td>ON audit initial ISO 13485 (7-8 jours)</td><td>20 000 – 35 000€</td></tr>
+            <tr><td>ON évaluation dossier technique</td><td>20 000 – 40 000€</td></tr>
+            <tr><td>Évaluation clinique + essai prospectif partiel</td><td>40 000 – 100 000€</td></tr>
+            <tr><td>Divers + non-conformités</td><td>10 000 – 30 000€</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td><strong>Total scénario B</strong></td><td><span class="money-red">130 000 – 275 000€</span></td></tr>
+          </tfoot>
+        </table>
+        <p style="font-size:11px;color:var(--gray2)">Source : MedTech Europe Survey 2024 — coût moyen mise en conformité DM EU : ~500k€ total cycle de vie (all-in). Rumb 2025 : délai moyen 20 mois.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Délais réalistes — Ce que tu dois anticiper</h3>
+    <table class="tbl">
+      <thead><tr><th>Étape</th><th>Durée</th><th>Quand démarrer</th></tr></thead>
+      <tbody>
+        <tr><td>Mise en place SMQ ISO 13485</td><td>9 à 18 mois</td><td>Dès Phase 1 (CHANGELOG + SOUP + IEC 62304)</td></tr>
+        <tr><td>Sélection + prise en charge par ON</td><td>3 à 6 mois (ON saturés)</td><td>Mois 12-18 de Phase 1</td></tr>
+        <tr><td>Audit initial ON + non-conformités</td><td>3 à 6 mois</td><td>Phase 2</td></tr>
+        <tr><td>Évaluation clinique</td><td>6 à 12 mois</td><td>Phase 2 (données Phase 1 valorisées)</td></tr>
+        <tr><td>Obtention certificat CE IIa</td><td>Moyenne 20 mois selon Rumb 2025</td><td>Fin Phase 2</td></tr>
+        <tr><td>Surveillance post-marché (PSUR)</td><td>Continue · rapport annuel</td><td>Dès CE obtenu</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-blue">
+      <div class="ci">💡</div>
+      <div>
+        <strong>Les organismes notifiés français pour logiciel médical IIa :</strong>
+        <br>• <strong>AFNOR Certification</strong> — ON français · peut auditer en français · champ IIa, IIb, III
+        <br>• <strong>BSI (British Standards Institution)</strong> — très actif en Europe post-Brexit · anglais
+        <br>• <strong>TÜV SÜD / TÜV Rheinland</strong> — allemands · très demandés · délais longs
+        <br>• <strong>LNE/G-MED</strong> — français · historiquement actif DM
+        <br><strong>Attention :</strong> certains ON sont saturés jusqu'à fin 2025-2026. Entrer en contact le plus tôt possible.
+      </div>
+    </div>
+
+    <div class="net-cost" style="margin-top:20px">
+      <div class="net-cost-label">Budget CE IIa total estimatif pour CHARLES (scénario prudent)</div>
+      <div class="net-cost-val">80 000 – 150 000€</div>
+      <div class="net-cost-sub">Si tu construis proprement dès Phase 1 · sur 20 mois · finançable sur i-Lab 2027 + PHRC</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const idx=['p0','p1','p2','p3','p4','p5','p6'].indexOf(id);
+  document.querySelectorAll('.tab')[idx].classList.add('active');
+  window.scrollTo(0,0);
+}
+</script>
+<div style="max-width:1040px;margin:20px auto 40px;padding:0 36px;color:var(--gray2);font-size:11px;line-height:1.6;">
+  <strong style="color:var(--white)">Note méthodologique.</strong> Les postes ANRT/CIFRE et i-Lab sont alignés sur les sources officielles 2026. Les coûts de certification CE IIa, les montants DRCI/PHRC/ANS et les hypothèses de levée de fonds doivent être traités comme des fourchettes de travail et revalidés avec un organisme notifié, un consultant RA, la DRCI concernée et ton expert-comptable.
+</div>
+</body>
+</html>

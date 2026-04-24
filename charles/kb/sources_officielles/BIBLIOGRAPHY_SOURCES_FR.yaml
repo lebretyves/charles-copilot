@@ -1,0 +1,2503 @@
+version: '2026-04-01'
+goal: Bibliographie francaise traceable pour la KB clinique CHARLES
+counts:
+  total_entries: 126
+  by_class:
+    normative_recommandations: 45
+    pedagogique_enseignement_medecins: 34
+    professionnelle_pratique_fr: 47
+entries:
+- entry_id: adarpef_rfe_gestion_vas_enfant
+  title: RFE Gestion des VAS de l'enfant - version ADARPEF
+  organisme: ADARPEF
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: rfe_pdf
+  url: https://e-adarpef.fr/wp-content/uploads/2018/10/RFE-Gestion-des-VAS-de-l-enfant-Acceptation-CA-SFAR.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Version miroir ADARPEF utile pour acces et verification des recommandations gradees
+  used_by_topics:
+  - complication:laryngospasme_enfant
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\laryngospasme_enfant\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: anrea_anaphylaxie_epidemiologie_2025
+  title: Epidemiologie des reactions d'hypersensibilite perioperatoire immediate
+  organisme: Anesthesie & Reanimation / EM-Consulte
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1783995/epidemiologie-des-reactions-d-hypersensibilite-per
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour incidence, agents en cause et mise a jour de la surveillance francaise
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_anaphylaxie_physiopathologie_2025
+  title: Physiopathologie des reactions anaphylactiques perioperatoires
+  organisme: Anesthesie & Reanimation / EM-Consulte
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1783730/physiopathologie-des-reactions-anaphylactiques-per
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Permet de densifier la branche physiopathologique de l'anaphylaxie
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_anaphylaxie_prise_en_charge_article
+  title: Prise en charge de l'anaphylaxie perioperatoire
+  organisme: Anesthesie & Reanimation / EM-Consulte
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1184232/prise-en-charge-de-l-anaphylaxie-perioperatoire
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Resume libre avec signes initiaux utiles dont baisse EtCO2, desaturation et difficulte ventilatoire
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_arret_cardiaque_bloc_2023
+  title: 'Arret cardiaque au bloc operatoire : elements de prise en charge'
+  organisme: Pratiques en Anesthesie-Reanimation / EM-Consulte
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1601080/arret-cardiaque-au-bloc-operatoire-elements-de-pri
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour circonstances de survenue, causes frequentes et organisation de la reanimation au bloc
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_bis_update_2025
+  title: 'Monitorage de la profondeur de l''anesthesie par l''Index Bispectral : le point en 2025'
+  organisme: Anesthesie & Reanimation / EM-Consulte
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1780839/monitorage-de-la-profondeur-de-l-anesthesie-par-l-
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour BIS/EEG, surdosage hypnotique, delire postoperatoire et prevention de la memorisation
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_bp_target_2022
+  title: Quelle cible de pression arterielle en anesthesie-reanimation ?
+  organisme: Anesthesie & Reanimation / EM-Consulte
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1509787/quelle-cible-de-pression-arterielle-en-anesthesie-
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Utile pour baseline tensionnelle, cibles individualisees et interpretation de l'hypotension
+  used_by_topics:
+  - complication:hypotension_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\hypotension_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: anrea_cefazoline_curares_2025
+  title: 'Anaphylaxie perioperatoire a la cefazoline et aux curares: comparaison du profil clinique et biologique'
+  organisme: Anesthesie & Reanimation / EM-Consulte
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1731922/anaphylaxie-perioperatoire-a-la-cefazoline-et-aux-
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Utile pour les delais differents cefazoline/curares et la cinetique biologique de la tryptase
+  used_by_topics:
+  - complication:anaphylaxie_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\anaphylaxie_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: anrea_enfant_enrhume_2025
+  title: 'Enfant enrhume avant une anesthesie : eternel probleme ?'
+  organisme: Anesthesie & Reanimation / EM-Consulte
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1769968/enfant-enrhume-avant-une-anesthesie-eternel-proble
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour la decision maintien/report et l'evaluation recente du surrisque respiratoire en contexte d'IVAS
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_hemodynamique_issue
+  title: Numero thematique Hemodynamique
+  organisme: Anesthesie & Reanimation
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: thematic_issue
+  url: https://www.em-consulte.com/revue/ANREA/8/2/table-des-matieres/
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour hypotension, choc, monitorage hemodynamique
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_laryngospasme_enfant_enrhume_2022
+  title: Laryngospasme sous masque larynge chez un enfant enrhume
+  organisme: Anesthesie & Reanimation / EM-Consulte
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1537028/article/laryngospasme-sous-masque-larynge-chez-un-enfant-e
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour le contexte IVAS, la phase per-extubation et le risque respiratoire pediatrique
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_laryngospasme_mythe_ou_realite_2015
+  title: Laryngospasme en anesthesie pediatrique - mythe ou realite ?
+  organisme: Anesthesie & Reanimation / ScienceDirect
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: article_page
+  url: https://www.sciencedirect.com/science/article/pii/S1279796015001254
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Revue specialisee utile pour l'algorithme pratique, la prevention et la discussion des facteurs de risque
+  used_by_topics:
+  - complication:laryngospasme_enfant
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\laryngospasme_enfant\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: anrea_pediatrie_issue
+  title: Numero thematique Pediatrie
+  organisme: Anesthesie & Reanimation
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: thematic_issue
+  url: https://www.em-consulte.com/revue/ANREA/numeros-thematiques/anesthesie-reanimation
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour laryngospasme, voies aeriennes pediatriques, ventilation pediatrique
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_presentation
+  title: Presentation de la revue officielle SFAR
+  organisme: Anesthesie & Reanimation
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: journal_presentation
+  url: https://www.em-consulte.com/revue/ANREA/presentation/anesthesie-reanimation
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Revue officielle de FMC/DPC SFAR en francais
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_thematic_issues
+  title: Numeros thematiques
+  organisme: Anesthesie & Reanimation
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: journal_thematic_index
+  url: https://www.em-consulte.com/revue/ANREA/numeros-thematiques/anesthesie-reanimation
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: 'Points d''entree utiles: Hemodynamique, Ventilation, Pediatrie'
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_transfusion_massive_2020
+  title: Transfusion massive 2.0
+  organisme: Anesthesie & Reanimation / EM-Consulte
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1396836/transfusion-massive-2-0
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour les packs transfusionnels, la logique d'anticipation et les effets secondaires de la transfusion massive
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_ventilation_issue
+  title: Numero thematique Ventilation
+  organisme: Anesthesie & Reanimation
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: thematic_issue
+  url: https://www.em-consulte.com/revue/ANREA/numeros-thematiques/anesthesie-reanimation
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour capnographie, bronchospasme, embolie, ventilation perop
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_ventilation_pediatrique_article
+  title: Ventilation peroperatoire en pediatrie
+  organisme: Anesthesie & Reanimation
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1223524/ventilation-peroperatoire-en-pediatrie
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Donne des reperes utiles sur Vt 6-8 mL/kg et PEEP >= 5 cmH2O
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: anrea_voies_aeriennes_pediatrie_article
+  title: Les voies aeriennes en pediatrie
+  organisme: Anesthesie & Reanimation
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1223523/les-voies-aeriennes-en-pediatrie
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour facteurs de risque respiratoire pediatrique et voies aeriennes
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: aphp_avicenne_anesthesie_reanimation
+  title: AP-HP Avicenne - Service d'anesthesie-reanimation
+  organisme: AP-HP Avicenne
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: hospital_service_page
+  url: https://www.aphp.fr/avicenne/service-d-anesthesie-reanimation
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Contexte utile pour BPCO, insuffisance cardiaque, diabete, maladie renale, allergie respiratoire et obstetrique
+  used_by_topics:
+  - terrain:bpco_asthme
+  - terrain:insuffisance_renale
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\terrains\bpco_asthme\sources.yaml
+  - kb\sources_officielles\terrains\insuffisance_renale\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 2
+- entry_id: aphp_bicetre_anesthesie_reanimation_periop
+  title: AP-HP Bicetre - Service d'anesthesie-reanimation medecine peri-operatoire
+  organisme: AP-HP Bicetre
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: hospital_service_page
+  url: https://www.aphp.fr/bicetre/service-d-anesthesie-reanimation-medecine-peri-operatoire
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Contexte utile pour medecine peri-operatoire, terrains lourds et structuration du parcours perioperatoire
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: aphp_bichat_anesthesie_reanimation
+  title: AP-HP Bichat - Service d'anesthesie-reanimation
+  organisme: AP-HP Bichat
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: hospital_service_page
+  url: https://www.aphp.fr/service/service-01-011
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: 'Contexte utile pour terrains complexes : obesite morbide, obstetrique avec cardiopathie, insuffisances respiratoire/cardiaque/renale, thrombose arterielle, TAVI, assistance circulatoire'
+  used_by_topics:
+  - terrain:cardiovasculaire_haut_risque
+  - terrain:obesite_saos_voies_aeriennes
+  - terrain:obstetrique
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\terrains\cardiovasculaire_haut_risque\sources.yaml
+  - kb\sources_officielles\terrains\obesite_saos_voies_aeriennes\sources.yaml
+  - kb\sources_officielles\terrains\obstetrique\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 3
+- entry_id: aphp_pitie_salpetriere_anesthesie_reanimation
+  title: AP-HP Pitie-Salpetriere - Departement d'anesthesie-reanimation
+  organisme: AP-HP Pitie-Salpetriere
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: hospital_service_page
+  url: https://pitiesalpetriere.aphp.fr/anesthesie-reanimation/
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Contexte utile pour defaillances circulatoire/respiratoire/renale, syndrome hemorragique, hemorragies du post-partum, polytrauma et assistance circulatoire
+  used_by_topics:
+  - terrain:cardiovasculaire_haut_risque
+  - terrain:insuffisance_renale
+  - terrain:obstetrique
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\terrains\cardiovasculaire_haut_risque\sources.yaml
+  - kb\sources_officielles\terrains\insuffisance_renale\sources.yaml
+  - kb\sources_officielles\terrains\obstetrique\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 3
+- entry_id: apsf_fr_asa_difficult_airway_2022
+  title: Mise au point APSF - recommandations 2022 sur les pratiques de gestion des voies aeriennes difficiles
+  organisme: APSF France
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: translated_review_page
+  url: https://www.apsf.org/fr/article/mise-au-point-de-lanesthesia-patient-safety-foundation-recommandations-2022-sur-les-pratiques-de-gestion-des-voies-aeriennes-difficiles-de-lamerican-society-of-anesthesiologis/
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Version francaise utile pour documentation, limitation des tentatives et strategie globale des voies aeriennes difficiles
+  used_by_topics:
+  - complication:intubation_extubation_difficiles
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\intubation_extubation_difficiles\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: bordeaux_hypotension_coriat_2017
+  title: Hypotension arterielle peroperatoire - P. Coriat
+  organisme: CHU Bordeaux / Reanesth
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: course_pdf
+  url: https://reanesth.chu-bordeaux.fr/Congr%C3%A8s-et-s%C3%A9minaires/Cours-europ%C3%A9ens-du-grand-Sud-Ouest/2017/Textes/Hypotension-art%C3%A9rielle-perop%C3%A9ratoire-P-Coriat.pdf/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Cours hospitalo-universitaire utile pour la profondeur historique et la logique clinique de l'hypotension peroperatoire
+  used_by_topics:
+  - complication:hypotension_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\hypotension_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: cfar_referentiel_des
+  title: Referentiel D.E.S. en anesthesie reanimation
+  organisme: CFAR
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: teaching_reference
+  url: https://cfar.org/internes-d-e-s/referentiel-d-e-s/
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile comme support d'enseignement et d'organisation clinique
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: cfar_referentiel_metier
+  title: Referentiel Metier / Competences en Anesthesie Reanimation
+  organisme: CFAR
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: professional_reference
+  url: https://cfar.org/sante-au-travail-smart/referentiel-metier/referentiels-metiers/
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour le cadrage competences/risques/anesthesie pediatrique
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: cfar_risque_allergique_formation
+  title: 'Le theme de la formation : Risque Allergique en Anesthesie Reanimation'
+  organisme: CFAR
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: training_theme
+  url: https://cfar.org/le-theme-de-la-formation-risque-allergique-en-anesthesie-reanimation/
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour contextualiser l'anaphylaxie comme risque et cas pedagogiques
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: cfrc_reanimation_adulte_2025
+  title: Reanimation adulte et ACR - Protocoles et recommandations
+  organisme: CFRC
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: guideline_summary_page
+  url: https://www.cfrc.fr/reanimation-adulte
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Synthese francaise des recommandations ERC 2025 adulte, utile pour reconnaissance precoce, compressions, defibrillation et voies aeriennes
+  used_by_topics:
+  - complication:arret_cardiaque_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\arret_cardiaque_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: cfrc_recommandations_2025
+  title: Recommandations ERC 2025 - RCP et prise en charge de l'arret cardiaque
+  organisme: CFRC
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: guideline_index_page
+  url: https://www.cfrc.fr/recommandations
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Point d'entree francais vers les recommandations ERC 2025 avec synthese adulte, enfant, nouveau-ne et philosophie de chaine de survie
+  used_by_topics:
+  - complication:arret_cardiaque_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\arret_cardiaque_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: dumas_hpi_hypotension_2023
+  title: Interet et efficacite du monitorage predictif de l'hypotension arterielle par la technologie HPI
+  organisme: DUMAS / Faculte de medecine AMU
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: university_thesis
+  url: https://dumas.ccsd.cnrs.fr/dumas-04132838
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Memoire universitaire francais utile pour le burden hypotensif et le monitorage predictif HPI
+  used_by_topics:
+  - complication:hypotension_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\hypotension_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: emc_anaphylaxie_generale_2019
+  title: Complications anaphylactiques de l'anesthesie generale
+  organisme: EMC Anesthesie-Reanimation / EM-Consulte
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: treatise_article
+  url: https://www.em-consulte.com/article/1312452/complications-anaphylactiques-de-l-anesthesie-gene
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Traite utile pour agents suspects, chronologie apres administration et place des mediateurs comme la tryptase
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: emc_choc_hemorragique_2009
+  title: Choc hemorragique
+  organisme: EMC Anesthesie-Reanimation / EM-Consulte
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: treatise_article
+  url: https://www.em-consulte.com/article/655695/choc-hemorragique
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Chapitre utile pour definition clinique, hypotension relative et hypoperfusion
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: emc_controle_voies_aeriennes_2022
+  title: Controle des voies aeriennes en anesthesie
+  organisme: EMC Anesthesie-Reanimation / EM-Consulte
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: treatise_article
+  url: https://www.em-consulte.com/article/1533809/controle-des-voies-aeriennes-en-anesthesie
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Chapitre de traite utile pour l'intubation, l'extubation et la gestion globale des voies aeriennes
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: emc_embolie_pulmonaire_perioperatoire_2023
+  title: Embolie pulmonaire perioperatoire
+  organisme: EMC Anesthesie-Reanimation / EM-Consulte
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: treatise_article
+  url: https://www.em-consulte.com/article/1632172/embolie-pulmonaire-perioperatoire
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour contexte thromboembolique, score de Caprini, signes de defaillance ventriculaire droite et evaluation hemodynamique
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: emc_extubation_risk_2008
+  title: 'Extubation difficile : criteres d''extubation et gestion des situations a risque'
+  organisme: EM-Consulte
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/69194/extubation-difficile-criteres-d-extubation-et-gest
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour les facteurs de risque d'extubation, le cuff-leak test et les conduites a tenir
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: emc_surveillance_profondeur_2022
+  title: Surveillance de la profondeur d'anesthesie generale
+  organisme: EMC Anesthesie-Reanimation / EM-Consulte
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: treatise_article
+  url: https://www.em-consulte.com/article/29139/surveillance-de-la-profondeur-de-l-anesthesie-gene
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Chapitre utile pour l'usage des indices EEG traites et la personnalisation de la profondeur anesthesique
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: emc_thrombolyse_ep_2008
+  title: Thrombolyse dans l'embolie pulmonaire
+  organisme: EM-Consulte
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/136035/thrombolyse-dans-l-embolie-pulmonaire
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour contextualiser les formes massives, le choc et la place de la thrombolyse
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: emc_transfusion_massive_2009
+  title: Transfusion massive
+  organisme: EMC Anesthesie-Reanimation / EM-Consulte
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: treatise_article
+  url: https://www.em-consulte.com/article/224544/transfusion-massive
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Traite utile pour distinguer coagulopathie de dilution, choc et attrition tissulaire
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: emconsulte_tryptase_anaphylaxie_2019
+  title: 'La mesure de la tryptase: possible critere complementaire pour le diagnostic de l''anaphylaxie peroperatoire'
+  organisme: EM-Consulte
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1286244/la-mesure-de-la-tryptase-possible-critere-compleme
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Renfort francais utile pour la place de la tryptase dans le diagnostic perioperatoire
+  used_by_topics:
+  - complication:anaphylaxie_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\anaphylaxie_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: f2ar_objectif_pression_per_operatoire_2025
+  title: Quel objectif de pression arterielle en per-operatoire ?
+  organisme: F2AR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: good_practice_page
+  url: https://www.f2ar.org/contenu/quel-objectif-de-pression-arterielle-en-per-operatoire/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Bonne synthese francaise sur MAP < 65, PAS < 90, duree cumulee et individualisation des cibles
+  used_by_topics:
+  - complication:hypotension_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\hypotension_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: ghrmsa_aide_cognitive_acr_adulte_enfant
+  title: 'Aide cognitive : prise en charge de l''arret cardio-respiratoire'
+  organisme: GHRMSA Anesthesie
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: cognitive_aid_pdf
+  url: https://ghrmsa-anesthesie.fr/IMG/pdf/aide_cognitive_acr_em3.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Utile pour capnographie, ventilation, recherche etio et ECMO en contexte d'ACR
+  used_by_topics:
+  - complication:arret_cardiaque_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\arret_cardiaque_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: ghrmsa_aide_cognitive_asystolie_bloc
+  title: ACR sur asystolie au bloc operatoire
+  organisme: GHRMSA Anesthesie
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: cognitive_aid_pdf
+  url: https://ghrmsa-anesthesie.fr/IMG/pdf/sfar_2016-aide_cognitive_asystolie.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Utile pour ETCO2, FiO2, causes a rechercher, prelevements anaphylaxie et causes perioperatoires d'asystolie
+  used_by_topics:
+  - complication:arret_cardiaque_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\arret_cardiaque_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: ghrmsa_choc_anaphylactique_cognitive_aid
+  title: Presentation d'une aide cognitive pour la prise en charge du choc anaphylactique
+  organisme: GHRMSA Anesthesie
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: teaching_pdf
+  url: https://ghrmsa-anesthesie.fr/IMG/pdf/22.10.18_bolvy-choc_anaphylactique.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Utile pour severite, signes cliniques au bloc, agents frequemment en cause et post-incident allergologique
+  used_by_topics:
+  - complication:anaphylaxie_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\anaphylaxie_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: ghrmsa_hypotension_peroperatoire_lefauconnier
+  title: Hypotension peroperatoire - support de cours
+  organisme: GHRMSA Anesthesie
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: course_pdf
+  url: https://ghrmsa-anesthesie.fr/IMG/pdf/lefauconnier-hypotension_peroperatoire.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Support de cours francais utile pour le raisonnement hemodynamique et les definitions cliniques de l'hypotension
+  used_by_topics:
+  - complication:hypotension_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\hypotension_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: has_anesthesie_reanimation_quality
+  title: HAS Anesthesie - Reanimation
+  organisme: HAS
+  class_id: normative_recommandations
+  niveau_source: null
+  support_type: quality_governance_index
+  url: https://www.has-sante.fr/jcms/c_438372/fr/anesthesie-reanimation
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Plus utile pour EPP, RMM, qualite et securite des soins que pour des seuils temps reel
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: has_transfusion_plasma_therapeutique
+  title: 'HAS Transfusion de plasma therapeutique : produits, indications'
+  organisme: HAS
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://www.has-sante.fr/jcms/c_1264081/fr/transfusion-de-plasma-therapeutique-produits-indications
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:choc_hemorragique_transfusion_massive
+  declared_in:
+  - kb\sources_officielles\complications\choc_hemorragique_transfusion_massive\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: hfb_aides_cognitives_adultes_sfar_index
+  title: Aides cognitives adultes SFAR
+  organisme: Hopital Franco-Britannique
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: resource_index_page
+  url: https://www.hopitalfrancobritannique.org/professionnels/aides-cognitives-adultes-sfar/
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Index pratique regroupant plusieurs aides cognitives SFAR adultes utiles au bloc operatoire
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: mapar_anesthesie_de_l_enfant_enrhume
+  title: MAPAR L'anesthesie de l'enfant enrhume depuis 30 ans
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: pdf
+  url: https://www.mapar.org/article/1/Communication%20MAPAR/luz7el2p/L%E2%80%99anesth%C3%A9sie%20de%20l%E2%80%99enfant%20enrhum%C3%A9%20depuis%2030%20ans.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:laryngospasme_enfant
+  declared_in:
+  - kb\sources_officielles\complications\laryngospasme_enfant\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_arret_cardiaque_adulte
+  title: MAPAR Fiche urgence arret cardiaque chez l'adulte
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: pdf
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_01_arret_cardiaque_adulte.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:arret_cardiaque_perioperatoire
+  declared_in:
+  - kb\sources_officielles\complications\arret_cardiaque_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_bronchospasme_adulte
+  title: MAPAR Fiche urgence Bronchospasme chez l'adulte
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: pdf
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:bpco_asthme
+  declared_in:
+  - kb\sources_officielles\terrains\bpco_asthme\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_bronchospasme_chez_l_adulte
+  title: MAPAR Fiche urgence bronchospasme chez l'adulte
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: pdf
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:bronchospasme_perioperatoire
+  declared_in:
+  - kb\sources_officielles\complications\bronchospasme_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_controle_glycemique_peri_operatoire
+  title: MAPAR Le controle glycemique en peri-operatoire
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: pdf
+  url: https://www.mapar.org/article/1/Communication%20MAPAR/chix7fxo/Le%20contr%C3%B4le%20glyc%C3%A9mique%20en%20p%C3%A9ri-op%C3%A9ratoire.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:diabete
+  declared_in:
+  - kb\sources_officielles\terrains\diabete\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_embolie_pulmonaire_et_choc
+  title: MAPAR Fiche urgence embolie pulmonaire et choc
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: pdf
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_04_embolie_pulmonaire_choc.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:embolie_pulmonaire_etat_de_choc
+  declared_in:
+  - kb\sources_officielles\complications\embolie_pulmonaire_etat_de_choc\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_extension_analgesie_peridurale_cesarienne_urgente
+  title: MAPAR Extension d'une analgesie peridurale pour cesarienne urgente
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: pdf
+  url: https://www.mapar.org/article/1/Communication%20MAPAR/j1px1sa3/Extension%20d%E2%80%99une%20analg%C3%A9sie%20p%C3%A9ridurale%20pour%20c%C3%A9sarienne%20urgente.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:obstetrique
+  declared_in:
+  - kb\sources_officielles\terrains\obstetrique\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_fiche_urgence_choc_anaphylactique
+  title: MAPAR Fiche urgence choc anaphylactique
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: pdf
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_06_choc_anaphylactique.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:anaphylaxie_perioperatoire
+  declared_in:
+  - kb\sources_officielles\complications\anaphylaxie_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_fiche_urgence_choc_hemorragique
+  title: MAPAR Fiche urgence choc hemorragique
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: pdf
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_05_choc_hemorragique.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:choc_hemorragique_transfusion_massive
+  declared_in:
+  - kb\sources_officielles\complications\choc_hemorragique_transfusion_massive\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_fiches_diabete
+  title: MAPAR Fiches diabete
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: webpage
+  url: https://www.mapar.org/index.php/fiches-diabete
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:diabete
+  declared_in:
+  - kb\sources_officielles\terrains\diabete\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_fiches_urgence
+  title: MAPAR Fiches urgence
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: webpage
+  url: https://www.mapar.org/index.php/fiches-urgence
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:bpco_asthme
+  declared_in:
+  - kb\sources_officielles\terrains\bpco_asthme\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_gestion_peri_operatoire_de_l_htp
+  title: MAPAR Gestion peri-operatoire de l'HTP
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: webpage
+  url: https://www.mapar.org/presentation/1/Staff%20junior/13/Gestion%20p%C3%A9ri-op%C3%A9ratoire%20de%20l%E2%80%99HTP
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:htp
+  declared_in:
+  - kb\sources_officielles\terrains\htp\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_hyperthermie_maligne
+  title: MAPAR Fiche urgence Hyperthermie maligne adulte-enfant
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: pdf
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_15_hyperthermie_maligne.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:hyperthermie_maligne
+  declared_in:
+  - kb\sources_officielles\complications\hyperthermie_maligne\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_hypotension_rachianesthesie_pour_cesarienne
+  title: MAPAR Hypotension et rachianesthesie pour cesarienne
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: pdf
+  url: https://www.mapar.org/article/1/Communication%20MAPAR/i9pozpbz/Hypotension%20et%20rachianesth%C3%A9sie%20pour%20c%C3%A9sarienne%C2%A0%3A%20vasopresseurs%2C%20amidons%20et%20cristallo%C3%AFdes.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:obstetrique
+  declared_in:
+  - kb\sources_officielles\terrains\obstetrique\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_intubation
+  title: MAPAR Intubation
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: pdf
+  url: https://www.mapar.org/article/pdf/739/Intubation
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:intubation_extubation_difficiles
+  declared_in:
+  - kb\sources_officielles\complications\intubation_extubation_difficiles\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_laryngospasme_enfant
+  title: MAPAR Fiche urgence laryngospasme chez l'enfant
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: pdf
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_10_laryngospasme_enfant.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:laryngospasme_enfant
+  declared_in:
+  - kb\sources_officielles\complications\laryngospasme_enfant\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: mapar_protocoles_mapar_2025
+  title: MAPAR Protocoles MAPAR 2025
+  organisme: MAPAR
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: webpage
+  url: https://www.mapar.org/livre/Livre%20de%20protocoles/1/Protocoles%20MAPAR
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:anticoagulants_antiagregants
+  declared_in:
+  - kb\sources_officielles\terrains\anticoagulants_antiagregants\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: monanesthesie_home
+  title: Mon Anesthesie - page d'accueil et veille
+  organisme: MonAnesthesie
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: professional_watch_site
+  url: https://www.monanesthesie.com/
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Point d'entree de veille clinique, non substitutif aux recommandations
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: monanesthesie_newsletter_zero
+  title: Newsletter n0
+  organisme: MonAnesthesie
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: newsletter
+  url: https://www.monanesthesie.com/_downloads/1b2bef7383da66b70238e9e8d8515c44
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Montre l'orientation voies aeriennes / guidelines / reporage bibliographique
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: prat_an_arret_cardiaque_bloc_2019
+  title: Arret cardiaque au bloc operatoire
+  organisme: Pratiques en Anesthesie-Reanimation / EM-Consulte
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1332048/arret-cardiaque-au-bloc-operatoire
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour relier la chronologie perop et l'etiologie de l'arret cardiaque
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: prat_an_enfant_enrhume_2019
+  title: Anesthesie et enfant enrhume
+  organisme: Pratiques en Anesthesie-Reanimation / EM-Consulte
+  class_id: professionnelle_pratique_fr
+  niveau_source: null
+  support_type: article_page
+  url: https://www.em-consulte.com/article/1335478/anesthesie-et-enfant-enrhume
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Utile pour IVAS recente, majoration du risque respiratoire et triage des situations a risque
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: reamondor_aphp_intubation
+  title: ReaMondor AP-HP - Intubation
+  organisme: AP-HP / ReaMondor
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: teaching_technique_page
+  url: https://reamondor.aphp.fr/familles/les-techniques-de-reanimation/intubation/
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Support AP-HP utile pour la prise de voie aerienne, l'organisation technique et le contexte de reanimation
+  used_by_topics:
+  - complication:intubation_extubation_difficiles
+  - terrain:obesite_saos_voies_aeriennes
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\intubation_extubation_difficiles\sources.yaml
+  - kb\sources_officielles\terrains\obesite_saos_voies_aeriennes\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 2
+- entry_id: reamondor_aphp_tracheotomie
+  title: ReaMondor AP-HP - Tracheotomie
+  organisme: AP-HP / ReaMondor
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: teaching_technique_page
+  url: https://reamondor.aphp.fr/familles/les-techniques-de-reanimation/tracheotomie/
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Support AP-HP utile pour le contexte de sevrage ventilatoire et les situations de voie aerienne prolongee
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: reamondor_aphp_ventilation_artificielle
+  title: ReaMondor AP-HP - Ventilation artificielle
+  organisme: AP-HP / ReaMondor
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: teaching_technique_page
+  url: https://reamondor.aphp.fr/familles/les-techniques-de-reanimation/ventilation-artificielle/
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Support AP-HP utile pour ventilation, contexte respiratoire critique et techniques de reanimation
+  used_by_topics:
+  - complication:intubation_extubation_difficiles
+  - terrain:bpco_asthme
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\intubation_extubation_difficiles\sources.yaml
+  - kb\sources_officielles\terrains\bpco_asthme\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 2
+- entry_id: sfar_ac_anaphylaxie_camr_2018
+  title: Aide cognitive SFAR/CAMR - Anaphylaxie grade III/IV
+  organisme: SFAR / CAMR
+  class_id: normative_recommandations
+  niveau_source: null
+  support_type: cognitive_aid_pdf
+  url: https://sfar.org/wp-content/uploads/2019/09/AC-anaphylaxie-CAMR-octobre-2018.pdf
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Fiche operationnelle francaise bloc utile pour les priorites immediates, les premiers prelevements et la surveillance post-episode
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: sfar_ac_choc_hemorragique_per_postop
+  title: Aide cognitive SFAR - Choc hemorragique per et/ou post-operatoire
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: cognitive_aid_page
+  url: https://sfar.org/download/choc-hemorragique-per-et-ou-post-operatoire/
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Aide cognitive operationnelle francaise utile pour standardiser les priorites immediates de prise en charge au bloc
+  used_by_topics:
+  - complication:choc_hemorragique_transfusion_massive
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\choc_hemorragique_transfusion_massive\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_ac_hyperthermie_maligne
+  title: SFAR aide cognitive Hyperthermie maligne
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: pdf
+  url: https://sfar.org/wp-content/uploads/2019/09/ac-hyperthermie-maligne.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:hyperthermie_maligne
+  declared_in:
+  - kb\sources_officielles\complications\hyperthermie_maligne\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_ac_laryngospasme_pediatrie
+  title: Aide cognitive - Laryngospasme en pediatrie
+  organisme: SFAR / ADARPEF / CAMR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: official_cognitive_aid_pdf
+  url: https://sfar.org/wp-content/uploads/2020/01/ac-laryngospasme-en-pediatrie.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Fiche operationnelle bloc avec conduite immediate et escalade therapeutique
+  used_by_topics:
+  - complication:laryngospasme_enfant
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\laryngospasme_enfant\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_acr_asystolie_bloc
+  title: ACR asystolie au bloc operatoire
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: official_cognitive_aid_page
+  url: https://sfar.org/download/acr-asystolie-au-bloc-operatoire/
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Aide cognitive SFAR adulte pour asystolie au bloc operatoire
+  used_by_topics:
+  - complication:arret_cardiaque_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\arret_cardiaque_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_acr_rythme_choquable_bloc
+  title: ACR rythme choquable au bloc operatoire
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: official_cognitive_aid_pdf
+  url: https://sfar.org/wp-content/uploads/2019/09/ACR-Rythme-choquable-au-bloc-operatoire-V2.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Aide cognitive SFAR adulte pour TV/FV au bloc operatoire
+  used_by_topics:
+  - complication:arret_cardiaque_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\arret_cardiaque_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_agearisk
+  title: SFAR AGEARISK
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/agearisk/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:sujet_age_fragile
+  declared_in:
+  - kb\sources_officielles\terrains\sujet_age_fragile\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_aides_cognitives
+  title: Aides cognitives en anesthesie reanimation
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: null
+  support_type: official_toolbox
+  url: https://sfar.org/espace-professionel-anesthesiste-reanimateur/outils-professionnels/boite-a-outils/aides-cognitives-en-anesthesie-reanimation/
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Tres utile pour operationaliser les algorithmes de crise
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: sfar_anesthesie_reanimation_du_grand_obese
+  title: SFAR Anesthesie-reanimation du grand obese
+  organisme: SFAR
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: pdf
+  url: https://sfar.org/wp-content/uploads/2018/10/10-Anesthesie-reanimation-du-grand-obese.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:obesite_saos_voies_aeriennes
+  declared_in:
+  - kb\sources_officielles\terrains\obesite_saos_voies_aeriennes\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_anrea_intubation_extubation_adulte_pdf
+  title: RFE ANREA Intubation difficile et extubation en anesthesie chez l'adulte
+  organisme: SFAR / Anesthesie & Reanimation
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: rfe_pdf
+  url: https://sfar.org/wp-content/uploads/2017/09/RFE-ANREA-Intubation-difficile-et-extubation-en-anesthesie-chez-l-adulte.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Version avec algorithmes des recommandations adultes
+  used_by_topics:
+  - complication:intubation_extubation_difficiles
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\intubation_extubation_difficiles\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_bronchospasme
+  title: SFAR Bronchospasme
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/download/bronchospasme/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:bronchospasme_perioperatoire
+  - terrain:bpco_asthme
+  declared_in:
+  - kb\sources_officielles\complications\bronchospasme_perioperatoire\sources.yaml
+  - kb\sources_officielles\terrains\bpco_asthme\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 2
+- entry_id: sfar_controle_perioperatoire_pression_arterielle
+  title: Controle perioperatoire de la pression arterielle
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: official_download
+  url: https://sfar.org/download/contro%CC%82le-perioperatoire-de-la-pression-arterielle/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Support SFAR specifique sur la pression arterielle perioperatoire et l'individualisation des objectifs
+  used_by_topics:
+  - complication:hypotension_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\hypotension_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_curarisation_et_decurarisation_en_anesthesie
+  title: SFAR Curarisation et decurarisation en anesthesie
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/curarisation-et-decurarisation-en-anesthesie/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:insuffisance_renale
+  declared_in:
+  - kb\sources_officielles\terrains\insuffisance_renale\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_enfants_asthmatiques_preop_2017
+  title: Variabilite de l'approche des anesthesistes dans la prise en charge pre operatoire des enfants asthmatiques
+  organisme: SFAR
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: article_du_mois
+  url: https://sfar.org/variability-in-anesthesiologists-approach-to-the-preoperative-management-of-asthmatic-children/
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Renfort utile pour le terrain asthmatique pediatrique, les facteurs de risque respiratoire et l'optimisation preoperatoire
+  used_by_topics:
+  - terrain:bpco_asthme
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\terrains\bpco_asthme\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_gerap_2017_2018_survey
+  title: 'Epidemiology of perioperative anaphylaxis in France in 2017-2018: the 11th GERAP survey'
+  organisme: SFAR / GERAP
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: sfar_article_of_the_month
+  url: https://sfar.org/epidemiology-of-perioperative-anaphylaxis-in-france-in-2017-2018-the-11th-gerap-survey/
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Synthese francaise des principaux allergenes impliques en France, incluant curares, cefazoline, latex et colorants
+  used_by_topics:
+  - complication:anaphylaxie_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\anaphylaxie_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_gestion_agents_antiplaquettaires_procedure_invasive_non_programmee_ou_hemorragie
+  title: SFAR Gestion des agents antiplaquettaires en cas de procedure invasive non programmee ou d'hemorragie
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/gestion-des-agents-antiplaquettaires-en-cas-de-procedure-invasive-non-programmee-ou-dhemorragie/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:anticoagulants_antiagregants
+  declared_in:
+  - kb\sources_officielles\terrains\anticoagulants_antiagregants\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_gestion_agents_antiplaquettaires_procedure_invasive_programmee
+  title: SFAR Gestion des agents antiplaquettaires pour une procedure invasive programmee
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/gestion-agents-antiplaquettaires-procedure-invasive-programmee/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:anticoagulants_antiagregants
+  declared_in:
+  - kb\sources_officielles\terrains\anticoagulants_antiagregants\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_gestion_de_l_anticoagulation_dans_un_contexte_d_urgence
+  title: SFAR Gestion de l'anticoagulation dans un contexte d'urgence
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/gestion-de-lanticoagulation-dans-un-contexte-durgence/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:anticoagulants_antiagregants
+  declared_in:
+  - kb\sources_officielles\terrains\anticoagulants_antiagregants\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_gestion_des_voies_aeriennes_de_l_enfant
+  title: SFAR Gestion des voies aeriennes de l'enfant
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/gestion-des-voies-aeriennes-de-lenfant/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:pediatrique
+  declared_in:
+  - kb\sources_officielles\terrains\pediatrique\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_gestion_perioperatoire_patients_sous_aod_en_urgence
+  title: SFAR Gestion perioperatoire des patients sous AOD en urgence
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/download/gestion-perioperatoire-des-patients-sous-aod-en-urgence/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:anticoagulants_antiagregants
+  declared_in:
+  - kb\sources_officielles\terrains\anticoagulants_antiagregants\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_hypersensibilite_immediate_perioperatoire
+  title: SFAR Hypersensibilite immediate perioperatoire
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/diagnostic-et-prise-en-charge-des-reactions-dhypersensibilite-immediate-perioperatoires/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:anaphylaxie_perioperatoire
+  declared_in:
+  - kb\sources_officielles\complications\anaphylaxie_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_insuffisance_renale_aigue_en_perioperatoire_et_en_reanimation
+  title: SFAR Insuffisance renale aigue en perioperatoire et en reanimation
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/insuffisance-renale-aigue/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:insuffisance_renale
+  declared_in:
+  - kb\sources_officielles\terrains\insuffisance_renale\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_intubation_difficile_et_extubation_en_anesthesie_chez_l_adulte
+  title: SFAR Intubation difficile et extubation en anesthesie chez l'adulte
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/actualisation-de-recommandations-intubation-difficile-et-extubation-en-anesthesie-chez-ladulte/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:intubation_extubation_difficiles
+  - terrain:obesite_saos_voies_aeriennes
+  declared_in:
+  - kb\sources_officielles\complications\intubation_extubation_difficiles\sources.yaml
+  - kb\sources_officielles\terrains\obesite_saos_voies_aeriennes\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 2
+- entry_id: sfar_jouffroy_arret_cardiaque_bloc_2017
+  title: Arret cardiaque au bloc operatoire en chirurgie programmee
+  organisme: SFAR
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: teaching_pdf
+  url: https://sfar.org/wp-content/uploads/2017/10/Jouffroy-Arret-cardiaque-au-bloc-operatoire-en-chirurgie-programmee.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Revue SFAR utile pour les etiologies specifiques a l'anesthesie, l'organisation d'equipe, le monitorage et la prise en charge symptomatique
+  used_by_topics:
+  - complication:arret_cardiaque_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\arret_cardiaque_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_la_protection_renale_perioperatoire
+  title: SFAR La protection renale perioperatoire
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: pdf
+  url: https://sfar.org/wp-content/uploads/2015/10/2b_AFAR_Texte-Long_La-protection-renale-perioperatoire.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:insuffisance_renale
+  declared_in:
+  - kb\sources_officielles\terrains\insuffisance_renale\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_lapostolle_embolie_pulmonaire_grave
+  title: Embolie pulmonaire grave
+  organisme: SFAR
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: teaching_pdf
+  url: https://sfar.org/wp-content/uploads/2014/04/10_Lapostolle.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Support SFAR utile pour formes graves, pronostic, VD, troponine, thrombolyse et traitement symptomatique
+  used_by_topics:
+  - complication:embolie_pulmonaire_etat_de_choc
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\embolie_pulmonaire_etat_de_choc\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_laryngospasme_en_pediatrie
+  title: SFAR Laryngospasme en pediatrie
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/download/laryngospasme-en-pediatrie/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:laryngospasme_enfant
+  declared_in:
+  - kb\sources_officielles\complications\laryngospasme_enfant\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_monitorage_profondeur_anesthesie_enfant
+  title: SFAR Le monitorage de la profondeur de l'anesthesie chez l'enfant
+  organisme: SFAR
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: pdf
+  url: https://sfar.org/wp-content/uploads/2016/12/monitorage-de-la-profondeur-danesthesie-en-pediatrie-16-constant-1473331839.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - signal_transversal:monitorage_profondeur_eeg_bis
+  declared_in:
+  - kb\sources_officielles\signaux_transverses\monitorage_profondeur_eeg_bis\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_monitorage_profondeur_article
+  title: Le monitorage de la profondeur de l'anesthesie chez l'enfant
+  organisme: SFAR
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: null
+  support_type: teaching_article
+  url: https://sfar.org/wp-content/uploads/2016/12/monitorage-de-la-profondeur-danesthesie-en-pediatrie-16-constant-1473331839.pdf
+  date_consultation: '2026-04-01'
+  scope: resource_catalog
+  credibility_role: bibliographic_secondary
+  notes: Support pedagogique utile pour BIS/EEG, sur- et sous-dosage
+  used_by_topics: []
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 0
+- entry_id: sfar_optimisation_hemodynamique_perioperatoire_adulte_dont_obstetrique
+  title: SFAR Optimisation hemodynamique perioperatoire - Adulte dont obstetrique
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/optimisation-hemodynamique-perioperatoire-adulte-dont-obstetrique/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:hypotension_perioperatoire
+  - terrain:cardiovasculaire_haut_risque
+  - terrain:obstetrique
+  declared_in:
+  - kb\sources_officielles\complications\hypotension_perioperatoire\sources.yaml
+  - kb\sources_officielles\terrains\cardiovasculaire_haut_risque\sources.yaml
+  - kb\sources_officielles\terrains\obstetrique\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 3
+- entry_id: sfar_optimisation_hemodynamique_perioperatoire_pediatrie
+  title: SFAR Optimisation hemodynamique perioperatoire - Pediatrie
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/optimisation-hemodynamique-perioperatoire-pediatrie/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:pediatrique
+  declared_in:
+  - kb\sources_officielles\terrains\pediatrique\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_optimisation_patient_adulte
+  title: SFAR Programme d'optimisation perioperatoire du patient adulte
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/programme-doptimisation-perioperatoire-du-patient-adulte/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:sujet_age_fragile
+  declared_in:
+  - kb\sources_officielles\terrains\sujet_age_fragile\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_organisation_de_l_anesthesie_pediatrique
+  title: SFAR Organisation de l'anesthesie pediatrique
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/organisation-de-lanesthesie-pediatrique/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:pediatrique
+  declared_in:
+  - kb\sources_officielles\terrains\pediatrique\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_plyo_en_choc_hemorragique_risque_de_transfusion_massive
+  title: SFAR PLYO en choc hemorragique / risque de transfusion massive
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/indications-de-transfusion-de-plasmas-lyophilises-plyo-chez-un-patient-en-choc-hemorragique-ou-a-risque-de-transfusion-massive-en-milieu-civil/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:choc_hemorragique_transfusion_massive
+  declared_in:
+  - kb\sources_officielles\complications\choc_hemorragique_transfusion_massive\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_pourquoi_lanesthesiste_doit_sinteresser_a_la_fragilite
+  title: SFAR Pourquoi l'anesthesiste doit s'interesser a la fragilite
+  organisme: SFAR
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: webpage
+  url: https://sfar.org/pourquoi-lanesthesiste-doit-sinteresser-a-la-fragilite/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:sujet_age_fragile
+  declared_in:
+  - kb\sources_officielles\terrains\sujet_age_fragile\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_prevention_de_l_hypothermie_peroperatoire_accidentelle
+  title: SFAR Prevention de l'hypothermie peroperatoire accidentelle
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/prevention-de-lhypothermie-peroperatoire-accidentelle-au-bloc-operatoire-chez-ladulte/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:hypothermie_perioperatoire
+  declared_in:
+  - kb\sources_officielles\complications\hypothermie_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_prevention_risque_allergique_peranesthesique
+  title: Prevention du risque allergique peranesthesique
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: official_web_guidance
+  url: https://sfar.org/prevention-du-risque-allergique-peranesthesique/
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Utile pour la classification de gravite, la chronologie des expositions et les prelevements biologiques immediats
+  used_by_topics:
+  - complication:anaphylaxie_perioperatoire
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\anaphylaxie_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_prise_en_charge_de_lhyperthermie_maligne
+  title: SFAR Prise en charge de l'Hyperthermie Maligne
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/prise-en-charge-de-lhyperthermie-maligne/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:hyperthermie_maligne
+  declared_in:
+  - kb\sources_officielles\complications\hyperthermie_maligne\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_prise_en_charge_du_patient_diabetique_en_peri_operatoire
+  title: SFAR Prise en charge du patient diabetique en peri-operatoire
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/download/prise-en-charge-du-patient-diabetique-en-peri-operatoire/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:diabete
+  declared_in:
+  - kb\sources_officielles\terrains\diabete\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_qfp_transfusion_massive
+  title: SFAR QFP Transfusion Massive
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/qfp-transfusion-massive/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:choc_hemorragique_transfusion_massive
+  declared_in:
+  - kb\sources_officielles\complications\choc_hemorragique_transfusion_massive\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_reanimation_des_formes_graves_de_preeclampsie
+  title: SFAR Reanimation des formes graves de preeclampsie
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/reanimation-des-formes-graves-de-preeclampsie/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - terrain:obstetrique
+  declared_in:
+  - kb\sources_officielles\terrains\obstetrique\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_reanimation_du_choc_hemorragique
+  title: SFAR Reanimation du choc hemorragique
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/recommandations-sur-la-reanimation-du-choc-hemorragique/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:choc_hemorragique_transfusion_massive
+  declared_in:
+  - kb\sources_officielles\complications\choc_hemorragique_transfusion_massive\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_recommandations_experts_risque_hyperthermie_maligne
+  title: SFAR Recommandations d'experts pour le risque d'Hyperthermie Maligne
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: webpage
+  url: https://sfar.org/recommandations-dexperts-pour-le-risque-dhyperthermie-maligne-en-anesthesie-reanimation/
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:hyperthermie_maligne
+  declared_in:
+  - kb\sources_officielles\complications\hyperthermie_maligne\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_rfe_gestion_vas_enfant
+  title: RFE Gestion des voies aeriennes superieures de l'enfant
+  organisme: SFAR / ADARPEF
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: rfe_pdf
+  url: https://sfar.org/wp-content/uploads/2018/09/2_RFE-Gestion-des-VAS-de-lEnfant-postCA.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Reference de fond gradee pour evaluation et prise en charge des VAS de l'enfant
+  used_by_topics:
+  - complication:laryngospasme_enfant
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\laryngospasme_enfant\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_rfe_hypothermie_peroperatoire
+  title: SFAR RFE Hypothermie peroperatoire accidentelle
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: pdf
+  url: https://sfar.org/wp-content/uploads/2018/09/2_RFE-Hypothermie-Version-Finale-_-Validee-CRC120618.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:hypothermie_perioperatoire
+  declared_in:
+  - kb\sources_officielles\complications\hypothermie_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_rfe_intubation_difficile_v2_pdf
+  title: RFE 2017 Intubation difficile et extubation en anesthesie chez l'adulte - version PDF
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: rfe_pdf
+  url: https://sfar.org/wp-content/uploads/2017/09/2_RFE-intubation-difficile-SFAR_V2.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Reference principale gradee sur l'intubation difficile et l'extubation a risque
+  used_by_topics:
+  - complication:intubation_extubation_difficiles
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\intubation_extubation_difficiles\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_srlf_intubation_extubation_reanimation_2017
+  title: Intubation et extubation du patient en reanimation
+  organisme: SFAR / SRLF / Anesthesie & Reanimation
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: rfe_pdf
+  url: https://sfar.org/wp-content/uploads/2016/09/Intubation-et-extubation-du-patient-en-reanimation-ANREA.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Renfort utile pour l'extubation a risque, l'echec d'extubation et la documentation
+  used_by_topics:
+  - complication:intubation_extubation_difficiles
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\intubation_extubation_difficiles\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sfar_texte_court_intubation_difficile
+  title: Texte court SFAR - Intubation difficile
+  organisme: SFAR
+  class_id: normative_recommandations
+  niveau_source: normatif
+  support_type: short_guideline_pdf
+  url: https://sfar.org/wp-content/uploads/2015/09/2a_SFAR_texte_court_Intubation-difficile.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Resume court des recommandations sur definition, limitation des tentatives et organisation
+  used_by_topics:
+  - complication:intubation_extubation_difficiles
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\intubation_extubation_difficiles\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sofia_complications_anaphylactiques_et_anaphylactoides
+  title: SOFIA Complications anaphylactiques et anaphylactoides
+  organisme: SOFIA
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: pdf
+  url: https://sofia.medicalistes.fr/spip/IMG/pdf/Complications_anaphylactiques_et_anaphylactoides_de_l_anesthesie_generale_Mertes-Dewachter-Laxenaire_.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:anaphylaxie_perioperatoire
+  declared_in:
+  - kb\sources_officielles\complications\anaphylaxie_perioperatoire\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sofia_controle_perioperatoire_de_la_pression_arterielle
+  title: SOFIA Controle perioperatoire de la pression arterielle
+  organisme: SOFIA
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: pdf
+  url: https://sofia.medicalistes.fr/spip/IMG/pdf/controle_perioperatoire_de_la_pression_arterielle_pierre-gregoire_guinot_dijon_.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:hypotension_perioperatoire
+  - terrain:cardiovasculaire_haut_risque
+  declared_in:
+  - kb\sources_officielles\complications\hypotension_perioperatoire\sources.yaml
+  - kb\sources_officielles\terrains\cardiovasculaire_haut_risque\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 2
+- entry_id: sofia_fiche_de_synthese_prise_en_charge_de_lhyperthermie_maligne
+  title: SOFIA Fiche de synthese prise en charge de l'hyperthermie maligne
+  organisme: SOFIA
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: pdf
+  url: https://sofia.medicalistes.fr/spip/IMG/pdf/fiche_de_synthese_prise_en_charge_de_l_hyperthermie_maligne_2019_sfar.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:hyperthermie_maligne
+  declared_in:
+  - kb\sources_officielles\complications\hyperthermie_maligne\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: sofia_intubation_difficile_support_sfar
+  title: SOFIA Intubation difficile - support SFAR
+  organisme: SOFIA
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: pdf
+  url: https://sofia.medicalistes.fr/spip/IMG/pdf/l_intubation_difficile_SFAR_.pdf
+  date_consultation: 2026-04-01
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  used_by_topics:
+  - complication:intubation_extubation_difficiles
+  - terrain:obesite_saos_voies_aeriennes
+  declared_in:
+  - kb\sources_officielles\complications\intubation_extubation_difficiles\sources.yaml
+  - kb\sources_officielles\terrains\obesite_saos_voies_aeriennes\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 2
+- entry_id: sofia_laryngospasme_pediatrie_2009
+  title: Laryngospasme en pediatrie
+  organisme: SOFIA
+  class_id: pedagogique_enseignement_medecins
+  niveau_source: pedagogique
+  support_type: teaching_pdf
+  url: https://sofia.medicalistes.fr/spip/IMG/pdf/laryngospasme_en_pediatrie.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Revue SFAR 2009 utile pour epidemiologie, facteurs de risque et moments de survenue
+  used_by_topics:
+  - complication:laryngospasme_enfant
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\laryngospasme_enfant\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1
+- entry_id: urgences_ara_referentiel_ep_2022
+  title: Referentiel cardio 2022 - Embolie pulmonaire diagnostic et traitement
+  organisme: Urgences ARA / ReNAU
+  class_id: professionnelle_pratique_fr
+  niveau_source: pratique
+  support_type: regional_referential_pdf
+  url: https://www.urgences-ara.fr/app/uploads/2023/02/Referentiel_Cardio_202201_Embolie-pulmonaire_REN.pdf
+  date_consultation: 2026-04-02
+  scope: topic_source
+  credibility_role: bibliographic_primary
+  notes: Utile pour definition d'instabilite hemodynamique, criteres de dysfonction VD, stratification sPESI et reperfusion
+  used_by_topics:
+  - complication:embolie_pulmonaire_etat_de_choc
+  declared_in:
+  - kb/sources_officielles/source_resource_catalog.yaml
+  - kb\sources_officielles\complications\embolie_pulmonaire_etat_de_choc\sources.yaml
+  evidence_traceability:
+    url_present: true
+    organisme_present: true
+    class_present: true
+  usage_count: 1

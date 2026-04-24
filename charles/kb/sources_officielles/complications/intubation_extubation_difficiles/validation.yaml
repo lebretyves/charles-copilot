@@ -1,0 +1,6 @@
+topic_id: intubation_extubation_difficiles
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille
+open_points:
+  - "La base documentaire est maintenant solide ; il manque surtout les criteres predictifs preoperatoires structurés et la capture runtime des tentatives, de leur duree et du contexte d'extubation."

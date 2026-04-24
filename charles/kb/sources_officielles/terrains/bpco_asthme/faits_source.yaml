@@ -1,0 +1,57 @@
+topic_id: bpco_asthme
+faits:
+- fact_id: obstructive_profile_recognition_relies_on_capnography_and_pressures
+  statut: direct_source
+  force_source: normative
+  fact_type: monitoring_focus
+  statement: Le dossier SFAR bronchospasme souligne l'importance de la forme de la capnographie, des pressions ventilatoires et de l'hypoxemie pour reconnaitre un profil obstructif perioperatoire.
+  source_ref: sfar_bronchospasme
+  source_title: SFAR Bronchospasme
+  source_url: https://sfar.org/download/bronchospasme/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: severe_bronchospasm_has_pressure_and_spo2_warning_signs
+  statut: direct_source
+  force_source: pratique
+  fact_type: threshold_combination
+  statement: La fiche urgence MAPAR bronchospasme adulte signale une pression d'insufflation superieure a 40 a 45 cmH2O et une SpO2 inferieure a 90 % comme signes de gravite, avec EtCO2 diminue et disparition du plateau capnographique.
+  source_ref: mapar_bronchospasme_adulte
+  source_title: MAPAR Fiche urgence Bronchospasme chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: severe_obstruction_requires_specific_bronchodilator_protocol
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_protocol
+  statement: Le protocole MAPAR propose salbutamol inhale 10 a 15 bouffees, salbutamol IVSE 0,25 a 5 mg/h, ipratropium inhale 0,5 mg, methylprednisolone IV 1 a 2 mg/kg et sulfate de magnesium 2 g en 20 minutes selon la gravite.
+  source_ref: mapar_bronchospasme_adulte
+  source_title: MAPAR Fiche urgence Bronchospasme chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: bronchospasm_differential_must_exclude_mechanical_causes
+  statut: direct_source
+  force_source: pratique
+  fact_type: differential_diagnosis
+  statement: Le protocole MAPAR impose d'eliminer une obstruction mecanique, un pneumothorax compressif, une embolie pulmonaire, une insuffisance cardiaque gauche ou une intubation oesophagienne devant un tableau obstructif perioperatoire.
+  source_ref: mapar_bronchospasme_adulte
+  source_title: MAPAR Fiche urgence Bronchospasme chez l'adulte
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_08_bronchospasme_adulte.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: chronic_respiratory_terrain_increases_perioperative_obstructive_risk
+  statut: direct_source
+  force_source: normative
+  fact_type: terrain_risk_factor
+  statement: Le terrain respiratoire chronique relie le patient a un risque perioperatoire accru de bronchospasme, d'auto-PEEP et de sevrage ventilatoire difficile.
+  source_ref: sfar_bronchospasme
+  source_title: SFAR Bronchospasme
+  source_url: https://sfar.org/download/bronchospasme/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage

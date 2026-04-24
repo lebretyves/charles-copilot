@@ -27,6 +27,8 @@ vitaldb/cases/
 vitaldb/clinical_metadata.csv
 vitaldb/intraop_labs.csv
 vitaldb/track_index.csv
+learning/mlruns/
+ops/runtime/*.json
 
 # Env
 .env

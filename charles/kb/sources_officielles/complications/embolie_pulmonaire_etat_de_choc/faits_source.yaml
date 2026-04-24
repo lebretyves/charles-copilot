@@ -1,0 +1,167 @@
+topic_id: embolie_pulmonaire_etat_de_choc
+faits:
+- fact_id: shock_or_hypotension_entry_context
+  statut: direct_source
+  force_source: pratique
+  fact_type: entry_context
+  statement: La fiche MAPAR cible la suspicion d'embolie pulmonaire avec etat de choc ou hypotension.
+  source_ref: mapar_embolie_pulmonaire_et_choc
+  source_title: MAPAR Fiche urgence embolie pulmonaire et choc
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_04_embolie_pulmonaire_choc.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: ventilator_settings_vt_6ml_per_kg
+  statut: direct_source
+  force_source: pratique
+  fact_type: ventilation_target
+  statement: En ventilation mecanique, le volume courant recommande est de 6 ml/kg avec une PEEP basse.
+  metric: Vt
+  rule_type: target
+  value_text: 6 ml/kg
+  source_ref: mapar_embolie_pulmonaire_et_choc
+  source_title: MAPAR Fiche urgence embolie pulmonaire et choc
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_04_embolie_pulmonaire_choc.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: alteplase_100mg_2h
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: La thrombolyse par alteplase peut etre realisee a 100 mg en 2 h.
+  metric: alteplase
+  rule_type: treatment_dose
+  value_text: 100 mg en 2 h
+  source_ref: mapar_embolie_pulmonaire_et_choc
+  source_title: MAPAR Fiche urgence embolie pulmonaire et choc
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_04_embolie_pulmonaire_choc.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: alteplase_0_6mg_per_kg_15min_max_50mg
+  statut: direct_source
+  force_source: pratique
+  fact_type: treatment_threshold
+  statement: Une autre modalite MAPAR d'alteplase est 0,6 mg/kg sur 15 min, maximum 50 mg.
+  metric: alteplase
+  rule_type: treatment_dose
+  value_text: 0,6 mg/kg sur 15 min, max 50 mg
+  source_ref: mapar_embolie_pulmonaire_et_choc
+  source_title: MAPAR Fiche urgence embolie pulmonaire et choc
+  source_url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_04_embolie_pulmonaire_choc.pdf
+  source_organisme: MAPAR
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: instability_defined_by_pas_below_90_or_drop_40_for_15_min
+  statut: direct_source
+  force_source: pratique
+  fact_type: severity_definition
+  statement: L'EP instable est definie par une PAS < 90 mmHg ou une baisse de 40 mmHg par rapport a l'habituelle pendant plus de 15 min, hors arythmie de novo, hypovolemie ou sepsis.
+  metric: PAS
+  rule_type: instability_definition
+  value_text: "PAS < 90 mmHg ou baisse de 40 mmHg > 15 min"
+  source_ref: urgences_ara_referentiel_ep_2022
+  source_title: Referentiel cardio 2022 - Embolie pulmonaire diagnostic et traitement
+  source_url: https://www.urgences-ara.fr/app/uploads/2023/02/Referentiel_Cardio_202201_Embolie-pulmonaire_REN.pdf
+  source_organisme: Urgences ARA / ReNAU
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: right_ventricular_dysfunction_echo_criteria
+  statut: direct_source
+  force_source: pratique
+  fact_type: imaging_criteria
+  statement: Les criteres echographiques de dysfonction VD comprennent notamment VD > VG, hypokinesie de la paroi libre du VD, augmentation de la velocite du jet d'insuffisance tricuspide et diminution de la course systolique de l'anneau tricuspide.
+  metric: VD
+  rule_type: echocardiographic_criteria
+  value_text: "VD > VG et signes echographiques de dysfonction VD"
+  source_ref: urgences_ara_referentiel_ep_2022
+  source_title: Referentiel cardio 2022 - Embolie pulmonaire diagnostic et traitement
+  source_url: https://www.urgences-ara.fr/app/uploads/2023/02/Referentiel_Cardio_202201_Embolie-pulmonaire_REN.pdf
+  source_organisme: Urgences ARA / ReNAU
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: spesi_intermediate_risk_variables
+  statut: direct_source
+  force_source: pratique
+  fact_type: prognostic_score
+  statement: Le sPESI retient comme facteurs de risque Age > 80 ans, Sat < 90 %, PAS < 100 mmHg, FC >= 110/min, insuffisance cardiaque ou respiratoire chronique et neoplasie active.
+  metric: sPESI
+  rule_type: score_components
+  value_text: "Age > 80, Sat < 90 %, PAS < 100, FC >= 110, IC/IR chronique, cancer actif"
+  source_ref: urgences_ara_referentiel_ep_2022
+  source_title: Referentiel cardio 2022 - Embolie pulmonaire diagnostic et traitement
+  source_url: https://www.urgences-ara.fr/app/uploads/2023/02/Referentiel_Cardio_202201_Embolie-pulmonaire_REN.pdf
+  source_organisme: Urgences ARA / ReNAU
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: risk_stratification_combines_spesi_vd_troponin
+  statut: direct_source
+  force_source: pratique
+  fact_type: risk_stratification
+  statement: La stratification du risque de l'EP confirmee sans choc repose sur le sPESI, la fonction VD et la troponine, avec un risque intermediaire haut si dysfonction VD et troponine elevee.
+  metric: troponine_vd_spesi
+  rule_type: combined_risk_rule
+  value_text: "Dysfonction VD + troponine > 99e percentile = risque intermediaire haut"
+  source_ref: urgences_ara_referentiel_ep_2022
+  source_title: Referentiel cardio 2022 - Embolie pulmonaire diagnostic et traitement
+  source_url: https://www.urgences-ara.fr/app/uploads/2023/02/Referentiel_Cardio_202201_Embolie-pulmonaire_REN.pdf
+  source_organisme: Urgences ARA / ReNAU
+  source_class_id: professionnelle_pratique_fr
+  source_support_type: pdf
+- fact_id: lapostolle_high_risk_ep_definition
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: severity_definition
+  statement: L'embolie pulmonaire grave correspond aux formes avec PAS < 90 mmHg ou diminution de PAS > 40 mmHg pendant plus de 15 min, associees a une mortalite elevee precoce.
+  metric: PAS
+  rule_type: high_risk_definition
+  value_text: "PAS < 90 mmHg ou baisse > 40 mmHg > 15 min"
+  source_ref: sfar_lapostolle_embolie_pulmonaire_grave
+  source_title: Embolie pulmonaire grave
+  source_url: https://sfar.org/wp-content/uploads/2014/04/10_Lapostolle.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: lapostolle_pesi_contains_spo2_bp_hr_rr_temp_confusion
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: prognostic_score
+  statement: Le score PESI detaille integre notamment PA < 100 mmHg, FC > 110/min, FR > 30/min, SpO2 < 90 %, temperature < 36 C et confusion/desorientation.
+  metric: PESI
+  rule_type: score_components
+  value_text: "PA < 100, FC > 110, FR > 30, SpO2 < 90 %, T < 36 C, confusion"
+  source_ref: sfar_lapostolle_embolie_pulmonaire_grave
+  source_title: Embolie pulmonaire grave
+  source_url: https://sfar.org/wp-content/uploads/2014/04/10_Lapostolle.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: lapostolle_troponin_not_sufficient_alone_for_thrombolysis
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: treatment_guardrail
+  statement: Une elevation de troponine traduit une souffrance myocardique et aggrave le pronostic, mais ne constitue pas a elle seule une indication de thrombolyse.
+  metric: troponine
+  rule_type: non_sufficient_single_marker
+  value_text: "Troponine elevee seule insuffisante pour thrombolyse"
+  source_ref: sfar_lapostolle_embolie_pulmonaire_grave
+  source_title: Embolie pulmonaire grave
+  source_url: https://sfar.org/wp-content/uploads/2014/04/10_Lapostolle.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf
+- fact_id: lapostolle_thrombolysis_recommended_in_shock
+  statut: direct_source
+  force_source: pedagogique
+  fact_type: treatment_indication
+  statement: Les recommandations francaises rapportees dans ce support placent la thrombolyse comme recommandee chez les patients en etat de choc, avec embolectomie en cas d'echec ou de contre-indication.
+  metric: thrombolyse
+  rule_type: reperfusion_indication
+  value_text: "Thrombolyse recommandee en etat de choc"
+  source_ref: sfar_lapostolle_embolie_pulmonaire_grave
+  source_title: Embolie pulmonaire grave
+  source_url: https://sfar.org/wp-content/uploads/2014/04/10_Lapostolle.pdf
+  source_organisme: SFAR
+  source_class_id: pedagogique_enseignement_medecins
+  source_support_type: pdf

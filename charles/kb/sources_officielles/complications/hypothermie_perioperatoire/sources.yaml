@@ -1,0 +1,38 @@
+topic_id: hypothermie_perioperatoire
+topic_type: complication
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_prevention_de_l_hypothermie_peroperatoire_accidentelle
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Prevention de l'hypothermie peroperatoire accidentelle
+  url: https://sfar.org/prevention-de-lhypothermie-peroperatoire-accidentelle-au-bloc-operatoire-chez-ladulte/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: sfar_rfe_hypothermie_peroperatoire
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR RFE Hypothermie peroperatoire accidentelle
+  url: https://sfar.org/wp-content/uploads/2018/09/2_RFE-Hypothermie-Version-Finale-_-Validee-CRC120618.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+documentary_layers:
+  normative_recommandations:
+  - sfar_prevention_de_l_hypothermie_peroperatoire_accidentelle
+  - sfar_rfe_hypothermie_peroperatoire
+  professionnelle_pratique_fr:
+  - anrea_hemodynamique_issue
+  pedagogique_enseignement_medecins:
+  - cfar_referentiel_metier
+  - cfar_referentiel_des
+documentary_notes:
+- La densite documentaire francaise est plus faible ici hors SFAR ; il reste surtout a extraire plus finement les modulateurs.
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id
+  resource_catalog_ref: kb/sources_officielles/source_resource_catalog.yaml
+  landscape_ref: kb/sources_officielles/complication_source_landscape.yaml

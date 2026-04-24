@@ -142,6 +142,19 @@ def test_build_finetune_run_creates_launch_ready_pack_with_fake_local_model(tmp_
     model_dir.mkdir(parents=True)
     (model_dir / "config.json").write_text("{}", encoding="utf-8")
     (model_dir / "tokenizer.json").write_text("{}", encoding="utf-8")
+    (tmp_path / "exports.dvc").write_text(
+        "\n".join(
+            [
+                "outs:",
+                "- md5: test-md5.dir",
+                "  size: 123",
+                "  nfiles: 2",
+                "  hash: md5",
+                "  path: exports",
+            ]
+        ),
+        encoding="utf-8",
+    )
 
     summary = build_finetune_run(
         manifest_path=manifest_path,
@@ -156,11 +169,23 @@ def test_build_finetune_run_creates_launch_ready_pack_with_fake_local_model(tmp_
     assert Path(summary["environment_report_path"]).exists()
     assert (run_dir / "run_local.ps1").exists()
     assert (run_dir / "README.md").exists()
+    assert summary["tracking_enabled"] is True
+    assert summary["experiment_name"] == "charles-local-finetune"
+    assert Path(summary["dvc_snapshot_path"]).name == "exports.dvc"
+    assert summary["dvc_md5"] == "test-md5.dir"
 
     environment = json.loads(Path(summary["environment_report_path"]).read_text(encoding="utf-8"))
     assert environment["model_checks"]["config_json_exists"] is True
     assert "tokenizer.json" in environment["model_checks"]["tokenizer_files_present"]
     assert "Missing local base model directory." not in environment["blocking_issues"]
+    assert environment["tracking_checks"]["enabled"] is True
+
+    run_config = json.loads(Path(summary["config_path"]).read_text(encoding="utf-8"))
+    assert run_config["tracking"]["enabled"] is True
+    assert run_config["tracking"]["experiment_name"] == "charles-local-finetune"
+    assert Path(run_config["tracking"]["tracking_uri"]).name == "mlruns"
+    assert Path(run_config["dataset"]["dvc_snapshot_path"]).name == "exports.dvc"
+    assert run_config["dataset"]["dvc_md5"] == "test-md5.dir"
 
 
 def test_build_finetune_run_reports_missing_model_blockers(tmp_path):

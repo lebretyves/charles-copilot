@@ -1,0 +1,16 @@
+topic_id: embolie_pulmonaire_etat_de_choc
+inferences:
+  - inference_id: pulmonary_embolism_shock_profile
+    status: design_proposal
+    kind: weighted_factor
+    proposal: "Construire un profil de suspicion sur choc/hypotension + chute d'EtCO2 + hypoxemie + contexte thromboembolique."
+    derived_from:
+      - shock_or_hypotension_entry_context
+  - inference_id: pulmonary_embolism_treatment_reference
+    status: design_proposal
+    kind: escalation_rule
+    proposal: "Conserver les options d'alteplase et de ventilation protectrice MAPAR comme reperes documentaires de gravite, non comme prescription automatique."
+    derived_from:
+      - ventilator_settings_vt_6ml_per_kg
+      - alteplase_100mg_2h
+      - alteplase_0_6mg_per_kg_15min_max_50mg

@@ -1,0 +1,7 @@
+topic_id: htp
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille_partiel
+open_points:
+  - "Le dossier est structure proprement mais la source MAPAR accessible fournit surtout un cadre de prise en charge et peu de seuils numeriques directement exploitables."
+  - "Si un algorithme pondere HTP doit etre formalise, il faudra completer avec des faits source plus quantifies sans sortir du perimetre francais retenu."

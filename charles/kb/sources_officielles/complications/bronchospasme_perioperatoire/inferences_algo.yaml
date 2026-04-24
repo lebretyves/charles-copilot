@@ -1,0 +1,21 @@
+topic_id: bronchospasme_perioperatoire
+inferences:
+  - inference_id: bronchospasm_detection_triplet
+    status: design_proposal
+    kind: weighted_factor
+    proposal: "Construire un score prioritaire sur le triplet pression d'insufflation haute + modification capnographique + desaturation."
+    derived_from:
+      - high_airway_pressure_40_45
+      - etco2_decrease_and_capnogram_plateau_loss
+      - spo2_under_90_is_severity_sign
+  - inference_id: bronchospasm_treatment_escalation_map
+    status: design_proposal
+    kind: escalation_rule
+    proposal: "Utiliser les seuils therapeutiques MAPAR comme repere de gravite et non comme prescription automatique dans CHARLES."
+    derived_from:
+      - salbutamol_10_15_puffs
+      - salbutamol_ivse_0_25_to_5
+      - ipratropium_0_5_mg
+      - methylpred_1_2_mg_per_kg
+      - magnesium_2g_20min
+      - adrenaline_10_100_ug

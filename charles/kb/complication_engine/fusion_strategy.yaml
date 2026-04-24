@@ -1,0 +1,58 @@
+version: "2026-04-01"
+goal: "fuse complication-centric evidence from official sources and VitalDB branches"
+
+fusion:
+  base_formula:
+    final_score: "weighted_sum(official_sources, vitaldb_no_wave, vitaldb_wave) + terrain_adjustment - missing_data_penalty"
+    final_confidence: "branch_confidence_blend - uncertainty_penalty"
+
+  branch_weights_default:
+    official_sources: 0.35
+    vitaldb_no_wave: 0.35
+    vitaldb_wave: 0.30
+
+  branch_weights_when_wave_missing:
+    official_sources: 0.45
+    vitaldb_no_wave: 0.55
+    vitaldb_wave: 0.00
+
+  branch_weights_when_official_support_is_weak:
+    official_sources: 0.20
+    vitaldb_no_wave: 0.45
+    vitaldb_wave: 0.35
+
+terrain_adjustment:
+  principle: "modest modulation only"
+  max_absolute_adjustment: 0.15
+  max_threshold_shift_pct: 20
+  notes:
+    - "Un terrain ne doit pas transformer a lui seul une absence d'evidence en complication certaine."
+    - "Les terrains servent a raffiner, prioriser ou rendre plus sensible, pas a diagnostiquer seuls."
+
+missing_data:
+  policy:
+    - "absence d'une donnee critique baisse la confiance avant de baisser brutalement le score"
+    - "si une branche est absente, le moteur continue avec les autres branches"
+    - "les donnees manquantes doivent etre explicites dans la sortie finale"
+  penalties:
+    low: 0.05
+    medium: 0.10
+    high: 0.20
+
+severity_mapping:
+  low:
+    min_score: 0.25
+  medium:
+    min_score: 0.50
+  high:
+    min_score: 0.70
+  critical:
+    min_score: 0.85
+
+explainability_contract:
+  required_output:
+    - top_positive_factors
+    - top_negative_factors
+    - terrain_adjustments
+    - missing_inputs
+    - branch_contributions

@@ -1,0 +1,68 @@
+topic_id: insuffisance_renale
+faits:
+- fact_id: aki_relies_on_creatinine_and_urine_output
+  statut: direct_source
+  force_source: normative
+  fact_type: diagnostic_basis
+  statement: La reduction du debit de diurese et l'elevation plasmatique de l'uree et de la creatininemie ont ete largement utilisees comme marqueurs de la baisse du debit de filtration glomerulaire qui definit l'insuffisance renale aigue.
+  source_ref: sfar_insuffisance_renale_aigue_en_perioperatoire_et_en_reanimation
+  source_title: SFAR Insuffisance renale aigue en perioperatoire et en reanimation
+  source_url: https://sfar.org/insuffisance-renale-aigue/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: isolated_hourly_urine_output_can_overdiagnose_aki
+  statut: direct_source
+  force_source: normative
+  fact_type: diagnostic_limit
+  statement: L'utilisation isolee de la diurese horaire expose au risque d'un diagnostic d'insuffisance renale aigue par exces.
+  source_ref: sfar_la_protection_renale_perioperatoire
+  source_title: SFAR La protection renale perioperatoire
+  source_url: https://sfar.org/wp-content/uploads/2015/10/2b_AFAR_Texte-Long_La-protection-renale-perioperatoire.pdf
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: pdf
+- fact_id: prolonged_oliguria_under_five_ml_per_kg_per_day_is_not_reassuring
+  statut: direct_source
+  force_source: normative
+  fact_type: threshold_burden
+  statement: Une oligurie prolongee superieure a 6 a 8 heures, inferieure a 5 mL/kg/jour malgre des apports hydriques suffisants, rend peu probable un debit de filtration glomerulaire normal.
+  source_ref: sfar_la_protection_renale_perioperatoire
+  source_title: SFAR La protection renale perioperatoire
+  source_url: https://sfar.org/wp-content/uploads/2015/10/2b_AFAR_Texte-Long_La-protection-renale-perioperatoire.pdf
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: pdf
+- fact_id: normal_diuresis_does_not_exclude_aki
+  statut: direct_source
+  force_source: normative
+  fact_type: diagnostic_limit
+  statement: La conservation d'une diurese normale n'elimine pas la possibilite d'une insuffisance renale aigue.
+  source_ref: sfar_la_protection_renale_perioperatoire
+  source_title: SFAR La protection renale perioperatoire
+  source_url: https://sfar.org/wp-content/uploads/2015/10/2b_AFAR_Texte-Long_La-protection-renale-perioperatoire.pdf
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: pdf
+- fact_id: lower_normal_gfr_limit_is_about_seventy_five
+  statut: direct_source
+  force_source: normative
+  fact_type: physiologic_reference
+  statement: La limite inferieure de normalite du debit de filtration glomerulaire est d'environ 75 mL/min/1,73 m2.
+  source_ref: sfar_la_protection_renale_perioperatoire
+  source_title: SFAR La protection renale perioperatoire
+  source_url: https://sfar.org/wp-content/uploads/2015/10/2b_AFAR_Texte-Long_La-protection-renale-perioperatoire.pdf
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: pdf
+- fact_id: renal_impairment_requires_careful_drug_and_decurarization_management
+  statut: direct_source
+  force_source: normative
+  fact_type: pharmacology_caution
+  statement: La prise en charge perioperatoire d'un terrain renal impose une vigilance sur la pharmacocinetique des medicaments et sur la decurarisation.
+  source_ref: sfar_curarisation_et_decurarisation_en_anesthesie
+  source_title: SFAR Curarisation et decurarisation en anesthesie
+  source_url: https://sfar.org/curarisation-et-decurarisation-en-anesthesie/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage

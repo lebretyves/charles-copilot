@@ -1,0 +1,7 @@
+topic_id: anticoagulants_antiagregants
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille_partiel
+open_points:
+  - "Distinguer clairement dans l'algorithme final les antiagregants, le dabigatran et les autres AOD."
+  - "Ajouter dans un second passage les elements de la RFE 2024 sur l'anticoagulation en urgence si l'on veut un socle complet hors antiagregants."

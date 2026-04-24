@@ -1,0 +1,738 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAIA — Dashboard opératoire détaillé</title>
+<style>
+:root{
+  --bg:#08111f;
+  --bg2:#0f1a31;
+  --panel:#111d38;
+  --panel2:#17274a;
+  --text:#eef4ff;
+  --muted:#b2c0e4;
+  --line:#28416d;
+  --accent:#79c9ff;
+  --accent2:#8cf0c7;
+  --warn:#ffd57b;
+  --danger:#ff9f9f;
+  --good:#7df0a9;
+  --shadow:0 18px 50px rgba(0,0,0,.28);
+  --radius:18px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:linear-gradient(180deg,#08111f 0%, #0d1530 100%);
+  color:var(--text);
+}
+.layout{
+  display:grid;
+  grid-template-columns:310px 1fr;
+  min-height:100vh;
+}
+aside{
+  position:sticky; top:0; height:100vh; overflow:auto;
+  background:rgba(7,12,24,.92);
+  border-right:1px solid rgba(255,255,255,.06);
+  padding:22px 18px 30px;
+  backdrop-filter: blur(10px);
+}
+.brand{padding:14px 14px 18px; border:1px solid rgba(255,255,255,.07); background:linear-gradient(180deg,#111a30,#0d1529); border-radius:18px; box-shadow:var(--shadow);}
+.brand h1{margin:0 0 6px; font-size:26px; letter-spacing:.3px}
+.brand p{margin:0; color:var(--muted); line-height:1.45; font-size:13px}
+.kpis{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:16px 0 18px;}
+.kpi{background:linear-gradient(180deg,#131e38,#0f1930); border:1px solid rgba(255,255,255,.07); border-radius:16px; padding:12px}
+.kpi .v{font-size:20px; font-weight:800}
+.kpi .l{font-size:12px; color:var(--muted)}
+.nav{display:flex; flex-direction:column; gap:8px}
+.nav button{
+  text-align:left; width:100%; cursor:pointer; border:none;
+  background:transparent; color:var(--text); padding:12px 14px; border-radius:14px; font-size:14px;
+  transition:.2s ease;
+}
+.nav button:hover{background:rgba(121,201,255,.08)}
+.nav button.active{background:linear-gradient(90deg,rgba(121,201,255,.16),rgba(140,240,199,.10)); outline:1px solid rgba(121,201,255,.28)}
+main{padding:26px 28px 48px}
+.hero{
+  background:linear-gradient(135deg,rgba(121,201,255,.12),rgba(140,240,199,.08));
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:24px;
+  padding:24px 24px 18px;
+  box-shadow:var(--shadow);
+}
+.hero h2{margin:0 0 8px; font-size:30px}
+.hero p{margin:0; color:var(--muted); line-height:1.6}
+.badges{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px}
+.badge{padding:8px 12px; border-radius:999px; font-size:12px; background:#0f1b35; border:1px solid rgba(255,255,255,.08)}
+.tab{display:none; margin-top:20px}
+.tab.active{display:block}
+.grid{display:grid; gap:16px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{
+  background:linear-gradient(180deg,#111c35,#0f1830);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px; padding:18px; box-shadow:var(--shadow);
+}
+.card h3,.card h4{margin:0 0 10px}
+.card p{margin:0; color:var(--muted); line-height:1.58}
+.list{margin:10px 0 0; padding-left:18px; color:var(--muted); line-height:1.55}
+.list li{margin:6px 0}
+.section-title{font-size:22px; margin:8px 0 12px}
+.subtle{color:var(--muted)}
+.stage{
+  display:grid; grid-template-columns:78px 1fr; gap:14px; align-items:start;
+  padding:14px; border-radius:16px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06)
+}
+.stage .num{
+  width:62px;height:62px;border-radius:18px; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,rgba(121,201,255,.18),rgba(140,240,199,.14)); font-weight:900; font-size:22px
+}
+.stage h4{margin:0 0 6px}
+.timeline{display:grid; gap:12px}
+.schema, .flow{
+  display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+}
+.node{
+  min-width:135px;
+  background:linear-gradient(180deg,#162444,#101a31);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:14px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+.node.small{min-width:110px; padding:10px 12px}
+.arrow{font-size:24px; color:var(--accent); padding:0 2px}
+.schema-stack{
+  display:grid; gap:12px;
+}
+.layer{
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px; padding:14px 16px;
+  background:linear-gradient(180deg,#13203c,#0f1830);
+}
+.layer .title{font-weight:800; margin-bottom:6px}
+.layer .desc{color:var(--muted); line-height:1.55}
+.callout{
+  margin-top:14px; padding:14px 16px; border-radius:16px;
+  background:rgba(255,213,123,.08); border:1px solid rgba(255,213,123,.24); color:#ffe7b0;
+}
+.warn{
+  background:rgba(255,159,159,.08); border:1px solid rgba(255,159,159,.24); color:#ffd6d6;
+}
+.good{
+  background:rgba(125,240,169,.08); border:1px solid rgba(125,240,169,.22); color:#d5ffe4;
+}
+table{
+  width:100%; border-collapse:collapse; font-size:14px; overflow:hidden; border-radius:14px;
+}
+th,td{padding:12px 10px; border-bottom:1px solid rgba(255,255,255,.07); vertical-align:top}
+th{color:#dce7ff; text-align:left; background:rgba(255,255,255,.03)}
+td{color:var(--muted)}
+.code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:13px; line-height:1.55;
+  white-space:pre-wrap;
+  background:#0b1427;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px; padding:14px;
+  color:#dce7ff;
+}
+.footer-note{margin-top:14px; font-size:12px; color:var(--muted)}
+@media (max-width:1100px){
+  .layout{grid-template-columns:1fr}
+  aside{position:relative; height:auto}
+  .g2,.g3{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <div class="brand">
+      <h1>Charles</h1>
+      <p>Copilote clinique de vigilance périopératoire.<br>Version de travail pour cadrage produit, architecture, données, sécurité, recherche clinique et mise en marché.</p>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="v">MVP</div><div class="l">Hypotension per-op</div></div>
+      <div class="kpi"><div class="v">V1</div><div class="l">Non prescriptif</div></div>
+      <div class="kpi"><div class="v">4</div><div class="l">Chantiers en parallèle</div></div>
+      <div class="kpi"><div class="v">90 j</div><div class="l">Feuille de route initiale</div></div>
+    </div>
+
+    <div class="nav">
+      <button class="active" data-tab="tab1">1. Vue d'ensemble</button>
+      <button data-tab="tab2">2. Architecture projet</button>
+      <button data-tab="tab3">3. Étapes de réalisation</button>
+      <button data-tab="tab4">4. Données, stockage, sécurité</button>
+      <button data-tab="tab5">5. Stack, Docker, infra</button>
+      <button data-tab="tab6">6. Présentation du produit</button>
+      <button data-tab="tab7">7. Entreprise, IP, collaborations</button>
+      <button data-tab="tab8">8. Checklists concrètes</button>
+    </div>
+  </aside>
+
+  <main>
+    <section class="hero">
+      <h2>Dashboard stratégique détaillé</h2>
+      <p>Objectif : transformer l'idée initiale en programme de travail réaliste. Le produit n'est pas présenté comme “une IA qui décide à la place de l'anesthésiste”, mais comme un <strong>copilote clinique de vigilance</strong> qui agrège les signaux du bloc, détecte des dérives, estime un risque court terme et reformule l'information de façon exploitable par l'IADE et le MAR.</p>
+      <div class="badges">
+        <span class="badge">Produit initial : standalone / overlay</span>
+        <span class="badge">Cas d'usage MVP : hypotension peropératoire</span>
+        <span class="badge">Mode de départ : simulateur + datasets publics</span>
+        <span class="badge">Validation réelle : rétrospectif puis shadow</span>
+        <span class="badge">Architecture pensée pour intégrer plus tard AIMS / middleware</span>
+      </div>
+    </section>
+
+    <section id="tab1" class="tab active">
+      <h3 class="section-title">1. Vue d'ensemble et logique du projet</h3>
+      <div class="grid g2">
+        <div class="card">
+          <h3>Positionnement</h3>
+          <p><strong>Charles</strong> est un copilote clinique de vigilance périopératoire. Il ne remplace pas le scope, ne remplace pas MetaVision/Diane/ORBIS, et ne prescrit pas une conduite. Il se place <strong>au-dessus de l'existant</strong> pour fusionner les signaux, détecter des tendances précoces et afficher un niveau de vigilance compréhensible.</p>
+          <ul class="list">
+            <li>Ce que Charles fait : agrégation, scoring, explication, résumé.</li>
+            <li>Ce que Charles ne fait pas au début : dose, prescription, action autonome.</li>
+            <li>Ce que Charles apporte : voir plus tôt, synthétiser mieux, transmettre mieux.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Pourquoi ce cadrage est le bon</h3>
+          <p>Tu avances plus vite, tu limites la dette technique, tu protèges ton IP et tu gardes la possibilité d'évoluer ensuite vers un sidecar plus intégré. Au départ, il faut prouver <strong>la valeur clinique</strong> et <strong>la faisabilité</strong> avant d'attaquer l'intégration profonde.</p>
+          <div class="callout good">Le bon ordre n'est pas : CHU → données → produit. Le bon ordre est : <strong>problème → simulateur → MVP → discussion clinique → données réelles</strong>.</div>
+        </div>
+      </div>
+
+      <div class="grid g3" style="margin-top:16px">
+        <div class="card">
+          <h4>Patient</h4>
+          <p>Âge, ASA, poids, type de chirurgie, contexte anesthésique, temps opératoire, facteurs de risque connus.</p>
+        </div>
+        <div class="card">
+          <h4>Signaux</h4>
+          <p>FC, PA, SpO2, EtCO2, ventilatoire, profondeur, température, éventuellement PPV/SVV, et plus tard contexte AIMS.</p>
+        </div>
+        <div class="card">
+          <h4>Événement ciblé</h4>
+          <p>Hypotension anticipée d'abord, puis respiratoire, puis saignement. Un seul endpoint fort au départ.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Schéma simple du produit au démarrage</h3>
+        <div class="flow">
+          <div class="node">Scénarios simulés</div>
+          <div class="arrow">→</div>
+          <div class="node">Moteur de vigilance</div>
+          <div class="arrow">→</div>
+          <div class="node">Score + alerte</div>
+          <div class="arrow">→</div>
+          <div class="node">Interface tablette/web</div>
+          <div class="arrow">→</div>
+          <div class="node">Démo clinique</div>
+        </div>
+        <div class="footer-note">Le simulateur sert à concevoir. Les données publiques servent à benchmarker. Les données réelles servent à valider.</div>
+      </div>
+    </section>
+
+    <section id="tab2" class="tab">
+      <h3 class="section-title">2. Architecture détaillée du projet</h3>
+      <div class="card">
+        <h3>Architecture cible en 7 couches</h3>
+        <div class="schema-stack">
+          <div class="layer">
+            <div class="title">Couche 1 — Sources</div>
+            <div class="desc">Au départ : simulateur + VitalDB. Plus tard : données rétrospectives CHU, puis flux temps réel issus d'un middleware, d'une centrale ou d'un AIMS déjà en place.</div>
+          </div>
+          <div class="layer">
+            <div class="title">Couche 2 — Acquisition / normalisation</div>
+            <div class="desc">Validation de schéma, bornes physiologiques, horodatage, harmonisation des noms de variables, calcul de variables dérivées simples (ex. MAP, tendance, pente, rolling mean).</div>
+          </div>
+          <div class="layer">
+            <div class="title">Couche 3 — Persistance</div>
+            <div class="desc">Stockage des séries temporelles, journal d'événements, historique des alertes, jeux d'entraînement séparés, versionnage des artefacts de modèle.</div>
+          </div>
+          <div class="layer">
+            <div class="title">Couche 4 — Moteur clinique</div>
+            <div class="desc">Règles expertes + scoring + modèle ML. Cette couche produit : niveau de vigilance, facteur(s) contributif(s), moment d'anticipation, et état du cas (normal / surveillance / alerte).</div>
+          </div>
+          <div class="layer">
+            <div class="title">Couche 5 — Surcouche d'explication</div>
+            <div class="desc">LLM ou moteur de résumé utilisé uniquement pour reformuler et expliquer. Jamais au cœur de la décision de sécurité. Il décrit, n'arbitre pas.</div>
+          </div>
+          <div class="layer">
+            <div class="title">Couche 6 — Interface</div>
+            <div class="desc">Écran très lisible : score global, alerte active, variables contributives, chronologie, résumé de fin d'intervention. Tablette/web au début, puis potentiel sidecar intégré.</div>
+          </div>
+          <div class="layer">
+            <div class="title">Couche 7 — Audit / qualité</div>
+            <div class="desc">Logs, version de modèle, tests, changelog, données utilisées, seuils actifs, historique de sortie. C'est la base pour la robustesse, la sécurité et plus tard le réglementaire.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card">
+          <h3>Architecture MVP recommandée</h3>
+          <div class="flow">
+            <div class="node small">Simulateur</div>
+            <div class="arrow">→</div>
+            <div class="node small">API backend</div>
+            <div class="arrow">→</div>
+            <div class="node small">Moteur alertes</div>
+            <div class="arrow">→</div>
+            <div class="node small">UI tablette</div>
+          </div>
+          <ul class="list">
+            <li>Rapide à construire.</li>
+            <li>Zéro dépendance au CHU au début.</li>
+            <li>Parfait pour parler à un MAR.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Architecture V2 recommandée</h3>
+          <div class="flow">
+            <div class="node small">Middleware / AIMS</div>
+            <div class="arrow">→</div>
+            <div class="node small">Edge service lecture</div>
+            <div class="arrow">→</div>
+            <div class="node small">Charles engine</div>
+            <div class="arrow">→</div>
+            <div class="node small">Tablette / écran</div>
+          </div>
+          <ul class="list">
+            <li>Lecture seule au début.</li>
+            <li>Moins de dette technique qu'un plugin profond.</li>
+            <li>Permet de garder le cœur produit indépendant.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Ce que le produit n'est pas au départ</h3>
+        <table>
+          <thead><tr><th>Option</th><th>Pourquoi éviter au début</th><th>Quand y penser</th></tr></thead>
+          <tbody>
+            <tr><td>Plugin profond MetaVision / Diane / ORBIS</td><td>Dépendance éditeur, dette technique multi-sites, négociation lourde, IP plus fragile.</td><td>Après preuve de valeur et traction.</td></tr>
+            <tr><td>Connexion directe scope → tablette</td><td>Architecture fragile, stabilité et sécurité médiocres, dépend des protocoles constructeurs.</td><td>Seulement en POC local si rien d'autre n'existe.</td></tr>
+            <tr><td>LLM au centre du moteur clinique</td><td>Trop opaque, trop instable, trop difficile à défendre en sécurité.</td><td>Jamais comme cœur d'alerte initial.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tab3" class="tab">
+      <h3 class="section-title">3. Étapes de réalisation détaillées</h3>
+      <div class="timeline">
+        <div class="stage">
+          <div class="num">01</div>
+          <div>
+            <h4>Cadrage clinique et produit</h4>
+            <p>Durée : 1 semaine. Choisir le cas d'usage MVP, écrire la phrase produit, construire le one-pager, définir ce que Charles fait et ne fait pas.</p>
+            <ul class="list">
+              <li>Livrable : note de concept 1 page + 3 scénarios.</li>
+              <li>Sortie attendue : pitch intelligible pour un MAR.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="num">02</div>
+          <div>
+            <h4>Simulateur et démo</h4>
+            <p>Durée : 2 à 3 semaines. Construire le flux temps réel simulé, le score de vigilance, les alertes et l'interface.</p>
+            <ul class="list">
+              <li>Scénarios : normal, hypotension progressive, dérive respiratoire.</li>
+              <li>Sortie attendue : démo jouable sur laptop/tablette.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="num">03</div>
+          <div>
+            <h4>ML sur datasets publics</h4>
+            <p>Durée : 2 à 4 semaines. VitalDB sert à fabriquer un premier moteur prédictif, benchmarker XGBoost et éventuellement LSTM, puis mesurer le gain anticipatoire sur le cas d'usage choisi.</p>
+            <ul class="list">
+              <li>Livrables : notebook, dataset dérivé, ROC/AUC, tableau comparatif.</li>
+              <li>Sortie attendue : “on voit déjà quelque chose sur données publiques”.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="num">04</div>
+          <div>
+            <h4>Approche clinique et partenaire MAR</h4>
+            <p>Durée : 2 à 6 semaines selon réseau. Présenter le besoin, le MVP, le caractère non prescriptif, et demander un second échange plus structuré sur la faisabilité recherche.</p>
+            <ul class="list">
+              <li>Objectif du premier rendez-vous : intérêt clinique, pas engagement capital.</li>
+              <li>Livrable : validation du problème + orientation sur le bon cas d'usage + éventuel site pilote.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="num">05</div>
+          <div>
+            <h4>Rétrospectif / accès aux données réelles</h4>
+            <p>Durée : variable. Identifier où vivent les données (AIMS, EDS, exports bloc, middleware), demander la faisabilité, puis cadrer la réutilisation en environnement autorisé.</p>
+            <ul class="list">
+              <li>Objectif : obtenir des données passées avant toute collecte future.</li>
+              <li>Sortie attendue : jeu rétrospectif local exploitable.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="num">06</div>
+          <div>
+            <h4>Shadow mode puis validation</h4>
+            <p>Durée : après collaboration formalisée. Faire tourner Charles sans agir sur les soins, comparer ses alertes au moniteur et à la documentation clinique, puis préparer étude plus formelle si le signal est bon.</p>
+            <ul class="list">
+              <li>Objectif : preuve terrain et acceptabilité.</li>
+              <li>Sortie attendue : base scientifique, publication pilote, traction clinique.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab4" class="tab">
+      <h3 class="section-title">4. Données, stockage, sécurité et RGPD</h3>
+      <div class="grid g2">
+        <div class="card">
+          <h3>Stockage par phase</h3>
+          <table>
+            <thead><tr><th>Phase</th><th>Type de données</th><th>Où stocker</th><th>Niveau de contrainte</th></tr></thead>
+            <tbody>
+              <tr><td>Simulateur</td><td>Aucune donnée réelle</td><td>Local, SQLite/JSON/Postgres Docker</td><td>Faible</td></tr>
+              <tr><td>VitalDB / public</td><td>Données publiques de recherche</td><td>Local chiffré si possible, repo privé pour code</td><td>Modéré</td></tr>
+              <tr><td>Rétrospectif CHU</td><td>Données de santé réelles/pseudonymisées</td><td>Idéalement environnement CHU / EDS / espace autorisé</td><td>Élevé</td></tr>
+              <tr><td>Shadow / prospectif</td><td>Données temps réel réelles</td><td>Infra contrôlée + règles d'accès strictes</td><td>Très élevé</td></tr>
+              <tr><td>Produit</td><td>Données de santé hébergées pour des tiers</td><td>Trajectoire HDS + gouvernance complète</td><td>Critique</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Règle simple à retenir</h3>
+          <p>Tu ne mets jamais sur ton laptop perso des exports sauvages venant d'un CHU sans cadre. Au début, tu peux tout faire en local car tu n'as pas de données nominatives. Dès que tu touches à des données réelles, tu changes totalement de régime.</p>
+          <div class="callout warn">Au début : <strong>local, simple, sans données perso</strong>.<br>Au milieu : <strong>public/recherche, chiffré et rangé</strong>.<br>Au réel : <strong>environnement autorisé, gouvernance, journalisation, minimisation</strong>.</div>
+        </div>
+      </div>
+
+      <div class="grid g3" style="margin-top:16px">
+        <div class="card">
+          <h4>Mesures minimum dès maintenant</h4>
+          <ul class="list">
+            <li>Repo Git privé.</li>
+            <li>PC protégé mot de passe.</li>
+            <li>Chiffrement disque si possible.</li>
+            <li>Séparation claire code / données / exports.</li>
+            <li>Noms fictifs uniquement dans le simulateur.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Mesures à ajouter avant données CHU</h4>
+          <ul class="list">
+            <li>Registre des traitements du projet.</li>
+            <li>Liste des rôles et accès.</li>
+            <li>Pseudonymisation documentée.</li>
+            <li>Rétention définie.</li>
+            <li>Journalisation accès / versions.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Mesures produit plus tard</h4>
+          <ul class="list">
+            <li>Hébergement conforme.</li>
+            <li>Authentification/RBAC.</li>
+            <li>Traçabilité fine des alertes.</li>
+            <li>Versioning modèles.</li>
+            <li>Backups, reprise, supervision.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Séparation des datasets</h3>
+        <div class="code">/data
+  /simulated                → scénarios inventés, libres
+  /public                   → VitalDB, MIMIC, sources ouvertes
+  /derived                  → features dérivées pour entraînement
+  /local_research_secure    → données CHU pseudonymisées (jamais dans le repo)
+  /models                   → artefacts versionnés
+  /exports                  → graphes, rapports, démos non nominatives</div>
+        <div class="footer-note">Le dépôt Git contient le code, les scripts, la documentation. Il ne doit pas contenir de dumps réels identifiants.</div>
+      </div>
+    </section>
+
+    <section id="tab5" class="tab">
+      <h3 class="section-title">5. Stack technique, Docker et infrastructure</h3>
+      <div class="grid g2">
+        <div class="card">
+          <h3>Stack recommandée au départ</h3>
+          <ul class="list">
+            <li><strong>Backend :</strong> FastAPI.</li>
+            <li><strong>Moteur alertes :</strong> Python pur + règles JSON/YAML.</li>
+            <li><strong>ML :</strong> scikit-learn, XGBoost/LightGBM, puis PyTorch si besoin.</li>
+            <li><strong>Frontend :</strong> React + Vite + Recharts.</li>
+            <li><strong>Stockage temps réel :</strong> PostgreSQL au début ; InfluxDB plus tard si besoin fort séries temporelles.</li>
+            <li><strong>Temps réel :</strong> WebSocket ; MQTT seulement si tu simules déjà ou si tu prépares plus tard l'acquisition edge.</li>
+            <li><strong>LLM :</strong> optionnel, en surcouche locale ou API selon usage, jamais dans le chemin critique.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Faut-il Docker ?</h3>
+          <p><strong>Oui, plutôt oui.</strong> Pas parce que c'est obligatoire cliniquement au début, mais parce que ça te simplifie le développement et les démos.</p>
+          <ul class="list">
+            <li>Tu figes ton environnement.</li>
+            <li>Tu relances facilement backend + DB + frontend.</li>
+            <li>Tu partages la démo plus facilement.</li>
+            <li>Tu prépares déjà une architecture déployable.</li>
+          </ul>
+          <div class="callout good">Pour le MVP, Docker = confort, reproductibilité, démo propre. Pour la suite, Docker devient presque indispensable pour séparer les services.</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Architecture Docker simple de départ</h3>
+        <div class="code">docker-compose.yml
+  ├── frontend        → React/Vite
+  ├── backend         → FastAPI
+  ├── postgres        → base applicative
+  ├── redis           → cache / pubsub optionnel
+  ├── mlflow          → versioning des modèles (plus tard)
+  └── mosquitto       → uniquement si simulateur/event bus utile</div>
+        <p class="subtle" style="margin-top:10px">Tu n'es pas obligé de tout mettre tout de suite. Une version minimaliste peut se contenter de : frontend + backend + postgres.</p>
+      </div>
+
+      <div class="grid g3" style="margin-top:16px">
+        <div class="card">
+          <h4>MVP local minimal</h4>
+          <ul class="list">
+            <li>FastAPI</li>
+            <li>React</li>
+            <li>PostgreSQL ou SQLite</li>
+            <li>CSV/JSON scénarios</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>MVP propre démo</h4>
+          <ul class="list">
+            <li>Docker Compose</li>
+            <li>PostgreSQL</li>
+            <li>WebSocket live</li>
+            <li>Versioning modèle simple</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Pré-recherche / pré-CHU</h4>
+          <ul class="list">
+            <li>Docker + tests</li>
+            <li>MLflow ou équivalent</li>
+            <li>Logs structurés</li>
+            <li>Séparation config/secret</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Pourquoi ne pas tout complexifier tout de suite</h3>
+        <p>Tu n'as pas besoin, au jour 1, d'un cluster Kubernetes, d'une infra cloud compliquée ou d'un SOC. Tu as besoin d'un système propre, compréhensible, testable, que tu peux faire tourner sur ton poste et montrer à un médecin sans stress.</p>
+        <div class="callout">Règle pratique : <strong>minimal viable architecture</strong> au début, <strong>scalable architecture</strong> seulement quand la preuve clinique commence.</div>
+      </div>
+    </section>
+
+    <section id="tab6" class="tab">
+      <h3 class="section-title">6. Comment présenter le produit aujourd'hui</h3>
+      <div class="grid g2">
+        <div class="card">
+          <h3>Forme de présentation clinique</h3>
+          <p>Tu ne présentes pas “une IA”. Tu présentes un <strong>outil de vigilance</strong>.</p>
+          <ul class="list">
+            <li>Problème : trop de signaux, peu d'intégration intelligente, alertes tardives ou silotées.</li>
+            <li>Solution : copilote non prescriptif, explicable, centré sur un cas d'usage.</li>
+            <li>Preuve : démonstrateur + benchmark public + trajectoire recherche.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Ce que voit le MAR</h3>
+          <ul class="list">
+            <li>Un cas clinique.</li>
+            <li>Une courbe et une alerte plus précoce que le seuil brut.</li>
+            <li>Un score de vigilance.</li>
+            <li>Un projet de recherche publiable, prudent et progressif.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Les 4 formats que tu dois avoir</h3>
+        <table>
+          <thead><tr><th>Format</th><th>But</th><th>Contenu</th></tr></thead>
+          <tbody>
+            <tr><td>One-pager</td><td>Premier contact</td><td>Problème, solution, cas d'usage, demande.</td></tr>
+            <tr><td>Deck 10 slides</td><td>RDV plus structuré</td><td>Problème, architecture, roadmap, recherche, équipe.</td></tr>
+            <tr><td>Démo UI</td><td>Rendre concret</td><td>Scénario en direct, score, alerte, avant/après moniteur.</td></tr>
+            <tr><td>Note recherche 2 pages</td><td>DRCI / MAR</td><td>Question clinique, données, design, livrables, cadre envisagé.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Message clé à répéter</h3>
+        <div class="code">"Charles n'est pas un nouveau scope et n'est pas une IA qui décide.
+C'est un copilote clinique de vigilance qui aide l'équipe à voir plus tôt
+certaines dérives en s'appuyant sur les signaux déjà présents au bloc."</div>
+      </div>
+    </section>
+
+    <section id="tab7" class="tab">
+      <h3 class="section-title">7. Entreprise, IP, collaboration recherche</h3>
+      <div class="grid g2">
+        <div class="card">
+          <h3>Structure d'entreprise recommandée</h3>
+          <p>Au départ : <strong>SAS simple</strong>. Pas de structure trop sophistiquée tant que le projet n'est pas stabilisé. Le plus important est de pouvoir contractualiser, protéger le nom et accueillir plus tard des partenaires.</p>
+          <ul class="list">
+            <li>Toi seul au capital au départ si possible.</li>
+            <li>Compte bancaire dédié.</li>
+            <li>Dépôt du nom quand il est stabilisé.</li>
+            <li>NDA + convention type prêtes avant collaborations détaillées.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Ce qu'il faut protéger</h3>
+          <ul class="list">
+            <li>Nom / marque.</li>
+            <li>Architecture et documentation datée.</li>
+            <li>Code source et historique Git.</li>
+            <li>Logique d'alerte, features, labels, protocoles de validation.</li>
+            <li>Convention IP claire avec tout partenaire clinique ou technique.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Comment structurer une collaboration MAR / CHU</h3>
+        <div class="flow">
+          <div class="node">Premier échange</div>
+          <div class="arrow">→</div>
+          <div class="node">Validation du besoin</div>
+          <div class="arrow">→</div>
+          <div class="node">Note de collaboration</div>
+          <div class="arrow">→</div>
+          <div class="node">Cadre données / recherche</div>
+          <div class="arrow">→</div>
+          <div class="node">Convention</div>
+        </div>
+        <ul class="list">
+          <li>Ne pas demander des données dès le premier rendez-vous.</li>
+          <li>Ne pas promettre des parts tout de suite.</li>
+          <li>Ne pas confondre intérêt clinique et engagement juridique.</li>
+          <li>Commencer par un projet de recherche prudent et progressif.</li>
+        </ul>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Questions à trancher avant toute vraie collaboration</h3>
+        <table>
+          <thead><tr><th>Sujet</th><th>Question</th><th>Pourquoi</th></tr></thead>
+          <tbody>
+            <tr><td>Données</td><td>Qui fournit quoi, où elles vivent, qui peut y accéder ?</td><td>Évite les ambiguïtés RGPD.</td></tr>
+            <tr><td>IP</td><td>Qui possède l'algorithme, les améliorations, les scripts ?</td><td>Protège le cœur du projet.</td></tr>
+            <tr><td>Publications</td><td>Qui signe quoi et quand ?</td><td>Évite les conflits tardifs.</td></tr>
+            <tr><td>Recherche</td><td>Qui porte le protocole ?</td><td>Clarifie la gouvernance.</td></tr>
+            <tr><td>Produit</td><td>Prototype recherche ou pré-produit ?</td><td>Évite les attentes irréalistes.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tab8" class="tab">
+      <h3 class="section-title">8. Checklists très concrètes</h3>
+      <div class="grid g2">
+        <div class="card">
+          <h3>Cette semaine</h3>
+          <ul class="list">
+            <li>Fixer le nom de travail + phrase produit.</li>
+            <li>Choisir le MVP unique : hypotension perop.</li>
+            <li>Écrire 3 scénarios cliniques.</li>
+            <li>Monter le simulateur de base.</li>
+            <li>Créer le one-pager.</li>
+            <li>Lister 10 MAR / chefs de service potentiels.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Ce mois-ci</h3>
+          <ul class="list">
+            <li>Démo jouable sur tablette/laptop.</li>
+            <li>Premier notebook VitalDB.</li>
+            <li>Deck 10 slides.</li>
+            <li>Prise de contact Epitech / Pépite.</li>
+            <li>Préparation création SAS.</li>
+            <li>Premier échange clinique structuré.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card">
+          <h3>Avant toute donnée CHU</h3>
+          <ul class="list">
+            <li>Code rangé et repo privé.</li>
+            <li>Arborescence séparée code/données.</li>
+            <li>Stockage local propre, pas de dump nominatif sauvage.</li>
+            <li>Questions à poser : où vivent les données ? qui décide ? quel environnement ?</li>
+            <li>Positionnement clair : recherche prudente, non prescriptive.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Avant toute vraie étude</h3>
+          <ul class="list">
+            <li>MAR référent identifié.</li>
+            <li>Note de collaboration rédigée.</li>
+            <li>Cadre des données clarifié.</li>
+            <li>Question de recherche définie.</li>
+            <li>Traçabilité minimale du logiciel en place.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Résumé exécutable</h3>
+        <div class="code">1. Tu définis le produit.
+2. Tu construis le simulateur.
+3. Tu fais une démo propre.
+4. Tu benchmarks sur VitalDB.
+5. Tu contactes un MAR avec quelque chose de concret.
+6. Tu crées la SAS quand le projet est stabilisé.
+7. Tu cherches ensuite les données rétrospectives locales.
+8. Tu ne touches au vrai terrain qu'avec cadre clair.</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const buttons = document.querySelectorAll('.nav button');
+const tabs = document.querySelectorAll('.tab');
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    buttons.forEach(b => b.classList.remove('active'));
+    tabs.forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+topic_id: diabete
+topic_type: terrain
+date_consultation: 2026-04-01
+sources:
+- source_id: sfar_prise_en_charge_du_patient_diabetique_en_peri_operatoire
+  organisme: SFAR
+  niveau_source: normatif
+  title: SFAR Prise en charge du patient diabetique en peri-operatoire
+  url: https://sfar.org/download/prise-en-charge-du-patient-diabetique-en-peri-operatoire/
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: mapar_fiches_diabete
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Fiches diabete
+  url: https://www.mapar.org/index.php/fiches-diabete
+  support_type: webpage
+  date_consultation: 2026-04-01
+- source_id: mapar_controle_glycemique_peri_operatoire
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Le controle glycemique en peri-operatoire
+  url: https://www.mapar.org/article/1/Communication%20MAPAR/chix7fxo/Le%20contr%C3%B4le%20glyc%C3%A9mique%20en%20p%C3%A9ri-op%C3%A9ratoire.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id

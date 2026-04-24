@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VAIA — Dashboard stratégique</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #111831;
+      --panel-2: #172142;
+      --text: #eaf0ff;
+      --muted: #aab7df;
+      --accent: #7cc7ff;
+      --accent-2: #8ef0c5;
+      --warn: #ffd479;
+      --danger: #ff9b9b;
+      --line: #2a396d;
+      --shadow: 0 14px 40px rgba(0,0,0,.28);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(180deg, #09101f 0%, #0d1530 100%);
+      color: var(--text);
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 100vh;
+    }
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background: rgba(9, 14, 29, 0.9);
+      border-right: 1px solid rgba(255,255,255,.06);
+      padding: 24px 18px;
+      backdrop-filter: blur(10px);
+    }
+    .brand {
+      background: linear-gradient(135deg, rgba(124,199,255,.18), rgba(142,240,197,.12));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+    }
+    .brand h1 { margin: 0; font-size: 24px; }
+    .brand p { margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .nav-title {
+      font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin: 18px 10px 10px;
+    }
+    .nav a {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+      padding: 12px 14px;
+      border-radius: 14px;
+      margin: 6px 0;
+      border: 1px solid transparent;
+      background: transparent;
+      transition: .18s ease;
+      font-size: 14px;
+    }
+    .nav a:hover, .nav a.active {
+      background: rgba(124,199,255,.12);
+      border-color: rgba(124,199,255,.18);
+      transform: translateX(2px);
+    }
+    main {
+      padding: 30px;
+      max-width: 1400px;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(17,24,49,.95), rgba(15,21,43,.95));
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+    .hero h2 { font-size: 34px; line-height: 1.1; margin: 0 0 12px; }
+    .hero p { color: var(--muted); line-height: 1.6; margin: 0; }
+    .pillbar { display:flex; flex-wrap: wrap; gap:10px; margin-top:18px; }
+    .pill {
+      padding: 8px 12px; border-radius:999px; font-size: 13px;
+      background: rgba(124,199,255,.12); border: 1px solid rgba(124,199,255,.18);
+    }
+    .grid-3 { display:grid; grid-template-columns: repeat(3,1fr); gap:18px; margin-bottom:18px; }
+    .metric { font-size: 34px; font-weight: 700; margin: 8px 0; }
+    .muted { color: var(--muted); }
+    .section { margin: 28px 0; }
+    .section h3 { font-size: 26px; margin: 0 0 14px; }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+    .step {
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(124,199,255,.08), rgba(255,255,255,.03));
+      min-height: 170px;
+    }
+    .step .num {
+      width: 34px; height: 34px; display:grid; place-items:center; border-radius:50%;
+      background: rgba(142,240,197,.14); color: var(--accent-2); font-weight: 700; margin-bottom: 12px;
+      border: 1px solid rgba(142,240,197,.2);
+    }
+    .step h4 { margin: 0 0 8px; font-size: 17px; }
+    .step p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.5; }
+    .tabs { display:flex; flex-wrap: wrap; gap:10px; margin-bottom:18px; }
+    .tab-btn {
+      cursor:pointer; border:1px solid rgba(255,255,255,.08); color:var(--text); background: rgba(255,255,255,.03);
+      padding: 10px 14px; border-radius: 999px; font-size: 14px;
+    }
+    .tab-btn.active { background: rgba(124,199,255,.15); border-color: rgba(124,199,255,.25); }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
+    ul.clean { margin: 10px 0 0 0; padding-left: 18px; }
+    ul.clean li { margin: 7px 0; color: var(--muted); line-height: 1.5; }
+    .schema {
+      overflow: auto;
+      background: linear-gradient(180deg, rgba(6,10,22,.75), rgba(17,24,49,.6));
+    }
+    .flow {
+      min-width: 1050px;
+      display:flex; align-items: center; gap: 14px; padding: 8px 0;
+    }
+    .node {
+      flex: 1;
+      min-width: 150px;
+      padding: 16px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(124,199,255,.12), rgba(255,255,255,.03));
+      border:1px solid rgba(124,199,255,.16);
+      text-align:center;
+    }
+    .node strong { display:block; margin-bottom: 6px; }
+    .arrow { font-size: 28px; color: var(--accent); }
+    .two-col { display:grid; grid-template-columns: 1.1fr .9fr; gap:18px; }
+    .checklist li::marker { color: var(--accent-2); }
+    .risk { border-left: 4px solid var(--warn); padding-left: 12px; margin-top: 14px; }
+    .danger { border-left-color: var(--danger); }
+    .footer {
+      margin-top: 32px; color: var(--muted); font-size: 13px; text-align:center; padding-bottom: 20px;
+    }
+    @media (max-width: 1100px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { position: static; height: auto; }
+      .hero, .grid-3, .two-col, .steps { grid-template-columns: 1fr; }
+      main { padding: 18px; }
+    }
+    @media print {
+      aside { display:none; }
+      .layout { grid-template-columns: 1fr; }
+      body { background:#fff; color:#111; }
+      .card, .step, .node { box-shadow:none; background:#fff; color:#111; border:1px solid #ddd; }
+      .muted, .step p, ul.clean li, .footer, .brand p { color:#444; }
+      .tab-panel { display:block !important; }
+      .tabs { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand">
+        <h1>Charles</h1>
+        <p>Dashboard stratégique du copilote clinique de vigilance peropératoire. Vue pas à pas : produit, technique, recherche, société, données et sécurité.</p>
+      </div>
+      <div class="nav-title">Navigation</div>
+      <nav class="nav" id="nav">
+        <a href="#vision" class="active">Vision</a>
+        <a href="#roadmap">Feuille de route</a>
+        <a href="#etapes">Onglets par étape</a>
+        <a href="#schema">Schéma d’architecture</a>
+        <a href="#data">Données & stockage</a>
+        <a href="#entreprise">Entreprise & protection</a>
+        <a href="#recherche">Recherche clinique</a>
+        <a href="#actions">Plan 90 jours</a>
+      </nav>
+    </aside>
+
+    <main>
+      <section class="hero" id="vision">
+        <div class="card">
+          <h2>Charles — copilote clinique de vigilance peropératoire</h2>
+          <p>Point d’entrée recommandé : un outil non prescriptif qui détecte plus tôt certaines dérives au bloc, commence par l’hypotension peropératoire, puis s’élargit progressivement. L’idée n’est pas de remplacer le MAR ou l’IADE, mais de mieux exploiter les signaux déjà présents, dans une logique de vigilance augmentée, explicable et testable.</p>
+          <div class="pillbar">
+            <span class="pill">MVP : hypotension perop</span>
+            <span class="pill">Simulateur d’abord</span>
+            <span class="pill">VitalDB ensuite</span>
+            <span class="pill">Rétrospectif CHU après</span>
+            <span class="pill">Produit non prescriptif</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="muted">Pourquoi ce cadrage</div>
+          <div class="metric">1 cas d’usage</div>
+          <div class="muted">au lieu d’une plateforme totale trop large dès le départ</div>
+          <div style="height:14px"></div>
+          <div class="metric">4 chantiers</div>
+          <div class="muted">produit, données, recherche, structure d’entreprise</div>
+          <div style="height:14px"></div>
+          <div class="metric">90 jours</div>
+          <div class="muted">pour obtenir un proto montrable + un cadre crédible</div>
+        </div>
+      </section>
+
+      <section class="grid-3">
+        <div class="card">
+          <div class="muted">Ce que tu fais en premier</div>
+          <div class="metric">Simulateur</div>
+          <div class="muted">Scénarios cliniques contextualisés, sans donnée patient réelle.</div>
+        </div>
+        <div class="card">
+          <div class="muted">Ce que tu fais ensuite</div>
+          <div class="metric">VitalDB</div>
+          <div class="muted">Premier benchmark ML sur données perop publiques.</div>
+        </div>
+        <div class="card">
+          <div class="muted">Ce qui rend le projet crédible</div>
+          <div class="metric">MAR + CHU</div>
+          <div class="muted">Partenaire clinique pour affiner le cas d’usage et cadrer la recherche.</div>
+        </div>
+      </section>
+
+      <section class="section" id="roadmap">
+        <h3>Schéma des grandes phases</h3>
+        <div class="steps">
+          <div class="step"><div class="num">1</div><h4>Cadrage</h4><p>Phrase produit, MVP unique, one-pager, scénarios de démonstration, nom, angle clinique.</p></div>
+          <div class="step"><div class="num">2</div><h4>Proto simulé</h4><p>Simulateur, moteur d’alertes, score de vigilance, interface tablette/web, démo vidéo.</p></div>
+          <div class="step"><div class="num">3</div><h4>ML public</h4><p>VitalDB, features, labels simples, benchmark XGBoost / baseline, premiers résultats.</p></div>
+          <div class="step"><div class="num">4</div><h4>Partenaire clinique</h4><p>MAR, chef de service, DRCI, faisabilité données rétrospectives, note de collaboration.</p></div>
+          <div class="step"><div class="num">5</div><h4>Étude & industrialisation</h4><p>Rétrospectif, shadow, validation locale, sécurité, gouvernance données, trajectoire produit.</p></div>
+        </div>
+      </section>
+
+      <section class="section" id="etapes">
+        <h3>Onglets par étape</h3>
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="tab1">Étape 1 — Cadrage</button>
+          <button class="tab-btn" data-tab="tab2">Étape 2 — Prototype</button>
+          <button class="tab-btn" data-tab="tab3">Étape 3 — Données & ML</button>
+          <button class="tab-btn" data-tab="tab4">Étape 4 — MAR & CHU</button>
+          <button class="tab-btn" data-tab="tab5">Étape 5 — Société</button>
+          <button class="tab-btn" data-tab="tab6">Étape 6 — Recherche</button>
+        </div>
+
+        <div id="tab1" class="tab-panel active card">
+          <h4>Étape 1 — Cadrage produit</h4>
+          <ul class="clean checklist">
+            <li>Écrire la phrase produit en une ligne.</li>
+            <li>Choisir le MVP : hypotension perop anticipée.</li>
+            <li>Définir 3 scénarios cliniques : normal, hypotension, dérive respiratoire.</li>
+            <li>Faire un one-pager et un mini deck 6 à 10 slides.</li>
+            <li>Choisir un nom provisoire du produit et du copilote.</li>
+          </ul>
+          <div class="risk">Objectif : devenir compréhensible en 30 secondes par un MAR.</div>
+        </div>
+
+        <div id="tab2" class="tab-panel card">
+          <h4>Étape 2 — Prototype simulé</h4>
+          <ul class="clean checklist">
+            <li>Construire un simulateur sans donnée réelle.</li>
+            <li>Créer un moteur d’alertes et un score de vigilance 0–100.</li>
+            <li>Créer une interface bloc lisible à 2 mètres.</li>
+            <li>Montrer le moment où Charles voit avant le moniteur classique.</li>
+            <li>Produire une vidéo démo courte et un mode rejouable.</li>
+          </ul>
+          <div class="risk">Stockage : local simple, sans donnée nominative, sans enjeu HDS à ce stade.</div>
+        </div>
+
+        <div id="tab3" class="tab-panel card">
+          <h4>Étape 3 — Données publiques & ML</h4>
+          <ul class="clean checklist">
+            <li>Télécharger VitalDB et définir un label simple.</li>
+            <li>Tester régression logistique puis XGBoost.</li>
+            <li>Garder le deep learning pour plus tard.</li>
+            <li>Produire un premier benchmark et quelques graphes propres.</li>
+            <li>Utiliser le LLM uniquement pour la reformulation et les résumés.</li>
+          </ul>
+          <div class="risk">But : prouver que le projet repose sur autre chose qu’un simple simulateur.</div>
+        </div>
+
+        <div id="tab4" class="tab-panel card">
+          <h4>Étape 4 — Approche MAR & CHU</h4>
+          <ul class="clean checklist">
+            <li>Contacter le MAR avec un problème clinique, pas avec “une IA”.</li>
+            <li>Montrer la prudence : non prescriptif, cas d’usage limité.</li>
+            <li>Demander un avis sur la pertinence clinique et le bon point d’entrée.</li>
+            <li>Identifier DRCI, DPO, référent EDS, biomédical, DSI interop.</li>
+            <li>Demander s’il existe des données perop rétrospectives exploitables.</li>
+          </ul>
+          <div class="risk danger">Ne jamais demander ou copier des données hospitalières sans cadre formel.</div>
+        </div>
+
+        <div id="tab5" class="tab-panel card">
+          <h4>Étape 5 — Création d’entreprise</h4>
+          <ul class="clean checklist">
+            <li>Créer une SAS simple, pas une structure trop complexe au départ.</li>
+            <li>Vérifier le nom, le domaine, puis lancer les formalités.</li>
+            <li>Préparer NDA, convention de collaboration, journal de versions.</li>
+            <li>Protéger l’IP dans les documents et les conventions.</li>
+            <li>Ne pas distribuer de parts sans rôle précis, engagement et vesting.</li>
+          </ul>
+          <div class="risk">La société doit servir à contractualiser, protéger, recevoir aides et partenariats.</div>
+        </div>
+
+        <div id="tab6" class="tab-panel card">
+          <h4>Étape 6 — Recherche clinique</h4>
+          <ul class="clean checklist">
+            <li>Commencer par le rétrospectif si possible.</li>
+            <li>Puis mode shadow si partenariat actif.</li>
+            <li>Faire qualifier le cadre avec CHU, DPO, DRCI, et selon le cas CPP.</li>
+            <li>Travailler d’abord avec des données pseudonymisées dans un environnement contrôlé.</li>
+            <li>Viser ensuite une étude pilote utilisable pour publication et validation locale.</li>
+          </ul>
+          <div class="risk">But : passer progressivement de la faisabilité à la vraie validation clinique.</div>
+        </div>
+      </section>
+
+      <section class="section" id="schema">
+        <h3>Schéma cible par étapes</h3>
+        <div class="card schema">
+          <div class="flow">
+            <div class="node"><strong>Étape 1</strong>Simulateur<br><span class="muted">Scénarios synthétiques</span></div>
+            <div class="arrow">→</div>
+            <div class="node"><strong>Étape 2</strong>Moteur d’alertes<br><span class="muted">Règles + score</span></div>
+            <div class="arrow">→</div>
+            <div class="node"><strong>Étape 3</strong>Interface tablette<br><span class="muted">Dashboard bloc</span></div>
+            <div class="arrow">→</div>
+            <div class="node"><strong>Étape 4</strong>VitalDB / ML<br><span class="muted">Benchmark public</span></div>
+            <div class="arrow">→</div>
+            <div class="node"><strong>Étape 5</strong>CHU / rétrospectif<br><span class="muted">Validation locale</span></div>
+            <div class="arrow">→</div>
+            <div class="node"><strong>Étape 6</strong>Shadow / pilote<br><span class="muted">Étude terrain</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section two-col" id="data">
+        <div class="card">
+          <h3>Données, stockage et sécurité</h3>
+          <h4>Par étape</h4>
+          <ul class="clean checklist">
+            <li><strong>Simulateur :</strong> stockage local simple, aucune donnée personnelle.</li>
+            <li><strong>VitalDB :</strong> stockage local propre, disque chiffré recommandé, repo privé pour le code.</li>
+            <li><strong>Rétrospectif CHU :</strong> pas de copie libre sur poste perso ; environnement contrôlé recommandé.</li>
+            <li><strong>Pilote réel :</strong> gouvernance, contrôle d’accès, journalisation, minimisation, convention.</li>
+            <li><strong>Produit :</strong> trajectoire HDS, politique de conservation, auditabilité.</li>
+          </ul>
+          <div class="risk">Règle d’or : pas de vraie donnée de santé sur ton laptop sans cadre, sans droit et sans sécurisation adaptée.</div>
+        </div>
+        <div class="card">
+          <h3>Checklist sécurité minimale</h3>
+          <ul class="clean checklist">
+            <li>PC protégé, chiffrement disque activé.</li>
+            <li>Repo privé, secrets hors du code.</li>
+            <li>Séparation nette entre code, données publiques, données hospitalières.</li>
+            <li>Journal de versions du modèle et du produit.</li>
+            <li>Traçabilité de qui accède à quoi quand il y a de vraies données.</li>
+            <li>Pas d’envoi sur cloud non maîtrisé de fichiers hospitaliers.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section two-col" id="entreprise">
+        <div class="card">
+          <h3>Entreprise & protection</h3>
+          <ul class="clean checklist">
+            <li>Commencer par une SAS simple.</li>
+            <li>Choisir un nom disponible et cohérent.</li>
+            <li>Préparer NDA, convention de collaboration, pacte futur si besoin.</li>
+            <li>Ne pas donner des parts à la parole.</li>
+            <li>Documenter ton IP : architecture, moteurs, labels, interface, logique clinique.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Ce qu’il faut éviter</h3>
+          <ul class="clean checklist">
+            <li>Holding trop tôt.</li>
+            <li>Plugin profond dans un AIMS dès le départ.</li>
+            <li>Association floue avec un MAR sans convention.</li>
+            <li>Promesse réglementaire prématurée.</li>
+            <li>Copie de données locales “pour tester vite”.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section two-col" id="recherche">
+        <div class="card">
+          <h3>Approche recherche clinique</h3>
+          <ul class="clean checklist">
+            <li>Commencer par un échange clinique avec un MAR.</li>
+            <li>Passer par une note de faisabilité avant toute demande lourde.</li>
+            <li>Identifier DRCI, DPO, EDS/URC et biomédical.</li>
+            <li>Rétrospectif d’abord si possible.</li>
+            <li>Shadow ensuite si le terrain s’ouvre.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Message à tenir au MAR</h3>
+          <ul class="clean checklist">
+            <li>Problème clinique d’abord.</li>
+            <li>Projet non prescriptif.</li>
+            <li>MVP restreint et publiable.</li>
+            <li>Intérêt pour le service : vigilance, recherche, image, innovation.</li>
+            <li>Demande : avis clinique, cadrage et possibilité de collaboration progressive.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" id="actions">
+        <h3>Plan d’action 90 jours</h3>
+        <div class="grid-3">
+          <div class="card">
+            <h4>Semaine 1</h4>
+            <ul class="clean checklist">
+              <li>Phrase produit</li>
+              <li>MVP unique</li>
+              <li>3 scénarios</li>
+              <li>One-pager</li>
+              <li>Nom provisoire</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Semaines 2–4</h4>
+            <ul class="clean checklist">
+              <li>Simulateur</li>
+              <li>Dashboard</li>
+              <li>Démo vidéo</li>
+              <li>VitalDB</li>
+              <li>Premier benchmark</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Mois 2–3</h4>
+            <ul class="clean checklist">
+              <li>SAS</li>
+              <li>MAR ciblés</li>
+              <li>Rendez-vous</li>
+              <li>Voie rétrospective CHU</li>
+              <li>Note recherche</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer">Dashboard HTML VAIA / Charles — version de travail pour cadrage stratégique, technique et clinique.</div>
+    </main>
+  </div>
+
+  <script>
+    const btns = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.tab-panel');
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    const sections = document.querySelectorAll('main section[id]');
+    const navLinks = document.querySelectorAll('#nav a');
+    window.addEventListener('scroll', () => {
+      let current = 'vision';
+      sections.forEach(sec => {
+        const top = sec.offsetTop - 120;
+        if (window.scrollY >= top) current = sec.id;
+      });
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    });
+  </script>
+</body>
+</html>

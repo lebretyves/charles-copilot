@@ -1,0 +1,50 @@
+topic_id: embolie_pulmonaire_etat_de_choc
+topic_type: complication
+date_consultation: 2026-04-01
+sources:
+- source_id: mapar_embolie_pulmonaire_et_choc
+  organisme: MAPAR
+  niveau_source: pratique
+  title: MAPAR Fiche urgence embolie pulmonaire et choc
+  url: https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_04_embolie_pulmonaire_choc.pdf
+  support_type: pdf
+  date_consultation: 2026-04-01
+- source_id: urgences_ara_referentiel_ep_2022
+  organisme: Urgences ARA / ReNAU
+  niveau_source: pratique
+  title: Referentiel cardio 2022 - Embolie pulmonaire diagnostic et traitement
+  url: https://www.urgences-ara.fr/app/uploads/2023/02/Referentiel_Cardio_202201_Embolie-pulmonaire_REN.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+- source_id: sfar_lapostolle_embolie_pulmonaire_grave
+  organisme: SFAR
+  niveau_source: pedagogique
+  title: Embolie pulmonaire grave
+  url: https://sfar.org/wp-content/uploads/2014/04/10_Lapostolle.pdf
+  support_type: pdf
+  date_consultation: 2026-04-02
+documentary_layers:
+  normative_recommandations:
+  - sfar_aides_cognitives
+  professionnelle_pratique_fr:
+  - mapar_embolie_pulmonaire_et_choc
+  - anrea_ventilation_issue
+  - anrea_hemodynamique_issue
+  - ghrmsa_aide_cognitive_asystolie_bloc
+  - urgences_ara_referentiel_ep_2022
+  pedagogique_enseignement_medecins:
+  - cfar_referentiel_metier
+  - emc_embolie_pulmonaire_perioperatoire_2023
+  - emc_thrombolyse_ep_2008
+  - sfar_lapostolle_embolie_pulmonaire_grave
+documentary_notes:
+- La densite documentaire s'ameliore pour la definition d'instabilite, le VD, le sPESI et la reperfusion, mais l'EtCO2 temps reel reste peu quantifie.
+traceability:
+  fact_link_fields:
+  - source_ref
+  - source_title
+  - source_url
+  - source_organisme
+  - source_class_id
+  resource_catalog_ref: kb/sources_officielles/source_resource_catalog.yaml
+  landscape_ref: kb/sources_officielles/complication_source_landscape.yaml

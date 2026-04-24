@@ -1,0 +1,6 @@
+outs:
+- md5: 33cf19ccdb9971ae6a62eff07e5c3637.dir
+  size: 16176015
+  nfiles: 143
+  hash: md5
+  path: vitaldb_waveforms_v1

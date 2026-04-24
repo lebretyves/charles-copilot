@@ -1,0 +1,259 @@
+version: "2026-04-01"
+scope: "Syntheses KB officielles pour terrains et complications"
+domains_autorises:
+  - sfar.org
+  - mapar.org
+  - sofia.medicalistes.fr
+usage:
+  - "enrichissement KB"
+  - "construction de facteurs de risque"
+  - "design de scores ponderes"
+  - "documentation admin des regles"
+  - "documentation des signaux transverses type BIS/EEG et capnographie"
+copyright_mode: "synthese_paraphrasee_avec_liens"
+
+terrains:
+  - id: sujet_age_fragile
+    label_fr: "Sujet age fragile"
+    path: "terrains/sujet_age_fragile"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "AGEARISK"
+        url: "https://sfar.org/agearisk/"
+      - org: SFAR
+        title: "Programme d'optimisation perioperatoire du patient adulte"
+        url: "https://sfar.org/programme-doptimisation-perioperatoire-du-patient-adulte/"
+  - id: pediatrique
+    label_fr: "Terrain pediatrique"
+    path: "terrains/pediatrique"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Optimisation hemodynamique perioperatoire - Pediatrie"
+        url: "https://sfar.org/optimisation-hemodynamique-perioperatoire-pediatrie/"
+      - org: SFAR
+        title: "Organisation de l'anesthesie pediatrique"
+        url: "https://sfar.org/organisation-de-lanesthesie-pediatrique/"
+  - id: obstetrique
+    label_fr: "Terrain obstetrique"
+    path: "terrains/obstetrique"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Optimisation hemodynamique perioperatoire - Adulte dont obstetrique"
+        url: "https://sfar.org/optimisation-hemodynamique-perioperatoire-adulte-dont-obstetrique/"
+  - id: diabete
+    label_fr: "Terrain diabetique"
+    path: "terrains/diabete"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Prise en charge du patient diabetique en peri-operatoire"
+        url: "https://sfar.org/download/prise-en-charge-du-patient-diabetique-en-peri-operatoire/"
+      - org: MAPAR
+        title: "Fiches diabete"
+        url: "https://www.mapar.org/index.php/fiches-diabete"
+  - id: insuffisance_renale
+    label_fr: "Insuffisance renale"
+    path: "terrains/insuffisance_renale"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Insuffisance renale aigue en perioperatoire et en reanimation"
+        url: "https://sfar.org/insuffisance-renale-aigue/"
+      - org: SFAR
+        title: "Curarisation et decurarisation en anesthesie"
+        url: "https://sfar.org/curarisation-et-decurarisation-en-anesthesie/"
+  - id: cardiovasculaire_haut_risque
+    label_fr: "Terrain cardiovasculaire a haut risque"
+    path: "terrains/cardiovasculaire_haut_risque"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Optimisation hemodynamique perioperatoire - Adulte dont obstetrique"
+        url: "https://sfar.org/optimisation-hemodynamique-perioperatoire-adulte-dont-obstetrique/"
+      - org: SOFIA
+        title: "Controle perioperatoire de la pression arterielle"
+        url: "https://sofia.medicalistes.fr/spip/IMG/pdf/controle_perioperatoire_de_la_pression_arterielle_pierre-gregoire_guinot_dijon_.pdf"
+  - id: htp
+    label_fr: "Hypertension arterielle pulmonaire"
+    path: "terrains/htp"
+    confiance_algo: mixte
+    primary_sources:
+      - org: MAPAR
+        title: "Gestion peri-operatoire de l'HTP"
+        url: "https://www.mapar.org/presentation/1/Staff%20junior/13/Gestion%20p%C3%A9ri-op%C3%A9ratoire%20de%20l%E2%80%99HTP"
+  - id: obesite_saos_voies_aeriennes
+    label_fr: "Obesite, SAOS et voies aeriennes"
+    path: "terrains/obesite_saos_voies_aeriennes"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Intubation difficile et extubation en anesthesie chez l'adulte"
+        url: "https://sfar.org/actualisation-de-recommandations-intubation-difficile-et-extubation-en-anesthesie-chez-ladulte/"
+      - org: SOFIA
+        title: "Intubation difficile - support SFAR"
+        url: "https://sofia.medicalistes.fr/spip/IMG/pdf/l_intubation_difficile_SFAR_.pdf"
+  - id: bpco_asthme
+    label_fr: "BPCO et asthme"
+    path: "terrains/bpco_asthme"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Bronchospasme"
+        url: "https://sfar.org/download/bronchospasme/"
+      - org: MAPAR
+        title: "Fiches urgence"
+        url: "https://www.mapar.org/index.php/fiches-urgence"
+  - id: anticoagulants_antiagregants
+    label_fr: "Anticoagulants et antiagregants"
+    path: "terrains/anticoagulants_antiagregants"
+    confiance_algo: mixte
+    primary_sources:
+      - org: SFAR
+        title: "Hub recommandations"
+        url: "https://sfar.org/recommandations/"
+      - org: MAPAR
+        title: "Protocoles MAPAR 2025"
+        url: "https://www.mapar.org/livre/Livre%20de%20protocoles/1/Protocoles%20MAPAR"
+
+complications:
+  - id: hypotension_perioperatoire
+    label_fr: "Hypotension perioperatoire"
+    path: "complications/hypotension_perioperatoire"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Optimisation hemodynamique perioperatoire - Adulte dont obstetrique"
+        url: "https://sfar.org/optimisation-hemodynamique-perioperatoire-adulte-dont-obstetrique/"
+      - org: SOFIA
+        title: "Controle perioperatoire de la pression arterielle"
+        url: "https://sofia.medicalistes.fr/spip/IMG/pdf/controle_perioperatoire_de_la_pression_arterielle_pierre-gregoire_guinot_dijon_.pdf"
+  - id: choc_hemorragique_transfusion_massive
+    label_fr: "Choc hemorragique et transfusion massive"
+    path: "complications/choc_hemorragique_transfusion_massive"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Reanimation du choc hemorragique"
+        url: "https://sfar.org/recommandations-sur-la-reanimation-du-choc-hemorragique/"
+      - org: SFAR
+        title: "PLYO en choc hemorragique / risque de transfusion massive"
+        url: "https://sfar.org/indications-de-transfusion-de-plasmas-lyophilises-plyo-chez-un-patient-en-choc-hemorragique-ou-a-risque-de-transfusion-massive-en-milieu-civil/"
+      - org: SFAR
+        title: "QFP Transfusion Massive"
+        url: "https://sfar.org/qfp-transfusion-massive/"
+      - org: HAS
+        title: "Transfusion de plasma therapeutique : produits, indications"
+        url: "https://www.has-sante.fr/jcms/c_1264081/fr/transfusion-de-plasma-therapeutique-produits-indications"
+      - org: MAPAR
+        title: "Fiche urgence choc hemorragique"
+        url: "https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_05_choc_hemorragique.pdf"
+  - id: anaphylaxie_perioperatoire
+    label_fr: "Anaphylaxie perioperatoire"
+    path: "complications/anaphylaxie_perioperatoire"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Hypersensibilite immediate perioperatoire"
+        url: "https://sfar.org/diagnostic-et-prise-en-charge-des-reactions-dhypersensibilite-immediate-perioperatoires/"
+      - org: MAPAR
+        title: "Fiche urgence choc anaphylactique"
+        url: "https://www.mapar.org/contenu/fichetechnique/protocoles_mapar_2016_fiche_urgence_06_choc_anaphylactique.pdf"
+      - org: SOFIA
+        title: "Complications anaphylactiques et anaphylactoides de l'anesthesie generale"
+        url: "https://sofia.medicalistes.fr/spip/IMG/pdf/Complications_anaphylactiques_et_anaphylactoides_de_l_anesthesie_generale_Mertes-Dewachter-Laxenaire_.pdf"
+  - id: intubation_extubation_difficiles
+    label_fr: "Intubation et extubation difficiles"
+    path: "complications/intubation_extubation_difficiles"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Intubation difficile et extubation en anesthesie chez l'adulte"
+        url: "https://sfar.org/actualisation-de-recommandations-intubation-difficile-et-extubation-en-anesthesie-chez-ladulte/"
+      - org: MAPAR
+        title: "Intubation"
+        url: "https://www.mapar.org/article/pdf/739/Intubation"
+      - org: SOFIA
+        title: "Intubation difficile - support SFAR"
+        url: "https://sofia.medicalistes.fr/spip/IMG/pdf/l_intubation_difficile_SFAR_.pdf"
+  - id: bronchospasme_perioperatoire
+    label_fr: "Bronchospasme perioperatoire"
+    path: "complications/bronchospasme_perioperatoire"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Bronchospasme"
+        url: "https://sfar.org/download/bronchospasme/"
+      - org: MAPAR
+        title: "Fiches urgence"
+        url: "https://www.mapar.org/index.php/fiches-urgence"
+  - id: hypothermie_perioperatoire
+    label_fr: "Hypothermie perioperatoire"
+    path: "complications/hypothermie_perioperatoire"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Prevention de l'hypothermie peroperatoire accidentelle"
+        url: "https://sfar.org/prevention-de-lhypothermie-peroperatoire-accidentelle-au-bloc-operatoire-chez-ladulte/"
+      - org: SFAR
+        title: "RFE Hypothermie peroperatoire accidentelle"
+        url: "https://sfar.org/wp-content/uploads/2018/09/2_RFE-Hypothermie-Version-Finale-_-Validee-CRC120618.pdf"
+  - id: hyperthermie_maligne
+    label_fr: "Hyperthermie maligne"
+    path: "complications/hyperthermie_maligne"
+    confiance_algo: forte
+    primary_sources:
+      - org: SFAR
+        title: "Prise en charge de l'Hyperthermie Maligne"
+        url: "https://sfar.org/prise-en-charge-de-lhyperthermie-maligne/"
+      - org: SFAR
+        title: "Recommandations d'experts pour le risque d'Hyperthermie Maligne"
+        url: "https://sfar.org/recommandations-dexperts-pour-le-risque-dhyperthermie-maligne-en-anesthesie-reanimation/"
+      - org: SFAR
+        title: "Boite a outils Hyperthermie Maligne"
+        url: "https://sfar.org/espace-professionel-anesthesiste-reanimateur/outils-professionnels/boite-a-outils/hyperthermie-maligne/"
+      - org: SOFIA
+        title: "Fiche de synthese prise en charge de l'hyperthermie maligne"
+        url: "https://sofia.medicalistes.fr/spip/IMG/pdf/fiche_de_synthese_prise_en_charge_de_l_hyperthermie_maligne_2019_sfar.pdf"
+  - id: arret_cardiaque_perioperatoire
+    label_fr: "Arret cardiaque perioperatoire"
+    path: "complications/arret_cardiaque_perioperatoire"
+    confiance_algo: mixte
+    primary_sources:
+      - org: MAPAR
+        title: "Fiches urgence"
+        url: "https://www.mapar.org/index.php/fiches-urgence"
+  - id: embolie_pulmonaire_etat_de_choc
+    label_fr: "Embolie pulmonaire et etat de choc"
+    path: "complications/embolie_pulmonaire_etat_de_choc"
+    confiance_algo: mixte
+    primary_sources:
+      - org: MAPAR
+        title: "Fiches urgence"
+        url: "https://www.mapar.org/index.php/fiches-urgence"
+  - id: laryngospasme_enfant
+    label_fr: "Laryngospasme chez l'enfant"
+    path: "complications/laryngospasme_enfant"
+    confiance_algo: a_confirmer
+    primary_sources:
+      - org: MAPAR
+        title: "L'anesthesie de l'enfant enrhume"
+        url: "https://www.mapar.org/article/1/Communication%20MAPAR/luz7el2p/L%E2%80%99anesth%C3%A9sie%20de%20l%E2%80%99enfant%20enrhum%C3%A9%20depuis%2030%20ans.pdf"
+      - org: SFAR
+        title: "Laryngospasme en pediatrie"
+        url: "https://sfar.org/download/laryngospasme-en-pediatrie/"
+      - org: MAPAR
+        title: "Fiches urgence"
+        url: "https://www.mapar.org/index.php/fiches-urgence"
+
+signaux_transverses:
+  - id: monitorage_profondeur_eeg_bis
+    label_fr: "Monitorage de profondeur EEG / BIS"
+    path: "signaux_transverses/monitorage_profondeur_eeg_bis"
+    confiance_algo: mixte
+    primary_sources:
+      - org: SFAR
+        title: "Le monitorage de la profondeur de l'anesthesie chez l'enfant"
+        url: "https://sfar.org/wp-content/uploads/2016/12/monitorage-de-la-profondeur-danesthesie-en-pediatrie-16-constant-1473331839.pdf"

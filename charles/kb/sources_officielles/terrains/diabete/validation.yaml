@@ -1,0 +1,7 @@
+topic_id: diabete
+overall_status: a_valider
+last_reviewed: 2026-04-01
+direct_source_extraction_level: detaille_partiel
+open_points:
+  - "Verifier au prochain passage si le guide SFAR donne des cibles perioperatoires explicites plus directement exploitables que l'article MAPAR."
+  - "Bien distinguer les objectifs de chirurgie cardiaque des objectifs generaux perioperatoires."

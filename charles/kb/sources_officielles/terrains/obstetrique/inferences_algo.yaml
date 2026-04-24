@@ -1,0 +1,32 @@
+﻿topic_id: obstetrique
+inferences:
+  - inference_id: inf_01
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`entrees`: PAS, PAM, FC, SpO2, EtCO2, saignement estime, vasopresseurs, type d'anesthesie"
+    derived_from:
+      - fact_01
+  - inference_id: inf_02
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`modulateurs`: grossesse avancee, anesthesie neuraxiale, extraction en urgence, terrain preeclamptique"
+    derived_from:
+      - fact_01
+  - inference_id: inf_03
+    status: design_proposal
+    kind: algorithm_design
+    proposal: "`sorties`: seuils plus agressifs sur hypotension, priorisation de l'hemorragie obstetricale, score de risque combine hemodynamique + voie aerienne"
+    derived_from:
+      - fact_01
+  - inference_id: inf_04
+    status: design_proposal
+    kind: kb_extension
+    proposal: "ajouter un terrain `obstetrique_haute_priorite_hypotension`"
+    derived_from:
+      - fact_01
+  - inference_id: inf_05
+    status: design_proposal
+    kind: kb_extension
+    proposal: "differencier hypotension sous rachianesthesie vs hemorragie"
+    derived_from:
+      - fact_01

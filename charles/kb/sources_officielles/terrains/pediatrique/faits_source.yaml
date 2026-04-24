@@ -1,0 +1,68 @@
+topic_id: pediatrique
+faits:
+- fact_id: pediatric_hemodynamic_rules_are_age_dependent
+  statut: direct_source
+  force_source: normative
+  fact_type: terrain_modulator
+  statement: Les recommandations SFAR d'optimisation hemodynamique pediatrique imposent une approche dependante de l'age pour la pression arterielle, la perfusion tissulaire et le monitorage.
+  source_ref: sfar_optimisation_hemodynamique_perioperatoire_pediatrie
+  source_title: SFAR Optimisation hemodynamique perioperatoire - Pediatrie
+  source_url: https://sfar.org/optimisation-hemodynamique-perioperatoire-pediatrie/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: pediatric_monitoring_must_match_age_weight_and_surgery
+  statut: direct_source
+  force_source: normative
+  fact_type: monitoring_scope
+  statement: Le monitorage perioperatoire doit etre adapte a l'age, au poids et au type de chirurgie chez l'enfant.
+  source_ref: sfar_organisation_de_l_anesthesie_pediatrique
+  source_title: SFAR Organisation de l'anesthesie pediatrique
+  source_url: https://sfar.org/organisation-de-lanesthesie-pediatrique/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: pediatric_critical_events_are_mostly_respiratory
+  statut: direct_source
+  force_source: normative
+  fact_type: epidemiology
+  statement: Plus de 50 % des evenements critiques perioperatoires de l'enfant sont d'origine respiratoire.
+  source_ref: sfar_gestion_des_voies_aeriennes_de_l_enfant
+  source_title: SFAR Gestion des voies aeriennes de l'enfant
+  source_url: https://sfar.org/gestion-des-voies-aeriennes-de-lenfant/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: short_superficial_pediatric_cases_prefer_supraglottic_devices
+  statut: direct_source
+  force_source: normative
+  fact_type: airway_recommendation
+  statement: Les experts recommandent l'utilisation preferentielle des dispositifs supraglottiques pour les interventions superficielles de courte duree.
+  source_ref: sfar_gestion_des_voies_aeriennes_de_l_enfant
+  source_title: SFAR Gestion des voies aeriennes de l'enfant
+  source_url: https://sfar.org/gestion-des-voies-aeriennes-de-lenfant/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: cuffed_tubes_are_preferred_in_children
+  statut: direct_source
+  force_source: normative
+  fact_type: airway_recommendation
+  statement: Lors de l'intubation tracheale chez l'enfant, l'utilisation d'une sonde a ballonnet est preferable avec monitorage de la pression du ballonnet.
+  source_ref: sfar_gestion_des_voies_aeriennes_de_l_enfant
+  source_title: SFAR Gestion des voies aeriennes de l'enfant
+  source_url: https://sfar.org/gestion-des-voies-aeriennes-de-lenfant/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
+- fact_id: pediatric_uri_is_a_known_airway_risk_factor
+  statut: direct_source
+  force_source: normative
+  fact_type: terrain_risk_factor
+  statement: L'enfant enrhume est un facteur de risque en anesthesie pediatrique ; si possible le masque facial est prefere et, chez l'enfant de moins de 6 ans, une nebulisation de salbutamol avant anesthesie generale est recommandee.
+  source_ref: sfar_gestion_des_voies_aeriennes_de_l_enfant
+  source_title: SFAR Gestion des voies aeriennes de l'enfant
+  source_url: https://sfar.org/gestion-des-voies-aeriennes-de-lenfant/
+  source_organisme: SFAR
+  source_class_id: normative_recommandations
+  source_support_type: webpage
